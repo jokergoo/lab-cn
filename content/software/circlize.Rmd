@@ -78,7 +78,7 @@ circos.clear()
 
 更多的例子：
 
-<img src="/image/circlize_example.jpeg" />
+<img src="image/circlize_example.jpeg" />
 
 <script>
 $( function() {

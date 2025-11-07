@@ -1,4 +1,4 @@
-baseurl: /
+baseurl: /lab-cn/
 languageCode: en-US
 title: 深圳理工大学生物信息学课题组
 theme: hugo-black-and-light-theme
@@ -29,7 +29,7 @@ menu:
       url: /opening/
       weight: 7
     - name: En
-      url: ../en/
+      url: #
       weight: 100
 params:
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs

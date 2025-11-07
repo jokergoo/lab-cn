@@ -37,7 +37,7 @@ circos.trackPlotRegion(ylim = c(0, 1), track.height = 0.4, panel.fun = function(
 })
 ```
 
-<img src="/software/circlize_files/figure-html/unnamed-chunk-2-1.png" width="768" />
+<img src="/lab-cn/software/circlize_files/figure-html/unnamed-chunk-2-1.png" width="768" />
 
 ``` r
 circos.clear()
@@ -58,7 +58,7 @@ circos.genomicDensity(bed_list[[1]], col = c("#FF000080"), track.height = 0.1)
 circos.genomicDensity(bed_list[[2]], col = c("#0000FF80"), track.height = 0.1)
 ```
 
-<img src="/software/circlize_files/figure-html/unnamed-chunk-3-1.png" width="768" />
+<img src="/lab-cn/software/circlize_files/figure-html/unnamed-chunk-3-1.png" width="768" />
 
 ``` r
 circos.clear()
@@ -77,7 +77,7 @@ cn = colnames(mat)
 chordDiagram(mat)
 ```
 
-<img src="/software/circlize_files/figure-html/unnamed-chunk-4-1.png" width="768" />
+<img src="/lab-cn/software/circlize_files/figure-html/unnamed-chunk-4-1.png" width="768" />
 
 ``` r
 circos.clear()
