@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -26,7 +26,7 @@
          CePa 
       
     </title>
-    <link rel="canonical" href="//localhost:4321/software/cepa/">
+    <link rel="canonical" href="/software/cepa/">
 
     <style>
   * {
@@ -264,7 +264,7 @@
   a {
     text-decoration: underline;
     text-decoration-color: #CCC;
-    text-underline-offset: 4px;
+    text-underline-offset: 5px;
   }
 
   a:hover {
@@ -403,18 +403,22 @@
 
     </head>
 <style>
-.nav-logo-text {
+#nav-logo-text {
     float: left;
     margin-top: 0px;
     margin-left: 0px;
-    font-size:1.8em;
-    font-weight: 200
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
 }
 </style>
   <body>
     <section id=nav>
       <h1><a class="h-card" href="/"></a></h1>
-      <a href="/" class="nav-logo-text">Gu.Z@SUAT-SZ</a>
+      <a href="/" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
           <li><a href="/research/">研究</a></li>

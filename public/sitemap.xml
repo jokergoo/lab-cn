@@ -2,38 +2,80 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>//localhost:4321/</loc>
+    <loc>/</loc>
     <lastmod>2025-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:4321/post/</loc>
+    <loc>/post/</loc>
     <lastmod>2025-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:4321/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</loc>
+    <loc>/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</loc>
     <lastmod>2025-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:4321/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</loc>
+    <loc>/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</loc>
     <lastmod>2025-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>//localhost:4321/categories/</loc>
+    <loc>/software/biocartaimage/</loc>
   </url><url>
-    <loc>//localhost:4321/software/circlize/</loc>
+    <loc>/software/biomartgogenesets/</loc>
   </url><url>
-    <loc>//localhost:4321/software/complexheatmap/</loc>
+    <loc>/software/bsub/</loc>
   </url><url>
-    <loc>//localhost:4321/software/pkgndep/</loc>
+    <loc>/categories/</loc>
   </url><url>
-    <loc>//localhost:4321/tags/</loc>
+    <loc>/software/cepa/</loc>
   </url><url>
-    <loc>//localhost:4321/members/</loc>
+    <loc>/software/circlize/</loc>
   </url><url>
-    <loc>//localhost:4321/research/</loc>
+    <loc>/software/cola/</loc>
   </url><url>
-    <loc>//localhost:4321/opening/</loc>
+    <loc>/software/complexheatmap/</loc>
   </url><url>
-    <loc>//localhost:4321/publication/</loc>
+    <loc>/software/enrichedheatmap/</loc>
   </url><url>
-    <loc>//localhost:4321/software/</loc>
+    <loc>/software/genesummary/</loc>
   </url><url>
-    <loc>//localhost:4321/members/zuguang_gu/</loc>
+    <loc>/software/getoptlong/</loc>
+  </url><url>
+    <loc>/software/globaloptions/</loc>
+  </url><url>
+    <loc>/software/gseatopics/</loc>
+  </url><url>
+    <loc>/software/gtrellis/</loc>
+  </url><url>
+    <loc>/software/hilbertcurve/</loc>
+  </url><url>
+    <loc>/software/illuminahumanmethylationepicv2anno.20a1.hg38/</loc>
+  </url><url>
+    <loc>/software/illuminahumanmethylationepicv2manifest/</loc>
+  </url><url>
+    <loc>/software/interactivecomplexheatmap/</loc>
+  </url><url>
+    <loc>/software/pkgndep/</loc>
+  </url><url>
+    <loc>/software/rgreat/</loc>
+  </url><url>
+    <loc>/software/sfcurve/</loc>
+  </url><url>
+    <loc>/software/simona/</loc>
+  </url><url>
+    <loc>/software/simplifyenrichment/</loc>
+  </url><url>
+    <loc>/software/spiralize/</loc>
+  </url><url>
+    <loc>/tags/</loc>
+  </url><url>
+    <loc>/software/uniprotkeywords/</loc>
+  </url><url>
+    <loc>/members/</loc>
+  </url><url>
+    <loc>/research/</loc>
+  </url><url>
+    <loc>/opening/</loc>
+  </url><url>
+    <loc>/publication/</loc>
+  </url><url>
+    <loc>/software/</loc>
+  </url><url>
+    <loc>/members/zuguang_gu/</loc>
   </url>
 </urlset>
