@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+    <title>
+      
+      
+         论文 
+      
+    </title>
+    <link rel="canonical" href="//localhost:4321/publication/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:60px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 15px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 10px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="/" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/research/">研究</a></li>
+        
+          <li><a href="/publication/">论文</a></li>
+        
+          <li><a href="/software/">软件</a></li>
+        
+          <li><a href="/post">文章</a></li>
+        
+          <li><a href="/members/">成员</a></li>
+        
+          <li><a href="/opening/">职位</a></li>
+        
+          <li><a href="../en/">En</a></li>
+        
+      </ul>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> 论文 </h1>
+
+  
+
+  <div class="entry-content">
+    <p>更新于2025-11-07，论文列表按研究方向和时间排序。#通讯作者，*共同第一作者。</p>
+<style>
+ul {
+	list-style-type: decimal;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    unicode-bidi: isolate;
+}
+</style>
+<h3 id="生物软件">生物软件</h3>
+<ul>
+<li><strong>Zuguang Gu#</strong>, <a href="https://doi.org/10.1186/s12864-024-10759-4">simona: a comprehensive R package for semantic similarity analysis on bio-ontologies</a>. <em>BMC genomics</em> 2024.</li>
+<li>Noriaki Sato, Yao-Zhong Zhang, <strong>Zuguang Gu</strong>, Seiya Imoto, <a href="https://doi.org/10.1093/bioinformatics/btae357">biotextgraph: graphical summarization of functional similarities from textual information</a>. <em>Bioinformatics</em> 2024.</li>
+<li><strong>Zuguang Gu#</strong>, Daniel Hübschmann, <a href="https://doi.org/10.1093/bioinformatics/btac745">rGREAT: an R/bioconductor package for functional enrichment on genomic regions</a>. <em>Bioinformatics</em> 2023.</li>
+<li><strong>Zuguang Gu#</strong>, Daniel Hübschmann, <a href="https://doi.org/10.1016/j.gpb.2022.04.008">simplifyEnrichment: A Bioconductor Package for Clustering and Visualizing Functional Enrichment Results</a>. <em>Genomics, Proteomics &amp; Bioinformatics</em> 2023.</li>
+<li><strong>Zuguang Gu#</strong>, <a href="https://doi.org/10.1002/imt2.43">Complex heatmap visualization</a>. <em>iMeta</em> 2022.</li>
+<li><strong>Zuguang Gu#</strong>, Daniel Hübschmann, <a href="https://doi.org/10.1093/bib/bbac048">Improve consensus partitioning via a hierarchical procedure</a>. <em>Briefings in Bioinformatics</em> 2022.</li>
+<li><strong>Zuguang Gu#</strong>, Daniel Hübschmann, <a href="https://doi.org/10.1093/bioinformatics/btab806">Make Interactive Complex Heatmaps in R</a>. <em>Bioinformatics</em> 2022.</li>
+<li><strong>Zuguang Gu#</strong>, Daniel Hübschmann, <a href="https://doi.org/10.1093/bioinformatics/btab778">spiralize: an R package for visualizing data on spirals</a>. <em>Bioinformatics</em> 2022.</li>
+<li><strong>Zuguang Gu#</strong>, Matthias Schlesner, Daniel Hübschmann, <a href="https://doi.org/10.1093/nar/gkaa1146">cola: an R/Bioconductor package for consensus partitioning through a general framework</a>. <em>Nucleic Acids Research</em> 2021.</li>
+<li>Daniel Hübschmann, Lea Jopp-Saile, Carolin Andresen, Stephen Krämer, <strong>Zuguang Gu</strong>, Christoph E Heilig, Simon Kreutzfeldt, Veronica Teleanu, Stefan Fröhling, Roland Eils, Matthias Schlesner, <a href="https://doi.org/10.1002/gcc.22918">Analysis of mutational signatures with yet another package for signature analysis</a>. <em>Genes, Chromosomes &amp; Cancer</em> 2021.</li>
+<li><strong>Zuguang Gu#</strong>, Roland Eils, Matthias Schlesner, Naveed Ishaque, <a href="https://doi.org/10.1186/s12864-018-4625-x">EnrichedHeatmap: an R/Bioconductor package for comprehensive visualization of genomic signal associations</a>. <em>BMC Genomics</em> 2018.</li>
+<li><strong>Zuguang Gu</strong>, Roland Eils, Matthias Schlesner, <a href="https://doi.org/10.1093/bioinformatics/btw313">Complex heatmaps reveal patterns and correlations in multidimensional genomic data</a>. <em>Bioinformatics</em> 2016.</li>
+<li><strong>Zuguang Gu</strong>, Roland Eils, Matthias Schlesner, <a href="https://doi.org/10.1093/bioinformatics/btw161">HilbertCurve: an R/Bioconductor package for high-resolution visualization of genomic data</a>. <em>Bioinformatics</em> 2016.</li>
+<li><strong>Zuguang Gu</strong>, Roland Eils, Matthias Schlesner, <a href="https://doi.org/10.1186/s12859-016-1051-4">gtrellis: an R/Bioconductor package for making genome-level Trellis graphics</a>. <em>BMC Bioinformatics</em> 2016.</li>
+<li><strong>Zuguang Gu</strong>, Lei Gu, Roland Eils, Matthias Schlesner, Benedikt Brors, <a href="https://doi.org/10.1093/bioinformatics/btu393">circlize Implements and enhances circular visualization in R</a>. <em>Bioinformatics</em> 2014.</li>
+<li><strong>Zuguang Gu</strong>, Jin Wang, <a href="https://doi.org/10.1093/bioinformatics/btt008">CePa: an R package for finding significant pathways weighted by multiple network centralities</a>. <em>Bioinformatics</em> 2013.</li>
+<li><strong>Zuguang Gu</strong>, Jialin Liu, Kunming Cao, Junfeng Zhang, Jin Wang, <a href="https://doi.org/10.1186/1752-0509-6-56">Centrality-based pathway enrichment: a systematic approach for finding significant pathways dominated by key genes</a>. <em>BMC Systems Biology</em> 2012.</li>
+<li><strong>Zuguang Gu</strong>, Jie Li, Song Gao, Ming Gong, Junling Wang, Hua Xu, Chenyu Zhang, Jin Wang, <a href="https://doi.org/10.1186/1471-2164-12-335">InterMitoBase: an annotated database and analysis platform of protein-protein interactions for human mitochondria</a>. <em>BMC Genomics</em> 2011.</li>
+</ul>
+<h3 id="计算几何">计算几何</h3>
+<ul>
+<li><strong>Zuguang Gu#</strong>, <a href="https://doi.org/10.48550/arXiv.2412.16962">Construction, Transformation and Structures of 2x2 Space-Filling Curves</a>. <em>arXiv</em> 2024.</li>
+</ul>
+<h3 id="软件工程">软件工程</h3>
+<ul>
+<li><strong>Zuguang Gu#</strong>, <a href="https://doi.org/10.1016/j.jss.2023.111610">On the dependency heaviness of CRAN/Bioconductor ecosystem</a>. <em>Journal of Systems and Software</em> 2023.</li>
+<li><strong>Zuguang Gu#</strong>, Daniel Hübschmann, <a href="https://doi.org/10.1093/bioinformatics/btac449">Pkgndep: a tool for analyzing dependency heaviness of R packages</a>. <em>Bioinformatics</em> 2022.</li>
+</ul>
+<h3 id="科学计量学">科学计量学</h3>
+<ul>
+<li><strong>Zuguang Gu#</strong>, <a href="https://doi.org/10.1016/j.joi.2025.101641">Two separated worlds: On the preference of influence in life science and biomedical research</a>. <em>Journal of Informetrics</em> 2025.</li>
+</ul>
+<h3 id="组学与精准医学">组学与精准医学</h3>
+<ul>
+<li>Xiaoping Zou, Shuang Nie, Jing Cao, Mengyue Shi, Kathleen Schuck, Zhao Shi, Lingling Zhang, Hongzhen Li, Yifeng Sun, Chao Fang, Jingxiong Hu, Yiqi Niu, Yuanyuan Yu, Zhiheng Zhang, Chao Li, Mingyue Hu, Lei Wang, Kuirong Jiang, Zipeng Lu, Jan Akkan, Susanne Raulefs, Christoph Kahlert, Susanne Roth, Ingrid Herr, Yuan Wan, Andre Mihaljevic, Xuetian Qian, Qi Zhang, Maggie Haitian Wang, Jörg Kleeff, Helmut Friess, <strong>Zuguang Gu</strong>, Christoph W Michalski, Shanshan Shen, Bo Kong, <a href="https://doi.org/10.1038/s41388-025-03530-w">ALDH1A3 promotes aggressive basal-like pancreatic cancer through an AP-1/RUNX2 enhancer network</a>. <em>Oncogene</em> 2025.</li>
+<li>Dominik Vonficht, Lea Jopp-Saile, Schayan Yousefian, Viktoria Flore, Inés Simó Vesperinas, Ruth Teuber, Bogdan Avanesyan, Yanjiang Luo, Caroline Röthemeier, Florian Grünschläger, Mirian Fernandez-Vaquero, Vincent Fregona, Diana Ordoñez-Rueda, Laura K Schmalbrock, Luca Deininger, Angelo Jovin Yamachui Sitcheu, <strong>Zuguang Gu</strong>, Maja C Funk, Ralf Mikut, Mathias Heikenwälder, Angelika Eggert, Arend von Stackelberg, Sebastian Kobold, Jan Krönke, Ulrich Keller, Andreas Trumpp, Ahmed N Hegazy, Cornelia Eckert, Daniel Hübschmann, Simon Haas, <a href="https://doi.org/10.1038/s41592-025-02744-w">Ultra-high-scale cytometry-based cellular interaction mapping</a>. <em>Nature Methods</em> 2025.</li>
+<li>Stephanie Gehrs*, <strong>Zuguang Gu*</strong>, Joschka Hey, Dieter Weichenhan, Niklas Buckwalter, Moritz Jakab, Agnes Hotz-Wagenblatt, Kersten Breuer, Maria Llamazares Prada, Daniel Hübschmann, Katharina Schlereth, Christoph Plass, Hellmut Augustin, <a href="https://doi.org/10.1093/nar/gkaf435">DNMT3A-dependent DNA methylation shapes the endothelial enhancer landscape</a>. <em>Nucleic Acids Research</em> 2025.</li>
+<li>Andreas Betz, Hao-En Huang, <strong>Zuguang Gu</strong>, Ombretta Colasanti, Teng-Feng Li, Jasper Hesebeck-Brinckmann, Nadine Gillich, Gnimah Eva Gnouamozi, Matthias Schlesner, Florian WR Vondran, Stephan Urban, Ralf Bartenschlager, Marco Binder, Volker Lohmann, <a href="https://doi.org/10.1128/jvi.00703-25">Reconstitution of interferon regulatory factor 7 expression restores interferon beta induction in Huh7 cells</a>. <em>Journal of Virology</em> 2025.</li>
+<li>Stephanie Gehrs, Moritz Jakab, Ewgenija Gutjahr, <strong>Zuguang Gu</strong>, Dieter Weichenhan, Jan-Philipp Mallm, Carolin Mogler, Matthias Schlesner, Christoph Plass, Katharina Schlereth, Hellmut G Augustin, <a href="https://doi.org/10.1016/j.devcel.2024.12.037">The spatial zonation of the murine placental vasculature is specified by epigenetic mechanisms</a>. <em>Developmental Cell</em> 2025.</li>
+<li>Josefine Radke, Naveed Ishaque, Randi Koll, <strong>Zuguang Gu</strong>, Elisa Schumann, Lina Sieverling, Sebastian Uhrig, Daniel Hübschmann, Umut H Toprak, Cristina López, Xavier Pastor Hostench, Simone Borgoni, Dilafruz Juraeva, Fabienne Pritsch, Nagarajan Paramasivam, Gnana Prakash Balasubramanian, Matthias Schlesner, Shashwat Sahay, Marc Weniger, Debora Pehl, Helena Radbruch, Anja Osterloh, Agnieszka Korfel, Martin Misch, Julia Onken, Katharina Faust, Peter Vajkoczy, Dag Moskopp, Yawen Wang, Andreas Jödicke, Lorenz Trümper, Ioannis Anagnostopoulos, Dido Lenze, Ralf Küppers, Michael Hummel, Clemens A Schmitt, Otmar D Wiestler, Stephan Wolf, Andreas Unterberg, Roland Eils, Christel Herold-Mende, Benedikt Brors, Reiner Siebert, Stefan Wiemann, Frank L Heppner, <a href="https://doi.org/10.1038/s41467-022-30050-y">The genomic and transcriptional landscape of primary central nervous system lymphoma</a>. <em>Nature Communications</em> 2022.</li>
+<li>Marina Laplana, Matthias Bieg, Christian Faltus, Svitlana Melnik, Olga Bogatyrova, <strong>Zuguang Gu</strong>, Thomas Muley, Michael Meister, Hendrik Dienemann, Esther Herpel, Christopher I Amos, Matthias Schlesner, Roland Eils, Christoph Plass, Angela Risch, <a href="https://doi.org/10.1080/15592294.2021.1878723">Differentially methylated regions within lung cancer risk loci are enriched in deregulated enhancers</a>. <em>Epigenetics</em> 2022.</li>
+<li>Mengyu Tu, Lukas Klein, Elisa Espinet, Theodoros Georgomanolis, Florian Wegwitz, Xiaojuan Li, Laura Urbach, Adi Danieli-Mackay, Stefan Küffer, Kamil Bojarczuk, Athanasia Mizi, Ufuk Günesdogan, Björn Chapuy, <strong>Zuguang Gu</strong>, Albrecht Neesse, Uday Kishore, Philipp Ströbel, Elisabeth Hessmann, Stephan A Hahn, Andreas Trumpp, Argyris Papantonis, Volker Ellenrieder, Shiv K Singh, <a href="https://doi.org/10.1038/s43018-021-00258-w">TNF-α-producing macrophages determine subtype identity and prognosis via AP1 enhancer reprogramming in pancreatic cancer</a>. <em>Nature Cancer</em> 2021.</li>
+<li>Ana Maia, <strong>Zuguang Gu</strong>, André Koch, Mireia Berdiel-Acer, Rainer Will, Matthias Schlesner, Stefan Wiemann, <a href="https://doi.org/10.1002/1878-0261.12905">IFNβ1 secreted by breast cancer cells undergoing chemotherapy reprograms stromal fibroblasts to support tumour growth after treatment</a>. Molecular oncology 2021.</li>
+<li>Nina Hensel*, <strong>Zuguang Gu*</strong>, Sagar*, Dominik Wieland, Katharina Jechow, Janine Kemming, Sian Llewellyn-Lacey, Emma Gostick, Oezlem Sogukpinar, Florian Emmerich, David A Price, Bertram Bengsch, Tobias Boettler, Christoph Neumann-Haefelin, Roland Eils, Christian Conrad, Ralf Bartenschlager, Dominic Grün, Naveed Ishaque, Robert Thimme, Maike Hofmann, <a href="https://doi.org/10.1038/s41590-020-00817-w">Memory-like HCV-specific CD8+ T cells retain a molecular scar after cure of chronic HCV infection</a>. <em>Nature Immunology</em> 2021.</li>
+<li>Elisa Espinet#, <strong>Zuguang Gu*</strong>, Charles D Imbusch*, Nathalia A Giese, Magdalena Büscher, Mariam Safavi, Silke Weisenburger, Corinna Klein, Vanessa Vogel, Mattia Falcone, Jacob Insua-Rodríguez, Manuel Reitberger, Vera Thiel, Steffi O Kossi, Alexander Muckenhuber, Karnjit Sarai, Alex Y L Lee, Elyne Backx, Soheila Zarei, Matthias M Gaida, Manuel Rodríguez-Paredes, Elisa Donato, Hsi-Yu Yen, Roland Eils, Matthias Schlesner, Nicole Pfarr, Thilo Hackert, Christoph Plass, Benedikt Brors, Katja Steiger, Dieter Weichenhan, H Efsun Arda, Ilse Rooman, Janel L Kopp, Oliver Strobel, Wilko Weichert, Martin R Sprick, Andreas Trumpp, <a href="https://doi.org/10.1158/2159-8290.CD-20-1202">Aggressive PDACs Show Hypomethylation of Repetitive Elements and the Execution of an Intrinsic IFN Program Linked to a Ductal Cell of Origin</a>. <em>Cancer Discovery</em> 2021.</li>
+<li>Yonghe Wu*, Michael Fletcher*, <strong>Zuguang Gu*</strong>, Qi Wang, Barbara Costa, Anna Bertoni, Ka-Hou Man, Magdalena Schlotter, Jörg Felsberg, Jasmin Mangei, Martje Barbus, Ann-Christin Gaupel, Wei Wang, Tobias Weiss, Roland Eils, Michael Weller, Haikun Liu, Guido Reifenberger, Andrey Korshunov, Peter Angel, Peter Lichter, Carl Herrmann, Bernhard Radlwimmer, <a href="https://doi.org/10.1038/s41467-020-20225-w">Glioblastoma epigenome profiling identifies SOX10 as a master regulator of molecular tumour subtype</a>. <em>Nature Communications</em> 2020.</li>
+<li>Simon Raffel, Daniel Klimmeck, Mattia Falcone, Aykut Demir, Alireza Pouya, Petra Zeisberger, Christoph Lutz, Marco Tinelli, Oliver Bischel, Lars Bullinger, Christian Thiede, Anne Flörcken, Jörg Westermann, Gerhard Ehninger, Anthony D Ho, Carsten Müller-Tidow, <strong>Zuguang Gu</strong>, Carl Herrmann, Jeroen Krijgsveld, Andreas Trumpp, Jenny Hansson, <a href="https://doi.org/10.1182/blood.2019003654">Quantitative proteomics reveals specific metabolic features of acute myeloid leukemia stem cells</a>. <em>Blood</em> 2020.</li>
+<li>Enoch B Antwi, Ada Olins, Vladimir B Teif, Matthias Bieg, Tobias Bauer, <strong>Zuguang Gu</strong>, Benedikt Brors, Roland Eils, Donald Olins, Naveed Ishaque, <a href="https://doi.org/10.1242/bio.044222">Whole-genome fingerprint of the DNA methylome during chemically induced differentiation of the human AML cell line HL-60/S4</a>. <em>Biology Open</em> 2020.</li>
+<li>Maike Smits, Katharina Zoldan, Naveed Ishaque, <strong>Zuguang Gu</strong>, Katharina Jechow, Dominik Wieland, Christian Conrad, Roland Eils, Catherine Fauvelle, Thomas F Baumert, Florian Emmerich, Bertram Bengsch, Christoph Neumann-Haefelin, Maike Hofmann, Robert Thimme, Tobias Boettler, <a href="https://doi.org/10.1172/JCI129642">Follicular T helper cells shape the HCV-specific CD4+ T cell repertoire after virus elimination</a>. <em>The Journal of Clinical Investigation</em> 2020.</li>
+<li>Stephan M Tirier, Jeongbin Park, Friedrich Preußer, Lisa Amrhein, <strong>Zuguang Gu</strong>, Simon Steiger, Jan-Philipp Mallm, Teresa Krieger, Marcel Waschow, Björn Eismann, Marta Gut, Ivo G Gut, Karsten Rippe, Matthias Schlesner, Fabian Theis, Christiane Fuchs, Claudia R Ball, Hanno Glimm, Roland Eils, Christian Conrad, <a href="https://doi.org/10.1038/s41598-019-48771-4">Pheno-seq - linking visual features and gene expression in 3D cell culture systems</a>. <em>Scientific Reports</em> 2019.</li>
+<li>Calvin Wing Yiu Chan, <strong>Zuguang Gu</strong>, Matthias Bieg, Roland Eils, Carl Herrmann, <a href="https://doi.org/10.1186/s12920-019-0525-4">Impact of cancer mutational signatures on transcription factor motifs in the human genome</a>. <em>BMC Medical Genomics</em> 2019.</li>
+<li>Nagarajan Paramasivam, Daniel Hübschmann, Umut H Toprak, Naveed Ishaque, Marian Neidert, Daniel Schrimpf, Damian Stichel, David Reuss, Philipp Sievers, Annekathrin Reinhardt, Annika K Wefers, David T W Jones, <strong>Zuguang Gu</strong>, Johannes Werner, Sebastian Uhrig, Hans-Georg Wirsching, Matthias Schick, Melanie Bewerunge-Hudler, Katja Beck, Stephanie Brehmer, Steffi Urbschat, Marcel Seiz-Rosenhagen, Daniel Hänggi, Christel Herold-Mende, Ralf Ketter, Roland Eils, Zvi Ram, Stefan M Pfister, Wolfgang Wick, Michael Weller, Rachel Grossmann, Andreas von Deimling, Matthias Schlesner, Felix Sahm, <a href="https://doi.org/10.1007/s00401-019-02008-w">Mutational patterns and regulatory networks in epigenetic subgroups of meningioma</a>. <em>Acta Neuropathologica</em> 2019.</li>
+<li>Verena Körber, Jing Yang, Pankaj Barah, Yonghe Wu, Damian Stichel, <strong>Zuguang Gu</strong>, Michael Nai Chung Fletcher, David Jones, Bettina Hentschel, Katrin Lamszus, Jörg Christian Tonn, Gabriele Schackert, Michael Sabel, Jörg Felsberg, Angela Zacher, Kerstin Kaulich, Daniel Hübschmann, Christel Herold-Mende, Andreas von Deimling, Michael Weller, Bernhard Radlwimmer, Matthias Schlesner, Guido Reifenberger, Thomas Höfer, Peter Lichter, <a href="https://doi.org/10.1016/j.ccell.2019.02.007">Evolutionary Trajectories of IDHWT Glioblastomas Reveal a Common Path of Early Tumorigenesis Instigated Years ahead of Initial Diagnosis</a>. <em>Cancer Cell</em> 2019.</li>
+<li>Naveed Ishaque, Mohammed L Abba, Christine Hauser, Nitin Patil, Nagarajan Paramasivam, Daniel Huebschmann, Jörg Hendrik Leupold, Gnana Prakash Balasubramanian, Kortine Kleinheinz, Umut H Toprak, Barbara Hutter, Axel Benner, Anna Shavinskaya, Chan Zhou, <strong>Zuguang Gu</strong>, Jules Kerssemakers, Alexander Marx, Marcin Moniuszko, Miroslaw Kozlowski, Joanna Reszec, Jacek Niklinski, Jürgen Eils, Matthias Schlesner, Roland Eils, Benedikt Brors, Heike Allgayer, <a href="https://doi.org/10.1016/j.ccell.2019.02.007">Whole genome sequencing puts forward hypotheses on metastasis evolution and therapy in colorectal cancer</a>. <em>Nature Communications</em> 2018.</li>
+<li>Daniel B Lipka, Tania Witte, Reka Toth, Jing Yang, Manuel Wiesenfarth, Peter Nöllke, Alexandra Fischer, David Brocks, <strong>Zuguang Gu</strong>, Jeongbin Park, Brigitte Strahm, Marcin Wlodarski, Ayami Yoshimi, Rainer Claus, Michael Lübbert, Hauke Busch, Melanie Boerries, Mark Hartmann, Maximilian Schönung, Umut Kilik, Jens Langstein, Justyna A Wierzbinska, Caroline Pabst, Swati Garg, Albert Catalá, Barbara De Moerloose, Michael Dworzak, Henrik Hasle, Franco Locatelli, Riccardo Masetti, Markus Schmugge, Owen Smith, Jan Stary, Marek Ussowicz, Marry M van den Heuvel-Eibrink, Yassen Assenov, Matthias Schlesner, Charlotte Niemeyer, Christian Flotho, Christoph Plass, <a href="https://doi.org/10.1038/s41467-017-02177-w">RAS-pathway mutation patterns define epigenetic subclasses in juvenile myelomonocytic leukemia</a>. <em>Nature Communications</em> 2017.</li>
+<li>Paul A Northcott, Ivo Buchhalter, A Sorana Morrissy, Volker Hovestadt, Joachim Weischenfeldt, Tobias Ehrenberger, Susanne Gröbner, Maia Segura-Wang, Thomas Zichner, Vasilisa A Rudneva, Hans-Jörg Warnatz, Nikos Sidiropoulos, Aaron H Phillips, Steven Schumacher, Kortine Kleinheinz, Sebastian M Waszak, Serap Erkek, David T W Jones, Barbara C Worst, Marcel Kool, Marc Zapatka, Natalie Jäger, Lukas Chavez, Barbara Hutter, Matthias Bieg, Nagarajan Paramasivam, Michael Heinold, <strong>Zuguang Gu</strong>, Naveed Ishaque, Christina Jäger-Schmidt, Charles D Imbusch, Alke Jugold, Daniel Hübschmann, Thomas Risch, Vyacheslav Amstislavskiy, Francisco German Rodriguez Gonzalez, Ursula D Weber, Stephan Wolf, Giles W Robinson, Xin Zhou, Gang Wu, David Finkelstein, Yanling Liu, Florence M G Cavalli, Betty Luu, Vijay Ramaswamy, Xiaochong Wu, Jan Koster, Marina Ryzhova, Yoon-Jae Cho, Scott L Pomeroy, Christel Herold-Mende, Martin Schuhmann, Martin Ebinger, Linda M Liau, Jaume Mora, Roger E McLendon, Nada Jabado, Toshihiro Kumabe, Eric Chuah, Yussanne Ma, Richard A Moore, Andrew J Mungall, Karen L Mungall, Nina Thiessen, Kane Tse, Tina Wong, Steven J M Jones, Olaf Witt, Till Milde, Andreas Von Deimling, David Capper, Andrey Korshunov, Marie-Laure Yaspo, Richard Kriwacki, Amar Gajjar, Jinghui Zhang, Rameen Beroukhim, Ernest Fraenkel, Jan O Korbel, Benedikt Brors, Matthias Schlesner, Roland Eils, Marco A Marra, Stefan M Pfister, Michael D Taylor, Peter Lichter, <a href="https://doi.org/10.1038/nature22973">The whole-genome landscape of medulloblastoma subtypes</a>. <em>Nature</em> 2017.</li>
+<li>Marcus Winter, Loreen Thürmann, <strong>Zuguang Gu</strong>, Gerrit Schüürmann, Gunda Herberth, Denise Hinz, Martin von Bergen, Hauke Harms, Sven Olek, Stefan Röder, Michael Borte, Roland Eils, Irina Lehmann, Saskia Trump, <a href="https://doi.org/10.1016/j.jaci.2017.01.034">The benzene metabolite 1,4-benzoquinone reduces regulatory T-cell function: A potential mechanism for tobacco smoke-associated atopic dermatitis</a>. <em>The Journal of Allergy and Clinical Immunology</em> 2017.</li>
+<li>Kortine Kleinheinz, Isabell Bludau, Daniel Hübschmann, Michael Heinold, Philip Kensche, <strong>Zuguang Gu</strong>, Cristina López, Michael Hummel, Wolfram Klapper, Peter Möller, Inga Vater, Rabea Wagener, Benedikt Brors, Reiner Siebert, Roland Eils, Matthias Schlesner, <a href="https://doi.org/10.1101/210807">ACEseq–allele specific copy number estimation from whole genome sequencing</a>. <em>BioRXiv</em> 2017.</li>
+<li>Saskia Trump, Matthias Bieg, <strong>Zuguang Gu</strong>, Loreen Thürmann, Tobias Bauer, Mario Bauer, Naveed Ishaque, Stefan Röder, Lei Gu, Gunda Herberth, Christian Lawerenz, Michael Borte, Matthias Schlesner, Christoph Plass, Nicolle Diessl, Markus Eszlinger, Oliver Mücke, Horst-Dietrich Elvers, Dirk K Wissenbach, Martin von Bergen, Carl Herrmann, Dieter Weichenhan, Rosalind J Wright, Irina Lehmann, Roland Eils, <a href="https://doi.org/10.1038/srep28616">Prenatal maternal stress and wheeze in children: novel insights into epigenetic regulation</a>. <em>Scientific Reports</em> 2016.</li>
+<li>Tobias Bauer, Saskia Trump, Naveed Ishaque, Loreen Thürmann, Lei Gu, Mario Bauer, Matthias Bieg, <strong>Zuguang Gu</strong>, Dieter Weichenhan, Jan-Philipp Mallm, Stefan Röder, Gunda Herberth, Eiko Takada, Oliver Mücke, Marcus Winter, Kristin M Junge, Konrad Grützmann, Ulrike Rolle-Kampczyk, Qi Wang, Christian Lawerenz, Michael Borte, Tobias Polte, Matthias Schlesner, Michaela Schanne, Stefan Wiemann, Christina Geörg, Hendrik G Stunnenberg, Christoph Plass, Karsten Rippe, Junichiro Mizuguchi, Carl Herrmann, Roland Eils, Irina Lehmann, <a href="https://doi.org/10.15252/msb.20156520">Environment-induced epigenetic reprogramming in genomic regulatory elements in smoking mothers and their children</a>. <em>Molecular Systems Biology</em> 2016.</li>
+<li>Jenny Wegert, Naveed Ishaque, Romina Vardapour, Christina Geörg, <strong>Zuguang Gu</strong>, Matthias Bieg, Barbara Ziegler, Sabrina Bausenwein, Nasenien Nourkami, Nicole Ludwig, Andreas Keller, Clemens Grimm, Susanne Kneitz, Richard D Williams, Tas Chagtai, Kathy Pritchard-Jones, Peter van Sluis, Richard Volckmann, Jan Koster, Rogier Versteeg, Tomas Acha, Maureen J O’Sullivan, Peter K Bode, Felix Niggli, Godelieve A Tytgat, Harm van Tinteren, Marry M van den Heuvel-Eibrink, Eckart Meese, Christian Vokuhl, Ivo Leuschner, Norbert Graf, Roland Eils, Stefan M Pfister, Marcel Kool, Manfred Gessler, <a href="https://doi.org/10.1016/j.ccell.2015.01.002">Mutations in the SIX1/2 pathway and the DROSHA/DGCR8 miRNA microprocessor complex underlie high-risk blastemal type Wilms tumors</a>. <em>Cancer Cell</em> 2015.</li>
+<li>Lei Gu, Sandra C Frommel, Christopher C Oakes, Ronald Simon, Katharina Grupp, Cristina Y Gerig, Dominik Bär, Mark D Robinson, Constance Baer, Melanie Weiss, <strong>Zuguang Gu</strong>, Matthieu Schapira, Ruprecht Kuner, Holger Sültmann, Maurizio Provenzano, Marie-Laure Yaspo, Benedikt Brors, Jan Korbel, Thorsten Schlomm, Guido Sauter, Roland Eils, Christoph Plass, Raffaella Santoro, <a href="https://doi.org/10.1038/ng.3165">BAZ2A (TIP5) is involved in epigenetic alterations in prostate cancer and its overexpression predicts disease recurrence</a>. <em>Nature Genetics</em> 2015.</li>
+</ul>
+<h3 id="其他研究">其他研究</h3>
+<ul>
+<li>Federico Vita, Cosimo Taiti, Antonio Pompeiano, <strong>Zuguang Gu</strong>, Emilio Lo Presti, Larisa Whitney, Michele Monti, Giuseppe Di Miceli, Dario Giambalvo, Paolo Ruisi, Lorenzo Guglielminetti, Stefano Mancuso, <a href="https://doi.org/10.1038/srep34619">Aromatic and proteomic analyses corroborate the distinction between Mediterranean landraces and modern varieties of durum wheat</a>. <em>Scientific Reports</em> 2016.</li>
+<li>Chenfeng He, Ying-Xin Li, Guangxin Zhang, <strong>Zuguang Gu</strong>, Rong Yang, Jie Li, Zhi John Lu, Zhi-Hua Zhou, Chenyu Zhang, Jin Wang, <a href="https://doi.org/10.1371/journal.pone.0051673">MiRmat: mature microRNA sequence prediction</a>. <em>PloS One</em> 2012.</li>
+<li><strong>Zuguang Gu</strong>, Chenyu Zhang, Jin Wang, <a href="https://doi.org/10.1186/1752-0509-6-32">Gene regulation is governed by a core network in hepatocellular carcinoma</a>. BMC systems biology 2012.</li>
+<li>Lingyun Zhu, Qiang Wang, Lin Zhang, Zhixiang Fang, Fang Zhao, Zhiyuan Lv, <strong>Zuguang Gu</strong>, Junfeng Zhang, Jin Wang, Ke Zen, Yang Xiang, Dongjin Wang, Chen-Yu Zhang, <a href="https://doi.org/10.1038/cr.2010.46">Hypoxia induces PGC-1α expression and mitochondrial biogenesis in the myocardium of TOF patients</a>. <em>Cell Research</em> 2010.</li>
+</ul>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	width:50%;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.9em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用<a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light主题</a>创建</p>
+</footer>
+
+
+
+
+
+</body>
+</html>
+
+
+

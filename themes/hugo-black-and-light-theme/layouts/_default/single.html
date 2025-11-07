@@ -1,0 +1,20 @@
+{{ partial "header.html" . }}
+
+<section id=content>
+  <h1 style="margin-bottom: 40px">{{ if .Params.heading }} {{ .Params.heading }} {{ else }} {{ .Title }} {{ end }}</h1>
+
+  {{ if .Params.date }}
+    <div id=sub-header>
+      {{.Params.author}}{{if .Params.author}} · {{end}}{{ .Date.Format (.Site.Params.dateform | default "January 2006") }}
+    </div>
+  {{ end }}
+
+  <div class="entry-content">
+    {{ .Content }}
+  </div>
+
+</section>
+
+{{ partial "footer.html" . }}
+
+

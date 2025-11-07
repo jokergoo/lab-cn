@@ -1,0 +1,46 @@
+---
+title: GeneSummary
+---
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+包含了NCBI RefSeq数据库中对基因功能的文字描述。
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R
+Bioconductor | https://bioconductor.org/packages/GeneSummary/
+GitHub | https://github.com/jokergoo/GeneSummary
+文档 | https://jokergoo.github.io/GeneSummary/
+
+</div>
+
+### 例子
+
+```{r}
+library(GeneSummary)
+tb = loadGeneSummary(organism = 9606)
+head(tb)
+```
+
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>
+

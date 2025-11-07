@@ -1,0 +1,87 @@
+---
+title: GSEAtopics
+---
+
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+基因集合富集分析教学与学习材料。
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+GitHub | https://github.com/jokergoo/GSEAtopics
+文档 | https://jokergoo.github.io/GSEAtopics/
+
+</div>
+
+
+### 主题
+
+**Topic 1**: gene set resources
+
+- Topic 1-00: [Representation of gene sets in R](https://jokergoo.github.io/GSEAtopics/articles/topic1_00_format.html)
+- Topic 1-01: [GO gene sets](https://jokergoo.github.io/GSEAtopics/articles/topic1_01_GO.html)
+- Topic 1-02: [Get pathways from KEGG](https://jokergoo.github.io/GSEAtopics/articles/topic1_02_kegg.html)
+- Topic 1-03: [Get pathways from MSigDB](https://jokergoo.github.io/GSEAtopics/articles/topic1_03_msigdb.html)
+- Topic 1-04: [Get pathways from Reactome](https://jokergoo.github.io/GSEAtopics/articles/topic1_04_Reactome.html)
+- Topic 1-05: [Get gene sets from UniProt Keywords](https://jokergoo.github.io/GSEAtopics/articles/topic1_05_UniProtKeywords.html)
+- Topic 1-06: [Get GO/KEGG gene sets for other organisms](https://jokergoo.github.io/GSEAtopics/articles/topic1_06_more_gene_sets.html)
+- Topic 1-07: [Generate gene sets for other organisms by mapping to orthologues](https://jokergoo.github.io/GSEAtopics/articles/topic1_07_ortholog.html)
+- Topic 1-08: [Gene ID conversion](https://jokergoo.github.io/GSEAtopics/articles/topic1_08_gene_id.html)
+
+
+**Topic 2**: ORA and GSEA
+
+- Topic 2-01: [ORA on a single gene set](https://jokergoo.github.io/GSEAtopics/articles/topic2_01_ora_single_gene_set.html)
+- Topic 2-02: [Implement ORA from scratch](https://jokergoo.github.io/GSEAtopics/articles/topic2_02_implement_ora.html)
+- Topic 2-03: [Implement GSEA from scratch](https://jokergoo.github.io/GSEAtopics/articles/topic2_03_implement_gsea.html)
+- Topic 2-04: [fgsea](https://jokergoo.github.io/GSEAtopics/articles/topic2_04_fgsea.html)
+- Topic 2-05: [Compare ORA and GSEA](https://jokergoo.github.io/GSEAtopics/articles/topic2_05_compare_ORA_GSEA.html)
+
+**Topic 3**: Application in genomics
+
+- Topic 3-01: [Implement the GREAT method](https://jokergoo.github.io/GSEAtopics/articles/topic3_01_implement_GREAT.html)
+- Topic 3-02: [Online GREAT analysis](https://jokergoo.github.io/GSEAtopics/articles/topic3_02_online_GREAT.html)
+- Topic 3-03: [Local GREAT analysis](https://jokergoo.github.io/GSEAtopics/articles/topic3_03_local_GREAT.html)
+
+**Topic 4**: Topology-based
+
+- Topic 4-01: [Centrality-based pathway enrichment analysis](https://jokergoo.github.io/GSEAtopics/articles/topic4_01_centrality.html)
+
+**Topic 5**: Single-sample GSEA
+
+- Topic 5-01: [Single-sample GSEA](https://jokergoo.github.io/GSEAtopics/articles/topic5_01_single_sample.html)
+
+**Topic 6**: Similarity, clustering and summarization
+
+- Topic 6-01: [Similarities of terms](https://jokergoo.github.io/GSEAtopics/articles/topic6_01_similarity.html)
+- Topic 6-02: [Cluster and summarize](https://jokergoo.github.io/GSEAtopics/articles/topic6_02_cluster_and_summarize.html)
+
+**Topic 7**: Visualization
+
+- Topic 7-01: [Visualization](https://jokergoo.github.io/GSEAtopics/articles/topic7_01_visualization.html)
+
+**Topic 8**: GSEA framework
+
+- Topic 8-01: [GSEA framework](https://jokergoo.github.io/GSEAtopics/articles/topic8_01_GSEA_framework.html)
+
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>

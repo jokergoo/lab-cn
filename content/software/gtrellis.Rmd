@@ -1,0 +1,72 @@
+---
+title: gtrellis
+---
+
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+基因组trellis布局。
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R
+Bioconductor | https://bioconductor.org/packages/gtrellis/ 
+GitHub | https://github.com/jokergoo/gtrellis
+文档 | https://jokergoo.github.io/gtrellis/
+论文 | Zuguang Gu, et al., [gtrellis: an R/Bioconductor package for making genome-level Trellis graphics](https://doi.org/10.1186/s12859-016-1051-4). _BMC Bioinformatics_ 2016.
+
+</div>
+
+### 例子
+
+```{r, fig.width = 12}
+library(gtrellis)
+
+load(system.file("extdata", "DMR.RData", package = "circlize"))
+DMR_hyper_density = circlize::genomicDensity(DMR_hyper, window.size = 1e7)
+DMR_hyper_rainfall = circlize::rainfallTransform(DMR_hyper)
+DMR_hypo_density = circlize::genomicDensity(DMR_hypo, window.size = 1e7)
+DMR_hypo_rainfall = circlize::rainfallTransform(DMR_hypo)
+
+add_graphics = function() {
+    add_points_track(DMR_hyper_rainfall, log10(DMR_hyper_rainfall[[4]]),
+        pch = 16, size = unit(1, "mm"), gp = gpar(col = "#FF000080"))
+    add_points_track(DMR_hypo_rainfall, log10(DMR_hypo_rainfall[[4]]), track = current_track(),
+        pch = 16, size = unit(1, "mm"), gp = gpar(col = "#0000FF80"))
+
+    # track for genomic density
+    add_lines_track(DMR_hyper_density, DMR_hyper_density[[4]], area = TRUE, 
+        gp = gpar(fill = "#FF000080"))
+    add_lines_track(DMR_hypo_density, DMR_hypo_density[[4]], area = TRUE, track = current_track(),
+        gp = gpar(fill = "#0000FF80"))
+}
+
+gtrellis_layout(n_track = 2, nrow = 4, compact = TRUE,
+    track_axis = TRUE, 
+    track_height = unit.c(unit(1, "null"), 
+                          unit(0.5, "null")), 
+    track_ylim = c(0, 8, c(0, max(c(DMR_hyper_density[[4]], DMR_hypo_density[[4]])))),
+    track_ylab = c("log10(inter_dist)", "density"),
+    add_name_track = TRUE, add_ideogram_track = TRUE)
+add_graphics()
+```
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>

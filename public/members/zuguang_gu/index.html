@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+    <title>
+      
+      
+         顾祖光 
+      
+    </title>
+    <link rel="canonical" href="//localhost:4321/members/zuguang_gu/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:60px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 15px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 10px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="/" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/research/">研究</a></li>
+        
+          <li><a href="/publication/">论文</a></li>
+        
+          <li><a href="/software/">软件</a></li>
+        
+          <li><a href="/post">文章</a></li>
+        
+          <li><a href="/members/">成员</a></li>
+        
+          <li><a href="/opening/">职位</a></li>
+        
+          <li><a href="../en/">En</a></li>
+        
+      </ul>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> 顾祖光 </h1>
+
+  
+
+  <div class="entry-content">
+    <p>个人介绍</p>
+<style>
+ul {
+	list-style-type: decimal;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+    unicode-bidi: isolate;
+}
+table td {
+	padding-bottom: 2px;
+	padding-top: 2px;
+	padding-left: 0px;
+	padding-right: 20px;
+}
+</style>
+<h3 id="基本信息">基本信息</h3>
+<table>
+  <thead>
+      <tr>
+          <th></th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">ORCiD</td>
+          <td style="text-align: left"><a href="https://orcid.org/0000-0002-7395-8709">https://orcid.org/0000-0002-7395-8709</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">Google Scholar</td>
+          <td style="text-align: left"><a href="https://scholar.google.de/citations?user=zheH1qkAAAAJ">https://scholar.google.de/citations?user=zheH1qkAAAAJ</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">GitHub</td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/">https://github.com/jokergoo/</a></td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="工作经历">工作经历</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th></th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="https://www.dkfz.de/">德国癌症研究中心</a>，<a href="https://www.nct-heidelberg.de/index.html">德国国家肿瘤中心</a></td>
+          <td style="text-align: left">永久科学家</td>
+          <td style="text-align: left">2022-2025</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://www.dkfz.de/">德国癌症研究中心</a>，<a href="https://www.nct-heidelberg.de/index.html">德国国家肿瘤中心</a></td>
+          <td style="text-align: left">高级科学家</td>
+          <td style="text-align: left">2018-2021</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="https://www.dkfz.de/">德国癌症研究中心</a></td>
+          <td style="text-align: left">博士后</td>
+          <td style="text-align: left">2013-2018</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="学习经历">学习经历</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th></th>
+          <th></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">南京大学</td>
+          <td style="text-align: left">生物化学与分子生物学</td>
+          <td style="text-align: left">博士</td>
+          <td style="text-align: left">2009-2012</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">南京大学</td>
+          <td style="text-align: left">生物化学与分子生物学</td>
+          <td style="text-align: left">硕士</td>
+          <td style="text-align: left">2005-2008</td>
+      </tr>
+      <tr>
+          <td style="text-align: left">南京大学</td>
+          <td style="text-align: left">生物化学与分子生物学</td>
+          <td style="text-align: left">本科</td>
+          <td style="text-align: left">2001-2005</td>
+      </tr>
+  </tbody>
+</table>
+<h3 id="开源书籍">开源书籍</h3>
+<ul>
+<li><a href="https://jokergoo.github.io/circlize_book/book/">Circular Visualization in R</a>.</li>
+<li><a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/">ComplexHeatmap Complete Reference</a>.</li>
+<li><a href="https://github.com/jokergoo/GSEA_book">Gene Set Enrichment Analysis with R and Bioconductor</a> (进行中).</li>
+</ul>
+<h3 id="邀请报告">邀请报告</h3>
+<ul>
+<li><a href="https://bio-it.embl.de/emblr/">Several examples of making complex heatmaps</a>, EMBL Heidelberg, 德国, 2025.</li>
+<li>Analyze the R package ecosystem, Queen Mary University of London Charterhouse Square Bioinformatics network, 英国, 2025.</li>
+<li><a href="https://www.ghga.de/events/detail/ghga-webinar-biological-data-visualisation-in-r-and-bioconductor">Biological data visualization in R and Bioconductor</a>, GHGA Webinar, Heidelberg, 德国, 2024.</li>
+<li><a href="https://blog.csdn.net/woodcorpse/article/details/138638507">组学数据分析和可视化工具开发</a>, iMeta系列讲座, 2024.</li>
+<li><a href="https://cs.chinagut.cn/academic/report?agendaCode=d8d080137c2848d285a8a1054711f2e5">复杂热图</a>, 中国肠道大会, 2023.</li>
+<li>Make Complex Heatmaps. Moffitt Cancer Center Bio-Data Club, 美国, 2022.</li>
+</ul>
+<h3 id="会议报告">会议报告</h3>
+<ul>
+<li><a href="https://bioc2023.bioconductor.org/abstracts/paper10/">On the Dependency Heaviness of CRAN/Bioconductor Ecosystem</a>, Bioconductor conference 2023.</li>
+<li><a href="https://bioc2023.bioconductor.org/abstracts/paper9/">rGREAT: an R/Bioconductor Package for Functional Enrichment on Genomic Regions</a>, Bioconductor conference 2023.</li>
+<li><a href="https://eurobioc2022.bioconductor.org/workshops/paper6/">simplifyEnrichment: A Bioconductor Package for Clustering and Visualizing Functional Enrichment Results</a>, EuroBioc conference 2022.</li>
+<li><a href="https://bioc2022.bioconductor.org/abstracts/paper1/">cola: a general framework for consensus partitioning</a>, Bioconductor conference 2022.</li>
+<li><a href="https://www.r-project.org/conferences/useR-2022/program/talks#session-28-package-development">On the heaviness of package dependencies</a>, useR! conference 2022.</li>
+<li><a href="https://biocasia2021.bioconductor.org/contributions/">spiralize: an R package for visualizing data on spirals</a>, BioC Asia conference 2021.</li>
+<li><a href="https://bioc2021.bioconductor.org/posters/paper3/">Make interactive complex heatmaps</a>, Bioconductor conference 2021. Awarded as Best Innovative poster ideas.</li>
+<li><a href="https://user2015.math.aau.dk/poster_session">circlize: circular visualization in R</a>, useR! conference 2015.</li>
+</ul>
+<h3 id="教学">教学</h3>
+<ul>
+<li><a href="https://carpentries-incubator.github.io/bioc-rnaseq/06-gene-set-analysis.html">Develop the official Bioconductor teaching material</a>.</li>
+<li><a href="https://www.ghga.de/events/detail/ghga-summer-school-on-gene-set-enrichment-analysis-with-r">Workshop on gene set enrichment analysis</a>, collaborating with GHGA in June 2025.</li>
+<li>Supervised two intern students (2015, 2017) and two master students (2018, 2023), Heidelberg University.</li>
+<li>Lectures on the topic of clustering (for master students), Heidelberg University, 2018.</li>
+<li>Teaching assistant of the Perl programming course, Heidelberg University, 2014.</li>
+</ul>
+<h3 id="基金">基金</h3>
+<ul>
+<li>Dependency Heaviness Analysis on Software Ecosystems, <a href="https://klaus-tschira-stiftung.de/en/">Klaus Tschira Stiftung</a>, Germany, 10.2024 - 09.2026.</li>
+</ul>
+<script>
+$( function() {
+	$("table thead").css("display", "none");
+} );
+</script>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	width:50%;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.9em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用<a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light主题</a>创建</p>
+</footer>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

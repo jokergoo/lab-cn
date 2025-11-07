@@ -1,0 +1,52 @@
+---
+title: pkgndep
+---
+
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+R 包依赖重量（dependency heaviness）分析。
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R
+CRAN | https://cran.r-project.org/package=pkgndep
+GitHub | https://github.com/jokergoo/pkgndep
+文档 | https://jokergoo.github.io/pkgndep/
+论文 | Zuguang Gu, [On the dependency heaviness of CRAN/Bioconductor ecosystem](https://doi.org/10.1016/j.jss.2023.111610). _JSS_ 2023. <br> Zuguang Gu, et al., [Pkgndep: a tool for analyzing dependency heaviness of R packages](https://doi.org/10.1093/bioinformatics/btac449). _Bioinformatics_ 2022.
+
+
+</div>
+
+
+### 例子
+
+```{r, fig.width = 13, fig.height = 6, out.width = "95%"}
+library(pkgndep)
+x = pkgndep("circlize")
+x
+heaviness(x)
+plot(x, fix = FALSE)
+```
+
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>
+

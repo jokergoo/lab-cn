@@ -1,0 +1,47 @@
+---
+title: UniProtKeywords
+---
+
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+UniProt 数据库[关键词](https://www.uniprot.org/keywords/)数据。
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R
+Bioconductor | https://bioconductor.org/packages/UniProtKeywords/ 
+GitHub | https://github.com/jokergoo/UniProtKeywords
+文档 | https://jokergoo.github.io/UniProtKeywords/
+
+</div>
+
+### 例子
+
+```{r}
+library(UniProtKeywords)
+data(kw_terms)
+kw_terms[["Cell cycle"]]
+```
+
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>
+

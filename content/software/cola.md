@@ -1,0 +1,52 @@
+---
+title: cola
+---
+
+
+
+
+一致性聚类（consensus clustering）统一框架。
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R, C++, JavaScript
+Bioconductor | https://bioconductor.org/packages/cola/
+GitHub | https://github.com/jokergoo/cola
+文档 | https://jokergoo.github.io/cola/
+论文 | Zuguang Gu, et al., [Improve consensus partitioning via a hierarchical procedure](https://doi.org/10.1093/bib/bbac048). _Briefings in Bioinformatics_ 2022.<br>Zuguang Gu, et al., [cola: an R/Bioconductor package for consensus partitioning through a general framework](https://doi.org/10.1093/nar/gkaa1146). _Nucleic Acids Research_ 2021.
+
+
+</div>
+
+### 例子
+
+标准一致性聚类：
+
+```r
+mat = adjust_matrix(mat) # optional
+rl = run_all_consensus_partition_methods(
+    mat, 
+    top_value_method = c("SD", "MAD", ...),
+    partition_method = c("hclust", "kmeans", ...),
+    cores = ...)
+cola_report(rl, output_dir = ...)
+```
+
+或者等级一致性聚类：
+
+```r
+mat = adjust_matrix(mat) # optional
+rh = hierarchical_partition(mat, mc.cores = ...)
+cola_report(rh, output_dir = ...)
+```
+
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>

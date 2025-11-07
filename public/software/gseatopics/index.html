@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+    <title>
+      
+      
+         GSEAtopics 
+      
+    </title>
+    <link rel="canonical" href="//localhost:4321/software/gseatopics/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:60px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 15px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 10px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="/" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/research/">研究</a></li>
+        
+          <li><a href="/publication/">论文</a></li>
+        
+          <li><a href="/software/">软件</a></li>
+        
+          <li><a href="/post">文章</a></li>
+        
+          <li><a href="/members/">成员</a></li>
+        
+          <li><a href="/opening/">职位</a></li>
+        
+          <li><a href="../en/">En</a></li>
+        
+      </ul>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> GSEAtopics </h1>
+
+  
+
+  <div class="entry-content">
+    <p>基因集合富集分析教学与学习材料。</p>
+<h3 id="基本信息">基本信息</h3>
+<div id="soft-info">
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">软件包</th>
+          <th style="text-align: left">链接</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">GitHub</td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/GSEAtopics">https://github.com/jokergoo/GSEAtopics</a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">文档</td>
+          <td style="text-align: left"><a href="https://jokergoo.github.io/GSEAtopics/">https://jokergoo.github.io/GSEAtopics/</a></td>
+      </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="主题">主题</h3>
+<p><strong>Topic 1</strong>: gene set resources</p>
+<ul>
+<li>Topic 1-00: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic1_00_format.html">Representation of gene sets in R</a></li>
+<li>Topic 1-01: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic1_01_GO.html">GO gene sets</a></li>
+<li>Topic 1-02: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic1_02_kegg.html">Get pathways from KEGG</a></li>
+<li>Topic 1-03: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic1_03_msigdb.html">Get pathways from MSigDB</a></li>
+<li>Topic 1-04: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic1_04_Reactome.html">Get pathways from Reactome</a></li>
+<li>Topic 1-05: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic1_05_UniProtKeywords.html">Get gene sets from UniProt Keywords</a></li>
+<li>Topic 1-06: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic1_06_more_gene_sets.html">Get GO/KEGG gene sets for other organisms</a></li>
+<li>Topic 1-07: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic1_07_ortholog.html">Generate gene sets for other organisms by mapping to orthologues</a></li>
+<li>Topic 1-08: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic1_08_gene_id.html">Gene ID conversion</a></li>
+</ul>
+<p><strong>Topic 2</strong>: ORA and GSEA</p>
+<ul>
+<li>Topic 2-01: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic2_01_ora_single_gene_set.html">ORA on a single gene set</a></li>
+<li>Topic 2-02: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic2_02_implement_ora.html">Implement ORA from scratch</a></li>
+<li>Topic 2-03: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic2_03_implement_gsea.html">Implement GSEA from scratch</a></li>
+<li>Topic 2-04: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic2_04_fgsea.html">fgsea</a></li>
+<li>Topic 2-05: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic2_05_compare_ORA_GSEA.html">Compare ORA and GSEA</a></li>
+</ul>
+<p><strong>Topic 3</strong>: Application in genomics</p>
+<ul>
+<li>Topic 3-01: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic3_01_implement_GREAT.html">Implement the GREAT method</a></li>
+<li>Topic 3-02: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic3_02_online_GREAT.html">Online GREAT analysis</a></li>
+<li>Topic 3-03: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic3_03_local_GREAT.html">Local GREAT analysis</a></li>
+</ul>
+<p><strong>Topic 4</strong>: Topology-based</p>
+<ul>
+<li>Topic 4-01: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic4_01_centrality.html">Centrality-based pathway enrichment analysis</a></li>
+</ul>
+<p><strong>Topic 5</strong>: Single-sample GSEA</p>
+<ul>
+<li>Topic 5-01: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic5_01_single_sample.html">Single-sample GSEA</a></li>
+</ul>
+<p><strong>Topic 6</strong>: Similarity, clustering and summarization</p>
+<ul>
+<li>Topic 6-01: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic6_01_similarity.html">Similarities of terms</a></li>
+<li>Topic 6-02: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic6_02_cluster_and_summarize.html">Cluster and summarize</a></li>
+</ul>
+<p><strong>Topic 7</strong>: Visualization</p>
+<ul>
+<li>Topic 7-01: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic7_01_visualization.html">Visualization</a></li>
+</ul>
+<p><strong>Topic 8</strong>: GSEA framework</p>
+<ul>
+<li>Topic 8-01: <a href="https://jokergoo.github.io/GSEAtopics/articles/topic8_01_GSEA_framework.html">GSEA framework</a></li>
+</ul>
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	width:50%;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.9em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用<a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light主题</a>创建</p>
+</footer>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

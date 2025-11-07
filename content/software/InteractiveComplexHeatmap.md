@@ -1,0 +1,40 @@
+---
+title: InteractiveComplexHeatmap
+---
+
+
+
+
+互动复杂热图
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R, JavaScript
+Bioconductor | https://bioconductor.org/packages/InteractiveComplexHeatmap/ 
+GitHub | https://github.com/jokergoo/InteractiveComplexHeatmap
+文档 | https://jokergoo.github.io/InteractiveComplexHeatmap/
+论文 | Zuguang Gu, et al., [Make Interactive Complex Heatmaps in R](https://doi.org/10.1093/bioinformatics/btab806). _Bioinformatics_ 2022.
+
+
+</div>
+
+### 例子
+
+在使用 ComplexHeatmap 生成静态热图后，直接运行下面函数
+
+```r
+htShiny()
+```
+
+即可生成对应的互动热图。
+
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>

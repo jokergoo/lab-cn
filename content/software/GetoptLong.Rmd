@@ -1,0 +1,97 @@
+---
+title: GetoptLong
+---
+
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+命令行参数解析与变量插值。
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R, Perl
+CRAN | https://cran.r-project.org/package=GetoptLong
+GitHub | https://github.com/jokergoo/GetoptLong
+文档 | https://jokergoo.github.io/GetoptLong/
+
+</div>
+
+
+### 例子
+
+如果在R脚本中添加：
+
+```r
+library(GetoptLong)
+
+cutoff = 0.05
+GetoptLong(
+    "number=i", "Number of items.",
+    "cutoff=f", "Cutoff for filtering results.",
+    "verbose!", "Print message."
+)
+```
+
+那么可以在命令行模式下输入如下格式的参数：
+
+```
+~\> Rscript foo.R --number 4 --cutoff 0.01 --verbose
+~\> Rscript foo.R --number=4 --cutoff=0.01 --no-verbose
+~\> Rscript foo.R -n 4 -c 0.01 -v
+~\> Rscript foo.R -n 4 --verbose
+```
+
+帮助信息自动生成：
+
+```
+~\> Rscript foo.R --help 
+Usage: Rscript foo.R [options]
+
+Options:
+  --number, -n integer
+    Number of items.
+ 
+  --cutoff, -c numeric
+    Cutoff for filtering results.
+    [default: 0.05]
+ 
+  --verbose
+    Print message.
+ 
+  --help, -h
+    Print help message and exit.
+ 
+  --version
+    Print version information and exit.
+```
+
+GetoptLong包中也实现了简单的变量插值（variable interpolation）：
+
+```{r}
+library(GetoptLong)
+r = c(1, 2)
+value = 4
+name = "name"
+qq("region = (@{r[1]}, @{r[2]}), value = @{value}, name = '@{name}'")
+```
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>
+

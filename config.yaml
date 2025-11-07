@@ -1,0 +1,50 @@
+baseurl: /
+languageCode: en-US
+title: 深圳理工大学生物信息学课题组
+theme: hugo-black-and-light-theme
+ignoreFiles:
+  - \.Rmd$
+  - \.Rmarkdown$
+  - _cache$
+permalinks:
+  post: /:year/:month/:day/:slug/
+menu:
+  main:
+    - name: 成员
+      url: /members/
+      weight: 6
+    - name: 研究
+      url: /research/
+      weight: 2
+    - name: 论文
+      url: /publication/
+      weight: 3
+    - name: 软件
+      url: /software/
+      weight: 4
+    - name: 文章
+      url: /post
+      weight: 5
+    - name: 职位
+      url: /opening/
+      weight: 7
+    - name: En
+      url: ../en/
+      weight: 100
+params:
+  MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
+  MathJaxVersion: 2.7.5
+  description: A website built through Hugo and blogdown.
+  highlightjsCDN: //cdnjs.cloudflare.com/ajax/libs
+  highlightjsLang:
+    - r
+    - yaml
+  highlightjsTheme: github
+  highlightjsVersion: 9.12.0
+markup:
+  defaultMarkdownHandler: goldmark
+  goldmark:
+    renderer:
+      unsafe: yes
+  highlight:
+    codeFences: no

@@ -1,0 +1,51 @@
+---
+title: rGREAT
+---
+
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+基于基因组区间的功能富集分析。
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R, C++
+Bioconductor | https://bioconductor.org/packages/rGREAT/ 
+GitHub | https://github.com/jokergoo/rGREAT
+文档 | https://jokergoo.github.io/rGREAT/
+论文 | Zuguang Gu, et al., [rGREAT: an R/bioconductor package for functional enrichment on genomic regions](https://doi.org/10.1093/bioinformatics/btac745). _Bioinformatics_ 2023.
+
+
+
+</div>
+
+### 例子
+
+```{r}
+library(rGREAT)
+gr = randomRegions(nr = 1000, genome = "hg19")
+res = great(gr, "MSigDB:H", "TxDb.Hsapiens.UCSC.hg19.knownGene")
+tb = getEnrichmentTable(res)
+head(tb)
+```
+
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>
