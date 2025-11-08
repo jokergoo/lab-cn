@@ -28,10 +28,10 @@
     <title>
       
       
-         sfcurve 
+         第二篇文章 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/software/sfcurve/">
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2025/11/06/%E7%AC%AC%E4%BA%8C%E7%AF%87%E6%96%87%E7%AB%A0/">
 
     <style>
   * {
@@ -201,6 +201,7 @@
 
   #sub-header {
     margin: 0 4px;
+    font-style: italic;
   }
 
   #nav h1 a {
@@ -306,6 +307,7 @@
     text-decoration: none;
     display: inline-block;
     padding-top: 225px;
+    padding-bottom: 225px;
   }
 
 
@@ -436,6 +438,7 @@ $( function() {
         }
     });
   $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
 })
 </script>
   <body>
@@ -463,85 +466,19 @@ $( function() {
 
 
 <section id=content>
-  <h1 style="margin-bottom: 40px"> sfcurve </h1>
+  <h1 style="margin-bottom: 40px"> 第二篇文章 </h1>
 
+  
+    <div id=sub-header>
+      顾祖光 · November 2025
+    </div>
   
 
   <div class="entry-content">
-    <p><code>\(n \times n\)</code> 空间填充曲线</p>
-<h3 id="基本信息">基本信息</h3>
-<div id="soft-info">
-<table>
-  <thead>
-      <tr>
-          <th style="text-align: left">软件包</th>
-          <th style="text-align: left">链接</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">编程语言</td>
-          <td style="text-align: left">R, C++</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">CRAN</td>
-          <td style="text-align: left"><a href="https://cran.r-project.org/package=sfcurve">https://cran.r-project.org/package=sfcurve</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">GitHub</td>
-          <td style="text-align: left"><a href="https://github.com/jokergoo/sfcurve">https://github.com/jokergoo/sfcurve</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">文档</td>
-          <td style="text-align: left"><a href="https://jokergoo.github.io/sfcurve/">https://jokergoo.github.io/sfcurve/</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">论文</td>
-          <td style="text-align: left">Zuguang Gu, <a href="https://doi.org/10.48550/arXiv.2412.16962">Construction, Transformation and Structures of 2x2 Space-Filling Curves</a>. <em>arXiv</em> 2024.</td>
-      </tr>
-  </tbody>
-</table>
-</div>
-<h3 id="例子">例子</h3>
-<p>2x2曲线</p>
-<pre><code class="language-r">library(sfcurve)
-p = sfc_2x2(&quot;I&quot;, &quot;2222&quot;, rot = 270)
-p
+    <p>如题</p>
+<pre><code class="language-r">hist(rnorm(100))
 </code></pre>
-<pre><code>## An sfc_2x2 object.
-##   Increase mode: 2 x 2
-##   Level: 4
-##   Expansion rule: 2x2 
-## 
-## A sequence of 256 base patterns.
-##   I(270)L(270)L(0)R(90)   I(0)R(0)R(270)L(180)
-##   L(270)R(0)R(270)I(180)  R(180)L(90)L(180)I(270)
-##   .... other 28 lines ....
-##   I(270)L(270)L(0)R(90)   I(0)R(0)R(270)L(180)
-##   L(270)R(0)R(270)I(180)  R(180)L(90)L(180)I(270)
-## 
-## Seed: A sequence of 1 base pattern.
-##   I(270)
-</code></pre>
-<pre><code class="language-r">plot(p)
-</code></pre>
-<img src="/software/sfcurve_files/figure-html/unnamed-chunk-2-1.png" width="768" />
-<p>3x3 Peano曲线</p>
-<pre><code class="language-r">p = sfc_3x3_peano(&quot;I&quot;, &quot;1111&quot;)
-plot(p)
-</code></pre>
-<img src="/software/sfcurve_files/figure-html/unnamed-chunk-3-1.png" width="768" />
-<p>以一条初级曲线作为起始的曲线</p>
-<pre><code class="language-r">p = sfc_seed(&quot;LLLILILIILIILIIILIIILIIII&quot;)
-p2 = sfc_2x2(p, &quot;1111&quot;)
-plot(p2)
-</code></pre>
-<img src="/software/sfcurve_files/figure-html/unnamed-chunk-4-1.png" width="768" />
-<script>
-$( function() {
-    $("table thead").css("display", "none");
-} );
-</script>
+<img src="/lab-cn/post/2025-11-07-second-post_files/figure-html/unnamed-chunk-1-1.png" width="672" />
 
   </div>
 
@@ -556,7 +493,7 @@ $( function() {
 	width:50%;
 	border-top: 1px solid #AAA;
 	padding-top:10px;
-	font-size: 0.9em;
+	font-size: 0.8em;
 }
 .footer p a {
 	color: #AAA;
@@ -566,7 +503,7 @@ $( function() {
 </style>
 
 <footer class="footer">
-<p>网站使用<a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light主题</a>创建</p>
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
 </footer>
 
 
@@ -583,9 +520,6 @@ $( function() {
 
 
 
-
-<script src="/js/math-code.js"></script>
-<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
 </body>

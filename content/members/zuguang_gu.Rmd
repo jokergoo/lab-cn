@@ -17,7 +17,7 @@ table td {
 	padding-bottom: 2px;
 	padding-top: 2px;
 	padding-left: 0px;
-	padding-right: 20px;
+	padding-right: 40px;
 }
 </style>
 

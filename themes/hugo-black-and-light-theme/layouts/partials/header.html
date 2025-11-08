@@ -63,15 +63,20 @@ $( function() {
         var old_src = $(this).attr("src");
         var pattern = new RegExp("^" + root_dir);
         if(!pattern.test(old_src)) {
-          $(this).attr("src", root_dir + "/" + old_src);
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
         }
     });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
 })
 </script>
   <body>
     <section id=nav>
       <h1><a class="h-card" href="/">{{ .Site.Params.sitename }}</a></h1>
-      <a href="{{ .Site.BaseURL }}" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         {{ range .Site.Menus.main }}
           <li><a href="{{ .URL }}">{{ .Name }}</a></li>
