@@ -1,24 +1,21 @@
 
-Required R packages:
+Hugo主题相关文件
 
-- sf
-- ggplot2
-- ggrepel
-- easyPubmed
-- rnaturalearth
-- rnaturalearthdata
-- RColorBrewer
-- easyPubMed
-- scholar
-- rvest
+全局css样式：
+
+- `themes/hugo-back-and-light-theme/layouts/partials/styles.html`
 
 
-CSS
+页面的header和footer：
 
-themes/hugo-back-and-light-theme/layouts/partials/styles.html
+- `themes/hugo-back-and-light-theme/layouts/partials/header.html`
+- `themes/hugo-back-and-light-theme/layouts/partials/footer.html`
 
-themes/hugo-back-and-light-theme/layouts/partials/header.html
-themes/hugo-back-and-light-theme/layouts/partials/footer.html
+页面的主体：
 
-themes/hugo-back-and-light-theme/layouts/\_default/single.html
-themes/hugo-back-and-light-theme/layouts/\_default/list.html
+- `themes/hugo-back-and-light-theme/layouts/\_default/single.html`
+
+文章列表：
+
+- `themes/hugo-back-and-light-theme/layouts/\_default/list.html`
+
