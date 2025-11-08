@@ -28,7 +28,7 @@ menu:
     - name: 职位
       url: /opening/
       weight: 7
-    - name: En
+    - name: EN
       url: /../lab-en/
       weight: 100
 params:

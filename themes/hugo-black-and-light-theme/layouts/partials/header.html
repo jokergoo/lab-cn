@@ -71,6 +71,11 @@ $( function() {
     });
   $("#nav-logo-text").attr("href", root_dir);
   $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
 })
 </script>
   <body>

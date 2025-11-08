@@ -2,25 +2,25 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on 深圳理工大学生物信息学课题组</title>
-    <link>http://localhost:4321/lab-cn/post/</link>
+    <link>http://localhost:3668/lab-cn/post/</link>
     <description>Recent content in Posts on 深圳理工大学生物信息学课题组</description>
     <generator>Hugo</generator>
     <language>en-US</language>
     <lastBuildDate>Thu, 06 Nov 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:4321/lab-cn/post/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:3668/lab-cn/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>第一篇文章</title>
-      <link>http://localhost:4321/lab-cn/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</link>
+      <link>http://localhost:3668/lab-cn/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</link>
       <pubDate>Thu, 06 Nov 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/lab-cn/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</guid>
+      <guid>http://localhost:3668/lab-cn/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</guid>
       <description>&lt;p&gt;如题&lt;/p&gt;</description>
     </item>
     <item>
       <title>第二篇文章</title>
-      <link>http://localhost:4321/lab-cn/2025/11/06/%E7%AC%AC%E4%BA%8C%E7%AF%87%E6%96%87%E7%AB%A0/</link>
+      <link>http://localhost:3668/lab-cn/2025/11/06/%E7%AC%AC%E4%BA%8C%E7%AF%87%E6%96%87%E7%AB%A0/</link>
       <pubDate>Thu, 06 Nov 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:4321/lab-cn/2025/11/06/%E7%AC%AC%E4%BA%8C%E7%AF%87%E6%96%87%E7%AB%A0/</guid>
-      <description>&lt;p&gt;如题&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;hist(rnorm(100))&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;img src=&#34;http://localhost:4321/lab-cn/post/2025-11-07-second-post_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;</description>
+      <guid>http://localhost:3668/lab-cn/2025/11/06/%E7%AC%AC%E4%BA%8C%E7%AF%87%E6%96%87%E7%AB%A0/</guid>
+      <description>&lt;p&gt;如题&lt;/p&gt;&#xA;&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;hist(rnorm(100))&#xA;&lt;/code&gt;&lt;/pre&gt;&#xA;&lt;img src=&#34;http://localhost:3668/lab-cn/post/2025-11-07-second-post_files/figure-html/unnamed-chunk-1-1.png&#34; width=&#34;672&#34; /&gt;</description>
     </item>
   </channel>
 </rss>
