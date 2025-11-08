@@ -402,27 +402,27 @@ gr = randomRegions(nr = 1000, genome = &quot;hg19&quot;)
 res = great(gr, &quot;MSigDB:H&quot;, &quot;TxDb.Hsapiens.UCSC.hg19.knownGene&quot;)
 tb = getEnrichmentTable(res)
 head(tb)</code></pre>
-<pre><code>##                                   id genome_fraction observed_region_hits
-## 1               HALLMARK_E2F_TARGETS     0.013430423                   21
-## 2            HALLMARK_G2M_CHECKPOINT     0.019536864                   28
-## 3 HALLMARK_UNFOLDED_PROTEIN_RESPONSE     0.007310811                   12
-## 4      HALLMARK_BILE_ACID_METABOLISM     0.010077105                   15
-## 5                HALLMARK_MYOGENESIS     0.018892268                   25
-## 6     HALLMARK_FATTY_ACID_METABOLISM     0.011573276                   16
-##   fold_enrichment    p_value  p_adjust mean_tss_dist observed_gene_hits
-## 1        1.668745 0.01776369 0.4665054        204588                 19
-## 2        1.529550 0.01985129 0.4665054        154724                 27
-## 3        1.751766 0.04624263 0.5375017         96819                 11
-## 4        1.588605 0.05666859 0.5375017        172707                 11
-## 5        1.412265 0.05718103 0.5375017        203922                 20
-## 6        1.475449 0.08330805 0.6015176        147997                 15
+<pre><code>##                                 id genome_fraction observed_region_hits
+## 1 HALLMARK_CHOLESTEROL_HOMEOSTASIS     0.006643875                   15
+## 2              HALLMARK_DNA_REPAIR     0.008120798                   14
+## 3               HALLMARK_APOPTOSIS     0.015572219                   21
+## 4             HALLMARK_P53_PATHWAY     0.016067277                   21
+## 5   HALLMARK_FATTY_ACID_METABOLISM     0.011573276                   16
+## 6         HALLMARK_NOTCH_SIGNALING     0.004362688                    7
+##   fold_enrichment     p_value   p_adjust mean_tss_dist observed_gene_hits
+## 1        2.435511 0.001723328 0.07582645        304433                 12
+## 2        1.859729 0.021683158 0.47702948        200918                 12
+## 3        1.454752 0.060067337 0.68317212        228512                 18
+## 4        1.409929 0.076966848 0.68317212        176788                 20
+## 5        1.491365 0.077633195 0.68317212        169349                 13
+## 6        1.730869 0.114875775 0.73597196        236792                  5
 ##   gene_set_size fold_enrichment_hyper p_value_hyper p_adjust_hyper
-## 1           198              1.262301   0.174606542     0.58617910
-## 2           197              1.802901   0.002052806     0.04824093
-## 3           112              1.291960   0.231001041     0.63864994
-## 4           112              1.291960   0.231001041     0.63864994
-## 5           200              1.315450   0.126362061     0.58617910
-## 6           157              1.256799   0.213842051     0.63864994</code></pre>
+## 1            74              2.091655    0.01109023      0.1219925
+## 2           148              1.045828    0.47959014      0.7815543
+## 3           158              1.469454    0.06417505      0.4183202
+## 4           197              1.309497    0.13029574      0.4183202
+## 5           157              1.068032    0.44448342      0.7815543
+## 6            32              2.015397    0.09785736      0.4183202</code></pre>
 <script>
 $( function() {
     $("table thead").css("display", "none");
