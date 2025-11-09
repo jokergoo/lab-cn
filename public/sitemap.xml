@@ -2,80 +2,80 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>http://localhost:4321/lab-cn/</loc>
+    <loc>/lab-cn/</loc>
     <lastmod>2025-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/post/</loc>
+    <loc>/lab-cn/post/</loc>
     <lastmod>2025-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</loc>
+    <loc>/lab-cn/2025/11/06/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/</loc>
     <lastmod>2025-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/2025/11/06/%E7%AC%AC%E4%BA%8C%E7%AF%87%E6%96%87%E7%AB%A0/</loc>
+    <loc>/lab-cn/2025/11/06/%E7%AC%AC%E4%BA%8C%E7%AF%87%E6%96%87%E7%AB%A0/</loc>
     <lastmod>2025-11-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/biocartaimage/</loc>
+    <loc>/lab-cn/software/biocartaimage/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/biomartgogenesets/</loc>
+    <loc>/lab-cn/software/biomartgogenesets/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/bsub/</loc>
+    <loc>/lab-cn/software/bsub/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/categories/</loc>
+    <loc>/lab-cn/categories/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/cepa/</loc>
+    <loc>/lab-cn/software/cepa/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/circlize/</loc>
+    <loc>/lab-cn/software/circlize/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/cola/</loc>
+    <loc>/lab-cn/software/cola/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/complexheatmap/</loc>
+    <loc>/lab-cn/software/complexheatmap/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/enrichedheatmap/</loc>
+    <loc>/lab-cn/software/enrichedheatmap/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/genesummary/</loc>
+    <loc>/lab-cn/software/genesummary/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/getoptlong/</loc>
+    <loc>/lab-cn/software/getoptlong/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/globaloptions/</loc>
+    <loc>/lab-cn/software/globaloptions/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/gseatopics/</loc>
+    <loc>/lab-cn/software/gseatopics/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/gtrellis/</loc>
+    <loc>/lab-cn/software/gtrellis/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/hilbertcurve/</loc>
+    <loc>/lab-cn/software/hilbertcurve/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/illuminahumanmethylationepicv2anno.20a1.hg38/</loc>
+    <loc>/lab-cn/software/illuminahumanmethylationepicv2anno.20a1.hg38/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/illuminahumanmethylationepicv2manifest/</loc>
+    <loc>/lab-cn/software/illuminahumanmethylationepicv2manifest/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/interactivecomplexheatmap/</loc>
+    <loc>/lab-cn/software/interactivecomplexheatmap/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/pkgndep/</loc>
+    <loc>/lab-cn/software/pkgndep/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/rgreat/</loc>
+    <loc>/lab-cn/software/rgreat/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/sfcurve/</loc>
+    <loc>/lab-cn/software/sfcurve/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/simona/</loc>
+    <loc>/lab-cn/software/simona/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/simplifyenrichment/</loc>
+    <loc>/lab-cn/software/simplifyenrichment/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/spiralize/</loc>
+    <loc>/lab-cn/software/spiralize/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/tags/</loc>
+    <loc>/lab-cn/tags/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/uniprotkeywords/</loc>
+    <loc>/lab-cn/software/uniprotkeywords/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/members/</loc>
+    <loc>/lab-cn/members/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/research/</loc>
+    <loc>/lab-cn/research/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/opening/</loc>
+    <loc>/lab-cn/opening/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/publication/</loc>
+    <loc>/lab-cn/publication/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/software/</loc>
+    <loc>/lab-cn/software/</loc>
   </url><url>
-    <loc>http://localhost:4321/lab-cn/members/zuguang_gu/</loc>
+    <loc>/lab-cn/members/zuguang_gu/</loc>
   </url>
 </urlset>
