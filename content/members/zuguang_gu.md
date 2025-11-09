@@ -2,7 +2,7 @@
 title: "顾祖光"
 ---
 
-个人介绍
+Placeholder
 
 <style>
 ul {
@@ -28,6 +28,11 @@ table td {
 ORCiD | https://orcid.org/0000-0002-7395-8709
 Google Scholar | https://scholar.google.de/citations?user=zheH1qkAAAAJ
 GitHub | https://github.com/jokergoo/
+微信公众号 | [方圆之处](../../image/qrcode1762702818779.jpg)
+
+### 学术组织成员
+
+[Bioconductor Community Advisory Board 成员](https://bioconductor.org/about/community-advisory-board/)
 
 ### 工作经历
 

@@ -11,7 +11,6 @@ title: "软件"
 
 主要使用R语言编写。软件包总下载量约为<strong>9.4M</strong>，数据来自于[CRAN](https://cranlogs.r-pkg.org) / [Bioconductor](https://bioconductor.org/packages/stats/index.html) / [Anaconda](https://anaconda.org/)，更新于2025-11-09。
 
-
 <style>
 table tr td {
 	text-align: left;
@@ -55,7 +54,7 @@ Package | downloads   |  github | publication
 [HilbertCurve](hilbertcurve/)：希尔伯特曲线布局 | [![Bioc](https://img.shields.io/badge/downloads-45.2K-blue)](http://bioconductor.org/packages/stats/bioc/HilbertCurve/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/HilbertCurve.svg?style=social&label=Star)](https://github.com/jokergoo/HilbertCurve) | [![](https://img.shields.io/badge/published%20on-Bioinformatics-9cf)](https://doi.org/10.1093/bioinformatics/btw161)
 [spiralize](spiralize/)：阿基米德螺线布局 | [![CRAN](https://img.shields.io/badge/downloads-51K-blue)](https://cran.r-project.org/web/packages/spiralize/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/spiralize.svg?style=social&label=Star)](https://github.com/jokergoo/spiralize) | [![](https://img.shields.io/badge/published%20on-Bioinformatics-9cf)](https://doi.org/10.1093/bioinformatics/btab778)
 [gtrellis](gtrellis/)：基因组Trellis布局 | [![Bioc](https://img.shields.io/badge/downloads-67.4K-blue)](http://bioconductor.org/packages/stats/bioc/gtrellis/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/gtrellis.svg?style=social&label=Star)](https://github.com/jokergoo/gtrellis) | [![](https://img.shields.io/badge/published%20on-BMC%20Bioinformatics-9cf)](https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-1051-4)
-[BioCartaImage](biocartaimage/)：BioCarta生物途径图像 | [![Bioc](https://img.shields.io/badge/downloads-5.6K-blue)](http://bioconductor.org/packages/stats/bioc/BioCartaImage/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/BioCartaImage.svg?style=social&label=Star)](https://github.com/jokergoo/BioCartaImage) | 
+[BioCartaImage](biocartaimage/)：BioCarta生物通路图像 | [![Bioc](https://img.shields.io/badge/downloads-5.6K-blue)](http://bioconductor.org/packages/stats/bioc/BioCartaImage/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/BioCartaImage.svg?style=social&label=Star)](https://github.com/jokergoo/BioCartaImage) | 
 </div>
 
 ### 数据建模与分析
@@ -69,7 +68,7 @@ Package | downloads   |  github | publication
 [simplifyEnrichment](simplifyenrichment/)：简化功能富集分析结果 | [![Bioc](https://img.shields.io/badge/downloads-72.2K-blue)](http://bioconductor.org/packages/stats/bioc/simplifyEnrichment/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/simplifyGO.svg?style=social&label=Star)](https://github.com/jokergoo/simplifyEnrichment) | [![](https://img.shields.io/badge/published%20on-GPB-9cf)](https://doi.org/10.1016/j.gpb.2022.04.008)
 [cola](cola/)：一致性聚类通用框架 | [![Bioc](https://img.shields.io/badge/downloads-47.4K-blue)](http://bioconductor.org/packages/stats/bioc/cola/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/cola.svg?style=social&label=Star)](https://github.com/jokergoo/cola) | [![](https://img.shields.io/badge/published%20on-NAR-9cf)](https://doi.org/10.1093/nar/gkaa1146) [![](https://img.shields.io/badge/published%20on-BIB-9cf)](https://doi.org/10.1093/bib/bbac048)
 [rGREAT](rgreat/)：基于基因组区间的功能富集 | [![Bioc](https://img.shields.io/badge/downloads-114.5K-blue)](http://bioconductor.org/packages/stats/bioc/rGREAT/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/rGREAT.svg?style=social&label=Star)](https://github.com/jokergoo/rGREAT) | [![](https://img.shields.io/badge/published%20on-Bioinformatics-9cf)](https://doi.org/10.1093/bioinformatics/btac745)
-[CePa](cepa/)：基于网络中心性的生物途径富集 | [![CRAN](https://img.shields.io/badge/downloads-68.8K-blue)](https://cran.r-project.org/web/packages/CePa/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/CePa.svg?style=social&label=Star)](https://github.com/jokergoo/CePa) | [![](https://img.shields.io/badge/published%20on-Bioinformatics-9cf)](https://doi.org/10.1093/bioinformatics/btt008)
+[CePa](cepa/)：基于网络中心性的生物通路富集 | [![CRAN](https://img.shields.io/badge/downloads-68.8K-blue)](https://cran.r-project.org/web/packages/CePa/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/CePa.svg?style=social&label=Star)](https://github.com/jokergoo/CePa) | [![](https://img.shields.io/badge/published%20on-Bioinformatics-9cf)](https://doi.org/10.1093/bioinformatics/btt008)
 </div>
 
 ### 数据注释
@@ -169,5 +168,3 @@ $( function() {
 	$("#tb5 table tr td:nth-child(4)").css("width", "170px");
 } );
 </script>
-
-

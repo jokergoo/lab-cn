@@ -51,11 +51,12 @@ title: "成员"
 
 <div class="people">
 
-<img src="/lab-cn/members_files/figure-html/unnamed-chunk-1-1.png" width="480" />
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Oliver)<!-- -->
 
 <div class="intro">
 
 - 姓名
+- 博士后
 - 邮箱：something@suat-sz.edu.cn
 
 </div>
@@ -70,11 +71,13 @@ title: "成员"
 
 <div class="people">
 
-<img src="/lab-cn/members_files/figure-html/unnamed-chunk-2-1.png" width="480" />
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Vivian)<!-- -->
 
 <div class="intro">
 
 - 姓名
+- 博士研究生
+- 深圳理工大学 / ..大学 联合培养
 - 邮箱：something@suat-sz.edu.cn
 
 </div>
@@ -85,17 +88,16 @@ title: "成员"
 
 
 
-
-
 ### 硕士研究生
 
 <div class="people">
 
-<img src="/lab-cn/members_files/figure-html/unnamed-chunk-3-1.png" width="480" />
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Alexander)<!-- -->
 
 <div class="intro">
 
 - 姓名
+- 硕士研究生
 - 邮箱：something@suat-sz.edu.cn
 
 </div>

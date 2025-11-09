@@ -52,14 +52,16 @@ title: "成员"
 <div class="people">
 
 ```{r, fig.width = 5, fig.height = 5, echo = FALSE}
-library(grid)
-grid.rect(gp = gpar(fill = "#EEEEEE", col = NA))
-grid.text("place holder", gp = gpar(fontsize = 40))
+all_names = c("Vivian", "Sophia", "Mason", "Amaya", "Oliver", "Christopher", "Destiny", "Liam",
+	          "Alexander", "Easton", "Sara", "Andrea", "Caleb", "Emery", "Sawyer", "Jocelyn",
+	          "Nolan", "Jade", "Maria", "Ryan")
+knitr::include_graphics(paste0("https://api.dicebear.com/9.x/adventurer/svg?seed=", sample(all_names, 1)))
 ```
 
 <div class="intro">
 
 - 姓名
+- 博士后
 - 邮箱：something@suat-sz.edu.cn
 
 </div>
@@ -75,14 +77,14 @@ grid.text("place holder", gp = gpar(fontsize = 40))
 <div class="people">
 
 ```{r, fig.width = 5, fig.height = 5, echo = FALSE}
-library(grid)
-grid.rect(gp = gpar(fill = "#EEEEEE", col = NA))
-grid.text("place holder", gp = gpar(fontsize = 40))
+knitr::include_graphics(paste0("https://api.dicebear.com/9.x/adventurer/svg?seed=", sample(all_names, 1)))
 ```
 
 <div class="intro">
 
 - 姓名
+- 博士研究生
+- 深圳理工大学 / ..大学 联合培养
 - 邮箱：something@suat-sz.edu.cn
 
 </div>
@@ -93,21 +95,18 @@ grid.text("place holder", gp = gpar(fontsize = 40))
 
 
 
-
-
 ### 硕士研究生
 
 <div class="people">
 
 ```{r, fig.width = 5, fig.height = 5, echo = FALSE}
-library(grid)
-grid.rect(gp = gpar(fill = "#EEEEEE", col = NA))
-grid.text("place holder", gp = gpar(fontsize = 40))
+knitr::include_graphics(paste0("https://api.dicebear.com/9.x/adventurer/svg?seed=", sample(all_names, 1)))
 ```
 
 <div class="intro">
 
 - 姓名
+- 硕士研究生
 - 邮箱：something@suat-sz.edu.cn
 
 </div>
