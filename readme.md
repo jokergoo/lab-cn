@@ -19,3 +19,4 @@ Hugo主题相关文件
 
 - `themes/hugo-back-and-light-theme/layouts/\_default/list.html`
 
+所有生成的链接均需为小写
