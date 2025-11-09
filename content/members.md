@@ -37,7 +37,7 @@ title: "成员"
 <div class="intro">
 
 - [顾祖光](zuguang_gu)
-- 特聘杰出教授
+- 教授
 - 深圳理工大学 / 细胞与基因技术研究院
 - 邮箱：guzuguang@suat-sz.edu.cn
 
