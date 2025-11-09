@@ -73,11 +73,11 @@ GitHub | https://github.com/jokergoo/
 - [circlize: circular visualization in R](https://user2015.math.aau.dk/poster_session), useR! conference 2015.
 
 ### 教学
-- [Develop the official Bioconductor teaching material](https://carpentries-incubator.github.io/bioc-rnaseq/06-gene-set-analysis.html).
-- [Workshop on gene set enrichment analysis](https://www.ghga.de/events/detail/ghga-summer-school-on-gene-set-enrichment-analysis-with-r), collaborating with GHGA in June 2025.
-- Supervised two intern students (2015, 2017) and two master students (2018, 2023), Heidelberg University.
-- Lectures on the topic of clustering (for master students), Heidelberg University, 2018.
-- Teaching assistant of the Perl programming course, Heidelberg University, 2014.
+- [开发Bioconductor官方教学材料](https://carpentries-incubator.github.io/bioc-rnaseq/06-gene-set-analysis.html).
+- [基因集合富集分析暑期学校](https://www.ghga.de/events/detail/ghga-summer-school-on-gene-set-enrichment-analysis-with-r), 4天独立讲授, 德国癌症研究中心, 海德堡, 德国, 2025.
+- 指导两名本科生(2015, 2017)和两名硕士研究生(2018, 2023), 海德堡大学, 德国.
+- 讲授硕士生课程, 海德堡大学, 德国, 2018.
+- 教学助理, 海德堡大学, 德国, 2014.
 
 ### 基金
 

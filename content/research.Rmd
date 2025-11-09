@@ -22,7 +22,7 @@ title: "研究"
 
 ## 组学与精准医学
 
-基于公共数据库及合作项目数据，开展以下三方面的多组学研究：1. 寻找新的肿瘤分子标志物。我们开发了非监督机器学习的统计方法及软件工具（[Nucleic Acids Research 2021](https://doi.org/10.1093/nar/gkaa1146)，[Briefings in Bioinformatics 2022](https://doi.org/10.1093/bib/bbac048)），可发现肿瘤新亚型及分子标志物，具备更加显著的预后差异。2. 多组学多模态，单细胞和其他组学集成分析。3. 以大语言模型为核心，提升基因功能注释的准确性与通用性（<a href="https://doi.org/10.1186/s12864-024-10759-4">BMC Genomics 2025</a>，[Bioinformatics 2023](https://doi.org/10.1093/bioinformatics/btac745)，[Genomics, Proteomics and Bioinformatics 2023](https://doi.org/10.1016/j.gpb.2022.04.008)）。
+基于公共数据库及合作项目数据，开展以下三方面的多组学研究：1. 寻找新的肿瘤分子标志物。我们开发了非监督机器学习的统计方法及软件工具（[Nucleic Acids Research 2021](https://doi.org/10.1093/nar/gkaa1146)，[Briefings in Bioinformatics 2022](https://doi.org/10.1093/bib/bbac048)），用以发现肿瘤新亚型及分子标志物，具备更加显著的预后差异。2. 多组学多模态，单细胞和其他组学集成分析（[Nucleic Acids Research 2025](https://doi.org/10.1093/nar/gkaf435)，[Cancer Discovery 2021](https://doi.org/10.1158/2159-8290.CD-20-1202)，[Nature Immunology 2021](https://doi.org/10.1038/s41590-020-00817-w)，[Nature Communications 2020](https://doi.org/10.1038/s41467-020-20225-w)）。3. 以大语言模型为核心，提升基因功能注释的准确性与通用性（<a href="https://doi.org/10.1186/s12864-024-10759-4">BMC Genomics 2025</a>，[Bioinformatics 2023](https://doi.org/10.1093/bioinformatics/btac745)，[Genomics, Proteomics and Bioinformatics 2023](https://doi.org/10.1016/j.gpb.2022.04.008)）。
 
 <div class="figure">
 <img src="image/omics_example.png" width="100%" />
@@ -31,7 +31,7 @@ title: "研究"
 
 ## 生物软件和社区建设
 
-生物软件在精准医学，人工智能和生物大数据分析中发挥着基础核心作用。我们开发的软件涵盖数据建模、可视化、注释、教学与开发者工具，在全球范围被科研机构和医药公司广泛使用，具有较强影响力（[BMC genomics 2024](https://doi.org/10.1186/s12864-024-10759-4)，[Bioinformatics 2023](https://doi.org/10.1093/bioinformatics/btac745)，[Genomics, Proteomics & Bioinformatics 2023](https://doi.org/10.1016/j.gpb.2022.04.008)，[iMeta 2022](https://doi.org/10.1002/imt2.43)，[Briefings in Bioinformatics 2022](https://doi.org/10.1093/bib/bbac048)，[Bioinformatics 2022a](https://doi.org/10.1093/bioinformatics/btab806)，[Bioinformatics 2022b](https://doi.org/10.1093/bioinformatics/btab778)，[Nucleic Acids Research 2021](https://doi.org/10.1093/nar/gkaa1146)，[BMC Genomics 2018](https://doi.org/10.1186/s12864-018-4625-x)，[Bioinformatics 2016a](https://doi.org/10.1093/bioinformatics/btw313)，[Bioinformatics 2016b](https://doi.org/10.1093/bioinformatics/btw161)，[BMC Bioinformatics 2016](https://doi.org/10.1186/s12859-016-1051-4)，[Bioinformatics 2014](https://doi.org/10.1093/bioinformatics/btu393)，[Bioinformatics 2013](https://doi.org/10.1093/bioinformatics/btt008)）。我们将持续面向国际开源社区发布软件，提升国产软件影响力，并推动大规模组学平台的集成与转化应用。
+生物软件在精准医学、人工智能和生物大数据分析中发挥着基础核心作用。我们开发的软件涵盖数据建模、可视化、注释、教学与开发者工具，在全球范围被科研机构和医药公司广泛使用，具有较强影响力（[BMC genomics 2024](https://doi.org/10.1186/s12864-024-10759-4)，[Bioinformatics 2023](https://doi.org/10.1093/bioinformatics/btac745)，[Genomics, Proteomics & Bioinformatics 2023](https://doi.org/10.1016/j.gpb.2022.04.008)，[iMeta 2022](https://doi.org/10.1002/imt2.43)，[Briefings in Bioinformatics 2022](https://doi.org/10.1093/bib/bbac048)，[Bioinformatics 2022a](https://doi.org/10.1093/bioinformatics/btab806)，[Bioinformatics 2022b](https://doi.org/10.1093/bioinformatics/btab778)，[Nucleic Acids Research 2021](https://doi.org/10.1093/nar/gkaa1146)，[BMC Genomics 2018](https://doi.org/10.1186/s12864-018-4625-x)，[Bioinformatics 2016a](https://doi.org/10.1093/bioinformatics/btw313)，[Bioinformatics 2016b](https://doi.org/10.1093/bioinformatics/btw161)，[BMC Bioinformatics 2016](https://doi.org/10.1186/s12859-016-1051-4)，[Bioinformatics 2014](https://doi.org/10.1093/bioinformatics/btu393)，[Bioinformatics 2013](https://doi.org/10.1093/bioinformatics/btt008)）。我们将持续面向国际开源社区发布软件，提升国产软件影响力，并推动大规模组学平台的集成与转化应用。
 
 <div class="figure">
 <img src="image/tools.png" width="100%" />
@@ -64,5 +64,5 @@ title: "研究"
 
 <div class="figure">
 <img src="image/citation_analysis.png" width="100%" />
-<p>图例：全球72个国家之间的科学影响力偏好性全景图。</p>
+<p>图例：全球72个国家之间生命科学领域的科学影响力偏好性全景图。</p>
 </div>
