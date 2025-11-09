@@ -102,3 +102,69 @@ https://doi.org/10.1186/1471-2164-12-335). _BMC Genomics_ 2011.
 - **Zuguang Gu**, Chenyu Zhang, Jin Wang, [Gene regulation is governed by a core network in hepatocellular carcinoma](https://doi.org/10.1186/1752-0509-6-32). BMC systems biology 2012.
 - Lingyun Zhu, Qiang Wang, Lin Zhang, Zhixiang Fang, Fang Zhao, Zhiyuan Lv, **Zuguang Gu**, Junfeng Zhang, Jin Wang, Ke Zen, Yang Xiang, Dongjin Wang, Chen-Yu Zhang, [Hypoxia induces PGC-1α expression and mitochondrial biogenesis in the myocardium of TOF patients](https://doi.org/10.1038/cr.2010.46). _Cell Research_ 2010.
 
+### 引用统计
+
+累计引用量与日增引用量。
+
+```{r, echo = FALSE, fig.width = 10}
+library(scholar)
+pub_info = get_publications("zheH1qkAAAAJ")
+cites = pub_info[, "cites"]
+
+ln = readLines("citations.txt")
+ln = c(ln, paste0(as.character(Sys.Date()), "\t", sum(cites)))
+ln = unique(ln)
+writeLines(ln, "citations.txt")
+
+df = read.table("citations.txt")
+df[, 1] = as.Date(df[, 1])
+colnames(df) = c("Date", "Citations")
+library(ggplot2)
+library(cowplot)
+p1 = ggplot(df, aes(x = Date, y = Citations)) +
+    geom_point() +
+    geom_line() + 
+    ggtitle("Total citations")
+
+df2 = data.frame(Date = df[-1, 1], Increase = diff(df[, 2])/as.numeric(diff(df[, 1])))
+p2 = ggplot(df2, aes(x = Date, y = Increase)) +
+    geom_point() +
+    ggtitle("Daily increase") +
+    geom_smooth(data = df2[df2$Date > as.Date("2022-01-01") &df2$Increase > 5 & df2$Increase < 20, ], se = F)
+plot_grid(p1, p2, nrow = 1)
+```
+
+全球引用地图。
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 6, warning = FALSE, message = FALSE}
+citation = readRDS("wos_citations.rds")
+citation_date = as.character(attr(citation, "date"))
+
+results = citation$results[, 1:4]
+tb = data.frame(address = tapply(results$address, results$address, function(x) x[1]),
+                publicationCount = tapply(results$publicationCount, results$address, sum),
+                lat = tapply(results$lat, results$address, mean),
+                lon = tapply(results$lon, results$address, mean))
+library("sf")
+library("rnaturalearth")
+library("rnaturalearthdata")
+world = ne_countries(scale = "medium", returnclass = "sf")
+
+library(ggplot2)
+library(ggrepel)
+library(RColorBrewer)
+library(GetoptLong)
+
+p = ggplot(data = world) + geom_sf(color = "grey", fill = NA) + 
+    geom_point(data = tb[order(tb$publicationCount), ], 
+        aes(x = lon, y = lat, color = publicationCount, size = publicationCount)) + 
+    scale_colour_gradientn(colours = rev(brewer.pal(9, "Spectral"))) +
+    scale_size(range = c(0.2, 3)) +
+    geom_text_repel(data = tb[order(-tb$publicationCount)[1:30], ], 
+        mapping = aes(x = lon, y = lat, label = gsub(", .*$", "", address)), 
+        box.padding = 0.5, max.overlaps = Inf, min.segment.length = 0, size = 3) +
+    ggtitle(qq("Global citation map, data retrieved on @{citation_date}")) +
+    theme(legend.position="bottom")
+print(p)
+```
+

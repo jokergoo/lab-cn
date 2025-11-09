@@ -94,3 +94,13 @@ https://doi.org/10.1186/1471-2164-12-335). _BMC Genomics_ 2011.
 - **Zuguang Gu**, Chenyu Zhang, Jin Wang, [Gene regulation is governed by a core network in hepatocellular carcinoma](https://doi.org/10.1186/1752-0509-6-32). BMC systems biology 2012.
 - Lingyun Zhu, Qiang Wang, Lin Zhang, Zhixiang Fang, Fang Zhao, Zhiyuan Lv, **Zuguang Gu**, Junfeng Zhang, Jin Wang, Ke Zen, Yang Xiang, Dongjin Wang, Chen-Yu Zhang, [Hypoxia induces PGC-1α expression and mitochondrial biogenesis in the myocardium of TOF patients](https://doi.org/10.1038/cr.2010.46). _Cell Research_ 2010.
 
+### 引用统计
+
+累计引用量与日增引用量。
+
+<img src="/lab-cn/publication_files/figure-html/unnamed-chunk-2-1.png" width="960" />
+
+全球引用地图。
+
+<img src="/lab-cn/publication_files/figure-html/unnamed-chunk-3-1.png" width="960" />
+
