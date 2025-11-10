@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Block annotation over several slices 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/07/06/block-annotation-over-several-slices/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Block annotation over several slices </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · July 2020
+    </div>
+  
+
+  <div class="entry-content">
+    <p>In <strong>ComplexHeatmap</strong> package, <code>anno_block()</code> function draws rectangles for
+row/column slices, like in the following plot. Then what if we want to draw the
+rectangles over several slices to show they belong to certain groups?</p>
+<pre><code class="language-r">set.seed(123)
+mat = matrix(rnorm(50*50), nrow = 50)
+library(ComplexHeatmap)
+ha = HeatmapAnnotation(foo = anno_block(gp = gpar(fill = 2:6), labels = LETTERS[1:5]))
+split = rep(1:5, each = 10)
+Heatmap(mat, name = &quot;mat&quot;, column_split = split, top_annotation = ha, 
+	column_title = NULL)
+</code></pre>
+<img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" />
+<p>Currently, it is difficult to directly support it in <code>anno_block()</code>, however,
+there is workaround for it. Actually, to draw rectangles across several
+slices, we need to know two things: 1. the positions of the slices in the
+plot, and 2. space to draw the rectangles. Luckily, the positions can be
+obtained by directly go to the correspoding viewport and the space can be
+allocated by <code>anno_empty()</code> function.</p>
+<p>In the following code, we use <code>anno_empty()</code> to create an empty annotation:</p>
+<pre><code class="language-r">ha = HeatmapAnnotation(
+	empty = anno_empty(border = FALSE),
+	foo = anno_block(gp = gpar(fill = 2:6), labels = LETTERS[1:5])
+)
+Heatmap(mat, name = &quot;mat&quot;, column_split = split, top_annotation = ha, 
+	column_title = NULL)
+</code></pre>
+<img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" />
+<p>Let&rsquo;s say, we want to put the first three column slices as a group and the last two
+slices as the second group.</p>
+<p>The positions of the first and the third slicesm for annotation <code>&quot;empty&quot;</code> can be obtained by:</p>
+<pre><code class="language-r">seekViewport(&quot;annotation_empty_1&quot;)
+loc1 = deviceLoc(x = unit(0, &quot;npc&quot;), y = unit(0, &quot;npc&quot;))
+seekViewport(&quot;annotation_empty_3&quot;)
+loc2 = deviceLoc(x = unit(1, &quot;npc&quot;), y = unit(1, &quot;npc&quot;))
+loc2
+</code></pre>
+<pre><code>## $x
+## [1] 4.07403126835173inches
+## 
+## $y
+## [1] 6.51051067246731inches
+</code></pre>
+<p>The viewport name <code>&quot;annotation_empty_1&quot;</code> correspond to the first slice for
+annotation <code>empty</code>, and we take the left bottom of the first &ldquo;empty&rdquo;
+annotation slice and the top right of the third slice, saved in <code>loc1</code> and
+<code>loc2</code> variables.</p>
+<p>Here what is important is the use of <code>grid::deviceLoc()</code> function. It directly
+converts a location measured in a certain viewport to the position in
+the graphics device.</p>
+<p>In the end, we go to the <code>&quot;global&quot;</code> viewport because the size of <code>&quot;global&quot;</code>
+viewport is the size of the graphics device, and draw the rectangle and add
+label.</p>
+<pre><code class="language-r">seekViewport(&quot;global&quot;)
+grid.rect(loc1$x, loc1$y, width = loc2$x - loc1$x, height = loc2$y - loc1$y, 
+	just = c(&quot;left&quot;, &quot;bottom&quot;), gp = gpar(fill = &quot;red&quot;))
+grid.text(&quot;group 1&quot;, x = (loc1$x + loc2$x)*0.5, y = (loc1$y + loc2$y)*0.5)
+</code></pre>
+<img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" />
+<p>The viewport names for the annotations are in a fixed format, which is
+<code>annotation_{annotation_name}_{slice_index}</code>. The full set of viewport names
+can be obtained by <code>list_components()</code> function.</p>
+<pre><code class="language-r">list_components()
+</code></pre>
+<pre><code>##  [1] &quot;ROOT&quot;                        &quot;global&quot;                     
+##  [3] &quot;global_layout&quot;               &quot;global-heatmaplist&quot;         
+##  [5] &quot;main_heatmap_list&quot;           &quot;heatmap_mat&quot;                
+##  [7] &quot;mat_heatmap_body_wrap&quot;       &quot;mat_heatmap_body_1_1&quot;       
+##  [9] &quot;mat_heatmap_body_1_2&quot;        &quot;mat_heatmap_body_1_3&quot;       
+## [11] &quot;mat_heatmap_body_1_4&quot;        &quot;mat_heatmap_body_1_5&quot;       
+## [13] &quot;mat_dend_row_1&quot;              &quot;mat_dend_column_1&quot;          
+## [15] &quot;mat_dend_column_2&quot;           &quot;mat_dend_column_3&quot;          
+## [17] &quot;mat_dend_column_4&quot;           &quot;mat_dend_column_5&quot;          
+## [19] &quot;annotation_empty_1&quot;          &quot;annotation_foo_1&quot;           
+## [21] &quot;annotation_empty_2&quot;          &quot;annotation_foo_2&quot;           
+## [23] &quot;annotation_empty_3&quot;          &quot;annotation_foo_3&quot;           
+## [25] &quot;annotation_empty_4&quot;          &quot;annotation_foo_4&quot;           
+## [27] &quot;annotation_empty_5&quot;          &quot;annotation_foo_5&quot;           
+## [29] &quot;global-heatmap_legend_right&quot; &quot;heatmap_legend&quot;
+</code></pre>
+<p>If more than one group-level rectangles are to be added, we can wrap the code
+into a simple function <code>group_block_anno()</code>:</p>
+<pre><code class="language-r">ha = HeatmapAnnotation(
+	empty = anno_empty(border = FALSE, height = unit(8, &quot;mm&quot;)),
+	foo = anno_block(gp = gpar(fill = 2:6), labels = LETTERS[1:5])
+)
+Heatmap(mat, name = &quot;mat&quot;, column_split = split, top_annotation = ha, 
+	column_title = NULL)
+
+group_block_anno = function(group, empty_anno, gp = gpar(), 
+	label = NULL, label_gp = gpar()) {
+
+	seekViewport(qq(&quot;annotation_@{empty_anno}_@{min(group)}&quot;))
+	loc1 = deviceLoc(x = unit(0, &quot;npc&quot;), y = unit(0, &quot;npc&quot;))
+	seekViewport(qq(&quot;annotation_@{empty_anno}_@{max(group)}&quot;))
+	loc2 = deviceLoc(x = unit(1, &quot;npc&quot;), y = unit(1, &quot;npc&quot;))
+
+	seekViewport(&quot;global&quot;)
+	grid.rect(loc1$x, loc1$y, width = loc2$x - loc1$x, height = loc2$y - loc1$y, 
+		just = c(&quot;left&quot;, &quot;bottom&quot;), gp = gp)
+	if(!is.null(label)) {
+		grid.text(label, x = (loc1$x + loc2$x)*0.5, y = (loc1$y + loc2$y)*0.5, gp = label_gp)
+	}
+}
+
+group_block_anno(1:3, &quot;empty&quot;, gp = gpar(fill = &quot;red&quot;), label = &quot;group 1&quot;)
+group_block_anno(4:5, &quot;empty&quot;, gp = gpar(fill = &quot;blue&quot;), label = &quot;group 2&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;" />
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

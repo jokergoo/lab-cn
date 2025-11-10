@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Which heatmap function is faster? 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/06/19/which-heatmap-function-is-faster/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Which heatmap function is faster? </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · June 2020
+    </div>
+  
+
+  <div class="entry-content">
+    <p>In this post I test the performance (the running time) of four heatmap
+functions: <code>gplots::heatmap.2()</code>, <code>heatmap()</code> which is natively supported in R,
+<code>ComplexHeatmap::Heatmap()</code> and <code>pheatmap::pheatmap()</code>.</p>
+<p>We generate a 1000x1000 random matrix.</p>
+<pre><code class="language-r">library(ComplexHeatmap)
+library(pheatmap)
+library(gplots)
+library(microbenchmark)
+
+set.seed(123)
+n = 1000
+mat = matrix(rnorm(n*n), nrow = n)
+</code></pre>
+<p>First I test drawing heatmaps as well as drawing dendrograms (with applying
+clustering):</p>
+<pre><code class="language-r">t1 = microbenchmark(
+	&quot;heatmap()&quot; = {
+		pdf(NULL) 
+		heatmap(mat) 
+		dev.off()
+	},
+	&quot;heatmap.2()&quot; = {
+		pdf(NULL) 
+		heatmap.2(mat, trace = &quot;none&quot;) 
+		dev.off()
+	},
+	&quot;Heatmap()&quot; = {
+		pdf(NULL)
+		draw(Heatmap(mat)) 
+		dev.off()
+	},
+	&quot;pheatmap()&quot; = {
+		pdf(NULL) 
+		pheatmap(mat)
+		dev.off()
+	},
+	times = 5
+)
+print(t1, unit = &quot;s&quot;)
+</code></pre>
+<pre><code>## Unit: seconds
+##         expr   min    lq  mean median    uq   max neval
+##    heatmap() 1.086 1.108 1.123  1.112 1.119 1.191     5
+##  heatmap.2() 1.208 1.216 1.227  1.216 1.245 1.249     5
+##    Heatmap() 2.026 2.092 2.239  2.108 2.316 2.652     5
+##   pheatmap() 1.041 1.062 1.253  1.081 1.120 1.963     5
+</code></pre>
+<p>The running time for all four heatmap functions looks similar, it might due to that
+clustering uses most of the running time. <code>Heatmap()</code> runs the longest, perhaps
+because <code>Heatmap()</code> applies additional manipulations on the dendrograms such as
+dendrogram reordering.</p>
+<p>Next I suppress the clustering on both rows and columns and with no dendrogram.</p>
+<pre><code class="language-r">t2 = microbenchmark(
+	&quot;heatmap()&quot; = {
+		pdf(NULL)
+		heatmap(mat, Rowv = NA, Colv = NA)
+		dev.off()
+	},
+	&quot;heatmap.2()&quot; = {
+		pdf(NULL)
+		heatmap.2(mat, dendrogram = &quot;none&quot;, trace = &quot;none&quot;)
+		dev.off()
+	},
+	&quot;Heatmap()&quot; = {
+		pdf(NULL)
+		draw(Heatmap(mat, cluster_rows = FALSE, cluster_columns = FALSE))
+		dev.off()
+	},
+	&quot;pheatmap()&quot; = {
+		pdf(NULL)
+		pheatmap(mat, cluster_rows = FALSE, cluster_cols = FALSE)
+		dev.off()
+	},
+	times = 5
+)
+print(t2, unit = &quot;s&quot;)
+</code></pre>
+<pre><code>## Unit: seconds
+##         expr     min      lq    mean  median      uq     max neval
+##    heatmap() 0.06572 0.06697 0.06827 0.06854 0.06965 0.07045     5
+##  heatmap.2() 1.01206 1.01250 1.02451 1.02615 1.02971 1.04213     5
+##    Heatmap() 0.63882 0.70302 0.70789 0.70660 0.71154 0.77945     5
+##   pheatmap() 0.30356 0.31478 0.49993 0.32006 0.32127 1.23999     5
+</code></pre>
+<p>Now <code>heatmap.2()</code> now is the slowest if only draw the heatmap bodies.</p>
+<p>Next I perform clustering in advance and send the clustering objects to the heatmap
+functions. In this setting, dendrograms are also drawn along with the heatmaps.</p>
+<pre><code class="language-r">row_hc = hclust(dist(mat))
+col_hc = hclust(dist(t(mat)))
+</code></pre>
+<pre><code class="language-r">t3 = microbenchmark(
+	&quot;heatmap()&quot; = {
+		pdf(NULL)
+		heatmap(mat, Rowv = as.dendrogram(row_hc), Colv = as.dendrogram(col_hc))
+		dev.off()
+	},
+	&quot;heatmap.2()&quot; = {
+		pdf(NULL)
+		heatmap.2(mat, Rowv = row_hc, Colv = col_hc, trace = &quot;none&quot;)
+		dev.off()
+	},
+	&quot;Heatmap()&quot; = {
+		pdf(NULL)
+		draw(Heatmap(mat, cluster_rows = row_hc, cluster_columns = col_hc))
+		dev.off()
+	},
+	&quot;pheatmap()&quot; = {
+		pdf(NULL)
+		pheatmap(mat, cluster_rows = row_hc, cluster_cols = col_hc)
+		dev.off()
+	},
+	times = 5
+)
+print(t3, unit = &quot;s&quot;)
+</code></pre>
+<pre><code>## Unit: seconds
+##         expr    min     lq   mean median     uq    max neval
+##    heatmap() 0.2581 0.2663 0.2697 0.2745 0.2745 0.2749     5
+##  heatmap.2() 1.0431 1.0634 1.1048 1.1203 1.1308 1.1663     5
+##    Heatmap() 1.1672 1.1731 1.2106 1.1865 1.2222 1.3039     5
+##   pheatmap() 0.3184 0.3263 0.5307 0.3855 0.3875 1.2358     5
+</code></pre>
+<p>Finally I put the mean running time into a table for easy comparison:</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+          <th style="text-align: left"></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"></td>
+          <td style="text-align: left"><code>heatmap()</code></td>
+          <td style="text-align: left"><code>heatmap.2()</code></td>
+          <td style="text-align: left"><code>Heatmap()</code></td>
+          <td style="text-align: left"><code>pheatmap()</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">do clustering, draw dendrograms</td>
+          <td style="text-align: left"><code>1.12s</code></td>
+          <td style="text-align: left"><code>1.23s</code></td>
+          <td style="text-align: left"><strong><code>2.24s</code></strong></td>
+          <td style="text-align: left"><code>1.25s</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">no clusteirng, no dendrogram</td>
+          <td style="text-align: left"><code>0.07s</code></td>
+          <td style="text-align: left"><strong><code>1.02s</code></strong></td>
+          <td style="text-align: left"><code>0.71s</code></td>
+          <td style="text-align: left"><code>0.50s</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">only draw dendrograms</td>
+          <td style="text-align: left"><code>0.27s</code></td>
+          <td style="text-align: left"><code>1.10s</code></td>
+          <td style="text-align: left"><strong><code>1.21s</code></strong></td>
+          <td style="text-align: left"><code>0.53s</code></td>
+      </tr>
+  </tbody>
+</table>
+<p>The following plots illustrate the mean running time for the four matrices with different dimensions.</p>
+<img src="/lab-cn/post/2020-06-19-which-heatmap-function-is-faster_files/figure-html/unnamed-chunk-10-1.png" width="700px" style="display: block; margin: auto;" />
+<p>Session info:</p>
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+<pre><code>## R version 4.4.2 (2024-10-31)
+## Platform: aarch64-apple-darwin20
+## Running under: macOS 26.0.1
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## 
+## locale:
+## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+## [1] cowplot_1.1.3         ggplot2_3.5.2         microbenchmark_1.5.0 
+## [4] gplots_3.2.0          pheatmap_1.0.13       ComplexHeatmap_2.25.2
+## [7] GetoptLong_1.0.5      knitr_1.50            colorout_1.3-2       
+## 
+## loaded via a namespace (and not attached):
+##  [1] gtable_0.3.6        circlize_0.4.16     shape_1.4.6.1      
+##  [4] rjson_0.2.23        xfun_0.51           bslib_0.9.0        
+##  [7] GlobalOptions_0.1.2 caTools_1.18.3      Cairo_1.6-2        
+## [10] vctrs_0.6.5         tools_4.4.2         bitops_1.0-9       
+## [13] generics_0.1.3      stats4_4.4.2        parallel_4.4.2     
+## [16] tibble_3.2.1        cluster_2.1.6       pkgconfig_2.0.3    
+## [19] KernSmooth_2.23-24  RColorBrewer_1.1-3  S4Vectors_0.44.0   
+## [22] lifecycle_1.0.4     compiler_4.4.2      farver_2.1.2       
+## [25] munsell_0.5.1       codetools_0.2-20    clue_0.3-66        
+## [28] htmltools_0.5.8.1   sass_0.4.9          yaml_2.3.10        
+## [31] pillar_1.10.1       crayon_1.5.3        jquerylib_0.1.4    
+## [34] cachem_1.1.0        magick_2.8.5        iterators_1.0.14   
+## [37] foreach_1.5.2       gtools_3.9.5        tidyselect_1.2.1   
+## [40] digest_0.6.37       dplyr_1.1.4         bookdown_0.44      
+## [43] labeling_0.4.3      fastmap_1.2.0       colorspace_2.1-1   
+## [46] cli_3.6.4           magrittr_2.0.3      withr_3.0.2        
+## [49] scales_1.3.0        rmarkdown_2.29      matrixStats_1.5.0  
+## [52] blogdown_1.19       png_0.1-8           evaluate_1.0.3     
+## [55] IRanges_2.40.1      doParallel_1.0.17   rlang_1.1.5        
+## [58] Rcpp_1.0.14         glue_1.8.0          BiocGenerics_0.52.0
+## [61] jsonlite_1.9.0      R6_2.6.1
+</code></pre>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
+
+
+

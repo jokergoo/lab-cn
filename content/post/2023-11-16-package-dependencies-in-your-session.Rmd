@@ -1,0 +1,256 @@
+---
+title: "Package dependencies in your session"
+date: 2023-11-16
+author: Zuguang Gu
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 5,
+    fig.height = 5,
+    fig.align = "center"
+)
+options("width" = 100)
+```
+
+It has almost been a standard to put `sessionInfo()` to the end of the R markdown document to keep track
+of the environment where the analysis is done. `sessionInfo()` prints a list of packages that are loaded to the
+R session directly or indirectly. But how about the dependency relations among those packages? In this blog post,
+let's check it out.
+
+
+Let's open a new R session and only load the **ggplot2** package:
+
+```{r, eval = FALSE}
+library(ggplot2)
+```
+
+Next we obtain the session info by the `sessionInfo()` function:
+
+```{r, eval = FALSE}
+x1 = sessionInfo()
+```
+
+```{r, echo = FALSE}
+load("ggplot2_session.RData")
+```
+
+Let's print `x1`:
+
+```{r}
+x1
+```
+
+It seems only a few packages are loaded in the session.
+
+`x1` is an R object as a list with several elements that correspond to the packages that are loaded directly
+or indirectly. Packages in session are put into three groups:
+
+- base packages: Base packages shipped with R, e.g. **grid**, **methods**. Note packages like **lattice** or **MASS**, although
+   also shipped with R, they are "recommended packages".
+- other packages: Other packages e.g. which you load by `library()`. They will be visible on the search path (by `search()`).
+- loaded packages: Other packages which are also loaded into the R session by "other packages", but not visible on the search path.
+
+
+```{r}
+base_pkgs = x1$basePkgs
+other_pkgs = sapply(x1$otherPkgs, function(x) x$Package)
+loaded_pkgs = sapply(x1$loadedOnly, function(x) x$Package)
+```
+
+For the packages in session, we need to know their dependency relations. Here we use the **pkgndep** package.
+All the packages installed locally are used as the "package database" for querying dependencies.
+
+```{r}
+library(pkgndep)
+db = reformat_db(installed.packages())
+```
+
+Now we go through every "other packages" and obtain its direct and remote dependencies. Here we only use
+the "strong" dependencies, i.e. the packages with dependency relations of "Depends", "Imports" and "LinkingTo".
+
+```{r}
+mat = matrix(nrow = 0, ncol = 3)
+
+for(pkg in other_pkgs) {
+    mat = rbind(mat, db$package_dependencies(pkg, recursive = TRUE, which = "strong"))
+}
+mat = unique(mat)
+```
+
+Base packages are bound to R, so we remove the dependency relation from base packages. And
+we only restrict the packages to "other packages" and "loaded packages".
+
+```{r}
+all_pkgs = c(other_pkgs, loaded_pkgs)
+mat = mat[mat[, 1] %in% all_pkgs & mat[, 2] %in% all_pkgs, , drop = FALSE]
+mat = mat[!mat[, 1] %in% pkgndep:::BASE_PKGS | mat[, 2] %in% pkgndep:::BASE_PKGS, , drop = FALSE]
+head(mat)
+```
+
+Next we use the **DiagrammeR** package to visualize the dependency diagram. We first generate the DOT code:
+
+```{r}
+all_nodes = unique(c(mat[, 1], mat[, 2], other_pkgs, loaded_pkgs))
+node_col = rep("black", length(all_nodes))
+node_col[all_nodes %in% other_pkgs] = "red"
+node_col[all_nodes %in% loaded_pkgs] = "blue"
+
+library(glue)
+nodes = glue("  \"{all_nodes}\" [color=\"{node_col}\"];", collapse = FALSE)
+
+dep_col = c(2, 4, 3, 5, 6)
+dep_col = rgb(t(col2rgb(dep_col)), max = 255)
+names(dep_col) = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")
+
+edges = glue("  \"{mat[, 1]}\" -> \"{mat[, 2]}\" [color=\"{dep_col[mat[, 3]]}\"];", collapse = FALSE)
+
+dot = paste(
+    c("digraph {",
+      "  nodesep=0.05",
+      "  rankdir=LR;", 
+      "  graph [overlap = true];",
+      "  node[shape = box];",
+      nodes,
+      edges,
+      "}"),
+    collapse = "\n"
+)
+cat(dot)
+```
+
+Then we send the DOT code to `grViz()` function.
+
+```{r}
+DiagrammeR::grViz(dot)
+```
+
+It looks like the dependency relations are complicated than
+simply listing the packages. There are also isolated packages in the diagram
+that are not connected to **ggplot2**, e.g. **dplyr**. They
+are loaded to the R session as "weak dependencies" indirectly by **ggplot2**
+or its upstream packages.
+
+
+We wrap the code as a function which we will use repeatedly. Internally, we call `library(pkg)` in a
+fresh R session by using the **callr** package.
+
+```{r}
+loaded_pkgs = function(pkg) {
+    for(i in seq_along(pkg)) {
+        library(pkg[i], character.only=TRUE)
+    }
+    session_info = sessionInfo()
+
+    base_pkgs = session_info$basePkgs
+    other_pkgs = sapply(session_info$otherPkgs, function(x)x$Package)
+    loaded_pkgs = sapply(session_info$loadedOnly, function(x)x$Package)
+
+    lt = list(base_pkgs = base_pkgs,
+              other_pkgs = other_pkgs,
+              loaded_pkgs = loaded_pkgs)
+
+    jsonlite::toJSON(lt)
+}
+
+dep_in_session = function(pkg, db, dep_group = "strong", rankdir = "LR") {
+
+    session_info = jsonlite::fromJSON(callr::r(loaded_pkgs, args = list(pkg = pkg)))
+
+    base_pkgs = session_info$base_pkgs
+    other_pkgs = session_info$other_pkgs
+    loaded_pkgs = session_info$loaded_pkgs
+
+    mat = matrix(nrow = 0, ncol = 3)
+
+    for(pkg in other_pkgs) {
+        mat = rbind(mat, db$package_dependencies(pkg, recursive = TRUE, which = dep_group))
+    }
+    mat = unique(mat)
+    mat = mat[!mat[, 1] %in% pkgndep:::BASE_PKGS | mat[, 2] %in% pkgndep:::BASE_PKGS, , drop = FALSE]
+
+    all_pkgs = c(other_pkgs, loaded_pkgs)
+    mat = mat[mat[, 1] %in% all_pkgs & mat[, 2] %in% all_pkgs, , drop = FALSE]
+
+    all_nodes = unique(c(mat[, 1], mat[, 2], other_pkgs, loaded_pkgs))
+    node_col = rep("black", length(all_nodes))
+    node_col[all_nodes %in% other_pkgs] = "red"
+    node_col[all_nodes %in% loaded_pkgs] = "blue"
+
+    nodes = glue::glue("  \"{all_nodes}\" [color=\"{node_col}\"];", collapse = FALSE)
+
+    dep_col = c(2, 4, 3, 5, 6)
+    dep_col = rgb(t(col2rgb(dep_col)), max = 255)
+    names(dep_col) = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")
+
+    edges = glue::glue("  \"{mat[, 1]}\" -> \"{mat[, 2]}\" [color=\"{dep_col[mat[, 3]]}\"];", collapse = FALSE)
+
+    dot = paste(
+        c("digraph {",
+          "  nodesep=0.05",
+          glue::glue("  rankdir={rankdir};"), 
+          "  graph [overlap = true];",
+          "  node[shape = box];",
+          nodes,
+          edges,
+          "}"),
+        collapse = "\n"
+    )
+
+    DiagrammeR::grViz(dot)
+}
+```
+
+In the previous example, we only consider "strong dependency relations" upstream of **ggplot2**.
+What if we include all dependency relations?
+
+```{r, fig.width = 12}
+dep_in_session("ggplot2", db = db, dep_group = "all")
+```
+
+It becomes much more complicated! Especially we can see there are many bi-directional dependencies,
+e.g. `A <-> B` where A is a strong dependency of B, and B is a weak dependency of A.
+
+
+Next let's check a Bioconductor package **DESeq2**.
+
+
+We first only consider the strong dependencies upstream of **DESeq2**.
+
+
+```{r, fig.width = 10, fig.height = 8}
+dep_in_session("DESeq2", db = db, dep_group = "strong")
+```
+
+It is already very complicated, but still interesting that **DESeq2**'s
+dependencies can be nicely separated into two groups. The first group is related
+to Bioconductor packages and a lot of them are directly attached to the search
+path (red box: visible in search path; red link: the "Depends" relation);
+while the second group is mainly related to **ggplot2** and its upstream packages,
+which all are loaded indirectly into the R session (blue link: the "Imports" relation).
+
+And what if we include all dependency types? Now we need to change the layout to "top-bottom" style.
+As we can see, a simple command `library(DESeq2)` brings a dependency monster to your R session.
+
+```{r, fig.width = 8, fig.height = 16}
+dep_in_session("DESeq2", db = db, dep_group = "all", rankdir = "TB")
+```
+
+Last, let's check when freshly loading a very heavy package **Seurat**.
+
+
+```{r, fig.width = 8, fig.height = 16}
+dep_in_session("Seurat", db = db, dep_group = "strong")
+```
+
+And you can try the moster below. I will not execute it in this document.
+
+```{r, eval = FALSE}
+dep_in_session("Seurat", db = db, dep_group = "all")
+```
+

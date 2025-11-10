@@ -1,0 +1,80 @@
+---
+title: "Visualize CPAN modules with Hilbert curve"
+date: 2023-01-09
+---
+
+
+
+<p>There is a nice visualization of CPAN (Perl) modules with the Hilbert curve on <a href="http://mapofcpan.org/" class="uri">http://mapofcpan.org/</a>. In this post, I will
+demonstrate how to make the plot with the <strong>HilbertCurve</strong> package.</p>
+<p>We first read the list of CPAN modules. The information is in the <code>02packages.details.txt</code> file which
+can be directly accessed with the following link:</p>
+<pre class="r"><code>df = read.table(url(&quot;https://www.cpan.org/modules/02packages.details.txt&quot;), skip = 9)
+head(df)</code></pre>
+<pre><code>##                     V1    V2                                            V3
+## 1            A1z::Html  0.04              C/CE/CEEJAY/A1z-Html-0.04.tar.gz
+## 2 A1z::HTML5::Template  0.22    C/CE/CEEJAY/A1z-HTML5-Template-0.22.tar.gz
+## 3      A_Third_Package undef           C/CL/CLEMBURG/Test-Unit-0.13.tar.gz
+## 4            AAA::Demo undef      J/JW/JWACH/Apache-FastForward-1.1.tar.gz
+## 5            AAA::eBay undef      J/JW/JWACH/Apache-FastForward-1.1.tar.gz
+## 6                 AAAA undef P/PR/PRBRENAN/Data-Table-Text-20210818.tar.gz</code></pre>
+<p>The modules are listed in the first column. We also sort it alphabetically.</p>
+<pre class="r"><code>all_modules = sort(df[, 1])</code></pre>
+<p>We take the “namespace” of the module which is the string before the first “::”:</p>
+<pre class="r"><code>ns = gsub(&quot;::.*$&quot;, &quot;&quot;, all_modules)</code></pre>
+<p>Next we will put every value in <code>ns</code> in a Hilbert curve. First let’s convert it into an <code>Rle</code> object:</p>
+<pre class="r"><code>library(IRanges)
+r = Rle(ns)</code></pre>
+<p>Now in <code>r</code>, each element corresponds to an unique namespace in <code>ns</code>, and the length or the width of the namespace in <code>ns</code> is also calculated. Let’s get these values:</p>
+<pre class="r"><code>s = start(r)          # start position of each ns in r
+e = end(r)            # end position of each ns in r
+w = width(r)          # width of each ns in r
+labels = runValue(r)  # corresponding labels</code></pre>
+<p>Now we can visualize it via the <strong>HilbertCurve</strong> package. We wil highlight the top 30 namespaces with the largest number of modules.</p>
+<pre class="r"><code>library(HilbertCurve)
+
+ind = order(w, decreasing = TRUE)[1:30]
+w_cutoff = w[ ind[30] ]
+
+set.seed(123)  # because we have randomm colors
+hc = HilbertCurve(0, length(all_modules), level = 8, mode = &quot;pixel&quot;)
+hc_layer(hc, x1 = s, x2 = e, 
+	col = circlize::rand_color(nrun(r), transparency = ifelse(w &gt;= w_cutoff, 0, 0.8)))
+hc_text(hc, x1 = s[ind], x2 = e[ind], labels = labels[ind], 
+	gp = gpar(fontsize = 9))</code></pre>
+<p><img src="/post/2023-01-09-visualize-cpan-modules-with-hilbert-curve_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 4.2.0 (2022-04-22)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Big Sur/Monterey 10.16
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] C/UTF-8/C/C/C/C
+## 
+## attached base packages:
+## [1] grid      stats4    stats     graphics  grDevices utils     datasets 
+## [8] methods   base     
+## 
+## other attached packages:
+## [1] HilbertCurve_1.28.0 IRanges_2.32.0      S4Vectors_0.36.1   
+## [4] BiocGenerics_0.44.0 knitr_1.41          colorout_1.2-2     
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.9             highr_0.9              bslib_0.4.2           
+##  [4] compiler_4.2.0         jquerylib_0.1.4        GenomeInfoDb_1.34.4   
+##  [7] XVector_0.38.0         HilbertVis_1.56.0      bitops_1.0-7          
+## [10] tools_4.2.0            zlibbioc_1.44.0        digest_0.6.31         
+## [13] lattice_0.20-45        jsonlite_1.8.4         evaluate_0.19         
+## [16] lifecycle_1.0.3        png_0.1-8              rlang_1.0.6           
+## [19] cli_3.4.1              yaml_2.3.6             blogdown_1.16         
+## [22] xfun_0.35              fastmap_1.1.0          GenomeInfoDbData_1.2.9
+## [25] stringr_1.5.0          GlobalOptions_0.1.2    vctrs_0.5.1           
+## [28] sass_0.4.4             glue_1.6.2             R6_2.5.1              
+## [31] rmarkdown_2.19         bookdown_0.31          polylabelr_0.2.0      
+## [34] magrittr_2.0.3         htmltools_0.5.4        GenomicRanges_1.50.2  
+## [37] shape_1.4.6            colorspace_2.0-3       circlize_0.4.16       
+## [40] stringi_1.7.8          RCurl_1.98-1.9         cachem_1.0.6</code></pre>

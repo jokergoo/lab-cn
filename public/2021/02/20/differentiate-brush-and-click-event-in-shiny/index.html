@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Differentiate brush and click event in Shiny 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2021/02/20/differentiate-brush-and-click-event-in-shiny/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Differentiate brush and click event in Shiny </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · February 2021
+    </div>
+  
+
+  <div class="entry-content">
+    <p>I am recently developing a package
+<a href="https://github.com/jokergoo/InteractiveComplexHeatmap"><strong>InteractiveComplexHeatmap</strong></a>
+which generates interactive heatmaps as Shiny apps. One basic interactivity on
+heatmap is to click on heatmap cells or to select a region from it. Shiny
+allows to set <code>click</code> and <code>brush</code> arguments in <code>plotOutput()</code> to perform
+clicking or brushing on the heatmap image, and on the server side, to respond
+to these two actions. In <strong>InteractiveComplexHeatmap</strong>, I defined an action to
+respond to click event and an action to respond to brush event. However, there is
+one big problem that is brushing on heatmap is always intialized with a click
+action, so when brushing on heatmap, both the response for click and brush
+will be executed. This problem can be ignored by using <code>dbclick</code> (double
+click) instead of <code>click</code>, but double click is not user-friendly.</p>
+<p>I demonstrate this problem with the following app:</p>
+<pre><code class="language-r">library(shiny)
+library(grid)
+library(glue)
+library(circlize)
+
+ui = fluidPage(
+	plotOutput(&quot;plot&quot;, width = 600, height = 400,
+		click = &quot;click&quot;, brush = &quot;brush&quot;),
+	
+	fluidRow(
+	    column(3, htmlOutput(&quot;output1&quot;)),
+		column(3, htmlOutput(&quot;output2&quot;))
+	)
+)
+
+server = function(input, output, session) {
+	output$plot = renderPlot({
+		grid.newpage()
+		grid.rect()
+	})
+
+	observeEvent(input$click, {
+		output$output1 = renderText({
+			isolate(glue(&quot;
+&lt;pre style='background-color:{rand_color(1)}'&gt;
+a click:
+input$click$coords_css$x = {input$click$coords_css$x}
+input$click$coords_css$y = {input$click$coords_css$y}&lt;/pre&gt;&quot;))
+		})
+	})
+
+
+	observeEvent(input$brush, {
+		output$output2 = renderText({
+			isolate(glue(&quot;
+&lt;pre style='background-color:{rand_color(1)}'&gt;
+a brush:
+input$brush$coords_css$xmin = {input$brush$coords_css$xmin}
+input$brush$coords_css$ymin = {input$brush$coords_css$ymin}
+input$brush$coords_css$xmax = {input$brush$coords_css$xmax}
+input$brush$coords_css$ymax = {input$brush$coords_css$ymax}&lt;/pre&gt;&quot;))
+		})
+	})
+}
+
+shinyApp(ui, server)
+</code></pre>
+<p>The plot output only contains a rectangle. Both <code>click</code> and <code>brush</code>
+are turned on. Clicking or brushing on the plot prints the coordinates.
+The two output blocks (<code>output1</code> and <code>output2</code>) are assigned with
+random colors to highlight different clicks or brushes.</p>
+<p>As shown in following figure, every time when brushing on the plot,
+the output for click also changes correspondingly.</p>
+<p><img src="https://user-images.githubusercontent.com/449218/108605372-fe6f9d80-73b3-11eb-8192-03ceb8416aa5.gif" alt=""></p>
+<p>Unfortunately, <code>plotOutput()</code> does not support to differentiate <code>click</code>
+and <code>brush</code>, see <a href="https://stackoverflow.com/questions/30527977/ggplot2-how-to-differentiate-click-from-brush">https://stackoverflow.com/questions/30527977/ggplot2-how-to-differentiate-click-from-brush</a>
+and <a href="https://github.com/rstudio/shiny/issues/947">https://github.com/rstudio/shiny/issues/947</a>.</p>
+<p>After many tries, I figured out how to differentiate <code>click</code> and <code>brush</code>. The
+idea is simple. In JavaScript, both click and brush contain two mouse events,
+<code>mousedown</code> and <code>mouseup</code>. <code>mousedown</code> corresponds to the action when you
+click into the mouse and <code>mouseup</code> corresponds to the action when you release
+your finger. The difference between <code>click</code> and <code>brush</code> is <code>click</code> won&rsquo;t
+change the mouse positions between <code>mousedown</code> and <code>mouseup</code>, while <code>brush</code>
+changes. Once we can differentiate <code>click</code> and <code>brush</code>, when either of the two
+actions finishes, we can create or update a reactive value by
+<code>Shiny.setInputValue</code> in JaveScript to trigger the response in Shiny
+server function.</p>
+<p>I demonstrate this idea with the following code. When either of <code>click</code> or
+<code>brush</code> finishes, the reactive variable <code>action</code> is created or updated
+by <code>Shiny.setInputValue('action', Math.random());</code>. In the server function,
+we do not observe <code>input$click</code> or <code>input$brush</code> anymore, while now we
+observe <code>input$action</code>. By comparing the positions of mouse, we can choose
+whether to update click output or brush output.</p>
+<pre><code class="language-r">library(shiny)
+library(grid)
+library(glue)
+library(circlize)
+
+ui = fluidPage(
+	plotOutput(&quot;plot&quot;, width = 600, height = 400,
+		click = &quot;click&quot;, brush = &quot;brush&quot;),
+	tags$script(HTML(&quot;
+		$('#plot').mousedown(function(e) {
+			var parentOffset = $(this).offset();
+			var relX = e.pageX - parentOffset.left;
+			var relY = e.pageY - parentOffset.top;
+			Shiny.setInputValue('x1', relX);
+			Shiny.setInputValue('y1', relY);
+		}).mouseup(function(e) {
+			var parentOffset = $(this).offset();
+			var relX = e.pageX - parentOffset.left;
+			var relY = e.pageY - parentOffset.top;
+			Shiny.setInputValue('x2', relX);
+			Shiny.setInputValue('y2', relY);
+			Shiny.setInputValue('action', Math.random());
+		});
+	&quot;)),
+	fluidRow(
+	    column(3, htmlOutput(&quot;output1&quot;)),
+		column(3, htmlOutput(&quot;output2&quot;))
+	)
+)
+
+server = function(input, output, session) {
+	output$plot = renderPlot({
+		grid.newpage()
+		grid.rect()
+	})
+
+	observeEvent(input$action, {
+		if(input$x1 == input$x2 &amp;&amp; input$y1 == input$y2) {
+			output$output1 = renderText({
+				isolate(glue(&quot;
+&lt;pre style='background-color:{rand_color(1)}'&gt;
+a click:
+x1 = {input$x1}
+y1 = {input$y1}
+x2 = {input$x2}
+y2 = {input$y2}
+input$click$coords_css$x = {input$click$coords_css$x}
+input$click$coords_css$y = {input$click$coords_css$y}&lt;/pre&gt;&quot;))
+			})
+		} else {
+			output$output2 = renderText({
+				isolate(glue(&quot;
+&lt;pre style='background-color:{rand_color(1)}'&gt;
+a brush:
+x1 = {input$x1}
+y1 = {input$y1}
+x2 = {input$x2}
+y2 = {input$y2}
+input$brush$coords_css$xmin = {input$brush$coords_css$xmin}
+input$brush$coords_css$ymin = {input$brush$coords_css$ymin}
+input$brush$coords_css$xmax = {input$brush$coords_css$xmax}
+input$brush$coords_css$ymax = {input$brush$coords_css$ymax}&lt;/pre&gt;&quot;))
+			})
+		}
+	})
+}
+
+shinyApp(ui, server)
+</code></pre>
+<p>As you can see the following figure, now the click and brush are independent. Brushing
+on the plot won&rsquo;t conflict to the clicks.</p>
+<p><img src="https://user-images.githubusercontent.com/449218/108605376-00d1f780-73b4-11eb-97dd-271adf827562.gif" alt=""></p>
+<p>Note, here the aim is to remove click event from brush, thus actually the code
+for brush does not need to be changed (which means we still observe <code>output$brush</code>).
+We can only observe <code>input$action</code> and respond to click only when the mouse
+positions are unchanged (see how <code>observeEvent(input$action, ...)</code> is defined in following code).</p>
+<pre><code class="language-r">ui = fluidPage(
+	plotOutput(&quot;plot&quot;, width = 600, height = 400,
+		click = &quot;click&quot;, brush = &quot;brush&quot;),
+	tags$script(HTML(&quot;
+		$('#plot').mousedown(function(e) {
+			var parentOffset = $(this).offset();
+			var relX = e.pageX - parentOffset.left;
+			var relY = e.pageY - parentOffset.top;
+			Shiny.setInputValue('x1', relX);
+			Shiny.setInputValue('y1', relY);
+		}).mouseup(function(e) {
+			var parentOffset = $(this).offset();
+			var relX = e.pageX - parentOffset.left;
+			var relY = e.pageY - parentOffset.top;
+			Shiny.setInputValue('x2', relX);
+			Shiny.setInputValue('y2', relY);
+			Shiny.setInputValue('action', Math.random());
+		});
+	&quot;)),
+	fluidRow(
+	    column(3, htmlOutput(&quot;output1&quot;)),
+		column(3, htmlOutput(&quot;output2&quot;))
+	)
+)
+
+server = function(input, output, session) {
+	output$plot = renderPlot({
+		grid.newpage()
+		grid.rect()
+	})
+
+	observeEvent(input$action, {
+		if(!(input$x1 == input$x2 &amp;&amp; input$y1 == input$y2)) {
+			return(NULL)
+		}
+
+		output$output1 = renderText({
+			isolate(glue(&quot;
+&lt;pre style='background-color:{rand_color(1)}'&gt;
+a click:
+input$click$coords_css$x = {input$click$coords_css$x}
+input$click$coords_css$y = {input$click$coords_css$y}&lt;/pre&gt;&quot;))
+		})
+	})
+
+
+	observeEvent(input$brush, {
+		output$output2 = renderText({
+			isolate(glue(&quot;
+&lt;pre style='background-color:{rand_color(1)}'&gt;
+a brush:
+input$brush$coords_css$xmin = {input$brush$coords_css$xmin}
+input$brush$coords_css$ymin = {input$brush$coords_css$ymin}
+input$brush$coords_css$xmax = {input$brush$coords_css$xmax}
+input$brush$coords_css$ymax = {input$brush$coords_css$ymax}&lt;/pre&gt;&quot;))
+		})
+	})
+}
+</code></pre>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

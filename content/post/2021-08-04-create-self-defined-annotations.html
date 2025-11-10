@@ -1,0 +1,89 @@
+---
+title: "Create self-defined annotations"
+date: 2021-08-04
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p><strong>ComplexHeatmap</strong> already provides many annotation functions that draw various types of graphics, but still, users might want
+more new types. Here I demonstrate how to create new annotation graphics.</p>
+<p>In the <strong>ComplexHeatmap</strong> book (<a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/heatmap-annotations.html#implement-new-annotation-functions" class="uri">https://jokergoo.github.io/ComplexHeatmap-reference/book/heatmap-annotations.html#implement-new-annotation-functions</a>),
+I have already explained how to create new annotations with the function <code>AnnotationFunction()</code>. Here I demonstrate a simplified way
+to construct a new annotation type which also allows reordering, subsetting and splitting.</p>
+<p>From version 2.9.3, <code>AnnotationFunction()</code> allows a new argument <code>cell_fun</code> which draws graphics in every single “annotation cell”. The value
+for <code>cell_fun</code> is a self-defind graphics function and the only argument is the “current index” of the corresponding heatmap rows or columns.</p>
+<p>In the following example, I will create a new row annotation type which visualizes a list of percentage values by horizontal bars as well as the text
+of the percent values added on top of bars. I first give the function definition of <code>anno_pct()</code> which generate such annotation:</p>
+<pre class="r"><code>library(ComplexHeatmap)
+anno_pct = function(x) {
+    max_x = max(x)
+    text = paste0(sprintf(&quot;%.2f&quot;, x*100), &quot;%&quot;)
+    cell_fun_pct = function(i) {
+        pushViewport(viewport(xscale = c(0, max_x)))
+        grid.roundrect(x = unit(1, &quot;npc&quot;), 
+            width = unit(x[i], &quot;native&quot;), height = unit(1, &quot;npc&quot;) - unit(4, &quot;pt&quot;), 
+            just = &quot;right&quot;, gp = gpar(fill = &quot;#0000FF80&quot;, col = NA))
+        grid.text(text[i], x = unit(1, &quot;npc&quot;), just = &quot;right&quot;)
+        popViewport()
+    }
+
+    AnnotationFunction(
+        cell_fun = cell_fun_pct,
+        var_import = list(max_x, x, text), 
+        which = &quot;row&quot;,
+        width = max_text_width(text)*1.25
+    )
+}</code></pre>
+<p>The code is simple. <code>cell_fun_pct()</code> draws a horizontal bar and a text for the i<sup>th</sup> row. Then <code>cell_fun_pct()</code> is sent to the constructor function
+to generate the new annotation.</p>
+<p>We can test this new annotation function:</p>
+<pre class="r"><code>set.seed(123)
+x = runif(10)
+ha = rowAnnotation(foo = anno_pct(x), annotation_name_rot = 0)
+m = matrix(rnorm(100), 10)
+rownames(m) = round(x, 2)
+ha + Heatmap(m)</code></pre>
+<p><img src="/post/2021-08-04-create-self-defined-annotations_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>And if we split the heatmap rows:</p>
+<pre class="r"><code>ha + Heatmap(m, row_km = 2)</code></pre>
+<p><img src="/post/2021-08-04-create-self-defined-annotations_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>We can make <code>anno_pct()</code> slightly more complex to allow more controls:</p>
+<pre class="r"><code>anno_pct = function(x, bg_gp = gpar(fill = &quot;#8080FF&quot;, col = NA), labels_gp = gpar(), 
+    align_to = &quot;right&quot;, width = NULL) {
+
+    max_x = max(x)
+    text = paste0(sprintf(&quot;%.2f&quot;, x*100), &quot;%&quot;)
+    cell_fun_pct = function(i) {
+        pushViewport(viewport(xscale = c(0, max_x)))
+        if(align_to == &quot;right&quot;) {
+            grid.roundrect(x = unit(1, &quot;npc&quot;), 
+                width = unit(x[i], &quot;native&quot;), height = unit(1, &quot;npc&quot;) - unit(4, &quot;pt&quot;), 
+                just = &quot;right&quot;, gp = subset_gp(bg_gp, i))
+            grid.text(text[i], x = unit(1, &quot;npc&quot;), just = &quot;right&quot;, gp = subset_gp(labels_gp, i))
+        } else {
+            grid.roundrect(x = unit(0, &quot;npc&quot;), 
+                width = unit(x[i], &quot;native&quot;), height = unit(1, &quot;npc&quot;) - unit(4, &quot;pt&quot;), 
+                just = &quot;left&quot;, gp = subset_gp(bg_gp, i))
+            grid.text(text[i], x = unit(0, &quot;npc&quot;), just = &quot;left&quot;, gp = subset_gp(labels_gp, i))
+        }
+        popViewport()
+    }
+
+    if(is.null(width)) {
+        width = max_text_width(text, gp = labels_gp)*1.25
+    }
+    AnnotationFunction(
+        cell_fun = cell_fun_pct,
+        var_import = list(max_x, x, text, labels_gp, align_to, bg_gp), 
+        which = &quot;row&quot;,
+        width = width
+    )
+}</code></pre>
+<pre class="r"><code>ha1 = rowAnnotation(bar = anno_pct(runif(x), labels_gp = gpar(fontsize = 8)), 
+    annotation_name_rot = 0)
+ha2 = rowAnnotation(foo = anno_pct(runif(x), bg_gp = gpar(fill = &quot;orange&quot;), 
+    align_to = &quot;left&quot;, width = unit(3, &quot;cm&quot;)), annotation_name_rot = 0)
+m = matrix(rnorm(100), 10)
+ha1 + ha2 + Heatmap(m)</code></pre>
+<p><img src="/post/2021-08-04-create-self-defined-annotations_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>

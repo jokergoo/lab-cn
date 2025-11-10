@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Set cell width/height in the heatmap 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/05/11/set-cell-width/height-in-the-heatmap/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Set cell width/height in the heatmap </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · May 2020
+    </div>
+  
+
+  <div class="entry-content">
+    <p>When making a heatmap, the width and height of heatmap cells are automatically
+adjusted to fill in the figure (e.g. the following figure), which means, when
+you change the width and height of the final figure, the width and height of
+the cells change accordingly.</p>
+<pre><code class="language-r">library(ComplexHeatmap)
+set.seed(123)
+mat = matrix(rnorm(100), 10)
+Heatmap(mat, name = &quot;mat&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" />
+<p>When the matrix is small, there are scenarios where you might want to manually
+set the width and height of cells to fixed values, so that you can, <em>e.g.</em>,
+put proper row/column labels or to make it easy to compare to other heatmaps
+with different dimensions.</p>
+<p>In <code>Heatmap()</code> function, <strong>the total width and height of the heatmap body</strong>
+can be controlled by the <code>width</code> and <code>height</code> arguments, which means you can
+control the size of the whole heatmap by setting proper values to these two
+arguments. <em>E.g.</em> setting <code>width</code> to <code>ncol(mat)*unit(5, &quot;mm&quot;)</code> and <code>height</code> to
+<code>nrow(mat)*unit(5, &quot;mm&quot;)</code> ensures the cells to be 5mm for both width and
+height.</p>
+<p>To save the plot into an figure file, one problem arising is you need to
+properly calculate the size of the figure to completely place the plot, or
+else the plot is either clipped or there has white spaces around the plot.</p>
+<p>In the following figures, the size of the figure is larger than the size of
+the heatmap. A black border is added to show the size of the figure.</p>
+<style>
+img {
+	border: 1px black solid;
+}
+</style>
+<pre><code class="language-r">Heatmap(mat, name = &quot;mat&quot;, 
+	width = ncol(mat)*unit(5, &quot;mm&quot;), 
+	height = nrow(mat)*unit(5, &quot;mm&quot;))
+</code></pre>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" />
+<p>In <strong>ComplexHeatmap</strong>, the size of the heatmap (including dendrograms, titles
+and legends, &hellip;) can be retrieved by <code>ComplexHeatmap:::width()</code> and
+<code>ComplexHeatmap:::height()</code> functions. Note these two functions currently are
+not exported, so you need to use <code>:::</code> to use them.</p>
+<p>To use <code>ComplexHeatmap:::width()</code> and <code>ComplexHeatmap:::height()</code>, you first
+need to explicitly execute <code>draw()</code> function to perform clustering and
+initialize the layout, then <code>ComplexHeatmap:::width()</code> and
+<code>ComplexHeatmap:::height()</code> and be applied and they return the corresponding
+width and height as <code>grid::unit</code> objects in mm. You can convert to any other
+units by <code>grid::convertX()</code> and <code>grid::convertY()</code> functions.</p>
+<pre><code class="language-r">ht = Heatmap(mat, , name = &quot;mat&quot;, 
+	width = ncol(mat)*unit(5, &quot;mm&quot;), 
+	height = nrow(mat)*unit(5, &quot;mm&quot;))
+ht = draw(ht) # it generates a plot, but we don't show here
+</code></pre>
+<pre><code class="language-r">w = ComplexHeatmap:::width(ht)
+w = convertX(w, &quot;inch&quot;, valueOnly = TRUE)
+h = ComplexHeatmap:::height(ht)
+h = convertY(h, &quot;inch&quot;, valueOnly = TRUE)
+c(w, h)
+</code></pre>
+<pre><code>## [1] 2.968021 2.534097
+</code></pre>
+<p>Now <code>w</code> and <code>h</code> are the sizes of the heatmap, measured in inches which you can
+set in <code>pdf()</code> function. If you save the plot as a PNG plot, then you need to
+convert <code>w</code> and <code>h</code> to a unit of <code>pt</code> (see the help page of <code>grid::unit</code>).</p>
+<pre><code class="language-r"># pdf(..., width = w, height = h)
+Heatmap(mat, name = &quot;mat&quot;, 
+	width = ncol(mat)*unit(5, &quot;mm&quot;), 
+	height = nrow(mat)*unit(5, &quot;mm&quot;))
+</code></pre>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="284.929982382339" style="display: block; margin: auto;" />
+<pre><code class="language-r"># dev.off()
+</code></pre>
+<p>The calculation of heatmap size actually can be wrapped as a function, which
+takes a <code>Heatmap</code> or <code>HeatmapList</code> object as input and returns the
+corresponding width and height.</p>
+<p>In the following <code>calc_ht_size()</code> function, since we don&rsquo;t need the first
+heatmap, we put it into a null device defined by <code>pdf(NULL)</code>.</p>
+<pre><code class="language-r">calc_ht_size = function(ht, unit = &quot;inch&quot;) {
+	pdf(NULL)
+	ht = draw(ht)
+	w = ComplexHeatmap:::width(ht)
+	w = convertX(w, unit, valueOnly = TRUE)
+	h = ComplexHeatmap:::height(ht)
+	h = convertY(h, unit, valueOnly = TRUE)
+	dev.off()
+
+	c(w, h)
+}
+</code></pre>
+<p>Now we can try to use <code>calc_ht_size()</code>.</p>
+<pre><code class="language-r">ht = Heatmap(mat, name = &quot;mat&quot;, 
+		width = ncol(mat)*unit(5, &quot;mm&quot;), 
+		height = nrow(mat)*unit(5, &quot;mm&quot;))
+size = calc_ht_size(ht)
+size
+</code></pre>
+<pre><code>## [1] 2.968021 2.534097
+</code></pre>
+<pre><code class="language-r"># pdf(..., width = size[1], height = size[2])
+ht
+</code></pre>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="284.929982382339" style="display: block; margin: auto;" />
+<pre><code class="language-r"># dev.off()
+</code></pre>
+<p>Similar for a smaller matrix:</p>
+<pre><code class="language-r">mat2 = mat[1:5, 1:5]
+ht2 = Heatmap(mat2, name = &quot;mat2&quot;, 
+		width = ncol(mat2)*unit(5, &quot;mm&quot;), 
+		height = nrow(mat2)*unit(5, &quot;mm&quot;))
+size2 = calc_ht_size(ht2)
+size2
+</code></pre>
+<pre><code>## [1] 1.983769 1.549845
+</code></pre>
+<pre><code class="language-r"># pdf(..., width = size2[1], height = size2[2])
+ht2 # or draw(ht2)
+</code></pre>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="190.441793405961" style="display: block; margin: auto;" />
+<pre><code class="language-r"># dev.off()
+</code></pre>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
+
+
+

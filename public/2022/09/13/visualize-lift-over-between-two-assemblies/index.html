@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Visualize lift over between two assemblies 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2022/09/13/visualize-lift-over-between-two-assemblies/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Visualize lift over between two assemblies </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · September 2022
+    </div>
+  
+
+  <div class="entry-content">
+    <p>In this post, I will simply demonstrate how to visualize lift overs between two assemblies.
+In the package <strong>rtracklayer</strong>, there is a function <code>liftOver()</code> that can convert genomic regions
+according to the mapping encoded in a &ldquo;chain&rdquo; file.</p>
+<p>In the following code, I will demonstrate the lift overs from hg19 to hg38. I first download
+the chain file from UCSC database. Note the <code>.gz</code> file needs to be uncompressed.</p>
+<pre><code class="language-r">library(glue)
+chain_file = &quot;https://hgdownload.soe.ucsc.edu/gbdb/hg19/liftOver/hg19ToHg38.over.chain.gz&quot;
+chain_file_basename = basename(chain_file)
+tmp_dir = tempdir()
+local_file = glue(&quot;{tmp_dir}/{chain_file_basename}&quot;)
+download.file(chain_file, destfile = local_file)
+system(glue(&quot;gzip -d -f '{local_file}'&quot;))
+</code></pre>
+<p>Simply use <code>import.chain()</code> to create a <code>Chain</code> object.</p>
+<pre><code class="language-r">library(rtracklayer)
+chain = import.chain(gsub(&quot;\\.gz$&quot;, &quot;&quot;, local_file))
+</code></pre>
+<p>To establish the correspondance between hg19 and hg38, I split hg19 assembly by 5kb windows
+and I look for their corresponding regions in hg38.
+Here <code>read.chromInfo()</code> returns the chromosome lengths of a genome. Of course you can use other ways
+to obtain such information, such as <code>GenomicFeatures::getChromInfoFromUCSC(&quot;hg19&quot;)</code>.</p>
+<pre><code class="language-r">library(circlize)
+genome_df = read.chromInfo(species = &quot;hg19&quot;)$df
+genome_gr = GRanges(seqnames = genome_df[, 1], ranges = IRanges(genome_df[, 2]+1, genome_df[, 3]))
+</code></pre>
+<p>And I split the genome by 5kb window.</p>
+<pre><code class="language-r">library(EnrichedHeatmap)
+genome_bins = makeWindows(genome_gr, w = 5000)
+</code></pre>
+<p>Now I do the lift over. In <code>liftOver()</code>, I simply provide the regions in hg19 and the <code>Chain</code> object.</p>
+<pre><code class="language-r">to_bins = liftOver(genome_bins, chain)
+to_bins
+</code></pre>
+<pre><code>## GRangesList object of length 619122:
+## [[1]]
+## GRanges object with 0 ranges and 2 metadata columns:
+##    seqnames    ranges strand |  .i_query .i_window
+##       &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;integer&gt;
+##   -------
+##   seqinfo: 24 sequences from an unspecified genome; no seqlengths
+## 
+## [[2]]
+## GRanges object with 0 ranges and 2 metadata columns:
+##    seqnames    ranges strand |  .i_query .i_window
+##       &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;integer&gt;
+##   -------
+##   seqinfo: 24 sequences from an unspecified genome; no seqlengths
+## 
+## [[3]]
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames      ranges strand |  .i_query .i_window
+##          &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;integer&gt;
+##   [1]     chr1 10001-15000      * |         1         3
+##   -------
+##   seqinfo: 24 sequences from an unspecified genome; no seqlengths
+## 
+## ...
+## &lt;619119 more elements&gt;
+</code></pre>
+<p>To reduce the numbers of mapped regions, if there are multiple regions in hg38 are mapped to the same 5kb window in hg19,
+if the gap between then is less than 500bp, I just merge them. Also there might be some 5kb windows in hg19 have
+no mapping in hg38. In the following code, I just remove these 5kb windows in hg19 having no mapping in hg38.</p>
+<pre><code class="language-r">to_bins = reduce(to_bins, min = 500)
+n = sapply(start(to_bins), length)
+l = n &gt; 0
+to_bins = to_bins[l]
+genome_bins = genome_bins[l]
+</code></pre>
+<p>Now <code>genome_bin</code> contains a list of 5kb windows in hg19 and <code>to_bins</code> contains the mappings in hg38.
+To visualize the relationships, I convert both objects to data frames. It is very easy to convert <code>genome_bin</code> to a data frame.</p>
+<pre><code class="language-r">df_from = as.data.frame(genome_bins)[, 1:3]
+</code></pre>
+<p><code>to_bins</code> is a <code>GRanegsList</code> object because a 5kb window in hg19 may map to multiple regions in hg38. To simplify
+the task, if a 5kb window in hg19 maps to multiple regions in hg38, I only use the first one.</p>
+<p>It is not easy to get the chromosome name of the first region in every mapping. You can do
+<code>sapply(sq, function(x) as.vector(x)[1])</code>, but it is actually very slow. In the
+following code, I use the internal function <code>PartitioningByEnd()</code> to get the the index
+of every first chromosome.</p>
+<pre><code class="language-r">sq = seqnames(to_bins)
+pa = PartitioningByEnd(sq)
+df_to = data.frame(
+    chr = as.vector(unlist(sq))[start(pa)],
+    start = sapply(start(to_bins), function(x) x[1]),
+    end = sapply(end(to_bins), function(x) x[1])
+)
+</code></pre>
+<p>I restrict the chromosomes to &ldquo;normal chromosomes&rdquo;:</p>
+<pre><code class="language-r">from_chromosomes = paste0(&quot;chr&quot;, c(1:22, &quot;X&quot;, &quot;Y&quot;))
+to_chromosomes = paste0(&quot;chr&quot;, c(1:22, &quot;X&quot;, &quot;Y&quot;))
+
+l = df_from[, 1] %in% from_chromosomes &amp; df_to[, 1] %in% to_chromosomes
+df_from = df_from[l, ]
+df_to = df_to[l, ]
+</code></pre>
+<p>Now let&rsquo;s check the value of <code>df_from</code> (hg19) and <code>df_to</code> (hg38):</p>
+<pre><code class="language-r">head(df_from)
+</code></pre>
+<pre><code>##   seqnames start   end
+## 1     chr1 10001 15000
+## 2     chr1 15001 20000
+## 3     chr1 20001 25000
+## 4     chr1 25001 30000
+## 5     chr1 30001 35000
+## 6     chr1 35001 40000
+</code></pre>
+<pre><code class="language-r">head(df_to)
+</code></pre>
+<pre><code>##    chr start   end
+## 1 chr1 10001 15000
+## 2 chr1 15001 20000
+## 3 chr1 20001 25000
+## 4 chr1 25001 30000
+## 5 chr1 30001 35000
+## 6 chr1 35001 40000
+</code></pre>
+<p>And the number of regions remains:</p>
+<pre><code class="language-r">nrow(df_from)
+</code></pre>
+<pre><code>## [1] 572281
+</code></pre>
+<pre><code class="language-r">nrow(df_to)
+</code></pre>
+<pre><code>## [1] 572281
+</code></pre>
+<p>The data is ready, next I can make the circular plot. I first extract
+the chromosome lengths for both assemblies.</p>
+<pre><code class="language-r">from_chromInfo = read.chromInfo(species = &quot;hg19&quot;)$df
+from_chromInfo = from_chromInfo[from_chromInfo[, 1] %in% from_chromosomes, ]
+
+to_chromInfo = read.chromInfo(species = &quot;hg38&quot;)$df
+to_chromInfo = to_chromInfo[to_chromInfo[, 1] %in% to_chromosomes, ]
+</code></pre>
+<p>Since I will put two assemblies in one plot, and the two assemblies are all for human,
+I add prefix <code>&quot;from_&quot;</code> and <code>&quot;to_&quot;</code> to distinguish them.</p>
+<pre><code class="language-r">from_chromInfo[ ,1] = paste0(&quot;from_&quot;, from_chromInfo[, 1])
+to_chromInfo[ ,1] = paste0(&quot;to_&quot;, to_chromInfo[, 1])
+chromInfo = rbind(from_chromInfo, to_chromInfo)
+</code></pre>
+<p>Similiarly, I add the prefix to <code>df_from</code> and <code>df_to</code>.</p>
+<pre><code class="language-r">df_from[, 1] = paste0(&quot;from_&quot;, df_from[, 1])
+df_to[, 1] = paste0(&quot;to_&quot;, df_to[, 1])
+</code></pre>
+<p><code>chromInfo</code> contains chromosome lengths for both hg19 and hg38 and it can be thought as a &ldquo;combined&rdquo; genome,
+where e.g. <code>&quot;from_chr1&quot;</code> and <code>&quot;to_chr1&quot;</code> are two different chromosomes. In the final circular plot, for easy correspondance
+between two assemblies, I will let chr1 for both assemblies close in the plot and chrX/chrY also close in the plot.
+In this case, I need to manually control the chromosome orders.</p>
+<p>I just need to reverse the order of <code>to_chromosomes</code>. The chromosome orders are encoded as &ldquo;levels&rdquo; of the first column
+in <code>chromInfo</code>.</p>
+<pre><code class="language-r">chromosome.index = c(paste0(&quot;from_&quot;, from_chromosomes), paste0(&quot;to_&quot;, rev(to_chromosomes))) 
+chromInfo[, 1] = factor(chromInfo[ ,1], levels = chromosome.index)
+</code></pre>
+<p>Next I use <strong>circlize</strong> package to visualize the lift overs. If you know <strong>circlize</strong>, the following
+code is very straightforward to understand. Note here I randomly sampled 10000 regions for visualization.</p>
+<pre><code class="language-r">library(circlize)
+circos.par(gap.after = c(rep(1, length(from_chromosomes) - 1), 5, rep(1, length(to_chromosomes) - 1), 5))
+circos.genomicInitialize(chromInfo, plotType = NULL)
+
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
+        gsub(&quot;.*chr&quot;, &quot;&quot;, CELL_META$sector.index), cex = 0.6, niceFacing = TRUE)
+}, track.height = mm_h(1), cell.padding = c(0, 0, 0, 0), bg.border = NA)
+
+circos.track(ylim = c(0, 1), cell.padding = c(0, 0, 0, 0), bg.border = NA, bg.col = &quot;grey&quot;, track.height = mm_h(1))
+
+highlight.chromosome(paste0(&quot;from_&quot;, from_chromosomes), col = &quot;red&quot;, track.index = 1)
+highlight.chromosome(paste0(&quot;to_&quot;, to_chromosomes), col = &quot;blue&quot;, track.index = 1)
+
+ind = sample(nrow(df_from), 10000)
+col = rand_color(length(to_chromosomes))
+names(col) = paste0(&quot;to_&quot;, to_chromosomes)
+circos.genomicLink(df_from[ind, ], df_to[ind, ], col = add_transparency(col[df_to[ind, 1]], 0.9))
+
+circos.clear()
+
+text(0.9, -0.9, &quot;hg19&quot;)
+text(0.9, 0.9, &quot;hg38&quot;)
+</code></pre>
+<img src="/lab-cn/post/2022-09-13-visualize-lift-over-between-two-assemblies_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" />
+<p>It looks nice, but there is one limit in the plot. I reversed the chromosome order for hg38 which are on the top half
+of the circle. The chromosomes for hg38 are reverse clockwise, but the x-axes on the hg38 chromosomes are still
+clockwise, which makes the links twisted. To improve the visualization, I manually reverse the x-axes of hg38 chromosomes
+with a simple transformation by the following code:</p>
+<pre><code class="language-r"># `to` genome is put on the top of the circle, where the x-axis is reversed
+gsize = structure(chromInfo[, 3], names = as.vector(chromInfo[, 1]))
+df_to[, 2] = gsize[df_to[, 1]] - df_to[, 2]
+df_to[, 3] = gsize[df_to[, 1]] - df_to[, 3]
+df_to[, 2:3] = df_to[, 3:2]
+</code></pre>
+<p>I make the plot with the same code, and I explicitely add two arrows to represent the directions of x-axes. Now
+it looks better!</p>
+<img src="/lab-cn/post/2022-09-13-visualize-lift-over-between-two-assemblies_files/figure-html/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" />
+<p>Finally I have wrapped the code into a function which can be found at <a href="https://gist.github.com/jokergoo/4161997c2a60ac90ae57017b19aea81e">https://gist.github.com/jokergoo/4161997c2a60ac90ae57017b19aea81e</a>.
+In the function <code>viz_lift_over()</code> you just specifiy two genome IDs, e.g.,</p>
+<pre><code class="language-r">viz_lift_over(&quot;mm9&quot;, &quot;mm10&quot;)
+</code></pre>
+<h2 id="session-info">Session info</h2>
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+<pre><code>## R version 4.4.2 (2024-10-31)
+## Platform: aarch64-apple-darwin20
+## Running under: macOS 26.0.1
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## 
+## locale:
+## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] grid      stats4    stats     graphics  grDevices utils     datasets 
+## [8] methods   base     
+## 
+## other attached packages:
+##  [1] EnrichedHeatmap_1.36.0 ComplexHeatmap_2.25.2  circlize_0.4.16       
+##  [4] rtracklayer_1.66.0     GenomicRanges_1.58.0   GenomeInfoDb_1.42.3   
+##  [7] IRanges_2.40.1         S4Vectors_0.44.0       BiocGenerics_0.52.0   
+## [10] glue_1.8.0             knitr_1.50             colorout_1.3-2        
+## 
+## loaded via a namespace (and not attached):
+##  [1] SummarizedExperiment_1.36.0 shape_1.4.6.1              
+##  [3] rjson_0.2.23                xfun_0.51                  
+##  [5] bslib_0.9.0                 GlobalOptions_0.1.2        
+##  [7] Biobase_2.66.0              lattice_0.22-6             
+##  [9] tools_4.4.2                 bitops_1.0-9               
+## [11] curl_6.2.1                  parallel_4.4.2             
+## [13] cluster_2.1.6               Matrix_1.7-1               
+## [15] RColorBrewer_1.1-3          lifecycle_1.0.4            
+## [17] GenomeInfoDbData_1.2.13     compiler_4.4.2             
+## [19] Rsamtools_2.22.0            Biostrings_2.74.1          
+## [21] codetools_0.2-20            clue_0.3-66                
+## [23] htmltools_0.5.8.1           sass_0.4.9                 
+## [25] RCurl_1.98-1.16             yaml_2.3.10                
+## [27] crayon_1.5.3                jquerylib_0.1.4            
+## [29] BiocParallel_1.40.0         cachem_1.1.0               
+## [31] DelayedArray_0.32.0         iterators_1.0.14           
+## [33] abind_1.4-8                 foreach_1.5.2              
+## [35] locfit_1.5-9.12             digest_0.6.37              
+## [37] restfulr_0.0.15             bookdown_0.44              
+## [39] fastmap_1.2.0               colorspace_2.1-1           
+## [41] cli_3.6.4                   SparseArray_1.6.2          
+## [43] S4Arrays_1.6.0              XML_3.99-0.18              
+## [45] UCSC.utils_1.2.0            rmarkdown_2.29             
+## [47] XVector_0.46.0              httr_1.4.7                 
+## [49] matrixStats_1.5.0           blogdown_1.19              
+## [51] png_0.1-8                   GetoptLong_1.0.5           
+## [53] evaluate_1.0.3              BiocIO_1.16.0              
+## [55] doParallel_1.0.17           rlang_1.1.5                
+## [57] Rcpp_1.0.14                 jsonlite_1.9.0             
+## [59] R6_2.6.1                    MatrixGenerics_1.18.1      
+## [61] GenomicAlignments_1.42.0    zlibbioc_1.52.0
+</code></pre>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

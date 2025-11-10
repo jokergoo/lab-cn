@@ -1,0 +1,51 @@
+---
+title: "Put Chord diagram horizontally or vertically symmetric"
+date: 2017-03-17
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In Chord diagram, when there are two groups (which correspond to rows and columns
+if the input is a adjacency matrix), it is always visually beautiful to rotate the diagram
+to be symmetric on horizontal direction or vertical direction. Actually it is quite easy
+to calculate a proper degree that needs to be rotated for the circle. In this post,
+I will show how to calculate such kind of “rotated degree value”.</p>
+<p>First let’s create some random data.</p>
+<pre class="r"><code>set.seed(123)
+mat = matrix(rnorm(30), nrow = 10, dimnames = list(letters[1:10], LETTERS[1:3]))
+nr = nrow(mat)
+nc = ncol(mat)
+n_sector = nr + nc</code></pre>
+<p>In the Chord diagram, the total width of row sectors corresponds to the sum of row sum of the matrix
+with absolute values and so is for the column sectors.</p>
+<pre class="r"><code>row_sum = sum(rowSums(abs(mat)))
+col_sum = sum(colSums(abs(mat)))</code></pre>
+<p>Small gaps between sectors are set to 1 degree and big gaps between row and column sectors are set to 20 degree.</p>
+<pre class="r"><code>small_gap = 1
+big_gap = 20</code></pre>
+<p>In the circle, there are regions which are covered by small gaps, big gaps and sectors. Since the width of
+sectors are proportional to the row sums and/or column sums of the matrix, it is easy to calculate how much
+degrees are hold by the row sectors:</p>
+<pre class="r"><code>row_sector_degree = (360 - small_gap*(n_sector - 2) - big_gap*2) * (row_sum/(row_sum + col_sum)) + 
+                    small_gap*(nr-1)</code></pre>
+<p>If the row sectors are put in the right of the circle, we can calculate the “start degree” for the circle.
+Note <code>chordDiagram()</code> always draw row sectors first and by default the circle goes clockwisely.</p>
+<pre class="r"><code>start_degree = 90 - (180 - row_sector_degree)/2</code></pre>
+<p>Note there are small gaps and big gaps between sectors, the <code>gap.degree</code> in <code>circos.par()</code> should be set
+as a vector. I also added a vertical line which assists to see the symmetry.</p>
+<pre class="r"><code>gaps = c(rep(small_gap, nrow(mat) - 1), big_gap, rep(small_gap, ncol(mat) - 1), big_gap)
+circos.par(gap.degree = gaps, start.degree = start_degree)
+grid_col = structure(rand_color(n_sector), names = c(rownames(mat), colnames(mat)))
+chordDiagram(mat, grid.col = grid_col)
+circos.clear()
+abline(v = 0, lty = 2, col = &quot;#00000080&quot;)</code></pre>
+<p><img src="/post/2017-03-17-put-chord-diagram-horizontally-or-vertically-symmetric_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>Similar we can adjust the “start degree” to let the circle looks horizonal.</p>
+<pre class="r"><code>start_degree = 0 - (180 - row_sector_degree)/2
+gaps = c(rep(small_gap, nrow(mat) - 1), big_gap, rep(small_gap, ncol(mat) - 1), big_gap)
+circos.par(gap.degree = gaps, start.degree = start_degree)
+chordDiagram(mat, grid.col = grid_col)
+circos.clear()
+abline(h = 0, lty = 2, col = &quot;#00000080&quot;)</code></pre>
+<p><img src="/post/2017-03-17-put-chord-diagram-horizontally-or-vertically-symmetric_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>

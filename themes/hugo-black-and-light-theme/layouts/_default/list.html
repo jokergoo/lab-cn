@@ -40,4 +40,19 @@
 
 </section>
 
+<script>
+$(function() {
+    $(".archive-title").each(function(i) {
+        if($(this).text() == "0001") {
+            $(this).remove();
+        }
+    })
+    $(".archive-item").each(function(i) {
+        if($(this).find("a").text() == "") {
+            $(this).remove();
+        }
+    })
+})
+</script>
+
 {{ partial "footer.html" . }}

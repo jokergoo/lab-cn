@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Make circular heatmaps 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/05/21/make-circular-heatmaps/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Make circular heatmaps </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · May 2020
+    </div>
+  
+
+  <div class="entry-content">
+    <p>Circular heatmaps are pretty. With <strong>circlize</strong> package, <a href="https://jokergoo.github.io/circlize_book/book/high-level-plots.html#heatmaps">it is possible to
+implement circular heatmaps by the low-level function
+<code>circos.rect()</code></a>.
+From version 0.4.10, I implemented a new high-level function <code>circos.heatmap()</code> which
+simplifies the creation of circular heatmaps. In this post, I will demostrate
+the usage of the new <code>circos.heatmap()</code> function.</p>
+<p>First let&rsquo;s generate a random matrix and randomly split it into five groups.</p>
+<pre><code class="language-r">set.seed(123)
+mat1 = rbind(cbind(matrix(rnorm(50*5, mean = 1), nr = 50), 
+                   matrix(rnorm(50*5, mean = -1), nr = 50)),
+             cbind(matrix(rnorm(50*5, mean = -1), nr = 50), 
+                   matrix(rnorm(50*5, mean = 1), nr = 50))
+            )
+rownames(mat1) = paste0(&quot;R&quot;, 1:100)
+colnames(mat1) = paste0(&quot;C&quot;, 1:10)
+mat1 = mat1[sample(100, 100), ] # randomly permute rows
+split = sample(letters[1:5], 100, replace = TRUE)
+split = factor(split, levels = letters[1:5])
+</code></pre>
+<p>Following plot is the normal layout of the heatmap (by <a href="https://bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html">the <strong>ComplexHeatmap</strong> package</a>).</p>
+<pre><code class="language-r">library(ComplexHeatmap)
+Heatmap(mat1, row_split = split)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-3-1.png" width="384" style="display: block; margin: auto;" />
+<p>In the next sections, I will demonstrate how to visualize it circularly.</p>
+<h3 id="input-data">Input data</h3>
+<p>The input for <code>circos.heatmap()</code> should be a matrix (or a vector which will be
+converted to a one-column matrix). If the matrix is split into groups, a
+categorical variable must be specified with the <code>split</code> argument. Note the
+value of <code>spilt</code> should be a character vector or a factor. If it is a numeric
+vector, it is converted to characters internally.</p>
+<p>Colors are important aesthetic mappings for the values in the matrix. In
+<code>circos.heatmap()</code>, users must specify <code>col</code> argument with a user-defined
+color schema. If the matrix is continuous numeric, value for <code>col</code> should be a
+color mapping generated by
+<a href="https://rdrr.io/cran/circlize/man/colorRamp2.html"><code>colorRamp2()</code></a>, and if
+the matrix is in characters, value of <code>col</code> should be a named color vector.</p>
+<p>Following plot is the circular version of the previous heatmap. Note the
+matrix rows distribute in the circular direction and the matrix columns
+distribute in the radical direction. In following plot, the circle is split
+into five sectors where each sector corresponds to one row group.</p>
+<pre><code class="language-r">library(circlize) # &gt;= 0.4.10
+col_fun1 = colorRamp2(c(-2, 0, 2), c(&quot;blue&quot;, &quot;white&quot;, &quot;red&quot;))
+circos.heatmap(mat1, split = split, col = col_fun1)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p><strong>There is one thing very important that is after creating the circular heatmap,
+you must call <code>circos.clear()</code> to remove the layout completely.</strong> I will explain
+this point later in this post.</p>
+<p>If <code>split</code> is not specified, there is only one big sector that contains
+the complete heatmap.</p>
+<pre><code class="language-r">circos.heatmap(mat1, col = col_fun1)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h3 id="circular-layout">Circular layout</h3>
+<p>Similar as other circular plots generated by <strong>circlize</strong> package, the circular layout
+can be controlled by <code>circos.par()</code> before making the plot.</p>
+<p>The parameters for the heatmap track can be controlled in <code>circos.heatmap()</code> function,
+such as <code>track.height</code> (height of the track) and <code>bg.border</code> (border of the track).</p>
+<p>In the following example, The labels for the sectors are added by setting the
+<code>show.sector.labels</code> argument. The order of sectors is <code>c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;)</code> clock-wisely. You can see in the following plot, sector <code>a</code> starts
+from <code>\(\theta = 90^{\circ}\)</code>.</p>
+<pre><code class="language-r">circos.par(start.degree = 90, gap.degree = 10)
+circos.heatmap(mat1, split = split, col = col_fun1, track.height = 0.4, 
+	bg.border = &quot;green&quot;, bg.lwd = 2, bg.lty = 2, show.sector.labels = TRUE)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>If the value for <code>split</code> argument is a factor, the order of the factor levels
+controls the order of heatmaps. If <code>split</code> is a simple vector, the order of
+heatmaps is <code>unique(split)</code>.</p>
+<pre><code class="language-r"># note since circos.clear() was called in the previous plot,
+# now the layout starts from theta = 0 (the first sector is 'e')
+circos.heatmap(mat1, split = factor(split, levels = c(&quot;e&quot;, &quot;d&quot;, &quot;c&quot;, &quot;b&quot;, &quot;a&quot;)), 
+	col = col_fun1, show.sector.labels = TRUE)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h3 id="dendrograms-and-row-names">Dendrograms and row names</h3>
+<p>By default, the numeric matrix is clustered on rows, thus, there are
+dendrograms generated from the clustering. <code>dend.side</code> argument controls the
+position of dendrograms relative to the heatmap track. Note, the dendrograms
+are on a separated track.</p>
+<pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1, dend.side = &quot;inside&quot;)
+circos.clear()
+circos.heatmap(mat1, split = split, col = col_fun1, dend.side = &quot;outside&quot;)
+circos.clear()
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-9-1.png" width="672" style="display: block; margin: auto;" />
+<p>The height of the dendrograms is controlled by <code>dend.track.height</code> argument.</p>
+<p>Row names of the matrix can be drawn by setting <code>rownames.side</code> argument.
+Row names are also drawn in a separated track.</p>
+<pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1, rownames.side = &quot;inside&quot;)
+circos.clear()
+text(0, 0, 'rownames.side = &quot;inside&quot;')
+circos.heatmap(mat1, split = split, col = col_fun1, rownames.side = &quot;outside&quot;)
+circos.clear()
+text(0, 0, 'rownames.side = &quot;outside&quot;')
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" />
+<p>Row names of the matrix and the dendrograms can be both drawn. Of course, they
+cannot be on the same side of the heatmap track.</p>
+<pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1, dend.side = &quot;inside&quot;, 
+	rownames.side = &quot;outside&quot;)
+circos.clear()
+circos.heatmap(mat1, split = split, col = col_fun1, dend.side = &quot;outside&quot;, 
+	rownames.side = &quot;inside&quot;)
+circos.clear()
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" />
+<p>Graphic parameters for row names can be set as a scalar or a vector with the
+length same as the number of rows in the matrix.</p>
+<pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1, rownames.side = &quot;outside&quot;,
+	rownames.col = 1:nrow(mat1) %% 10 + 1,
+	rownames.cex = runif(nrow(mat1), min = 0.3, max = 2),
+	rownames.font = 1:nrow(mat1) %% 4 + 1)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-14-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>The graphic parameters of dendrogram can be set by directly rendering the
+dendrograms through a callback function, as will be demonstrated later.</p>
+<h3 id="clustering">Clustering</h3>
+<p>By default, the numeric matrix is clustered on rows. <code>cluster</code> argument
+can be set to <code>FALSE</code> to turn off the clustering.</p>
+<p>Of cource, when <code>cluster</code> is set to <code>FALSE</code>, no dendrogram is drawn even
+if <code>dend.side</code> is set.</p>
+<pre><code class="language-r">circos.heatmap(mat1, split = split, cluster = FALSE, col = col_fun1)
+circos.clear()
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-16-1.png" width="672" style="display: block; margin: auto;" />
+<p>Clustering method and distance method are controlled by <code>clustering.method</code>
+and <code>distance.method</code> arguments.</p>
+<p><strong>Please note <code>circos.heatmap()</code> does not directly support clustering on
+matrix columns.</strong> You should apply column reordering before send to
+<code>circos.heatmap()</code>, <em>e.g.</em>,</p>
+<pre><code class="language-r">column_od = hclust(dist(t(mat1)))$order
+circos.heatmap(mat1[, column_od])
+circos.clear()
+</code></pre>
+<p>The value of the <code>cluster</code> argument can also be a clustering object (e.g. a <code>dendrogram</code>/<code>hclust</code> object or
+any other object that can be converted to <code>dendrogram</code>). In this case, if you want to split the heatmap,
+the value for <code>split</code> argument can only be a single number.</p>
+<pre><code class="language-r">par(mfrow = c(1, 2))
+hc = hclust(dist(mat1), method = &quot;single&quot;)
+circos.heatmap(mat1, cluster = hc, col = col_fun1, dend.side = &quot;inside&quot;)
+circos.clear()
+
+circos.heatmap(mat1, cluster = hc, split = 2, col = col_fun1, dend.side = &quot;inside&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+par(mfrow = c(1, 1))
+</code></pre>
+<h3 id="callback-on-dendrograms">Callback on dendrograms</h3>
+<p>The clustering generates dendrograms. Callback function can be applied to
+every dendrogram after it is generated in the corresponding sector. The callback
+function edits the dendrograms such as 1. reorder the dendrogrmas, or 2.
+color the dendrograms.</p>
+<p>In <code>circos.heatmap()</code>, a user-defined function should be set to
+<code>dend.callback</code> argument. The user-defined function should have three
+arguments:</p>
+<ul>
+<li><code>dend</code>: The dendrogram in the current sector.</li>
+<li><code>m</code>: The sub-matrix that corresponds to the current sector.</li>
+<li><code>si</code>: The sector index (or the sector name) for the current sector.</li>
+</ul>
+<p>The default callback function is defined as follows and it reorders the dendrogram
+by weighting the matrix row means.</p>
+<pre><code class="language-r">function(dend, m, si) reorder(dend, rowMeans(m))
+</code></pre>
+<p>Following example reorders the dendrograms in every sector by <code>dendsort::dendsort()</code>.</p>
+<pre><code class="language-r">library(dendsort)
+circos.heatmap(mat1, split = split, col = col_fun1, dend.side = &quot;inside&quot;,
+	dend.callback = function(dend, m, si) {
+		dendsort(dend)
+	}
+)
+circos.clear()
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" />
+<p>We can use <code>color_branches()</code> from <strong>dendextend</strong> package to render the
+dendrogram edges. <em>E.g.</em>, to assign different colors for the dendrograms in
+the five sectors. Here the height of the dendrogram track is increased
+by the <code>dend.track.height</code> argument.</p>
+<pre><code class="language-r">library(dendextend)
+dend_col = structure(1:5, names = letters[1:5])
+circos.heatmap(mat1, split = split, col = col_fun1, dend.side = &quot;inside&quot;,
+	dend.track.height = 0.2,
+	dend.callback = function(dend, m, si) {
+		# when k = 1, it renders one same color for the whole dendrogram
+		color_branches(dend, k = 1, col = dend_col[si])
+	}
+)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>Or if the matrix is not split, we can assign the sub-dendrograms with
+different colors.</p>
+<pre><code class="language-r">circos.heatmap(mat1, col = col_fun1, dend.side = &quot;inside&quot;,
+	dend.track.height = 0.2,
+	dend.callback = function(dend, m, si) {
+		color_branches(dend, k = 4, col = 2:5)
+	}
+)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h3 id="multiple-heatmap-tracks">Multiple heatmap tracks</h3>
+<p>If you make a circular plot which only contains one heatmap track, using
+<code>circos.heatmap()</code> is very straightforward. If you make a more complex
+circular plot which contains multiple tracks, there are more details on
+<code>circos.heatmap()</code> you should know.</p>
+<p>The first call of <code>circos.heatmap()</code> actually initializes the layout, <em>i.e.</em>,
+applying clustering and splitting the matrix. The dendrograms and split
+variable are stored internally. This is why you should explicitly call
+<code>circos.clear()</code> to remove all the internal variables so that it can ensure
+when you make a new circular heatmap, the first call of <code>circos.heatmap()</code> is
+in a clean environment.</p>
+<p>The first call of <code>circos.heatmap()</code> determines the row ordering (the order in
+the circular direction) for all tracks, thus, matrices in the following tracks
+share the same row ordering as in the first track. Also, the matrices in the
+following tracks are also split accordingly to the split in the first heatmap
+track.</p>
+<p>If clustering is not applied in the first heatmap track, the natural ordering
+of rows (<em>i.e.</em>, <code>c(1, 2, ..., n)</code>) is used.</p>
+<pre><code class="language-r">mat2 = mat1[sample(100, 100), ] # randomly permute mat1 by rows
+col_fun2 = colorRamp2(c(-2, 0, 2), c(&quot;green&quot;, &quot;white&quot;, &quot;red&quot;))
+
+circos.heatmap(mat1, split = split, col = col_fun1, dend.side = &quot;outside&quot;)
+circos.heatmap(mat2, col = col_fun2)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-24-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>If I switch the two tracks, you can see now the clustering is controlled by
+the first heatmap track which is the green-red heatmap track.</p>
+<pre><code class="language-r">circos.heatmap(mat2, split = split, col = col_fun2, dend.side = &quot;outside&quot;)
+circos.heatmap(mat1, col = col_fun1)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>You might want to ask, what if I don&rsquo;t want the clustering to be determined by
+the first track, while the second or the third track? The solution is simple.
+As I mentioned, the first call of <code>circos.heatmap()</code> initializes the layout.
+Actually the initialization can be manually done by explicitly calling
+<code>circos.heatmap.initialize()</code> function which <code>circos.heatmap()</code> internally
+calls.</p>
+<p>In <code>circos.heatmap.initialize()</code>, you specify whatever matrix you want to
+apply clustering as well as the split variable, then, the following
+<code>circos.heatmap()</code> calls all share this layout.</p>
+<p>In the following example, the global layout is determined by <code>mat1</code> which is
+visualized in the second track. I set <code>dend.side = &quot;outside&quot;</code> in the first
+track and actually you can find the dendrograms are actually generatd based
+on the matrix in the second track.</p>
+<pre><code class="language-r">circos.heatmap.initialize(mat1, split = split)
+circos.heatmap(mat2, col = col_fun2, dend.side = &quot;outside&quot;)
+circos.heatmap(mat1, col = col_fun1)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-26-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>In the next example, the heatmap layout is generated from <code>mat1</code>, while
+the two heatmap tracks only contain five columns for each.</p>
+<pre><code class="language-r">circos.heatmap.initialize(mat1, split = split)
+circos.heatmap(mat1[, 1:5], col = col_fun1)
+circos.heatmap(mat1[, 6:10], col = col_fun1)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-27-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h3 id="with-other-tracks">With other tracks</h3>
+<p><code>circos.heatmap()</code> can also be integrated with other non-heatmap tracks,
+however, it is a little bit tricky. In the circular layout, values on x-axes
+and y-axes are just the numeric indices. Assume there are <code>nr</code> rows and <code>nc</code>
+columns for the heatmap in a sector, the heatmap rows are drawn in intervals
+of <code>(0, 1)</code>, <code>c(1, 2)</code>, &hellip;, <code>c(nr-1, nr)</code> and similar for the heatmap
+columns. Also the original matrix is reordered. All these effects need to be
+considered if more tracks are added to make sure to have the correct
+correspondance to the heatmap track.</p>
+<p>After the heatmap layout is done, additional information for the
+tracks/sectors/cells can be retrieved by the special variable <code>CELL_META</code>. The
+additional meta data for the cell/sector are listed as follows and they are
+important for correctly corresponding to the heatmap track.</p>
+<ul>
+<li><code>CELL_META$row_dend</code> or simply <code>CELL_META$dend</code>: the dendrogram in the
+current sector. If no clustering was done, the value is <code>NULL</code>.</li>
+<li><code>CELL_META$row_order</code> or simply <code>CELL_META$order</code>: the row ordering of the
+sub-matrix in the current sector after clustering. If no clustering was
+done, the value is <code>c(1, 2, ..., )</code>.</li>
+<li><code>CELL_META$subset</code>: The subset of indices in the original complete matrix.
+The values are sorted increasing.</li>
+</ul>
+<p>Following are the outputs of <code>CELL_META$row_dend</code>, <code>CELL_META$row_order</code>
+and <code>CELL_META$subset</code> in the first sector in the example circular heatmap.</p>
+<pre><code>CELL_META$row_dend
+## 'dendrogram' with 2 branches and 14 members total, at height 10.51736 
+
+CELL_META$row_order
+## [1]  2  6  4 12  8  1  5 10  7  9 13 11  3 14
+
+CELL_META$subset
+## [1]  8  9 14 18 20 37 55 62 66 72 78 85 93 97
+</code></pre>
+<p>In following example, I add a track which visualizes the row means of the
+first five columns in <code>mat1</code>. I added <code>cell.padding = c(0.02, 0, 0.02, 0)</code> so
+that the maximal and minimal points won&rsquo;t overlap with the top and bottom
+borders of the cells.</p>
+<pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1)
+row_mean = rowMeans(mat1[, 1:5])
+circos.track(ylim = range(row_mean), panel.fun = function(x, y) {
+    y = row_mean[CELL_META$subset]
+    y = y[CELL_META$row_order]
+    circos.lines(CELL_META$cell.xlim, c(0, 0), lty = 2, col = &quot;grey&quot;)
+    circos.points(seq_along(y) - 0.5, y, col = ifelse(y &gt; 0, &quot;red&quot;, &quot;blue&quot;))
+}, cell.padding = c(0.02, 0, 0.02, 0))
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-28-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>Similarly, if the points track is put as the first track, the layout should be initialized
+in advance.</p>
+<pre><code class="language-r">circos.heatmap.initialize(mat1, split = split)
+# This is the same as the previous example
+circos.track(ylim = range(row_mean), panel.fun = function(x, y) {
+    y = row_mean[CELL_META$subset]
+    y = y[CELL_META$row_order]
+    circos.lines(CELL_META$cell.xlim, c(0, 0), lty = 2, col = &quot;grey&quot;)
+    circos.points(seq_along(y) - 0.5, y, col = ifelse(y &gt; 0, &quot;red&quot;, &quot;blue&quot;))
+}, cell.padding = c(0.02, 0, 0.02, 0))
+circos.heatmap(mat1, col = col_fun1) # no need to specify 'split' here
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-29-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>Boxplots are very frequently used to correspond to the matrix rows.</p>
+<pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1)
+circos.track(ylim = range(mat1), panel.fun = function(x, y) {
+    m = mat1[CELL_META$subset, 1:5, drop = FALSE]
+    m = m[CELL_META$row_order, , drop = FALSE]
+    n = nrow(m)
+    # circos.boxplot is applied on matrix columns, so here we transpose it.
+    circos.boxplot(t(m), pos = 1:n - 0.5, pch = 16, cex = 0.3)
+    circos.lines(CELL_META$cell.xlim, c(0, 0), lty = 2, col = &quot;grey&quot;)
+}, cell.padding = c(0.02, 0, 0.02, 0))
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-30-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<h3 id="add-annotations">Add annotations</h3>
+<p>The labels for the sectors can be added by setting <code>show.sector.labels = TRUE</code>,
+however, this does not provide any customization on the labels. Users can
+customize their own labels by self-defining a <code>panel.fun</code> function,
+demonstrated as follows. Here the labels are added 2mm away from the
+heatmap track (by <code>convert_y(2, &quot;mm&quot;)</code> which defines the offset in the y-direction).</p>
+<p>Here I set <code>track.index = get.current.track.index()</code> to make sure the labels
+are always added in the correct track.</p>
+<pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1)
+circos.track(track.index = get.current.track.index(), panel.fun = function(x, y) {
+	circos.text(CELL_META$xcenter, CELL_META$cell.ylim[2] + convert_y(2, &quot;mm&quot;), 
+		paste0(&quot;this is group &quot;, CELL_META$sector.index),
+		facing = &quot;bending.inside&quot;, cex = 0.8,
+		adj = c(0.5, 0), niceFacing = TRUE)
+}, bg.border = NA)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-31-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>Column names of the matrix are not directly supported by <code>circos.heatmap()</code>,
+but they can be easily added also by self-defining a <code>panel.fun</code> function. In
+followig example, I set larger space (10 degrees, users normally need to try
+several values to get a best space) after the last sector (the fifth sector)
+by <code>gap.after</code> parameter in <code>circos.par()</code>, later I draw the column names in
+the last sector in <code>panel.fun</code>.</p>
+<p><strong>Note the first column in the original matrix is put on the most outside circle of the circular heatmap.</strong></p>
+<pre><code class="language-r">circos.par(gap.after = c(2, 2, 2, 2, 10))
+circos.heatmap(mat1, split = split, col = col_fun1, track.height = 0.4)
+circos.track(track.index = get.current.track.index(), panel.fun = function(x, y) {
+	if(CELL_META$sector.numeric.index == 5) { # the last sector
+		cn = colnames(mat1)
+		n = length(cn)
+		circos.text(rep(CELL_META$cell.xlim[2], n) + convert_x(1, &quot;mm&quot;), 
+			n - 1:n + 0.5, cn, 
+			cex = 0.5, adj = c(0, 0.5), facing = &quot;inside&quot;)
+	}
+}, bg.border = NA)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-32-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>Next example adds rectangles and labels to show the two groups of columns in
+the matrix. The code inside <code>panel.fun</code> is simple. It basically draws
+rectangles and texts. <code>convert_x()</code> converts a unit on the x-direction to a
+proper value measured in tbe circular coordinate system.</p>
+<pre><code class="language-r">circos.par(gap.after = c(2, 2, 2, 2, 10))
+circos.heatmap(mat1, split = split, col = col_fun1, track.height = 0.4)
+circos.track(track.index = get.current.track.index(), panel.fun = function(x, y) {
+	if(CELL_META$sector.numeric.index == 5) { # the last sector
+		circos.rect(CELL_META$cell.xlim[2] + convert_x(1, &quot;mm&quot;), 0,
+			        CELL_META$cell.xlim[2] + convert_x(5, &quot;mm&quot;), 5,
+			        col = &quot;orange&quot;, border = NA)
+		circos.text(CELL_META$cell.xlim[2] + convert_x(3, &quot;mm&quot;), 2.5,
+			        &quot;group 1&quot;, cex = 0.5, facing = &quot;clockwise&quot;)
+
+		circos.rect(CELL_META$cell.xlim[2] + convert_x(1, &quot;mm&quot;), 5,
+			        CELL_META$cell.xlim[2] + convert_x(5, &quot;mm&quot;), 10,
+			        col = &quot;pink&quot;, border = NA)
+		circos.text(CELL_META$cell.xlim[2] + convert_x(3, &quot;mm&quot;), 7.5,
+			        &quot;group 2&quot;, cex = 0.5, facing = &quot;clockwise&quot;)
+	}
+}, bg.border = NA)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-33-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p><strong>circlize</strong> does not generates legends, <a href="https://jokergoo.github.io/circlize_book/book/legends.html">but the legends can be manually
+generated by <code>ComplexHeatmap::Legend()</code> function and added to the
+circular plot</a>.
+Following is a simple example of adding a legend. In the next section, you can
+find a more complex example of adding many legends.</p>
+<pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1)
+circos.clear()
+
+library(ComplexHeatmap)
+lgd = Legend(title = &quot;mat1&quot;, col_fun = col_fun1)
+grid.draw(lgd)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-34-1.png" width="768" style="display: block; margin: auto;" />
+<h3 id="a-complex-example-of-circular-heatmaps">A complex example of circular heatmaps</h3>
+<p>In this section, I will demonstrate how to make complex circular heatmaps.
+The heatmaps in the normal layout are in the following figure and now I will
+change them with the circular layout.</p>
+<p>The heatmaps visualize correlations between DNA methylation, gene expression
+and other genome-level information. You can go to <a href="http://jokergoo.github.io/supplementary/ComplexHeatmap-supplementary1-4/supplS3_methylation/supplS3_methylation.html">this
+link</a>
+to see how the original heatmaps were generated.</p>
+<img width="100%" src="https://user-images.githubusercontent.com/449218/82558169-5cddc600-9b6d-11ea-9108-0704751ac6ea.png" />
+<p>The original heatmaps were generated with random datasets. The code for generating
+them is available at <a href="https://gist.github.com/jokergoo/0ea5639ee25a7edae3871ed8252924a1">https://gist.github.com/jokergoo/0ea5639ee25a7edae3871ed8252924a1</a>.
+Here I just directly source the script from Gist.</p>
+<pre><code class="language-r">source(&quot;https://gist.githubusercontent.com/jokergoo/0ea5639ee25a7edae3871ed8252924a1/raw/57ca9426c2ed0cebcffd79db27a024033e5b8d52/random_matrices.R&quot;)
+</code></pre>
+<p>Similar as the original heatmap, rows of all heatmaps are split into 5 groups
+by applying <em>k</em>-means clustering on rows of the methylation matrix
+(<code>mat_meth</code>).</p>
+<pre><code class="language-r">set.seed(123)
+km = kmeans(mat_meth, centers = 5)$cluster
+</code></pre>
+<p>Now there are following matrices/vectors that need to be visualized as heatmaps:</p>
+<ul>
+<li><code>mat_meth</code>: a matrix in which rows correspond to differetially methylated
+regions (DMRs). The value in the matrix is the mean methylation level in the
+DMR in every sample.</li>
+<li><code>mat_expr</code>: a matrix in which rows correspond to genes which are associated
+to the DMRs (<em>i.e.</em> the nearest gene to the DMR). The value in the matrix is
+the expression level for each gene in each sample. Expression is scaled for
+every gene across samples.</li>
+<li><code>direction</code>: direction of the methylation change (hyper meaning higher
+methylation in tumor samples, hypo means lower methylation in tumor
+samples).</li>
+<li><code>cor_pvalue</code>: <em>p</em>-value for the correlation test between methylation and
+expression of the associated gene. Values are -log10 transformed.</li>
+<li><code>gene_type</code>: type of the genes (<em>e.g.</em>, protein coding genes or lincRNAs).</li>
+<li><code>anno_gene</code>: annotation to the gene models (<em>i.e.</em>, intergenic, intragenic or transcription start site (TSS)).</li>
+<li><code>dist</code>: distance from DMRs to TSS of the assiciated genes.</li>
+<li><code>anno_enhancer</code>: fraction of each DMR that overlaps enhancers.</li>
+</ul>
+<p>Among these variables, <code>mat_meth</code>, <code>mat_expr</code>, <code>cor_pvalue</code>, <code>dist</code> and <code>anno_enhancer</code> are numeric
+and I set color mapping functions for them. For the others I set named color vectors.</p>
+<p>In the following code, I specify <code>split</code> in the first call of <code>circos.heatmap()</code> which
+is the methylation heatmap. The track heights are manually adjusted.</p>
+<pre><code class="language-r">col_meth = colorRamp2(c(0, 0.5, 1), c(&quot;blue&quot;, &quot;white&quot;, &quot;red&quot;))
+circos.heatmap(mat_meth, split = km, col = col_meth, track.height = 0.12)
+
+col_direction = c(&quot;hyper&quot; = &quot;red&quot;, &quot;hypo&quot; = &quot;blue&quot;)
+circos.heatmap(direction, col = col_direction, track.height = 0.01)
+
+col_expr = colorRamp2(c(-2, 0, 2), c(&quot;green&quot;, &quot;white&quot;, &quot;red&quot;))
+circos.heatmap(mat_expr, col = col_expr, track.height = 0.12)
+
+col_pvalue = colorRamp2(c(0, 2, 4), c(&quot;white&quot;, &quot;white&quot;, &quot;red&quot;))
+circos.heatmap(cor_pvalue, col = col_pvalue, track.height = 0.01)
+
+library(RColorBrewer)
+col_gene_type = structure(brewer.pal(length(unique(gene_type)), &quot;Set3&quot;), names = unique(gene_type))
+circos.heatmap(gene_type, col = col_gene_type, track.height = 0.01)
+
+col_anno_gene = structure(brewer.pal(length(unique(anno_gene)), &quot;Set1&quot;), names = unique(anno_gene))
+circos.heatmap(anno_gene, col = col_anno_gene, track.height = 0.01) 
+
+col_dist = colorRamp2(c(0, 10000), c(&quot;black&quot;, &quot;white&quot;))
+circos.heatmap(dist, col = col_dist, track.height = 0.01)
+
+col_enhancer = colorRamp2(c(0, 1), c(&quot;white&quot;, &quot;orange&quot;))
+circos.heatmap(anno_enhancer, col = col_enhancer, track.height = 0.03)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-37-1.png" width="576" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>The circular heatmaps look pretty! Since rows in the matrices are genomic
+regions (the differentially methylated regions), if we can establish
+connections between some of the regions, <em>e.g.</em> physical interactions in the
+3D chromosome structure, the plot would be nicer and more useful.</p>
+<p>In following code, I generate some random interactions between DMRs.
+Each row in <code>df_link</code> means there is an interaction from the i<sup>th</sup> DMR
+to the j<sup>th</sup> DMR.</p>
+<pre><code class="language-r">df_link = data.frame(
+	from_index = sample(nrow(mat_meth), 20),
+	to_index = sample(nrow(mat_meth), 20)
+)
+</code></pre>
+<p>Finding the positions of these DMRs on the circular heatmaps is tricky.
+Check the comments in the following code. Note here the <code>subset</code> and
+<code>row_order</code> meta data are retrieved by <code>get.cell.meta.data()</code> function
+by explicitly specifying the sector index.</p>
+<pre><code class="language-r">for(i in seq_len(nrow(df_link))) {
+	# Let's call the DMR with index df_link$from_index[i] as DMR1,
+	# and the other one with index df_link$to_index[i] as DMR2.
+
+	# The sector where DMR1 is in.
+	group1 = km[ df_link$from_index[i] ]
+	# The sector where DMR2 is in.
+	group2 = km[ df_link$to_index[i] ]
+
+	# The subset of DMRs (row indices from mat_meth) in sector `group1`.
+	subset1 = get.cell.meta.data(&quot;subset&quot;, sector.index = group1)
+	# The row ordering in sector `group1`.
+	row_order1 = get.cell.meta.data(&quot;row_order&quot;, sector.index = group1)
+	# This is the position of DMR1 in the `group1` heatmap.
+	x1 = which(subset1[row_order1] == df_link$from_index[i])
+
+	# The subset of DMRs (row indices from mat_meth) in sector `group2`.
+	subset2 = get.cell.meta.data(&quot;subset&quot;, sector.index = group2)
+	# The row ordering in sector `group2`.
+	row_order2 = get.cell.meta.data(&quot;row_order&quot;, sector.index = group2)
+	# This is the position of DMR2 in the `group2` heatmap.
+	x2 = which(subset2[row_order2] == df_link$to_index[i])
+
+	# We take the middle point and draw a link between DMR1 and DMR2
+	circos.link(group1, x1 - 0.5, group2, x2 - 0.5, col = rand_color(1))
+}
+</code></pre>
+<p>To make things easier, I implemented a function <code>circos.heatmap.link()</code> that basically
+wraps the code above. Now drawing links between matrix rows is simpler:</p>
+<pre><code class="language-r">for(i in seq_len(nrow(df_link))) {
+	circos.heatmap.link(df_link$from_index[i],
+		                df_link$to_index[i],
+		                col = rand_color(1))
+}
+</code></pre>
+<p>After adding the links, the plots look nicer!</p>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-41-1.png" width="576" style="display: block; margin: auto;" />
+<p>Legends are important for understanding heatmaps. Unfortunately, <strong>circlize</strong>
+does not naturally support legends, however, <a href="https://jokergoo.github.io/circlize_book/book/legends.html">the circlize plots can be
+combined with the legends generated from
+<code>ComplexHeatmap::Legend()</code></a>.
+Following the instructions from that link, we need a function that draws the
+circlize plot and a <code>Legends</code> object (which is a <code>grid::grob</code> object).</p>
+<p>The function that draws the circular plot is simply a wrapper of the previous
+code without any modification.</p>
+<pre><code class="language-r">circlize_plot = function() {
+	circos.heatmap(mat_meth, split = km, col = col_meth, track.height = 0.12)
+	circos.heatmap(direction, col = col_direction, track.height = 0.01)
+	circos.heatmap(mat_expr, col = col_expr, track.height = 0.12)
+	circos.heatmap(cor_pvalue, col = col_pvalue, track.height = 0.01)
+	circos.heatmap(gene_type, col = col_gene_type, track.height = 0.01)
+	circos.heatmap(anno_gene, col = col_anno_gene, track.height = 0.01) 
+	circos.heatmap(dist, col = col_dist, track.height = 0.01)
+	circos.heatmap(anno_enhancer, col = col_enhancer, track.height = 0.03)
+
+	for(i in seq_len(nrow(df_link))) {
+		circos.heatmap.link(df_link$from_index[i],
+			                df_link$to_index[i],
+			                col = rand_color(1))
+	}
+	circos.clear()
+}
+</code></pre>
+<p>The legends can be generated from the color mapping functions and color vectors.
+The <code>ComplexHeatmap::Legend()</code> function is very flexible that you can customize
+the labels on the legends (see how <code>lgd_pvalue</code>, <code>lgd_dist</code> and <code>lgd_enhancer</code> are
+defined).</p>
+<pre><code class="language-r">lgd_meth = Legend(title = &quot;Methylation&quot;, col_fun = col_meth)
+lgd_direction = Legend(title = &quot;Direction&quot;, at = names(col_direction), 
+	legend_gp = gpar(fill = col_direction))
+lgd_expr = Legend(title = &quot;Expression&quot;, col_fun = col_expr)
+lgd_pvalue = Legend(title = &quot;P-value&quot;, col_fun = col_pvalue, at = c(0, 2, 4), 
+	labels = c(1, 0.01, 0.0001))
+lgd_gene_type = Legend(title = &quot;Gene type&quot;, at = names(col_gene_type), 
+	legend_gp = gpar(fill = col_gene_type))
+lgd_anno_gene = Legend(title = &quot;Gene anno&quot;, at = names(col_anno_gene), 
+	legend_gp = gpar(fill = col_anno_gene))
+lgd_dist = Legend(title = &quot;Dist to TSS&quot;, col_fun = col_dist, 
+	at = c(0, 5000, 10000), labels = c(&quot;0kb&quot;, &quot;5kb&quot;, &quot;10kb&quot;))
+lgd_enhancer = Legend(title = &quot;Enhancer overlap&quot;, col_fun = col_enhancer, 
+	at = c(0, 0.25, 0.5, 0.75, 1), labels = c(&quot;0%&quot;, &quot;25%&quot;, &quot;50%&quot;, &quot;75%&quot;, &quot;100%&quot;))
+</code></pre>
+<p>Now we use the <strong>gridBase</strong> to combine both base graphics (<strong>circlize</strong> is
+implemented with the base graphics) and <strong>grid</strong> graphics (<strong>ComplexHeatmap</strong> is
+implemented with the <strong>grid</strong> graphics). You can just use the following code
+as a template for your plot if you want to try.</p>
+<p>And, BINGO! Wie schön!!</p>
+<pre><code class="language-r">library(gridBase)
+plot.new()
+circle_size = unit(1, &quot;snpc&quot;) # snpc unit gives you a square region
+
+pushViewport(viewport(x = 0, y = 0.5, width = circle_size, height = circle_size,
+    just = c(&quot;left&quot;, &quot;center&quot;)))
+par(omi = gridOMI(), new = TRUE)
+circlize_plot()
+upViewport()
+
+h = dev.size()[2]
+lgd_list = packLegend(lgd_meth, lgd_direction, lgd_expr, lgd_pvalue, lgd_gene_type, 
+	lgd_anno_gene, lgd_dist, lgd_enhancer, max_height = unit(0.9*h, &quot;inch&quot;))
+draw(lgd_list, x = circle_size, just = &quot;left&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-44-1.png" width="100%" style="display: block; margin: auto;" />
+<h3 id="session-info">Session info</h3>
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+<pre><code>## R version 4.4.2 (2024-10-31)
+## Platform: aarch64-apple-darwin20
+## Running under: macOS 26.0.1
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## 
+## locale:
+## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+## [1] gridBase_0.4-7        RColorBrewer_1.1-3    dendextend_1.19.0    
+## [4] dendsort_0.3.4        circlize_0.4.16       ComplexHeatmap_2.25.2
+## [7] knitr_1.50            colorout_1.3-2       
+## 
+## loaded via a namespace (and not attached):
+##  [1] viridis_0.6.5       generics_0.1.3      sass_0.4.9         
+##  [4] shape_1.4.6.1       blogdown_1.19       digest_0.6.37      
+##  [7] magrittr_2.0.3      evaluate_1.0.3      bookdown_0.44      
+## [10] iterators_1.0.14    fastmap_1.2.0       foreach_1.5.2      
+## [13] doParallel_1.0.17   jsonlite_1.9.0      GlobalOptions_0.1.2
+## [16] gridExtra_2.3       viridisLite_0.4.2   scales_1.3.0       
+## [19] codetools_0.2-20    jquerylib_0.1.4     cli_3.6.4          
+## [22] rlang_1.1.5         crayon_1.5.3        munsell_0.5.1      
+## [25] cachem_1.1.0        yaml_2.3.10         tools_4.4.2        
+## [28] parallel_4.4.2      dplyr_1.1.4         colorspace_2.1-1   
+## [31] ggplot2_3.5.2       GetoptLong_1.0.5    BiocGenerics_0.52.0
+## [34] vctrs_0.6.5         R6_2.6.1            png_0.1-8          
+## [37] matrixStats_1.5.0   stats4_4.4.2        lifecycle_1.0.4    
+## [40] magick_2.8.5        S4Vectors_0.44.0    IRanges_2.40.1     
+## [43] clue_0.3-66         cluster_2.1.6       pkgconfig_2.0.3    
+## [46] pillar_1.10.1       bslib_0.9.0         gtable_0.3.6       
+## [49] glue_1.8.0          Rcpp_1.0.14         tidyselect_1.2.1   
+## [52] tibble_3.2.1        xfun_0.51           rjson_0.2.23       
+## [55] htmltools_0.5.8.1   rmarkdown_2.29      Cairo_1.6-2        
+## [58] compiler_4.4.2
+</code></pre>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

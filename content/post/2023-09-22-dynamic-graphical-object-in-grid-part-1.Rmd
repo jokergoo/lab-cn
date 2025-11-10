@@ -1,0 +1,140 @@
+---
+title: "Dynamic graphical object in grid, part 1"
+date: 2023-09-22
+author: Zuguang Gu
+---
+
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 5,
+    fig.height = 5,
+    fig.align = "center"
+)
+options("width" = 100)
+```
+
+Consider the following task: drawing two circles at `(1, 0)` and `(-1, 0)` with both radius of 1.
+
+```{r}
+theta = seq(0, 2*pi, length = 50)
+
+x1 = cos(theta) + 1
+y1 = sin(theta)
+
+x2 = cos(theta) - 1
+y2 = sin(theta)
+```
+
+We might think of the following way:
+
+```{r, fig.width = 8, fig.height = 6}
+library(grid)
+grid.newpage()
+pushViewport(viewport(xscale = c(-2, 2), yscale = c(-1, 1)))
+grid.lines(x1, y1, default.units = "native")
+grid.lines(x2, y2, default.units = "native")
+```
+
+Unfortunately it only works when the width of the image is twice of the height.
+
+To enforce the aspect ratio to 2:1, we may think of using the `snpc` unit. Taking
+the height of the viewport to `1snpc` and the width of the viewport to `2snpc`.
+
+It works when the height of the image is less than width/2 of the image (in this case, `1snpc` is the height of the image).
+
+```{r, fig.width = 8, fig.height = 3}
+grid.newpage()
+pushViewport(viewport(xscale = c(-2, 2), yscale = c(-1, 1), 
+    width = unit(2, "snpc"), height = unit(1, "snpc")))
+grid.lines(x1, y1, default.units = "native")
+grid.lines(x2, y2, default.units = "native")
+```
+
+But when the height of the image is larger than width/2 but smaller than 
+1width, circles will exceed the image area.
+
+```{r, fig.width = 8, fig.height = 6, echo = FALSE}
+grid.newpage()
+pushViewport(viewport(xscale = c(-2, 2), yscale = c(-1, 1), 
+    width = unit(2, "snpc"), height = unit(1, "snpc")))
+grid.lines(x1, y1, default.units = "native")
+grid.lines(x2, y2, default.units = "native")
+```
+
+You may set `width = unit(1, "snpc"), height = unit(0.5, "snpc")`, but it has the same problem.
+
+Here the core problem is the viewport is dynamically changed. We want the size
+of the two circles to be automatically adjusted to maximally fill the image.
+In this post, I will introduce how to construct a dynamic graphical object.
+
+First I create a new grob object in the class `double_circle` which contains two circles
+(in form of two `linesGrob()` calls). I also create a viewport to include the two
+line grobs.
+
+
+```{r}
+vp = viewport(xscale = c(-2, 2), yscale = c(-1, 1))
+grob = grobTree(linesGrob(x1, y1, default.units = "native"), 
+                linesGrob(x2, y2, default.units = "native"),
+                vp = vp, cl = "double_circle")
+```
+
+As you may see, creating a new grob is quite simple. You just integrate a list
+of simple grobs (e.g. points, lines) in the `grobTree()` function. The class
+is defined by a character string assigned to the `cl` argument.
+
+
+In `grob`, the viewport is in the `vp` slot which we will dynamically update later.
+
+```{r}
+str(grob$vp)
+```
+
+In **grid**, when a grob is drawn, a list of functions will be executed in
+serial. Here I introduce the generic function `makeContext()` which will be
+executed before drawing the graphics. To use `makeContext()`, you need to
+define a S3 method for the grob class. The input is the grob and the output is
+an edited grob. `makeContext()` is mainly for adjusting the viewport of the graphics in the grob.
+
+In the following example, for the `double_circle` grob, the width and the
+height of the current viewport are checked. If the width is larger than two
+times of the height, the width is adjusted to two times of the height, or else
+the height is adjusted to half of the width of the viewport.
+
+
+```{r}
+makeContext.double_circle = function(x) {
+    vp_width = convertWidth(x$vp$width, "in", valueOnly = TRUE)
+    vp_height = convertHeight(x$vp$height, "in", valueOnly = TRUE)
+
+    if(vp_width > 2*vp_height) {
+        x$vp$width = unit(2*vp_height, "in")
+        x$vp$height = unit(vp_height, "in")
+    } else {
+        x$vp$width = unit(vp_width, "in")
+        x$vp$height = unit(vp_width/2, "in")
+    }
+    x
+}
+```
+
+Now we can use `grid.draw()` to draw the grob without worring the size of the image device.
+
+```{r, eval = FALSE}
+grid.newpage()
+grid.draw(grob)
+```
+
+![](https://github.com/jokergoo/BioCartaImage/assets/449218/348453bb-f09b-443d-a8bb-dfb34b088679)
+
+
+
+```{r}
+sessionInfo()
+```

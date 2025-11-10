@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Interactive ComplexHeatmap 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/05/15/interactive-complexheatmap/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Interactive ComplexHeatmap </h1>
+
+  
+    <div id=sub-header>
+      May 2020
+    </div>
+  
+
+  <div class="entry-content">
+    
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div style="width:80%;border:1px dotted #EEEEEE;padding:6px 10px 0px 10px;background-color:#F8F8F8;margin:0 auto;">
+<p style="text-align:center;">
+Key message: heatmaps can be exported into a Shiny app by <code>ht_shiny(ht)</code>.
+</p>
+</div>
+<p>Heatmaps are mainly for visualizing common patterns that are shared by groups
+of rows and columns. After the patterns have been seen, the next step is to
+extract the corresponding rows and columns from the heatmap, which requires
+interactivity on the heatmaps. <strong>ComplexHeatmap</strong> package is used for
+generating static heatmaps. <strong>From version 2.5.3, it is now possible to make
+complex heatmaps interactive!</strong> The new functionalities allow users
+to capture sub-heatmaps by clicking or selecting areas from heatmaps.</p>
+<p>To demonstrate this new functionality, I first generate two heatmaps and apply
+<em>k</em>-means clustering on the numeric one.</p>
+<pre class="r"><code>library(ComplexHeatmap)
+set.seed(123)
+mat1 = matrix(rnorm(100), 10)
+rownames(mat1) = colnames(mat1) = paste0(&quot;a&quot;, 1:10)
+mat2 = matrix(sample(letters[1:10], 100, replace = TRUE), 10)
+rownames(mat2) = colnames(mat2) = paste0(&quot;b&quot;, 1:10)
+
+ht_list = Heatmap(mat1, name = &quot;mat_a&quot;, row_km = 2, column_km = 2) +
+    Heatmap(mat2, name = &quot;mat_b&quot;)</code></pre>
+<p><strong>ComplexHeatmap</strong> package allows two types of interactivity: 1. on the
+interactive graphics device and 2. on a Shiny app.</p>
+<div id="on-the-interactive-graphics-device" class="section level2">
+<h2>On the interactive graphics device</h2>
+<p>Here the “interactive graphics device” is the window that is opened for generating
+plots in your R session, or the figure panel in Rstudio IDE.</p>
+<p>In the following parts of this post, I will explain how the correspondance
+between the points user selected and the values in the heatmap/matrix is done
+in <strong>ComplexHeatmap</strong> package.</p>
+<p>When user clicks on the device, the physical locations relative in the device
+are captured by <code>grid::grid.locator()</code>. The physical locations of the heatmaps
+(more precisely, the heatmap slices) are also captured via the new
+<code>ht_pos_on_device()</code> function (thanks to <code>grid::deviceLoc()</code>).</p>
+<p>Before executing <code>ht_pos_on_device()</code>, the heatmap should be drawn on the
+device and the layout of heatmaps should have been done, thus, the heatmap object
+<code>ht_list</code> should be updated explictly by the <code>draw()</code> function.</p>
+<pre class="r"><code>ht_list = draw(ht_list)
+pos = ht_pos_on_device(ht_list)</code></pre>
+<p><img src="/post/2020-05-15-interactive-complexheatmap_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>The returned object <code>pos</code> is a <code>DataFrame</code> object that contains the positions
+of all heatmap slices. A <code>DataFrame</code> object (the <code>DataFrame</code> class is defined
+in <strong>S4Vectors</strong> package from
+<a href="https://bioconductor.org/packages/release/bioc/html/S4Vectors.html">Bioconductor</a>)
+is bacially very similar as a data frame, but it can store more complex data
+types, such as the <code>simpleUnit</code> (generated by <code>grid::unit()</code>) vectors as in <code>pos</code>
+(click the “show/hide output” button to see the output).</p>
+<pre class="r"><code>pos</code></pre>
+<pre><code>## DataFrame with 6 rows and 8 columns
+##       heatmap                  slice row_slice column_slice
+##   &lt;character&gt;            &lt;character&gt; &lt;integer&gt;    &lt;integer&gt;
+## 1       mat_a mat_a_heatmap_body_1_1         1            1
+## 2       mat_a mat_a_heatmap_body_1_2         1            2
+## 3       mat_a mat_a_heatmap_body_2_1         2            1
+## 4       mat_a mat_a_heatmap_body_2_2         2            2
+## 5       mat_b mat_b_heatmap_body_1_1         1            1
+## 6       mat_b mat_b_heatmap_body_2_1         2            1
+##                     x_min                  x_max                  y_min
+##              &lt;simpleUnit&gt;           &lt;simpleUnit&gt;           &lt;simpleUnit&gt;
+## 1 0.828163660938867inches 1.85094060440931inches 1.01424758277286inches
+## 2  1.89031068314947inches 2.91308762661992inches 1.01424758277286inches
+## 3 0.828163660938867inches 1.85094060440931inches 0.43548031496063inches
+## 4  1.89031068314947inches 2.91308762661992inches 0.43548031496063inches
+## 5  2.99182778410023inches 5.07675174978128inches 1.01424758277286inches
+## 6  2.99182778410023inches 5.07675174978128inches 0.43548031496063inches
+##                     y_max
+##              &lt;simpleUnit&gt;
+## 1  3.17183633906113inches
+## 2  3.17183633906113inches
+## 3 0.974877504032699inches
+## 4 0.974877504032699inches
+## 5  3.17183633906113inches
+## 6 0.974877504032699inches</code></pre>
+<p>We can confirm whether the positions are correctly captured by the following
+code. In the next figure, black rectangles correspond to the heatmap slices
+and the dashed rectangle corresponds to the border of the whole image.</p>
+<pre class="r"><code># If you try the code in your interactive R session, you need the following 
+# two lines to open a new device with the same size as the current one.
+# ds = dev.size()
+# dev.new(width = ds[1], height = ds[2])
+grid.newpage()
+grid.rect(gp = gpar(lty = 2))
+for(i in seq_len(nrow(pos))) {
+    x_min = pos[i, &quot;x_min&quot;]
+    x_max = pos[i, &quot;x_max&quot;]
+    y_min = pos[i, &quot;y_min&quot;]
+    y_max = pos[i, &quot;y_max&quot;]
+    pushViewport(viewport(x = x_min, y = y_min, name = pos[i, &quot;slice&quot;],
+        width = x_max - x_min, height = y_max - y_min,
+        just = c(&quot;left&quot;, &quot;bottom&quot;)))
+    grid.rect()
+    upViewport()
+}</code></pre>
+<p><img src="/post/2020-05-15-interactive-complexheatmap_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Since now we know the location of the point that user clicked and the positions
+of all heatmap slices, it is possible to calculate which row and which column in
+the original matrix user’s point corresponds to.</p>
+<p>In the next figure, the blue point with the coordinate <span class="math inline">\((a, b)\)</span> is
+clicked by user. The heatmap slice where user clicked into has range <span class="math inline">\((x_1,x_2)\)</span>
+on x direction and range <span class="math inline">\((y_1, y_2)\)</span> on y direction. There are <span class="math inline">\(n_r\)</span>
+rows (<span class="math inline">\(n_r =8\)</span>) and <span class="math inline">\(n_c\)</span> columns (<span class="math inline">\(n_c = 5\)</span>) in this heatmap slice and they are marked
+by dashed lines.</p>
+<p><img src="/post/2020-05-15-interactive-complexheatmap_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Relative in this heatmap slice, the row index <span class="math inline">\(i_r\)</span> and column index <span class="math inline">\(i_c\)</span> of
+the cell where the point is in can be calculated as:</p>
+<p><span class="math display">\[ i_c = \lceil \frac{a - x_1}{x_2 - x_1} \cdot n_c \rceil \]</span>
+<span class="math display">\[ i_r = \lceil \frac{b - y_1}{y_2 - y_1} \cdot n_r \rceil \]</span></p>
+<p>where the symbol <span class="math inline">\(\lceil x \rceil\)</span> means the ceiling of the numeric value <span class="math inline">\(x\)</span>.
+If the row on the top has the index of 1, then <span class="math inline">\(i_r\)</span> should be calculated as:</p>
+<p><span class="math display">\[ i_r = n_r - \lceil \frac{b - y_1}{y_2 - y_1} \cdot n_r \rceil + 1 \]</span></p>
+<p>The subset of row and column indices of the original matrix that belongs to
+the selected heatmap slice is already stored in <code>ht_list</code> object, thus, we can
+obtain the row and column index of the original matrix that corresponds to
+user’s point easily with <span class="math inline">\(i_r\)</span> and <span class="math inline">\(i_c\)</span>.</p>
+<p><strong>ComplexHeatmap</strong> package now has two new functions <code>selectPosition()</code> and
+<code>selectArea()</code> which allows users to pick single positions or select areas
+from the heatmaps. Under the interactive graphics device, users do not need to
+run <code>ht_pos_on_device()</code> explicitly. The positions of heatmaps are
+automatically calculated, cached and reused if the heatmaps are the same and
+the device has not changed its size.</p>
+<p>The next image shows an example of using <code>selectPosition()</code>. Interactively,
+the function asks user to click one position on the heatmap. The function
+returns a <code>DataFrame</code> which contains the heatmap name, slice name and the
+row/column index of the matrix in that heatmap. An example output can be found
+by clicking the button below.</p>
+<pre><code>## DataFrame with 1 row and 6 columns
+##       heatmap                  slice row_slice column_slice row_index
+##   &lt;character&gt;            &lt;character&gt; &lt;numeric&gt;    &lt;numeric&gt; &lt;integer&gt;
+## 1       mat_a mat_a_heatmap_body_1_2         1            2         9
+##   column_index
+##      &lt;integer&gt;
+## 1            1</code></pre>
+<p>If the position clicked is not in any of the heatmap slices, the function
+returns <code>NULL</code>.</p>
+<p>
+<img width='100%' style='border:1px solid grey;padding: 4px;'  src='https://user-images.githubusercontent.com/449218/82155004-29035780-9872-11ea-849d-20b15014c451.gif' />
+</p>
+<p>Similarly, the <code>selectArea()</code> function asks user to click two positions on the
+heatmap which defines an area. Note since the selected area may overlap over
+multiple heatmaps and slices, the function returns a <code>DataFrame</code> with multiple
+rows which contains the heatmap names, slice names and the row/column indices
+in that heatmap. An example output can be found by clicking the button below.</p>
+<pre><code>## DataFrame with 4 rows and 6 columns
+##       heatmap                  slice row_slice column_slice     row_index
+##   &lt;character&gt;            &lt;character&gt; &lt;numeric&gt;    &lt;numeric&gt; &lt;IntegerList&gt;
+## 1       mat_a mat_a_heatmap_body_1_2         1            2     7,5,2,...
+## 2       mat_a mat_a_heatmap_body_2_2         2            2           6,3
+## 3       mat_b mat_b_heatmap_body_1_1         1            1     7,5,2,...
+## 4       mat_b mat_b_heatmap_body_2_1         2            1           6,3
+##    column_index
+##   &lt;IntegerList&gt;
+## 1     2,4,1,...
+## 2     2,4,1,...
+## 3     1,2,3,...
+## 4     1,2,3,...</code></pre>
+<p>The columns <code>row_index</code> and <code>column_index</code> are stored in <code>IntegerList</code> format.
+To get the row indices in <em>e.g.</em> <code>mat_a_heatmap_body_1_2</code> (in the first row), user should use one
+of the following code (assume the <code>DataFrame</code> object is called <code>df</code>):</p>
+<pre class="r"><code>df[1, &quot;row_index&quot;][[1]]
+unlist(df[1, &quot;row_index&quot;])
+df$row_index[[1]]</code></pre>
+<p>The rectangle and the points that mark the area can be turned off by setting
+<code>mark</code> argument to <code>FALSE</code>.</p>
+<p>
+<img width='100%' style='border:1px solid grey;padding: 4px;' src='https://user-images.githubusercontent.com/449218/82155001-23a60d00-9872-11ea-8e28-4c956e40a5e9.gif' />
+</p>
+</div>
+<div id="on-other-devices" class="section level2">
+<h2>On other devices</h2>
+<p>It is also possible to use on other non-interactive graphics devices, such as
+<code>pdf()</code> or <code>png()</code>. Now you cannot select the positions interactively, but
+instead you should specify <code>pos</code> argument in <code>selectPosition()</code> and
+<code>pos1</code>/<code>pos2</code> in <code>selectArea()</code>. The values for <code>pos</code>, <code>pos1</code> and <code>pos2</code>
+all should be a <code>unit</code> object of length two which correspond to the x and y
+coordinate of the positions.</p>
+<pre class="r"><code># pdf(...) or png(...) or other graphics devices
+ht_list = draw(ht_list)
+pos = selectPosition(ht_list, pos = unit(c(3, 3), &quot;cm&quot;))</code></pre>
+<p><img src="/post/2020-05-15-interactive-complexheatmap_files/figure-html/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;" /></p>
+<pre><code>##   Point: x = 3.0 cm, y = 3.0 cm (measured in the graphics device)
+## 
+## The heatmaps have been changed. Calcualte the new heatmap positions.
+## Search in heatmap &#39;mat_a&#39;
+##   - row slice 1, column slice 1 [mat_a_heatmap_body_1_1]... overlap</code></pre>
+<pre class="r"><code>pos</code></pre>
+<pre><code>## DataFrame with 1 row and 6 columns
+##       heatmap                  slice row_slice column_slice row_index
+##   &lt;character&gt;            &lt;character&gt; &lt;numeric&gt;    &lt;numeric&gt; &lt;integer&gt;
+## 1       mat_a mat_a_heatmap_body_1_1         1            1         8
+##   column_index
+##      &lt;integer&gt;
+## 1            9</code></pre>
+<pre class="r"><code># remember to dev.off()</code></pre>
+<pre class="r"><code># pdf(...) or png(...) or other graphics devices
+ht_list = draw(ht_list)
+pos = selectArea(ht_list, pos1 = unit(c(3, 3), &quot;cm&quot;), pos2 = unit(c(5, 5), &quot;cm&quot;))</code></pre>
+<p><img src="/post/2020-05-15-interactive-complexheatmap_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
+<pre><code>##   Point 1: x = 3.0 cm, y = 3.0 cm (measured in the graphics device)
+##   Point 2: x = 5.0 cm, y = 5.0 cm (measured in the graphic device)
+## 
+## Heatmap positions are already calculated, use the cached one.
+## Search in heatmap &#39;mat_a&#39;
+##   - row slice 1, column slice 1 [mat_a_heatmap_body_1_1]... overlap
+## Search in heatmap &#39;mat_a&#39;
+##   - row slice 1, column slice 2 [mat_a_heatmap_body_1_2]... overlap
+## Search in heatmap &#39;mat_a&#39;
+##   - row slice 2, column slice 1 [mat_a_heatmap_body_2_1]... no overlap
+## Search in heatmap &#39;mat_a&#39;
+##   - row slice 2, column slice 2 [mat_a_heatmap_body_2_2]... no overlap
+## Search in heatmap &#39;mat_b&#39;
+##   - row slice 1, column slice 1 [mat_b_heatmap_body_1_1]... no overlap
+## Search in heatmap &#39;mat_b&#39;
+##   - row slice 2, column slice 1 [mat_b_heatmap_body_2_1]... no overlap</code></pre>
+<pre class="r"><code>pos</code></pre>
+<pre><code>## DataFrame with 2 rows and 6 columns
+##       heatmap                  slice row_slice column_slice     row_index
+##   &lt;character&gt;            &lt;character&gt; &lt;numeric&gt;    &lt;numeric&gt; &lt;IntegerList&gt;
+## 1       mat_a mat_a_heatmap_body_1_1         1            1     7,5,2,...
+## 2       mat_a mat_a_heatmap_body_1_2         1            2     7,5,2,...
+##    column_index
+##   &lt;IntegerList&gt;
+## 1     9,7,3,...
+## 2             6</code></pre>
+<pre class="r"><code># remember to dev.off()</code></pre>
+<p>Normally, users do not need to use it directly, however, it is very useful
+when developing a Shiny app where the plot is actually under a non-interactive
+graphics device. I will explain in the next section.</p>
+</div>
+<div id="shiny-app" class="section level2">
+<h2>Shiny app</h2>
+<p>With the three functions <code>ht_pos_on_device()</code>, <code>selectPosition()</code> and <code>selectArea()</code>,
+it is possible to implement Shiny apps for interactively working with heatmaps.
+<strong>ComplexHeatmap now has a <code>ht_shiny()</code> function which directly exports a heatmap
+(or a heatmap list) into a Shiny app.</strong></p>
+<p>To use <code>ht_shiny()</code>, the <code>Heatmap</code>/<code>HeatmapList</code> object is not necessary to be
+updated with <code>draw()</code>, however, updating by <code>draw()</code> will speed up the loading
+of the Shiny app because <code>draw()</code> applies clustering saves it into the heatmap object.</p>
+<p>To export the <code>ht_list</code> that is already generated into a Shiny app, simply
+execute <code>ht_shiny()</code> as following. Please visit
+<a href="https://jokergoo.shinyapps.io/interactive_complexheatmap/" class="uri">https://jokergoo.shinyapps.io/interactive_complexheatmap/</a> for a live demo.</p>
+<pre class="r"><code>ht_shiny(ht_list)</code></pre>
+<p>The following code demostrates two vertically concatenated heatmaps. Check
+<a href="https://jokergoo.shinyapps.io/interactive_complexheatmap_vertical/" class="uri">https://jokergoo.shinyapps.io/interactive_complexheatmap_vertical/</a> for a live demo.</p>
+<pre class="r"><code>ht_list = Heatmap(mat1, name = &quot;mat_a&quot;, row_km = 2, column_km = 2) %v%
+    Heatmap(mat2, name = &quot;mat_b&quot;)
+ht_shiny(ht_list)</code></pre>
+<p><code>densityHeatmap()</code> returns a <code>Heatmap</code> object, thus it can also be exported into a Shiny app.
+Check <a href="https://jokergoo.shinyapps.io/interactive_densityheatmap/" class="uri">https://jokergoo.shinyapps.io/interactive_densityheatmap/</a> for a live demo.</p>
+<pre class="r"><code>ht = densityHeatmap(mat1)
+ht_shiny(ht)</code></pre>
+<p><a href="https://www.bioconductor.org/packages/release/bioc/html/EnrichedHeatmap.html"><strong>EnrichedHeatmap</strong></a> also outputs <code>Heatmap</code> objects, thus, an “enriched heatmap” can be exported
+into a Shiny app as well. Check <a href="https://jokergoo.shinyapps.io/interactive_enrichedheatmap/" class="uri">https://jokergoo.shinyapps.io/interactive_enrichedheatmap/</a> for a live demo.</p>
+<pre class="r"><code>library(EnrichedHeatmap)
+load(system.file(&quot;extdata&quot;, &quot;chr21_test_data.RData&quot;, package = &quot;EnrichedHeatmap&quot;))
+mat_meth = normalizeToMatrix(meth, cgi, value_column = &quot;meth&quot;, 
+    mean_mode = &quot;absolute&quot;, extend = 5000, w = 50, smooth = TRUE)
+ht = EnrichedHeatmap(mat_meth, name = &quot;methylation&quot;, 
+    column_title = &quot;methylation near CGI&quot;)
+ht_shiny(ht)</code></pre>
+<p>Since <strong>ComplexHeatmap</strong> can <a href="http://127.0.0.1:6058/2020/05/06/translate-from-pheatmap-to-complexheatmap/">seamlessly integrate <strong>pheatmap</strong></a>, this means your pheatmap can be interactive!</p>
+<pre class="r"><code>ht = pheatmap(mat1)
+ht_shiny(ht)</code></pre>
+<p>Following screenshot demonstrates the Shiny app on rather complex heatmaps. The data is from <a href="http://jokergoo.github.io/supplementary/ComplexHeatmap-supplementary1-4/supplS2_scRNASeq/supplS2_scRNAseq.html">here</a> with slightly changing
+the original code for making heatmaps.</p>
+<p>In this Shiny app, users can click on the orignal heatmap or select an area
+from it. The information of the area selected by users can be found in the
+text below the heatmaps. If an area is selected, the row and column indices
+for all selected heatmaps can be obtained from a automatically generated
+sourcable code, which can also be found below the heatmap. Both heatmaps can
+be resized by dragging from the bottom right.</p>
+<p>
+<img width='100%' style='border:1px solid grey;padding: 4px;'  src='https://user-images.githubusercontent.com/449218/82199376-e5eec600-98fd-11ea-9fca-ad95d405dc20.gif' />
+</p>
+<p>Please note, if the heatmap is too huge or you resize the heatmap too
+frequently, the heatmap might not be correctly updated. You can just slightly
+resize the heatmap again and wait for several seconds (you might have already observed
+from the previous screenshot that the right heatmap was not properly drawn when I first
+resized it).</p>
+<p>The sub-heatmap visualized on the right side in the Shiny app will not contain
+anything drawn from <code>cell_fun</code>/<code>layer_fun</code> or <code>decorate_*()</code> functions, which
+means you cannot export an
+<a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/oncoprint.html">oncoPrint</a>
+or a <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/upset-plot.html">UpSet plot</a> into a Shiny app.</p>
+</div>
+<div id="implement-a-shiny-app-from-scratch" class="section level2">
+<h2>Implement a Shiny app from scratch</h2>
+<p>Next I will demonstrate how to build a Shiny app from scratch with
+<code>ht_pos_on_device()</code>, <code>selectPosition()</code> and <code>selectArea()</code>. First I provide
+a runnable example, and later I explain it step by step. In this example, I
+only use a single heatmap for simplicity.</p>
+<pre class="r"><code># you can copy the following code and paste into your R session, the app runs.
+library(shiny)
+library(glue)
+library(ComplexHeatmap)
+
+set.seed(123)
+mat = matrix(rnorm(100), 10)
+rownames(mat) = colnames(mat) = paste0(&quot;a&quot;, 1:10)
+
+ht = Heatmap(mat, name = &quot;mat&quot;)
+
+ui = fluidPage(
+    fluidRow(
+        column(width = 3,
+            plotOutput(&quot;main_heatmap&quot;, height = 300, width = 300,
+                brush = &quot;ht_brush&quot;, click = &quot;ht_click&quot;)
+        ),
+        column(width = 3,
+          plotOutput(&quot;sub_heatmap&quot;, height = 300, width = 300)
+        )
+    ),
+    verbatimTextOutput(&quot;ht_click_content&quot;)
+)
+
+shiny_env = new.env()
+server = function(input, output) {
+    output$main_heatmap = renderPlot({
+        shiny_env$ht = draw(ht)
+        shiny_env$ht_pos = ht_pos_on_device(shiny_env$ht)
+    })
+
+    output$sub_heatmap = renderPlot({
+        if(is.null(input$ht_brush)) {
+            grid.newpage()
+            grid.text(&quot;No region is selected.&quot;, 0.5, 0.5)
+        } else {
+            lt = ComplexHeatmap:::get_pos_from_brush(input$ht_brush)
+            pos1 = lt[[1]]
+            pos2 = lt[[2]]
+            
+            ht = shiny_env$ht
+            pos = selectArea(ht, mark = FALSE, pos1 = pos1, pos2 = pos2, 
+                verbose = FALSE, ht_pos = shiny_env$ht_pos)
+            
+            row_index = unlist(pos[1, &quot;row_index&quot;])
+            column_index = unlist(pos[1, &quot;column_index&quot;])
+            m = ht@ht_list[[1]]@matrix
+            ht_select = Heatmap(m[row_index, column_index, drop = FALSE],
+                col = ht@ht_list[[1]]@matrix_color_mapping@col_fun,
+                show_heatmap_legend = FALSE,
+                cluster_rows = FALSE, cluster_columns = FALSE)
+            draw(ht_select)
+        }
+    })
+
+    output$ht_click_content = renderText({
+        if(is.null(input$ht_click)) {
+            &quot;Not selected.&quot;
+        } else {
+            pos1 = ComplexHeatmap:::get_pos_from_click(input$ht_click)
+            
+            ht = shiny_env$ht
+            pos = selectPosition(ht, mark = FALSE, pos = pos1, 
+                verbose = FALSE, ht_pos = shiny_env$ht_pos)
+            
+            row_index = pos[1, &quot;row_index&quot;]
+            column_index = pos[1, &quot;column_index&quot;]
+            m = ht@ht_list[[1]]@matrix
+            v = m[row_index, column_index]
+            
+            glue(&quot;row index: {row_index}&quot;,
+                 &quot;column index: {column_index}&quot;,
+                 &quot;value: {v}&quot;, .sep = &quot;\n&quot;)
+        }
+    })
+}
+
+shinyApp(ui, server)</code></pre>
+<p>The UI of the app is simple. The left is the original heatmap which allows
+clicking and brushing, and the right is the heatmap for the sub-matrix
+selected. Below the heatmap is a text area which provides information for the
+selected area.</p>
+<pre class="r"><code>ui = fluidPage(
+    fluidRow(
+        column(width = 3,
+            plotOutput(&quot;main_heatmap&quot;, height = 300, width = 300,
+                brush = &quot;ht_brush&quot;, click = &quot;ht_click&quot;)
+        ),
+        column(width = 3,
+          plotOutput(&quot;sub_heatmap&quot;, height = 300, width = 300)
+        )
+    ),
+    verbatimTextOutput(&quot;ht_click_content&quot;)
+)</code></pre>
+<p>Here we have an environment to put global variables in, that can be shared
+between different Shiny components.</p>
+<pre class="r"><code>shiny_env = new.env()</code></pre>
+<p>Once the app is lanched, the heatmap is drawn. Here if <code>ht</code> has not been
+previously updated by <code>draw()</code>, the <code>draw()</code> inside <code>renderPlot()</code> will also
+perform clustering, or else it only redraws the heatmap.</p>
+<p>Once the heatmap is drawn, the heatmap will not change, thus, we save the
+heatmap object (returned by <code>draw()</code> where clustering is done and layout is
+initialized) as well as the positions of heatmap in the image (<code>ht_opt</code>) as
+global variables.</p>
+<pre class="r"><code>    output$main_heatmap = renderPlot({
+        shiny_env$ht = draw(ht)
+        shiny_env$ht_pos = ht_pos_on_device(shiny_env$ht)
+    })</code></pre>
+<p>The next following code defines the action when user selects an area from the
+original heatmap. The variable <code>input$ht_brush</code> contains the position of the
+selected area in the heatmap image. Here the <code>ComplexHeatmap:::get_pos_from_brush()</code>
+is a simple function which retrieves the positions and saves them as
+<code>grid::unit</code> objects.</p>
+<p>In the code, <code>lt[[1]]</code> and <code>lt[[2]]</code> contain coordinates of the two
+diagonal points that user selected. The two coordinates are sent to
+<code>selectArea()</code> where <code>ht_pos</code> is also specified so that the heatmap positions
+are not repeatedly calculated. Finally the row and column indicies can be
+retrieved and the sub-heatmap is made.</p>
+<pre class="r"><code>    output$sub_heatmap = renderPlot({
+        if(is.null(input$ht_brush)) {
+            grid.newpage()
+            grid.text(&quot;No region is selected.&quot;, 0.5, 0.5)
+        } else {
+            lt = ComplexHeatmap:::get_pos_from_brush(input$ht_brush)
+            pos1 = lt[[1]]
+            pos2 = lt[[2]]
+            
+            ht = shiny_env$ht
+            pos = selectArea(ht, mark = FALSE, pos1 = pos1, pos2 = pos2, 
+                verbose = FALSE, ht_pos = shiny_env$ht_pos)
+            
+            row_index = unlist(pos[1, &quot;row_index&quot;])
+            column_index = unlist(pos[1, &quot;column_index&quot;])
+            m = ht@ht_list[[1]]@matrix
+            ht_select = Heatmap(m[row_index, column_index, drop = FALSE],
+                col = ht@ht_list[[1]]@matrix_color_mapping@col_fun,
+                show_heatmap_legend = FALSE,
+                cluster_rows = FALSE, cluster_columns = FALSE)
+            draw(ht_select)
+        }
+    })</code></pre>
+<p>The following code defines the action when user click a position on the
+original heatmap. Similar as <code>ComplexHeatmap:::get_pos_from_brush()</code>,
+<code>ComplexHeatmap:::get_pos_from_click()</code> returns the clicked position in the
+image.</p>
+<p>Similarly, the position is sent to <code>selectPosition()</code>, and the row and column
+index that correspond to the clicked position can be retrieved.</p>
+<pre class="r"><code>    output$ht_click_content = renderText({
+        if(is.null(input$ht_click)) {
+            &quot;Not selected.&quot;
+        } else {
+            pos1 = ComplexHeatmap:::get_pos_from_click(input$ht_click)
+            
+            ht = shiny_env$ht
+            pos = selectPosition(ht, mark = FALSE, pos = pos1, 
+                verbose = FALSE, ht_pos = shiny_env$ht_pos)
+            
+            row_index = pos[1, &quot;row_index&quot;]
+            column_index = pos[1, &quot;column_index&quot;]
+            m = ht@ht_list[[1]]@matrix
+            v = m[row_index, column_index]
+            
+            glue(&quot;row index: {row_index}&quot;,
+                 &quot;column index: {column_index}&quot;,
+                 &quot;value: {v}&quot;, .sep = &quot;\n&quot;)
+        }
+    })</code></pre>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("pre").not(".r").prepend("<input class='switch_hljs' type='button' value='show/hide output' />");
+    $(".switch_hljs").next().hide();
+    $(".switch_hljs").click(function() {
+        $(this).next().toggle();
+    })
+});
+</script>
+</div>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

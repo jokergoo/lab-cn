@@ -1,0 +1,149 @@
+---
+title: "Recent improvements on legends"
+date: 2020-10-29
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In this post, I will demonstrate several improvements on the legends in
+<strong>ComplexHeatmap</strong> package (version 2.7.1).</p>
+<p>First I load the <strong>ComplexHeatmap</strong> package.</p>
+<pre class="r"><code>library(ComplexHeatmap)</code></pre>
+<div id="discrete-legends" class="section level2">
+<h2>Discrete legends</h2>
+<p>Now it works with multi-line labels:</p>
+<pre class="r"><code>lgd = Legend(labels = c(&quot;aaaaa\naaaaa&quot;, &quot;bbbbb\nbbbbb&quot;, &quot;c&quot;, &quot;d&quot;),
+    legend_gp = gpar(fill = 1:4))</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-5-1.png" width="71.0824146981627" style="display: block; margin: auto;" /></p>
+<p>When the multi-line legend labels are in different rows:</p>
+<pre class="r"><code>lgd = Legend(labels = c(&quot;aaaaa\naaaaa&quot;, &quot;c&quot;, &quot;d&quot;, &quot;bbbbb\nbbbbb&quot;),
+    legend_gp = gpar(fill = 1:4), nrow = 2)</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-7-1.png" width="134.072440944882" style="display: block; margin: auto;" /></p>
+<p><code>Legend()</code> function has a new argument <code>graphics</code> where users can self-define the graphics
+drawn in the legend. Check the following example:</p>
+<pre class="r"><code>lgd = Legend(labels = letters[1:4],
+    graphics = list(
+        function(x, y, w, h) grid.rect(x, y, w*0.33, h, gp = gpar(fill = &quot;red&quot;)),
+        function(x, y, w, h) grid.rect(x, y, w, h*0.33, gp = gpar(fill = &quot;blue&quot;)),
+        function(x, y, w, h) grid.text(&quot;A&quot;, x, y, gp = gpar(col = &quot;darkgreen&quot;)),
+        function(x, y, w, h) grid.points(x, y, gp = gpar(col = &quot;orange&quot;), pch = 16)
+    ))</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-9-1.png" width="41.4290813648294" style="display: block; margin: auto;" /></p>
+<p>This new feature in mainly used <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/oncoprint.html">to draw complex legends in
+oncoPrint</a>.</p>
+</div>
+<div id="continuous-legends" class="section level2">
+<h2>Continuous legends</h2>
+<p>I first define a color mapping function by <code>circlize::colorRamp2()</code> function.</p>
+<pre class="r"><code>library(circlize)
+col_fun = colorRamp2(c(-2, 0, 2), c(&quot;green&quot;, &quot;white&quot;, &quot;red&quot;))</code></pre>
+<p>By default the legend looks like:</p>
+<pre class="r"><code>lgd = Legend(col_fun = col_fun, title = &quot;foo&quot;)</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-12-1.png" width="49.2157480314961" style="display: block; margin: auto;" /></p>
+<p>If <code>at</code> is set in the decreasing order, the legend is reversed, <em>i.e.</em> the smallest value
+is on the top of the legend.</p>
+<pre class="r"><code>lgd = Legend(col_fun = col_fun, title = &quot;foo&quot;, at = c(2, 1, 0, -1, -2))</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-14-1.png" width="49.2157480314961" style="display: block; margin: auto;" /></p>
+<p>Most continuous legends have legend breaks with equal distance, which I mean,
+<em>e.g.</em> the distance between the first and the second breaks are the same as the
+distance between the second and the third breaks. However, there are still special
+cases where users want to set legend breaks with unequal distances.</p>
+<p>In the following example, the color mapping function <code>col_fun_prop</code> visualizes
+proportion values with breaks in <code>c(0, 0.05, 0.1, 0.5, 1)</code>. The legend breaks
+with unequal distance might reflect the different importance of the values in <code>c(0, 1)</code>.
+For example, maybe we want to see more details in the interval <code>c(0, 0.1)</code>.</p>
+<p>Following is the default style of the legend where the breaks are selected from 0 to 1
+with equal distance.</p>
+<pre class="r"><code>col_fun_prop = colorRamp2(c(0, 0.05, 0.1, 0.5, 1), 
+    c(&quot;green&quot;, &quot;white&quot;, &quot;red&quot;, &quot;black&quot;, &quot;blue&quot;))
+lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;)</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-16-1.png" width="52.5490813648294" style="display: block; margin: auto;" /></p>
+<p>You cann’t see the details in the interval <code>c(0, 0.1)</code>, right? This also reminds us that
+the breaks set in <code>colorRamp2()</code> only defines the color mapping while not determine
+the breaks in the legend.</p>
+<p>If we manually select the break values, the color bar keeps the same. The labels
+are shifted and lines connect them to the original positions. In this case, the distance
+in the color bar is still proportional to the real difference in the break values, <em>i.e.</em>,
+the distance between 0.5 and 1 is five times longer than 0 and 0.1.</p>
+<pre class="r"><code>col_fun_prop = colorRamp2(c(0, 0.05, 0.1, 0.5, 1), 
+    c(&quot;green&quot;, &quot;white&quot;, &quot;red&quot;, &quot;black&quot;, &quot;blue&quot;))
+lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;,
+    at = c(0, 0.05, 0.1, 0.5, 1))</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-18-1.png" width="71.3009973753281" style="display: block; margin: auto;" /></p>
+<p>From version 2.7.1, <code>Legend()</code> function has a new argument <code>break_dist</code> that
+controls the distance between two neighbouring break values in the legend.
+<strong>It might be confusing, but from here, when I mention “break distance”, it
+always means the visual distance in the legend.</strong></p>
+<p>The value of <code>break_dist</code> should have length either one which means all break
+values have equal distance in the legend, or <code>length(at) - 1</code>.</p>
+<pre class="r"><code>lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;, break_dist = 1)</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-20-1.png" width="59.9624146981627" style="display: block; margin: auto;" /></p>
+<p>And in the following example, the top two break intervals are three times longer than
+the bottom two intervals.</p>
+<pre class="r"><code>lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;, break_dist = c(1, 1, 3, 3))</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-22-1.png" width="71.3009973753281" style="display: block; margin: auto;" /></p>
+<p>If we increase the legend height by <code>legend_height</code> argument, there will be enough space
+for the labels and their positions are not adjusted any more.</p>
+<pre class="r"><code>lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;, break_dist = c(1, 1, 3, 3),
+    legend_height = unit(4, &quot;cm&quot;))</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-24-1.png" width="59.9624146981627" style="display: block; margin: auto;" /></p>
+</div>
+<div id="multi-scheme-colors" class="section level2">
+<h2>Multi-scheme colors</h2>
+<p>Imaging following user case, we want to use one color scheme for the values in
+<code>c(0, 0.1)</code> and a second color schema for the values in <code>c(0.1, 1)</code>, maybe for
+the reason that we want to emphasize the two intervals are very different. The
+color mapping can be defined as:</p>
+<pre class="r"><code>col_fun2 = colorRamp2(c(0, 0.1, 0.1+1e-6, 1), c(&quot;white&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;blue&quot;))</code></pre>
+<p>So here I just added a tiny shift (<code>1e-6</code>) to 0.1 and set it as the lower bound for the
+second color scheme. The legend looks like:</p>
+<pre class="r"><code>lgd = Legend(col_fun = col_fun2, title = &quot;Prop&quot;, at = c(0, 0.05, 0.1, 0.5, 1),
+    break_dist = c(1, 1, 3, 3), legend_height = unit(4, &quot;cm&quot;))</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-27-1.png" width="59.9624146981627" style="display: block; margin: auto;" /></p>
+<p>Now you can see the colors are not changed smoothly from 0 to 1 and there are two disticnt
+color schemes.</p>
+</div>
+<div id="work-with-heatmaps-and-annotations" class="section level2">
+<h2>Work with heatmaps and annotations</h2>
+<p>As explained in <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/legends.html#heatmap-and-annotation-legends">the <strong>ComplexHeatmap</strong>
+book</a>,
+the new arguments be set either via argument <code>heatmap_legend_param</code> in
+<code>Heatmap()</code> function or argument <code>annotation_legend_param</code> in
+<code>HeatmapAnnotation()</code> function.</p>
+</div>
+<div id="example-with-a-heatmap" class="section level2">
+<h2>Example with a heatmap</h2>
+<p>Here I made a simplified version of <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/more-examples.html#the-measles-vaccine-heatmap">the measles vaccine heatmap</a>.
+Check how I set the <code>heatmap_legend_param</code> argument.</p>
+<pre class="r"><code>mat = readRDS(system.file(&quot;extdata&quot;, &quot;measles.rds&quot;, package = &quot;ComplexHeatmap&quot;))
+col_fun = colorRamp2(c(0, 800, 1000, 127000), c(&quot;white&quot;, &quot;cornflowerblue&quot;, &quot;yellow&quot;, &quot;red&quot;))
+Heatmap(mat, name = &quot;cases&quot;, col = col_fun, rect_gp = gpar(col= &quot;white&quot;),
+    cluster_columns = FALSE, show_row_dend = FALSE, show_column_names = FALSE,
+    row_names_side = &quot;left&quot;, row_names_gp = gpar(fontsize = 8),
+    heatmap_legend_param = list(
+        at = c(0, 400, 800, 50000, 100000, 150000), 
+        labels = c(&quot;0&quot;, &quot;400&quot;, &quot;800&quot;, &quot;50k&quot;, &quot;100k&quot;, &quot;150k&quot;),
+        break_dist = c(1, 1, 3, 3, 3), 
+        legend_gp = gpar(col = &quot;black&quot;),
+        legend_height = unit(5, &quot;cm&quot;)
+    )
+)</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>I can also adjust the legend to put it at the bottom of the heatmap.</p>
+<pre class="r"><code>ht = Heatmap(mat, name = &quot;cases&quot;, col = col_fun, rect_gp = gpar(col= &quot;white&quot;),
+    cluster_columns = FALSE, show_row_dend = FALSE, show_column_names = FALSE,
+    row_names_side = &quot;left&quot;, row_names_gp = gpar(fontsize = 8),
+    heatmap_legend_param = list(
+        at = c(0, 400, 800, 50000, 100000, 150000), 
+        labels = c(&quot;0&quot;, &quot;400&quot;, &quot;800&quot;, &quot;50k&quot;, &quot;100k&quot;, &quot;150k&quot;),
+        break_dist = c(1, 1, 3, 3, 3), 
+        legend_gp = gpar(col = &quot;black&quot;),
+        legend_width = unit(9, &quot;cm&quot;),
+        direction = &quot;horizontal&quot;,
+        title_position = &quot;lefttop&quot;
+    )
+)
+draw(ht, heatmap_legend_side = &quot;bottom&quot;)</code></pre>
+<p><img src="/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" /></p>
+</div>

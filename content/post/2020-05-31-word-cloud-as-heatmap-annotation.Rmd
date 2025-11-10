@@ -1,0 +1,313 @@
+---
+title: "Word cloud as heatmap annotation"
+date: 2020-05-31
+author: Zuguang Gu
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.align = "center"
+)
+```
+
+I am recently developing a new package
+[simplifyEnrichment](https://github.com/jokergoo/simplifyEnrichment) which
+clusters GO terms into clusters and visualizes the summaries of GO terms in
+each cluster as word cloud. The results are visualized by **ComplexHeatmap**
+where the word clouds are the heatmap annotations. In this post, I will
+describe how to implement word clouds as the heatmap annotation by
+**ComplexHeatmap**.
+
+To achieve this, we need two functionalities: one draws the word cloud and one
+links the word cloud to the corresponding rows in the heatmap. The former is
+done with the `word_cloud_grob()` function that I will describe later and the
+latter is done with `anno_link()` function which is already defined in
+**ComplexHeatmap** package.
+
+The `word_cloud_grob()` function is from **simplifyEnrichment** package and it,
+as well as several related functions, can be directly sourced from
+[this Gist](https://gist.github.com/jokergoo/bfb115200df256eeacb7af302d4e508e) by
+the following command:
+
+
+```{r}
+source("https://gist.githubusercontent.com/jokergoo/bfb115200df256eeacb7af302d4e508e/raw/14f315c7418f3458d932ad749850fd515dec413b/word_cloud_grob.R")
+```
+
+There are four functions defined in the script:
+
+- `word_cloud_grob()`: The main function that constructs the word cloud
+  [grob](https://rdrr.io/r/grid/grid.grob.html).
+- `widthDetails.word_cloud()`: Helper function which returns the width of the
+  word cloud grob by `grobWidth()` function.
+- `heightDetails.word_cloud()`: Helper function which returns the height of
+  the word cloud grob by `grobHeight()` function.
+- `scale_fontsize()`: This function maps the word frequency to font size.
+
+
+In the following parts of this post, I first describe how to set different
+parameters for constructing the word cloud grob, then demonstrate how to link
+the word cloud to the heatmap. Finally I reproduce the GO similarity heatmap
+that is generated with **simplifyEnrichment** package.
+
+### Word cloud grob
+
+To demonstrate `word_cloud_grob()` function, I randomly generate a vector of
+words and their font sizes.
+
+```{r}
+set.seed(123)
+words = sapply(1:30, function(x) strrep(sample(letters, 1), sample(3:10, 1)))
+fontsize = runif(30, min = 5, max = 30)
+```
+
+The words and the corresponding font sizes should be specified as in following code.
+
+```{r, echo = FALSE}
+gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"))
+factor = 1.1
+```
+
+```{r, fig.width = convertWidth(grobWidth(gb), "inch", valueOnly = TRUE)*factor, fig.height = convertHeight(grobHeight(gb), "inch", valueOnly = TRUE)*factor}
+library(grid)
+gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"))
+grid.newpage()
+grid.draw(gb)
+grid.rect(width = grobWidth(gb), height = grobHeight(gb), gp = gpar(fill = NA))
+```
+
+The word cloud is very basic. The words are ordered by the font sizes and are
+placed from the bottom to top. Words are assigned with random colors. There is
+a box that contains the word cloud. Here `max_width` argument controls the
+"maximal width" of the box. Note the final grob width returned by
+`grobWidth(gb)` might be a little bit smaller than the value specified with
+`max_width` because if the next word exceeds the box, it will be places into the
+next line in the box. I draw the border of the grob explicitly so that you can
+see the size of the grob.
+
+If the width of the box changes, the height of the box changes accordingly. In
+the following example, the width is reduced to 60mm and you can see the box
+gets higher.
+
+```{r, echo = FALSE}
+gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(60, "mm"))
+```
+
+```{r, fig.width = convertWidth(grobWidth(gb), "inch", valueOnly = TRUE)*factor, fig.height = convertHeight(grobHeight(gb), "inch", valueOnly = TRUE)*factor}
+gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(60, "mm"))
+grid.newpage()
+grid.draw(gb)
+grid.rect(width = grobWidth(gb), height = grobHeight(gb), gp = gpar(fill = NA))
+```
+
+The colors of words help to distinguish between the words. The `col` argument can
+be set as a vector with the same length as the words.
+
+```{r, echo = FALSE}
+gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"), col = 1:30)
+```
+
+```{r, fig.width = convertWidth(grobWidth(gb), "inch", valueOnly = TRUE)*factor, fig.height = convertHeight(grobHeight(gb), "inch", valueOnly = TRUE)*factor}
+# color as a vector
+gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"), col = 1:30)
+grid.newpage(); grid.draw(gb)
+grid.rect(width = grobWidth(gb), height = grobHeight(gb), gp = gpar(fill = NA))
+```
+
+`col` can also be set as a color mapping function that maps from font sizes
+to colors. The color mapping function takes the fontsize vector as input and
+returns the corresponding colors.
+
+
+```{r, echo = FALSE}
+library(circlize)
+col_fun = colorRamp2(c(5, 17, 30), c("blue", "black", "red"))
+gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"), 
+	col = col_fun)
+```
+
+```{r, fig.width = convertWidth(grobWidth(gb), "inch", valueOnly = TRUE)*factor, fig.height = convertHeight(grobHeight(gb), "inch", valueOnly = TRUE)*factor}
+# color as a function
+library(circlize)
+col_fun = colorRamp2(c(5, 17, 30), c("blue", "black", "red"))
+gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"), 
+	col = col_fun)
+grid.newpage(); grid.draw(gb)
+grid.rect(width = grobWidth(gb), height = grobHeight(gb), gp = gpar(fill = NA))
+```
+
+Other arguments in `word_cloud_grob` are `line_space` that controls the space
+between lines and `word_space` that controls the space between words.
+
+### As a heatmap annotation
+
+`anno_link()` function links a subset of rows in the heatmap to an external viewport.
+The viewport that links to the heatmap should have fixed width and height. If the
+word cloud is taken as the annotation, the size of the viewport relates to 
+the size of the word cloud grob. In the next code, I generated a word cloud
+grob and calcualte their height and width.
+
+
+```{r}
+gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"))
+gb_h = grobHeight(gb)
+gb_w = grobWidth(gb)
+```
+
+I generate a random heatmap with 10 rows and 10 columns without row clustering,
+so that I can correspond the word cloud to the first three rows in the heatmap.
+
+```{r}
+library(ComplexHeatmap)
+m = matrix(rnorm(100), 10)
+ht = Heatmap(m, cluster_rows = FALSE)
+```
+
+What to draw in the "linking viewport" should be manually defined. In the
+case here, I simply draw the word cloud by `grid.draw(gb)`. I additionally
+draw the background of the word cloud in light grey.
+
+```{r}
+panel_fun = function(index, nm) {
+	grid.rect(gp = gpar(fill = "#EEEEEE", col = NA))
+	grid.draw(gb)
+}
+```
+
+`anno_link()` is set as follows. Note I also set the background color for the
+"linking line" same as the background of the word cloud.
+
+```{r, fig.width = 7, fig.height = 3}
+ht + rowAnnotation(word_cloud = anno_link(align_to = 1:3, which = "row", 
+		panel_fun = panel_fun, size = gb_h, 
+		width = gb_w + unit(5, "mm"), # the link is 5mm
+		link_gp = gpar(fill = "#EEEEEE", col = NA)
+	))
+```
+
+Ok, this is the simplest implementation of the word cloud annotation. To make
+it look nicer, you need to do a lot of manual adjustment. In the next section, I
+demonstrate how to make a nicer plot.
+
+### A real-world example
+
+In this section, I reproduce the plot generated from **simplifyEnrichment** package.
+First I load some data objects:
+
+```{r, results = "hide"}
+tmp_file = tempfile()
+download.file("https://jokergoo.github.io/word_cloud_annotation_example.RData", 
+	destfile = tmp_file, quiet = TRUE)
+load(tmp_file); file.remove(tmp_file)
+```
+
+There are following three objects:
+
+- `mat` A GO similarity matrix from 500 GO terms. Values are between 0 and 1 where
+   1 means exactly the same and 0 means completely different.
+- `cl` The clustering labels of the 500 GO terms.
+- `keywords` A list of keywords and their frequencies extracted from the GO names
+   in the corresponding GO cluster. 
+
+The data structure or the values of the three objects are as follows:
+
+```{r}
+mat[1:6, 1:6]
+cl
+keywords
+```
+
+I first define the similarity heatmap. The settings can be very
+straightforwardly understood from the argument names.
+
+```{r}
+ht = Heatmap(mat, col = colorRamp2(c(0, 1), c("white", "red")),
+	name = "Similarity",
+	show_row_names = FALSE, show_column_names = FALSE,
+	show_row_dend = FALSE, show_column_dend = FALSE,
+	row_split = cl, column_split = cl, 
+	border = "#404040", row_title = NULL, column_title = NULL,
+	row_gap = unit(0, "mm"), column_gap = unit(0, "mm"))
+```
+
+There will be word clouds for every GO cluster, and since the GO terms are
+split by `cl`, the "alignment variable" is defined as follows. The GO cluster
+with label "0" is removed.
+
+```{r}
+align_to = split(seq_len(nrow(mat)), cl)
+align_to = align_to[names(align_to) != "0"]
+align_to = align_to[names(align_to) %in% names(keywords)]
+align_to
+```
+
+Next I construct a list of word cloud grob. Note I use `scale_fontsize()` to 
+map word frequency to font size.
+
+```{r}
+fontsize_range = c(4, 16)
+gbl = lapply(names(align_to), function(nm) {
+	kw = keywords[[nm]][, 1]
+	freq = keywords[[nm]][, 2]
+	fontsize = scale_fontsize(freq, rg = c(1, max(10, freq)), fs = fontsize_range)
+
+	word_cloud_grob(text = kw, fontsize = fontsize)
+})
+names(gbl) = names(align_to)
+gbl
+```
+
+I calculate the height of each word cloud and use the maximal width of all
+grob as the width of the "linking annotation". The heights and widths are
+added with 8pt as margins.
+
+
+```{r}
+margin = unit(8, "pt")
+gbl_h = lapply(gbl, function(x) convertHeight(grobHeight(x), "cm") + margin)
+gbl_h = do.call(unit.c, gbl_h)
+
+gbl_w = lapply(gbl, function(x) convertWidth(grobWidth(x), "cm"))
+gbl_w = do.call(unit.c, gbl_w)
+gbl_w = max(gbl_w) + margin
+```
+
+The use of `convertHeight()` and `convertWidth()` is mainly for simplying the unit objects.
+
+`panel_fun` is defined as follows. The use of `grid.lines()` only draws the bottom,
+right and top border of the viewport.
+
+
+```{r}
+panel_fun = function(index, nm) {
+	# background
+	grid.rect(gp = gpar(fill = "#DDDDDD", col = NA))
+	# border
+	grid.lines(c(0, 1, 1, 0), c(0, 0, 1, 1), gp = gpar(col = "#AAAAAA"), 
+		default.units = "npc")
+    gb = gbl[[nm]]
+    # a viewport within the margins
+    pushViewport(viewport(x = margin/2, y = margin/2, 
+    	width = grobWidth(gb), height = grobHeight(gb),
+    	just = c("left", "bottom")))
+    grid.draw(gb)
+    popViewport()
+}
+```
+
+And the final heatmap with the word cloud annotations are as follows. 
+
+```{r, fig.width = 8, fig.height = 4, out.width = "100%"}
+ht = ht + rowAnnotation(keywords = anno_link(align_to = align_to, 
+	which = "row", panel_fun = panel_fun, 
+	size = gbl_h, gap = unit(2, "mm"), 
+	width = gbl_w + unit(5, "mm"), # 5mm for the link
+	link_gp = gpar(fill = "#DDDDDD", col = "#AAAAAA"), 
+	internal_line = FALSE)) # you can set it to TRUE to see what happens
+draw(ht, ht_gap = unit(2, "pt"))
+```

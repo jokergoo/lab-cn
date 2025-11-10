@@ -1,0 +1,144 @@
+---
+title: "Arrange links evenly along the sectors"
+date: 2020-11-23
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>People use <code>circos.link()</code> to visualize interactions/relations between sectors.
+When one sector has more than one other sectors to interact with, it actually
+becomes important of how to arrange links on that sector to make every link readable.</p>
+<p>In the following example, I created a random interaction data frame <code>df</code>:</p>
+<pre class="r"><code>set.seed(123)
+sectors = letters[1:20]
+df = data.frame(from = sample(sectors, 40, replace = TRUE),
+                to   = sample(sectors, 40, replace = TRUE))
+df = unique(df)
+df = df[df$from != df$to, ]
+df</code></pre>
+<pre><code>##    from to
+## 1     o  a
+## 2     s  f
+## 3     n  o
+## 4     c  i
+## 5     j  o
+## 6     r  p
+## 7     k  t
+## 8     e  f
+## 9     t  k
+## 10    n  h
+## 11    e  g
+## 12    s  p
+## 13    i  q
+## 14    c  r
+## 15    h  q
+## 16    g  b
+## 17    j  d
+## 18    i  m
+## 19    s  e
+## 20    d  s
+## 21    n  t
+## 22    q  n
+## 23    k  c
+## 24    g  h
+## 25    l  p
+## 26    o  l
+## 27    j  n
+## 28    m  c
+## 29    g  n
+## 30    i  g
+## 31    i  c
+## 33    g  e
+## 34    f  h
+## 35    b  s
+## 36    e  j
+## 37    h  r
+## 38    l  j
+## 39    m  l
+## 40    r  b</code></pre>
+<p>I also created the corresponding circular plot with all the sectors. In the
+simplest way, we might want to put all the links to the center of every
+sector, which looks like follows:</p>
+<pre class="r"><code>library(circlize)
+circos.initialize(sectors, xlim = c(0, 1))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ycenter, CELL_META$sector.index)
+})
+for(i in seq_len(nrow(df))) {
+    s1 = df[i, 1]
+    s2 = df[i ,2]
+    circos.link(s1, 0.5, s2, 0.5, directional = 1)
+}</code></pre>
+<p><img src="/post/2020-11-23-arrange-links-evenly-along-the-sectors_files/figure-html/unnamed-chunk-3-1.png" width="480" /></p>
+<p>It looks nice, but since all the links, <em>e.g.</em> which start from or end in one
+sector, are in a same position, it is rather difficult to tell which sector
+has more links than the others.</p>
+<p>To get rid of such link overlapping, we can assign random shift to every link
+in the sector. In the following example, since the <code>xlim</code> for all sectors are
+fixed in <code>c(0, 1)</code>, we use <code>runif(1)</code> to assign a random position between 0
+and 1.</p>
+<pre class="r"><code>circos.initialize(sectors, xlim = c(0, 1))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ycenter, CELL_META$sector.index)
+})
+for(i in seq_len(nrow(df))) {
+    s1 = df[i, 1]
+    s2 = df[i ,2]
+    circos.link(s1, runif(1), s2, runif(1), directional = 1)
+}</code></pre>
+<p><img src="/post/2020-11-23-arrange-links-evenly-along-the-sectors_files/figure-html/unnamed-chunk-4-1.png" width="480" /></p>
+<p>It already looks much nicer, however, since the positions are random, it is
+still not easy to tell which sector has more links because we need effort to
+carefully count the links if they are very close to each other (<em>e.g.</em>, for sector c,
+are there four or five links?).</p>
+<p>From <strong>circlize</strong> version 0.4.12.1001, I added a new function
+<code>arrange_links_evenly()</code> which can arrange the links on the sectors so that
+the neighouring distance between links are evenly distributed. It also adjusts
+positions of links to make the overall intersection of linkes minimal.
+Additionally, it considers directional links, <em>i.e.</em>, on each sector, the
+starting links and the ending links are put into separate groups.</p>
+<pre class="r"><code>circos.initialize(sectors, xlim = c(0, 1))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ycenter, CELL_META$sector.index)
+})
+
+df2 = arrange_links_evenly(df, directional = 1)
+
+for(i in seq_len(nrow(df2))) {
+    s1 = df$from[i]
+    s2 = df$to[i]
+    circos.link(df2[i, &quot;sector1&quot;], df2[i, &quot;pos1&quot;], 
+                df2[i, &quot;sector2&quot;], df2[i, &quot;pos2&quot;],
+                directional = 1)
+}</code></pre>
+<p><img src="/post/2020-11-23-arrange-links-evenly-along-the-sectors_files/figure-html/unnamed-chunk-5-1.png" width="480" /></p>
+<p>Session info:</p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 4.0.2 (2020-06-22)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Catalina 10.15.5
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] circlize_0.4.12.1000 GetoptLong_1.0.4     knitr_1.30          
+## 
+## loaded via a namespace (and not attached):
+##  [1] bookdown_0.21       digest_0.6.27       crayon_1.3.4       
+##  [4] grid_4.0.2          magrittr_2.0.1      evaluate_0.14      
+##  [7] blogdown_0.17       rlang_0.4.8         stringi_1.5.3      
+## [10] GlobalOptions_0.1.2 rmarkdown_2.5       rjson_0.2.20       
+## [13] tools_4.0.2         stringr_1.4.0       xfun_0.19          
+## [16] yaml_2.2.1          compiler_4.0.2      colorspace_2.0-0   
+## [19] shape_1.4.5         htmltools_0.5.0</code></pre>

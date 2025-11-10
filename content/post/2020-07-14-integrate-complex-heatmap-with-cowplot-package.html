@@ -1,0 +1,88 @@
+---
+title: "Integrate ComplexHeatmap with cowplot package"
+date: 2020-07-14
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p><a href="https://cran.r-project.org/web/packages/cowplot/index.html">The <strong>cowplot</strong> package</a> is used
+to combine multiple plots into a single figure. In most cases,
+<strong>ComplexHeatmap</strong> works perfectly with <strong>cowplot</strong>, but there are some cases that need
+special attention.</p>
+<p>Also there are some other packages that combine multiple plots, such
+as <a href="https://cran.r-project.org/web/packages/multipanelfigure/index.html"><strong>multipanelfigure</strong></a>,
+but I think the mechanism behind is the same.</p>
+<p>Following functionalities in <strong>ComplexHeatmap</strong> cause problems with using <strong>cowplot</strong>.</p>
+<ol style="list-style-type: decimal">
+<li><a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/heatmap-annotations.html#zoom-annotation"><code>anno_zoom()</code>/<code>anno_link()</code></a>.
+The adjusted positions by these two functions rely on the size of the graphics
+device.</li>
+<li><a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/heatmap-annotations.html#mark-annotation"><code>anno_mark()</code></a>.
+The same reason as <code>anno_zoom()</code>. The adjusted positions also rely on the device size.</li>
+<li><a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/legends.html#heatmap-and-annotation-legends">When there are too many legends, the legends will be wrapped into multiple columns</a>. The calculation
+of the legend positions rely on the device size.</li>
+</ol>
+<p>In following I demonstrate a case with using the <code>anno_zoom()</code>. Here the
+example is from <a href="https://github.com/jokergoo/simplifyEnrichment">the <strong>simplifyEnrichment</strong>
+package</a> and the plot shows a
+GO similarity heatmap with word cloud annotation showing the major biological
+functions in each group.</p>
+<p>You don’t need to really understand the following code. The <code>ht_clusters()</code>
+function basically draws a heatmap with <code>Heatmap()</code> and add the word cloud
+annotation by <code>anno_zoom()</code>.</p>
+<pre class="r"><code>library(simplifyEnrichment)
+set.seed(1234)
+go_id = random_GO(500)
+mat = GO_similarity(go_id)
+cl = binary_cut(mat)
+ht_clusters(mat, cl)</code></pre>
+<p><img src="/post/2020-07-14-integrate-complex-heatmap-with-cowplot-package_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Next we put this heatmap as a sub-figure with <strong>cowplot</strong>. To integrate with
+<strong>cowplot</strong>, the heatmap should be captured by <code>grid::grid.grabExpr()</code> as a complex
+<code>grob</code> object. Note here you need to use <code>draw()</code> function to draw the heatmap
+explicitly.</p>
+<pre class="r"><code>library(cowplot)
+library(grid)
+p1 = rectGrob(width = 0.9, height = 0.9)
+p2 = grid.grabExpr(ht_clusters(mat, cl))
+p3 = rectGrob(width = 0.9, height = 0.9)
+
+plot_grid(p1, 
+    plot_grid(p2, p3, nrow = 2, rel_heights = c(4, 1)), 
+    nrow = 1, rel_widths = c(1, 9)
+)</code></pre>
+<p><img src="/post/2020-07-14-integrate-complex-heatmap-with-cowplot-package_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Woooo! The word cloud annotation is badly aligned.</p>
+<p>There are some details that should be noted for <code>grid.grabExpr()</code> function. It actually
+opens an invisible graphics device (by <code>pdf(NULL)</code>) with a default size 7x7 inches. Thus,
+for this line:</p>
+<pre class="r"><code>p2 = grid.grabExpr(ht_clusters(mat, cl))</code></pre>
+<p>The word cloud annotation in <code>p2</code> is actually calculated in a region of 7x7
+inches, and when it is written back to the figure by <code>plot_grid()</code>, the space
+for <code>p2</code> changes, that is why the word cloud annotation is wrongly aligned.</p>
+<p>On the other hand, if “a simple heatmap” is captured by <code>grid.grabExpr()</code>, <em>e.g.</em>:</p>
+<pre class="r"><code>p2 = grid.grabExpr(draw(Heatmap(mat)))</code></pre>
+<p>when <code>p2</code> is put back, everything will work fine because now all the heatmap
+elements are not dependent on the device size and the positions will be
+automatically adjusted to the new space.</p>
+<p>This effect can also be observed by plotting the heatmap in the interactive
+graphics device and resizing the window by dragging it.</p>
+<p>The solution is rather simple. Since the reason for this inconsistency is the
+different space between where it is captured and where it is drawn, we only
+need to capture the heatmap under the device with the same size as where it is
+going to be put.</p>
+<p>As in the layout which we set in the <code>plot_grid()</code> function, the heatmap occupies
+9/10 width and 4/5 height of the figure. So, the width and height of the space
+for the heatmap is calculated as follows and assigned to the <code>width</code> and
+<code>height</code> arguments in <code>grid.grabExpr()</code>.</p>
+<pre class="r"><code>w = convertWidth(unit(1, &quot;npc&quot;)*(9/10), &quot;inch&quot;, valueOnly = TRUE)
+h = convertHeight(unit(1, &quot;npc&quot;)*(4/5), &quot;inch&quot;, valueOnly = TRUE)
+p2 = grid.grabExpr(ht_clusters(mat, cl), width = w, height = h)
+
+plot_grid(p1, 
+    plot_grid(p2, p3, nrow = 2, rel_heights = c(4, 1)), 
+    nrow = 1, rel_widths = c(1, 9)
+)</code></pre>
+<p><img src="/post/2020-07-14-integrate-complex-heatmap-with-cowplot-package_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Now everthing is back to normal!</p>

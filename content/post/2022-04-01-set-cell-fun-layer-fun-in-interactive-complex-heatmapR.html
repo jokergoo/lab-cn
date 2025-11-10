@@ -1,0 +1,41 @@
+---
+title: "Set cell_fun/layer_fun in InteractiveComplexHeatmap"
+date: 2022-04-01
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In the interactive heatmap produced by <strong>InteractiveComplexHeatmap</strong> package,
+the sub-heatmap is just a zooming of the main heatmap, which means, if
+<code>cell_fun</code> or <code>layer_fun</code> is set in <code>Heatmap()</code>, both main heatmap and
+sub-heatmap will execute it. <code>cell_fun</code> and <code>layer_fun</code> provides a way to
+customize the heatmap cells, but when the main heatmap is huge, adding more
+graphics via <code>cell_fun</code>/<code>layer_fun</code> apparently is not a good idea. Users may
+want to suppress <code>cell_fun</code>/<code>layer_fun</code> (or just draw very simple graphics
+which will not disturb the reading of the heatmap) in the main heatmap, while only to execute them in
+the sub-heatmap.</p>
+<p>Now in <strong>InteractiveComplexHeatmap</strong>, there is a new function <code>is_in_sub_heatmap()</code> which
+tells whether the current environment is in main heatmap or in the sub heatmap. This
+function can be used inside <code>cell_fun</code>/<code>layer_fun</code> so that users can decide which graphics
+are only drawn for sub-heatmaps.</p>
+<p>In the following example, I defined a <code>cell_fun</code> which draws cells as round rectangles, and only in the sub-heatmap,
+the values in the matrix are added as text labels.</p>
+<pre class="r"><code>library(InteractiveComplexHeatmap)
+library(ComplexHeatmap)
+
+m = matrix(rnorm(100), 10)
+
+ht = Heatmap(m, rect_gp = gpar(type = &quot;none&quot;),
+    show_row_dend = FALSE, show_column_dend = FALSE,
+    cell_fun = function(j, i, x, y, w, h, fill) {
+        grid.roundrect(x, y, w, h, r = unit(0.2, &quot;snpc&quot;),
+            gp = gpar(col = &quot;white&quot;, fill = fill, lwd = 2))
+        
+        if(is_in_sub_heatmap()) {
+            grid.text(round(m[i, j], 1), x, y)
+        }
+    })
+
+htShiny(ht)</code></pre>
+<p><img width="820" alt="image" src="https://user-images.githubusercontent.com/449218/161323004-b83a1545-54a5-4e3c-9fef-30acaefc214e.png"></p>

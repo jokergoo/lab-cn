@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Changes in circlize 0.4.10 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/06/14/changes-in-circlize-0.4.10/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Changes in circlize 0.4.10 </h1>
+
+  
+    <div id=sub-header>
+      June 2020
+    </div>
+  
+
+  <div class="entry-content">
+    
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p><strong>circlize</strong> <a href="https://CRAN.R-project.org/package=circlize">0.4.10</a> is now on
+CRAN. Besides the bug fixes, following are the user-visible changes/features.</p>
+<pre class="r"><code>library(circlize)
+set.seed(123)</code></pre>
+<div id="add-circos.barplot-circos.boxplot-and-circos.violin" class="section level2">
+<h2>Add circos.barplot(), circos.boxplot() and circos.violin()</h2>
+<p><code>circos.barplot()</code>, <code>circos.boxplot()</code> and <code>circos.violin()</code> are used inside the <code>panel.fun</code>. Please note
+the values on x-axes are the integer indices of bars, boxes or violins for which <code>xlim</code> should
+be properly set in <code>circos.initialize()</code>.</p>
+<div id="barplots" class="section level3">
+<h3>Barplots</h3>
+<p>For circular barplots, you can either specify a vector which generates a “normal” barplot,
+or a matrix which generates a stacked barplot.</p>
+<pre class="r"><code>par(mfrow = c(1, 2))
+circos.initialize(fa = letters[1:4], xlim = c(0, 10))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    value = runif(10)
+    circos.barplot(value, 1:10 - 0.5, col = 1:10)
+})
+circos.track(ylim = c(-1, 1), panel.fun = function(x, y) {
+    value = runif(10, min = -1, max = 1)
+    circos.barplot(value, 1:10 - 0.5, col = ifelse(value &gt; 0, 2, 3))
+})
+circos.clear()
+
+circos.initialize(fa = letters[1:4], xlim = c(0, 10))
+circos.track(ylim = c(0, 4), panel.fun = function(x, y) {
+    value = matrix(runif(10*4), ncol = 4)
+    circos.barplot(value, 1:10 - 0.5, col = 2:5)
+})</code></pre>
+<p><img src="/post/2020-06-14-changes-in-circlize-0-4-10_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+</div>
+<div id="boxplot" class="section level3">
+<h3>Boxplot</h3>
+<p>For circular boxplots, the boxes can be drawn one-by-one by providing
+a vector for each box, or drawn in batch with a list/matrix as input.</p>
+<pre class="r"><code>par(mfrow = c(1, 2))
+circos.initialize(fa = letters[1:4], xlim = c(0, 10))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    for(pos in seq(0.5, 9.5, by = 1)) {
+        value = runif(10)
+        circos.boxplot(value, pos)
+    }
+})
+circos.clear()
+
+circos.initialize(fa = letters[1:4], xlim = c(0, 10))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    value = replicate(runif(10), n = 10, simplify = FALSE)
+    circos.boxplot(value, 1:10 - 0.5, col = 1:10)
+})</code></pre>
+<p><img src="/post/2020-06-14-changes-in-circlize-0-4-10_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+</div>
+<div id="violin-plots" class="section level3">
+<h3>Violin plots</h3>
+<p>For circular violin plots, the violins can be drawn one-by-one by providing
+a vector for each violin, or drawn in batch with a list/matrix as input.</p>
+<p>Please note, to make it comparable between violins, <code>max_density</code> argument
+should be set.</p>
+<pre class="r"><code>par(mfrow = c(1, 2))
+circos.initialize(fa = letters[1:4], xlim = c(0, 10))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    for(pos in seq(0.5, 9.5, by = 1)) {
+        value = runif(10)
+        circos.violin(value, pos)
+    }
+})
+circos.clear()
+
+circos.initialize(fa = letters[1:4], xlim = c(0, 10))
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    value = replicate(runif(10), n = 10, simplify = FALSE)
+    circos.violin(value, 1:10 - 0.5, col = 1:10)
+})</code></pre>
+<p><img src="/post/2020-06-14-changes-in-circlize-0-4-10_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+</div>
+</div>
+<div id="physical-units" class="section level2">
+<h2>Physical units</h2>
+<p>In the older versions, the widths/heights/lengths are specified by
+<code>convert_x()</code>/<code>convert_y()</code>/<code>convert_height()</code> functions, however, the
+function names are not straightforward. Now there are following functions that
+control the physical size:</p>
+<ul>
+<li><code>mm_x()</code>/<code>cm_x()</code>/<code>inch_x()</code>: on x-axes in the cells.</li>
+<li><code>mm_y()</code>/<code>cm_y()</code>/<code>inch_y()</code>: on y-axes in the cells.</li>
+<li><code>mm_h()</code>/<code>cm_h()</code>/<code>inch_h()</code>: control the height of track and the gap between tracks.</li>
+</ul>
+<p>See the following example:</p>
+<pre class="r"><code>fa = letters[1:10]
+circos.par(cell.padding = c(0, 0, 0, 0), track.margin = c(0, 0))
+circos.initialize(fa, xlim = cbind(rep(0, 10), runif(10, 0.5, 1.5)))
+circos.track(ylim = c(0, 1), track.height = mm_h(5),
+    panel.fun = function(x, y) {
+        circos.lines(c(0, 0 + mm_x(5)), c(0.5, 0.5), col = &quot;blue&quot;)
+    })
+set_track_gap(mm_h(2))
+circos.track(ylim = c(0, 1), track.height = cm_h(1),
+    panel.fun = function(x, y) {
+        xcenter = get.cell.meta.data(&quot;xcenter&quot;)
+        circos.lines(c(xcenter, xcenter), c(0, cm_y(1)), col = &quot;red&quot;)
+    })
+set_track_gap(mm_h(5))
+circos.track(ylim = c(0, 1), track.height = inch_h(0.5),
+    panel.fun = function(x, y) {
+        line_length_on_x = cm_x(1*sqrt(2)/2)
+        line_length_on_y = cm_y(1*sqrt(2)/2)
+        circos.lines(c(0, line_length_on_x), c(0, line_length_on_y), col = &quot;orange&quot;)
+    })</code></pre>
+<p><img src="/post/2020-06-14-changes-in-circlize-0-4-10_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+</div>
+<div id="set-gaps-between-tracks" class="section level2">
+<h2>Set gaps between tracks</h2>
+<p>In the older version, you need to set <code>track.height</code> parameter either in
+<code>circos.par()</code> or in <code>circos.track()</code> to control the space between tracks. Now
+there is a new <code>set_track_gap()</code> function which simplifies the setting of gaps
+between two tracks. With the <code>mm_h()</code>/<code>cm_h()</code>/<code>inch_h()</code> functions, it is
+very easy to set the gaps with physical units.</p>
+<pre class="r"><code>circos.initialize(fa = letters[1:10], xlim = c(0, 1))
+circos.track(ylim = c(0, 1))
+set_track_gap(mm_h(2)) # 2mm
+circos.track(ylim = c(0, 1))
+set_track_gap(cm_h(0.5)) # 0.5cm
+circos.track(ylim = c(0, 1))</code></pre>
+<p><img src="/post/2020-06-14-changes-in-circlize-0-4-10_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+</div>
+<div id="gap.degree-with-names" class="section level2">
+<h2>gap.degree with names</h2>
+<p><code>circos.par()</code> is aimed to be designed to be independent to the number or the
+order of sectors, however, there is an exception. The <code>gap.degree</code> parameter
+controls the spaces between two neighbouring sectors. When it is set as a
+scalar, the gap is the same to every two neighbouring sectors and it works
+fine. It can also be a vector which has the same length as the number of
+sectors and it can cause problems:</p>
+<ol style="list-style-type: decimal">
+<li>When you change the order of the sectors, you also need to manually change
+the order of <code>gap.degree</code>.</li>
+<li>in <code>chordDiagram()</code> function, by default the tiny sectors are removed to
+improve the visualization, which means, the <code>gap.degree</code> should be
+adjusted.</li>
+<li>Also in <code>chordDiagram()</code>, sometimes it is not very straightforward to find
+out the order of sectors, thus, it is difficult to set a proper
+<code>gap.degree</code>.</li>
+</ol>
+<p>Now, from version 0.4.10, the value of <code>gap.degree</code> can be set as a named
+vector where the names are the names of the sectors. In this case, the
+<code>gap.degree</code> vector can be automatically reordered or subsetted according to
+the sector ordering in the plot.</p>
+</div>
+<div id="multi-group-chord-diagram" class="section level2">
+<h2>Multi-group Chord diagram</h2>
+<p>Please see <a href="https://jokergoo.github.io/2020/06/08/multiple-group-chord-diagram/" class="uri">https://jokergoo.github.io/2020/06/08/multiple-group-chord-diagram/</a>. An example is</p>
+<p><img src="https://jokergoo.github.io/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-8-1.png" width="600px" style="display: block; margin: auto;" /></p>
+</div>
+<div id="circular-heatmaps" class="section level2">
+<h2>Circular Heatmaps</h2>
+<p>Please see <a href="https://jokergoo.github.io/2020/05/21/make-circular-heatmaps/" class="uri">https://jokergoo.github.io/2020/05/21/make-circular-heatmaps/</a>. An example is</p>
+<p><img src="https://jokergoo.github.io/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-43-1.png" width="600px" style="display: block; margin: auto;" /></p>
+</div>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+
+</body>
+</html>
+
+
+

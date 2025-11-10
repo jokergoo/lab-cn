@@ -1,0 +1,44 @@
+---
+title: "Cluster groups in ComplexHeatmap"
+date: 2021-03-05
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>When making heatmaps, we always have many additionally grouping information
+for the samples, sush as subtypes, phenotypes. To emphasize the difference
+between groups, we might want to only perform clustering on group level, while
+not on the complete dataset. For these scenarios, <strong>ComplexHeatmap</strong> has two
+functions: <code>cluster_between_groups()</code> and <code>cluster_within_group()</code>. The two
+functions all perform clustering on group level. The difference is, in
+<code>cluster_between_groups()</code>, inside each group, the order of samples is
+unchanged, while in <code>cluster_within_group()</code>, samples in each group are still
+clustered.</p>
+<p>I demonstrate the use of the two functions with a simple random matrix. In the
+first plot, <code>cluster_between_groups()</code> was applied. The column names
+correspond to the original order in the matrix, so you can observe whether the
+columns are reordered or not.</p>
+<pre class="r"><code>library(ComplexHeatmap)
+set.seed(372)
+m = matrix(rnorm(120), nc = 12)
+colnames(m) = 1:12
+fa = rep(c(&quot;a&quot;, &quot;b&quot;, &quot;c&quot;), times = c(2, 4, 6))
+fa_col = c(&quot;a&quot; = 2, &quot;b&quot; = 3, &quot;c&quot; = 4)
+dend1 = cluster_between_groups(m, fa)
+Heatmap(m, cluster_columns = dend1, column_split = 3,
+    row_title = &quot;cluster_between_groups&quot;,
+    top_annotation = HeatmapAnnotation(foo = fa, col = list(foo = fa_col)))</code></pre>
+<p><img src="/post/2021-03-05-cluster-groups-in-complex-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>In the second plot, <code>cluster_within_group()</code> was applied. As you can see, columns
+are also reordered inside each group.</p>
+<pre class="r"><code>dend2 = cluster_within_group(m, fa)
+Heatmap(m, cluster_columns = dend2, column_split = 3,
+    row_title = &quot;cluster_within_group&quot;,
+    top_annotation = HeatmapAnnotation(foo = fa, col = list(foo = fa_col)))</code></pre>
+<p><img src="/post/2021-03-05-cluster-groups-in-complex-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Note, they also work on heatmap rows. Please update to the current GitHub version to use these two functions.</p>
+<p>Finally, thanks @<a href="https://github.com/jokergoo/ComplexHeatmap/issues/694">crazyhottommy</a> for providing
+this interesting use case.</p>

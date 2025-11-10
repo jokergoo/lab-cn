@@ -1,0 +1,233 @@
+---
+title: "Visualize lift over between two assemblies"
+date: 2022-09-13
+---
+
+
+
+<p>In this post, I will simply demonstrate how to visualize lift overs between two assemblies.
+In the package <strong>rtracklayer</strong>, there is a function <code>liftOver()</code> that can convert genomic regions
+according to the mapping encoded in a “chain” file.</p>
+<p>In the following code, I will demonstrate the lift overs from hg19 to hg38. I first download
+the chain file from UCSC database. Note the <code>.gz</code> file needs to be uncompressed.</p>
+<pre class="r"><code>library(glue)
+chain_file = &quot;https://hgdownload.soe.ucsc.edu/gbdb/hg19/liftOver/hg19ToHg38.over.chain.gz&quot;
+chain_file_basename = basename(chain_file)
+tmp_dir = tempdir()
+local_file = glue(&quot;{tmp_dir}/{chain_file_basename}&quot;)
+download.file(chain_file, destfile = local_file)
+system(glue(&quot;gzip -d -f &#39;{local_file}&#39;&quot;))</code></pre>
+<p>Simply use <code>import.chain()</code> to create a <code>Chain</code> object.</p>
+<pre class="r"><code>library(rtracklayer)
+chain = import.chain(gsub(&quot;\\.gz$&quot;, &quot;&quot;, local_file))</code></pre>
+<p>To establish the correspondance between hg19 and hg38, I split hg19 assembly by 5kb windows
+and I look for their corresponding regions in hg38.
+Here <code>read.chromInfo()</code> returns the chromosome lengths of a genome. Of course you can use other ways
+to obtain such information, such as <code>GenomicFeatures::getChromInfoFromUCSC("hg19")</code>.</p>
+<pre class="r"><code>library(circlize)
+genome_df = read.chromInfo(species = &quot;hg19&quot;)$df
+genome_gr = GRanges(seqnames = genome_df[, 1], ranges = IRanges(genome_df[, 2]+1, genome_df[, 3]))</code></pre>
+<p>And I split the genome by 5kb window.</p>
+<pre class="r"><code>library(EnrichedHeatmap)
+genome_bins = makeWindows(genome_gr, w = 5000)</code></pre>
+<p>Now I do the lift over. In <code>liftOver()</code>, I simply provide the regions in hg19 and the <code>Chain</code> object.</p>
+<pre class="r"><code>to_bins = liftOver(genome_bins, chain)
+to_bins</code></pre>
+<pre><code>## GRangesList object of length 619122:
+## [[1]]
+## GRanges object with 0 ranges and 2 metadata columns:
+##    seqnames    ranges strand |  .i_query .i_window
+##       &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;integer&gt;
+##   -------
+##   seqinfo: 24 sequences from an unspecified genome; no seqlengths
+## 
+## [[2]]
+## GRanges object with 0 ranges and 2 metadata columns:
+##    seqnames    ranges strand |  .i_query .i_window
+##       &lt;Rle&gt; &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;integer&gt;
+##   -------
+##   seqinfo: 24 sequences from an unspecified genome; no seqlengths
+## 
+## [[3]]
+## GRanges object with 1 range and 2 metadata columns:
+##       seqnames      ranges strand |  .i_query .i_window
+##          &lt;Rle&gt;   &lt;IRanges&gt;  &lt;Rle&gt; | &lt;integer&gt; &lt;integer&gt;
+##   [1]     chr1 10001-15000      * |         1         3
+##   -------
+##   seqinfo: 24 sequences from an unspecified genome; no seqlengths
+## 
+## ...
+## &lt;619119 more elements&gt;</code></pre>
+<p>To reduce the numbers of mapped regions, if there are multiple regions in hg38 are mapped to the same 5kb window in hg19,
+if the gap between then is less than 500bp, I just merge them. Also there might be some 5kb windows in hg19 have
+no mapping in hg38. In the following code, I just remove these 5kb windows in hg19 having no mapping in hg38.</p>
+<pre class="r"><code>to_bins = reduce(to_bins, min = 500)
+n = sapply(start(to_bins), length)
+l = n &gt; 0
+to_bins = to_bins[l]
+genome_bins = genome_bins[l]</code></pre>
+<p>Now <code>genome_bin</code> contains a list of 5kb windows in hg19 and <code>to_bins</code> contains the mappings in hg38.
+To visualize the relationships, I convert both objects to data frames. It is very easy to convert <code>genome_bin</code> to a data frame.</p>
+<pre class="r"><code>df_from = as.data.frame(genome_bins)[, 1:3]</code></pre>
+<p><code>to_bins</code> is a <code>GRanegsList</code> object because a 5kb window in hg19 may map to multiple regions in hg38. To simplify
+the task, if a 5kb window in hg19 maps to multiple regions in hg38, I only use the first one.</p>
+<p>It is not easy to get the chromosome name of the first region in every mapping. You can do
+<code>sapply(sq, function(x) as.vector(x)[1])</code>, but it is actually very slow. In the
+following code, I use the internal function <code>PartitioningByEnd()</code> to get the the index
+of every first chromosome.</p>
+<pre class="r"><code>sq = seqnames(to_bins)
+pa = PartitioningByEnd(sq)
+df_to = data.frame(
+    chr = as.vector(unlist(sq))[start(pa)],
+    start = sapply(start(to_bins), function(x) x[1]),
+    end = sapply(end(to_bins), function(x) x[1])
+)</code></pre>
+<p>I restrict the chromosomes to “normal chromosomes”:</p>
+<pre class="r"><code>from_chromosomes = paste0(&quot;chr&quot;, c(1:22, &quot;X&quot;, &quot;Y&quot;))
+to_chromosomes = paste0(&quot;chr&quot;, c(1:22, &quot;X&quot;, &quot;Y&quot;))
+
+l = df_from[, 1] %in% from_chromosomes &amp; df_to[, 1] %in% to_chromosomes
+df_from = df_from[l, ]
+df_to = df_to[l, ]</code></pre>
+<p>Now let’s check the value of <code>df_from</code> (hg19) and <code>df_to</code> (hg38):</p>
+<pre class="r"><code>head(df_from)</code></pre>
+<pre><code>##   seqnames start   end
+## 1     chr1 10001 15000
+## 2     chr1 15001 20000
+## 3     chr1 20001 25000
+## 4     chr1 25001 30000
+## 5     chr1 30001 35000
+## 6     chr1 35001 40000</code></pre>
+<pre class="r"><code>head(df_to)</code></pre>
+<pre><code>##    chr start   end
+## 1 chr1 10001 15000
+## 2 chr1 15001 20000
+## 3 chr1 20001 25000
+## 4 chr1 25001 30000
+## 5 chr1 30001 35000
+## 6 chr1 35001 40000</code></pre>
+<p>And the number of regions remains:</p>
+<pre class="r"><code>nrow(df_from)</code></pre>
+<pre><code>## [1] 572281</code></pre>
+<pre class="r"><code>nrow(df_to)</code></pre>
+<pre><code>## [1] 572281</code></pre>
+<p>The data is ready, next I can make the circular plot. I first extract
+the chromosome lengths for both assemblies.</p>
+<pre class="r"><code>from_chromInfo = read.chromInfo(species = &quot;hg19&quot;)$df
+from_chromInfo = from_chromInfo[from_chromInfo[, 1] %in% from_chromosomes, ]
+
+to_chromInfo = read.chromInfo(species = &quot;hg38&quot;)$df
+to_chromInfo = to_chromInfo[to_chromInfo[, 1] %in% to_chromosomes, ]</code></pre>
+<p>Since I will put two assemblies in one plot, and the two assemblies are all for human,
+I add prefix <code>"from_"</code> and <code>"to_"</code> to distinguish them.</p>
+<pre class="r"><code>from_chromInfo[ ,1] = paste0(&quot;from_&quot;, from_chromInfo[, 1])
+to_chromInfo[ ,1] = paste0(&quot;to_&quot;, to_chromInfo[, 1])
+chromInfo = rbind(from_chromInfo, to_chromInfo)</code></pre>
+<p>Similiarly, I add the prefix to <code>df_from</code> and <code>df_to</code>.</p>
+<pre class="r"><code>df_from[, 1] = paste0(&quot;from_&quot;, df_from[, 1])
+df_to[, 1] = paste0(&quot;to_&quot;, df_to[, 1])</code></pre>
+<p><code>chromInfo</code> contains chromosome lengths for both hg19 and hg38 and it can be thought as a “combined” genome,
+where e.g. <code>"from_chr1"</code> and <code>"to_chr1"</code> are two different chromosomes. In the final circular plot, for easy correspondance
+between two assemblies, I will let chr1 for both assemblies close in the plot and chrX/chrY also close in the plot.
+In this case, I need to manually control the chromosome orders.</p>
+<p>I just need to reverse the order of <code>to_chromosomes</code>. The chromosome orders are encoded as “levels” of the first column
+in <code>chromInfo</code>.</p>
+<pre class="r"><code>chromosome.index = c(paste0(&quot;from_&quot;, from_chromosomes), paste0(&quot;to_&quot;, rev(to_chromosomes))) 
+chromInfo[, 1] = factor(chromInfo[ ,1], levels = chromosome.index)</code></pre>
+<p>Next I use <strong>circlize</strong> package to visualize the lift overs. If you know <strong>circlize</strong>, the following
+code is very straightforward to understand. Note here I randomly sampled 10000 regions for visualization.</p>
+<pre class="r"><code>library(circlize)
+circos.par(gap.after = c(rep(1, length(from_chromosomes) - 1), 5, rep(1, length(to_chromosomes) - 1), 5))
+circos.genomicInitialize(chromInfo, plotType = NULL)
+
+circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.text(CELL_META$xcenter, CELL_META$ylim[2] + mm_y(2), 
+        gsub(&quot;.*chr&quot;, &quot;&quot;, CELL_META$sector.index), cex = 0.6, niceFacing = TRUE)
+}, track.height = mm_h(1), cell.padding = c(0, 0, 0, 0), bg.border = NA)
+
+circos.track(ylim = c(0, 1), cell.padding = c(0, 0, 0, 0), bg.border = NA, bg.col = &quot;grey&quot;, track.height = mm_h(1))
+
+highlight.chromosome(paste0(&quot;from_&quot;, from_chromosomes), col = &quot;red&quot;, track.index = 1)
+highlight.chromosome(paste0(&quot;to_&quot;, to_chromosomes), col = &quot;blue&quot;, track.index = 1)
+
+ind = sample(nrow(df_from), 10000)
+col = rand_color(length(to_chromosomes))
+names(col) = paste0(&quot;to_&quot;, to_chromosomes)
+circos.genomicLink(df_from[ind, ], df_to[ind, ], col = add_transparency(col[df_to[ind, 1]], 0.9))
+
+circos.clear()
+
+text(0.9, -0.9, &quot;hg19&quot;)
+text(0.9, 0.9, &quot;hg38&quot;)</code></pre>
+<p><img src="/post/2022-09-13-visualize-lift-over-between-two-assemblies_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>It looks nice, but there is one limit in the plot. I reversed the chromosome order for hg38 which are on the top half
+of the circle. The chromosomes for hg38 are reverse clockwise, but the x-axes on the hg38 chromosomes are still
+clockwise, which makes the links twisted. To improve the visualization, I manually reverse the x-axes of hg38 chromosomes
+with a simple transformation by the following code:</p>
+<pre class="r"><code># `to` genome is put on the top of the circle, where the x-axis is reversed
+gsize = structure(chromInfo[, 3], names = as.vector(chromInfo[, 1]))
+df_to[, 2] = gsize[df_to[, 1]] - df_to[, 2]
+df_to[, 3] = gsize[df_to[, 1]] - df_to[, 3]
+df_to[, 2:3] = df_to[, 3:2]</code></pre>
+<p>I make the plot with the same code, and I explicitely add two arrows to represent the directions of x-axes. Now
+it looks better!</p>
+<p><img src="/post/2022-09-13-visualize-lift-over-between-two-assemblies_files/figure-html/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Finally I have wrapped the code into a function which can be found at <a href="https://gist.github.com/jokergoo/4161997c2a60ac90ae57017b19aea81e" class="uri">https://gist.github.com/jokergoo/4161997c2a60ac90ae57017b19aea81e</a>.
+In the function <code>viz_lift_over()</code> you just specifiy two genome IDs, e.g.,</p>
+<pre class="r"><code>viz_lift_over(&quot;mm9&quot;, &quot;mm10&quot;)</code></pre>
+<div id="session-info" class="section level2">
+<h2>Session info</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 4.2.0 (2022-04-22)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Big Sur/Monterey 10.16
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] C/UTF-8/C/C/C/C
+## 
+## attached base packages:
+## [1] grid      stats4    stats     graphics  grDevices utils     datasets 
+## [8] methods   base     
+## 
+## other attached packages:
+##  [1] EnrichedHeatmap_1.26.0 ComplexHeatmap_2.13.2  circlize_0.4.16       
+##  [4] rtracklayer_1.56.1     GenomicRanges_1.48.0   GenomeInfoDb_1.32.2   
+##  [7] IRanges_2.30.0         S4Vectors_0.34.0       BiocGenerics_0.42.0   
+## [10] glue_1.6.2             knitr_1.39             colorout_1.2-2        
+## 
+## loaded via a namespace (and not attached):
+##  [1] locfit_1.5-9.6              Rcpp_1.0.9                 
+##  [3] lattice_0.20-45             png_0.1-7                  
+##  [5] Rsamtools_2.12.0            Biostrings_2.64.0          
+##  [7] digest_0.6.29               foreach_1.5.2              
+##  [9] R6_2.5.1                    evaluate_0.15              
+## [11] highr_0.9                   blogdown_1.10              
+## [13] GlobalOptions_0.1.2         zlibbioc_1.42.0            
+## [15] rlang_1.0.4                 jquerylib_0.1.4            
+## [17] GetoptLong_1.1.0            Matrix_1.4-1               
+## [19] rmarkdown_2.14              BiocParallel_1.30.3        
+## [21] stringr_1.4.0               RCurl_1.98-1.8             
+## [23] DelayedArray_0.22.0         compiler_4.2.0             
+## [25] xfun_0.31                   shape_1.4.6                
+## [27] htmltools_0.5.3             SummarizedExperiment_1.26.1
+## [29] GenomeInfoDbData_1.2.8      bookdown_0.27              
+## [31] codetools_0.2-18            matrixStats_0.62.0         
+## [33] XML_3.99-0.10               crayon_1.5.1               
+## [35] GenomicAlignments_1.32.1    bitops_1.0-7               
+## [37] jsonlite_1.8.0              magrittr_2.0.3             
+## [39] cli_3.3.0                   stringi_1.7.8              
+## [41] cachem_1.0.6                XVector_0.36.0             
+## [43] doParallel_1.0.17           bslib_0.4.0                
+## [45] rjson_0.2.21                restfulr_0.0.15            
+## [47] RColorBrewer_1.1-3          iterators_1.0.14           
+## [49] tools_4.2.0                 Biobase_2.56.0             
+## [51] MatrixGenerics_1.8.1        parallel_4.2.0             
+## [53] fastmap_1.1.0               yaml_2.3.5                 
+## [55] clue_0.3-61                 colorspace_2.0-3           
+## [57] cluster_2.1.3               sass_0.4.2                 
+## [59] BiocIO_1.6.0</code></pre>
+</div>

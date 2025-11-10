@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Rasterization in ComplexHeatmap 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/06/30/rasterization-in-complexheatmap/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Rasterization in ComplexHeatmap </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · June 2020
+    </div>
+  
+
+  <div class="entry-content">
+    <p>Guillaume Devailly recently wrote <a href="https://gdevailly.netlify.app/post/plotting-big-matrices-in-r/">an
+article</a> on
+image rasterization to efficiently visualize huge matrices in R, as well as
+comparing several R functions that support image rasterization. In this post, I
+discusse the support for raster image in <strong>ComplexHeatmap</strong> in more details.</p>
+<p>When we produce so-called &ldquo;high quality figures&rdquo;, normally we save the figures
+as <a href="https://en.wikipedia.org/wiki/Vector_graphics">vector graphics</a> in the
+format of <em>e.g.</em> pdf or svg. The vector graphics basically store details of
+every single graphic elements, thus, if a heatmap made from a very huge matrix is
+saved as vector graphics, the final file size would be very big. On the other
+hand, when visualizing <em>e.g.</em> the pdf file on the screen, multiple grids from
+the heatmap actually only map to single pixels, due to the limited size of the
+screen. Thus, there need some ways to effectively reduce the original image and
+it is not necessary to store the complete matrix for the heatmap.</p>
+<p>Rasterization is a way to covnert the vector graphics into a matrix of colors.
+In this case, an image is represented as a matrix of RGB values, which is
+called a <a href="https://en.wikipedia.org/wiki/Raster_graphics">raster image</a>. If the
+heatmap is larger than the size of the screen or the pixels that current
+graphics devices can support, we can convert the heatmap and reduce it, by
+saving it in a form of a color matrix with the same dimension as the device.</p>
+<p>Let&rsquo;s assume a matrix has <code>\(n_r\)</code> rows and <code>\(n_c\)</code> columns. When it is drawn on a
+certain graphics device, <em>e.g.</em> an on-screen device, the corresponding heatmap
+body has <code>\(p_r\)</code> and <code>\(p_c\)</code> pixels (or points) for the rows and columns,
+respectively. When <code>\(n_r &gt; p_r\)</code> and/or <code>\(n_c &gt; p_c\)</code>, multiple values in the
+matrix are mapped to single pixels. Here we need to reduce <code>\(n_r\)</code> and/or <code>\(n_c\)</code>
+if they are larger than <code>\(p_r\)</code> and/or <code>\(p_c\)</code>.</p>
+<p>To make it simple, I assume both <code>\(n_r &gt; p_r\)</code> and <code>\(n_c &gt; p_c\)</code>. The
+principle is basically the same for the scenarios where only one dimension of
+the matrix is larger than the device.</p>
+<p>In <strong>ComplexHeatmap</strong> version 2.5.4, there are following implementations for
+image rasterization. Note the implementation is a little bit different from
+the earlier versions (of course, better than the earlier versions).</p>
+<ol>
+<li>
+<p>First an image
+(in a specific format, <em>e.g.</em> png or jpeg) with $(p_r \cdot a) \times (p_c
+\cdot a)$ resolution is saved into a temporary file where <code>\(a\)</code> is a zooming
+factor, next it is read back as a <code>raster</code> object by <em>e.g.</em>
+<code>png::readPNG()</code> or <code>jpeg::readJPEG()</code>, and later the raster object is
+filled into the heatmap body by <code>grid::grid.raster()</code>. So we can say, the
+rasterization is done by the raster image devices (<code>png()</code> or <code>jpeg()</code>).</p>
+<p>This type of rasterization is automatically turned on (<strong>if magick package is
+not installed</strong>) when the number of rows or columns exceeds 2000 (You will
+see a message. It won&rsquo;t happen silently). It can also be manually
+controlled by setting the <code>use_raster</code> argument:</p>
+</li>
+</ol>
+<pre><code class="language-r">Heatmap(..., use_raster = TRUE)
+</code></pre>
+<p>The zooming factor is controlled by <code>raster_quality</code> argument. A value larger
+than 1 generates files with larger size.</p>
+<pre><code class="language-r">Heatmap(..., use_raster = TRUE, raster_quality = 5)
+</code></pre>
+<ol start="2">
+<li>
+<p>Simply reduce the original matrix to <code>\(p_r \times p_c\)</code> where now each single values can
+correspond to single pixels. In the reduction, a user-defined function is applied to summarize
+the sub-matrices.</p>
+<p>This can be set by <code>raster_resize_mat</code> argument:</p>
+</li>
+</ol>
+<pre><code class="language-r"># the default summary function is mean()
+Heatmap(..., use_raster = TRUE, raster_resize_mat = TRUE)
+# use max() as the summary function
+Heatmap(..., use_raster = TRUE, raster_resize_mat = max)
+# randomly pick one
+Heatmap(..., use_raster = TRUE, raster_resize_mat = function(x) sample(x, 1))
+</code></pre>
+<ol start="3">
+<li>
+<p>A temporary image with resolution <code>\(n_r \times n_c\)</code> is first generated, here
+<code>magick::image_resize()</code> is used to reduce the image to size $p_r \times
+p_c$. Finally the reduced image is read as a <code>raster</code> object and filled into
+the heatmap body. <strong>magick</strong> provides a lot of methods for
+&ldquo;resizing&rdquo;/&ldquo;scaling&rdquo; the image, which is called the &ldquo;filtering methods&rdquo;
+under the term of <strong>magick</strong>. <a href="https://www.imagemagick.org/Magick++/Enumerations.html#FilterTypes">All filtering
+methods</a>
+can be obtained by <code>magick::filter_types()</code>.</p>
+<p>This type of rasterization can be truned on by setting <code>raster_by_magick = TRUE</code>
+and choosing a proper <code>raster_magick_filter</code>.</p>
+</li>
+</ol>
+<pre><code class="language-r">Heatmap(..., use_raster = TRUE, raster_by_magick = TRUE)
+Heatmap(..., use_raster = TRUE, raster_by_magick = TRUE, raster_magick_filter = ...)
+</code></pre>
+<p>In the following parts of this post, I will compare the visual difference
+between different image rasterization methods.</p>
+<h2 id="example-1">Example 1</h2>
+<p>The first example is from <a href="https://gdevailly.netlify.app/post/plotting-big-matrices-in-r/">Guillaume Devailly&rsquo;s simulated
+data</a> but with
+small adaptation. This example shows an enrichment pattern to the top center of the plot.</p>
+<pre><code class="language-r">mat = matrix(nrow = 5000, ncol = 50)
+for(i in 1:5000) {
+    mat[i, ] = runif(50) + c(sort(abs(rnorm(50)))[1:25], rev(sort(abs(rnorm(50)))[1:25]))  * i/1000
+}
+mat = mat[nrow(mat):1, ]
+col_fun = colorRamp2(seq(quantile(mat, 0.01), quantile(mat, 0.99), len = 11), rev(brewer.pal(11, &quot;Spectral&quot;)))
+</code></pre>
+<p>In the folowing examples, I won&rsquo;t show the code for making heatmaps because there are too many heatmaps
+and the specific settings is already written as the row title of each heatmap.</p>
+<p>I set the same color mapping for all heatmaps, so that you can see how different rasterizations change
+the original patterns.</p>
+<p>For the comparison, I generated many heatmaps. They can be categoried into three groups, as corresponded to the
+three rasterization methods I mentioned previously.</p>
+<ul>
+<li><code>by png()</code>: Rasterization method 1.</li>
+<li><code>raster_resize_mat = *</code>: Rasterization method 2, with different summary methods.</li>
+<li><code>filter = *</code>: Rasterization method 3, with different filterring method. The string <code>filter</code>
+should be <code>raster_magick_filter</code>. It is truncated so that the row title won&rsquo;t be cut by the plot regions.</li>
+</ul>
+<img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="163.2" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-9-1.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-9-2.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-9-3.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-9-4.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-9-5.png" width="163.2" style="display: block; margin: auto;" /></p>
+<p><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-2.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-3.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-4.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-5.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-6.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-7.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-8.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-9.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-10.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-11.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-12.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-13.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-14.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-15.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-16.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-17.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-18.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-19.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-20.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-21.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-22.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-23.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-24.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-25.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-26.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-27.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-28.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-29.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-30.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-31.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-32.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-33.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-10-34.png" width="163.2" style="display: block; margin: auto;" /></p>
+<h2 id="example-2">Example 2</h2>
+<p>Here we generate a random matrix from uniform distribution. The color mapping function
+linearly intepolation colors between 0 and 1 in the sRGB color space.</p>
+<pre><code class="language-r">set.seed(123)
+mat = matrix(runif(2000*100), nrow = 2000)
+col_fun = colorRamp2(c(0, 1), c(&quot;white&quot;, &quot;black&quot;), space = &quot;sRGB&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-12-1.png" width="163.2" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-13-1.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-13-2.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-13-3.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-13-4.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-13-5.png" width="163.2" style="display: block; margin: auto;" /></p>
+<p><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-1.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-2.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-3.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-4.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-5.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-6.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-7.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-8.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-9.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-10.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-11.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-12.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-13.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-14.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-15.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-16.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-17.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-18.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-19.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-20.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-21.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-22.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-23.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-24.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-25.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-26.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-27.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-28.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-29.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-30.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-31.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-32.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-33.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-14-34.png" width="163.2" style="display: block; margin: auto;" /></p>
+<h2 id="example-3">Example 3</h2>
+<p>This example shows heatmaps with more local patterns. These heatmaps visualize the distance of points
+in a <a href="https://www.bioconductor.org/packages/release/bioc/html/HilbertCurve.html">2D Hilbert curve</a>.</p>
+<pre><code class="language-r">pos = HilbertVis::hilbertCurve(5)
+mat = as.matrix(dist(pos))
+dimnames(mat) = NULL
+col_fun = colorRamp2(c(min(mat), median(mat), max(mat)), c(&quot;blue&quot;, &quot;white&quot;, &quot;red&quot;))
+</code></pre>
+<img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-16-1.png" width="163.2" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-17-1.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-17-2.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-17-3.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-17-4.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-17-5.png" width="163.2" style="display: block; margin: auto;" /></p>
+<p><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-1.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-2.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-3.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-4.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-5.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-6.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-7.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-8.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-9.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-10.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-11.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-12.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-13.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-14.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-15.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-16.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-17.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-18.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-19.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-20.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-21.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-22.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-23.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-24.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-25.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-26.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-27.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-28.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-29.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-30.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-31.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-32.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-33.png" width="163.2" style="display: block; margin: auto;" /><img src="/lab-cn/post/2020-06-30-rasterization-in-complex-heatmap_files/figure-html/unnamed-chunk-18-34.png" width="163.2" style="display: block; margin: auto;" /></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>According to all these examples that have been shown, I would say
+rasterization by <strong>magick</strong> package performs better, thus, by default, in
+<strong>ComplexHeatmap</strong>, the rasterization is done by <strong>magick</strong> (with <code>&quot;Lanczos&quot;</code>
+as the default filter method) and if <strong>magick</strong> is not installed, it uses
+<code>png()</code> and a friendly message is printed to suggest users to install
+<strong>magick</strong>.</p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+  $("img").css("display", "inline");
+  $("main.content").css("max-width", "1000px");
+});
+</script>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

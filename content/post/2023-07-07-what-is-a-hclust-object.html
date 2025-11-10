@@ -1,0 +1,351 @@
+---
+title: "What is a hclust object"
+date: 2023-07-07
+---
+
+
+
+<p>Hierarchical clustering is a widely used approach for data analysis.
+In this post, I will demonstrate the internal structure of a <code>hclust</code> object.</p>
+<p>I first generate a random matrix and apply <code>hclust()</code>.</p>
+<pre class="r"><code>set.seed(123456)
+m = matrix(rnorm(25), 5)
+rownames(m) = letters[1:5]
+hc = hclust(dist(m))</code></pre>
+<p>Typing the <code>hc</code> object simply prints the basic information of the object.</p>
+<pre class="r"><code>hc</code></pre>
+<pre><code>## 
+## Call:
+## hclust(d = dist(m))
+## 
+## Cluster method   : complete 
+## Distance         : euclidean 
+## Number of objects: 5</code></pre>
+<p>And <code>plot()</code> function draws the clustering results:</p>
+<pre class="r"><code>plot(hc)</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Now, what is hiding behind the <code>hc</code> object? Let’s first try <code>str()</code> function to reveal its internals:</p>
+<pre class="r"><code>str(hc)</code></pre>
+<pre><code>## List of 7
+##  $ merge      : int [1:4, 1:2] -3 -1 1 -5 -4 -2 2 3
+##  $ height     : num [1:4] 2.01 2.48 3.51 4.11
+##  $ order      : int [1:5] 5 3 4 1 2
+##  $ labels     : chr [1:5] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; ...
+##  $ method     : chr &quot;complete&quot;
+##  $ call       : language hclust(d = dist(m))
+##  $ dist.method: chr &quot;euclidean&quot;
+##  - attr(*, &quot;class&quot;)= chr &quot;hclust&quot;</code></pre>
+<p>So, <code>hc</code> is just a simple list with 7 elements. The last three ones <code>method</code>, <code>call</code> and <code>dist.method</code>
+are less interesting because they are kind like label marks of the analysis. We will
+look at the first four elements.</p>
+<p>To correctly understand the <code>hc</code> object, we need to be careful with the orders of the vectors/matrices
+in <code>hc</code>. We start with <code>labels</code> and <code>order</code>.</p>
+<pre class="r"><code>hc$labels</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot;</code></pre>
+<pre class="r"><code>hc$order</code></pre>
+<pre><code>## [1] 5 3 4 1 2</code></pre>
+<p>The <code>labels</code> element contains text labels of the items <em>in their original orders</em>. Here <code>hc</code>
+is from a matrix <code>m</code>, so the order of <code>labels</code> corresponds to <em>the original row order in the matrix</em>.</p>
+<p>The order in <code>order</code> is different from that in <code>labels</code>. As hierarchical clustering reorders
+the items, <code>order</code> element contains results after the reordering. In the following order vector:</p>
+<pre class="r"><code>hc$order</code></pre>
+<pre><code>## [1] 5 3 4 1 2</code></pre>
+<p>the first value means item 5 is in position 1 after reordering, item 3 is in position 2 after reordering, etc. So if mapping labels to <code>order</code>, it will be:</p>
+<pre class="r"><code>hc$labels[hc$order]</code></pre>
+<pre><code>## [1] &quot;e&quot; &quot;c&quot; &quot;d&quot; &quot;a&quot; &quot;b&quot;</code></pre>
+<p>As you can see in the plot, after the reordering by hierarchical clustering, item “e” locates on the very left,
+and then item “c”, “d”, “a” and “b”.</p>
+<p>Next let’s check the <code>merge</code> and <code>height</code> elements in the <code>hc</code> object:</p>
+<pre class="r"><code>hc$merge</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   -3   -4
+## [2,]   -1   -2
+## [3,]    1    2
+## [4,]   -5    3</code></pre>
+<pre class="r"><code>hc$height</code></pre>
+<pre><code>## [1] 2.014138 2.478801 3.507676 4.113743</code></pre>
+<p>On the first glance, it may look a little bit unnatural that there are both positive and negative
+integers in <code>merge</code>. Actually, <code>merge</code> uses different signs to represent different types of objects in the
+clustering, i.e. an item or a sub-cluster.</p>
+<p>First we need to know, <code>hclust()</code> applies the agglomerative hierarchical clustering procedure, which is “bottom-up” approach, as shown in the following figures.</p>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-10-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>So <code>merge</code> records the steps of clustering where negative integers correspond to items (or leaves)
+and positive integers correspond to intermediate sub-clusters. Then <code>merge</code> can be read as:</p>
+<pre class="r"><code>hc$merge</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   -3   -4
+## [2,]   -1   -2
+## [3,]    1    2
+## [4,]   -5    3</code></pre>
+<ul>
+<li>Step 1 / row 1: item 3 (“c”) and 4 (“d”) are clustered. The sub-cluster has an index 1.</li>
+<li>Step 2 / row 2: item 1 (“a”) and 2 (“b”) are clustered. The sub-cluster has an index 2.</li>
+<li>Step 3 / row 3: Note now the values are both positive. This means sub-cluster 1 and sub-cluster 2 are merged where sub-cluster 1 was constructed in row 1 and sub-cluster 2 was constructed in row 2.</li>
+<li>Step 4 / row 4: This row contains both negative and positive values. This means a single item 5 (“e”) and a sub-cluster is merged where the sub-cluster is from row 3.</li>
+</ul>
+<p><code>hc$height</code> corresponds to <code>hc$merge</code>, and it is the height of each sub-cluster.</p>
+<p>With all the elements in <code>hc</code> being explained, let’s try to draw the clustering. Let’s draw the clustering
+according to the steps in <code>hc$merge</code>.</p>
+<p>The first step is to cluster item 3 and item 4. We know the height of this sub-cluster is <code>hc$height[1]</code>, but what is missing are the positions of items on x-axis, i.e. the horizontal positions of item 3 and 4. Let’s
+try to get them.</p>
+<p>We know the following are the reordered labels on the plot:</p>
+<pre class="r"><code>hc$labels[hc$order]</code></pre>
+<pre><code>## [1] &quot;e&quot; &quot;c&quot; &quot;d&quot; &quot;a&quot; &quot;b&quot;</code></pre>
+<p>which locate at <code>x = 1, 2, 3, 4, 5</code>. However, it is not in the original order.
+As in <code>hc$merge</code>, the “negative” integers correspond to the orignal order (e.g.
+-2 means item 2), thus we need to know the positions of items where items are in
+their <em>original orders</em>.</p>
+<p>This can be done by mapping with the labels:</p>
+<pre class="r"><code># 1:5 is the positions on x-axis
+map = structure(1:5, names = hc$labels[hc$order])
+# and we use the named vector to reorder into the original order
+x = map[hc$labels]
+x</code></pre>
+<pre><code>## a b c d e 
+## 4 5 2 3 1</code></pre>
+<p>Or we can directly use the following code which takes the order of <code>hc$order</code>.</p>
+<pre class="r"><code>x = order(hc$order)
+x</code></pre>
+<pre><code>## [1] 4 5 2 3 1</code></pre>
+<p>In <code>hc$order</code>, values are the original indices of items, and the index of <code>hc$order</code> itself
+is the positions on x-axis in the clustering plot.</p>
+<pre><code>hc$order
+  value 5 3 4 1 2  # indices of items, i.e. item 5, item 3, ...
+  pos   1 2 3 4 5  # pos in x-axis in the plot</code></pre>
+<p>If we apply <code>order()</code> on the vector <code>hc$order</code> which is <code>5 3 4 1 2</code>, the first value
+in the returned vector is the position of “1” (item 1) in <code>5 3 4 1 2</code> which is 4,
+and the second value is the position of “2” (item 2) in <code>5 3 4 1 2</code> which is 5, etc.</p>
+<p>This means, applying <code>order()</code> on <code>hc$order</code> returns a vector in the original order of items
+and values are the positions on x-axis.</p>
+<p>OK, now we can draw the clustering step-by-step.</p>
+<p>Step 1 / row 1 in <code>hc$merge</code>: connects item 3 (“c”) and 4 (“d”):</p>
+<pre class="r"><code>plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+# the first row in `merge` is &#39;[1,]   -3   -4&#39;
+segments(x[3], hc$height[1], x[4], hc$height[1])</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Step 2 / row 2: connects item 1 (“a”) and 2 (“b”):</p>
+<pre class="r"><code>plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+segments(x[3], hc$height[1], x[4], hc$height[1])
+# the second row in `merge` is &#39;[2,]   -1   -2&#39;
+segments(x[1], hc$height[2], x[2], hc$height[2])</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Step 3 / row 3: connects sub-cluster 1 and sub-cluster 2. Now there is a new thing. Since we
+are now connecting two sub-clusters, we need to connect to the “middle points” of the two sub-clusters.
+This can be done very easily. The middle point of sub-cluster 1 is the middle of item 3 between 4, and
+the middle point of sub-cluster 2 is the middle of item 1 between 2.</p>
+<pre class="r"><code>plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+segments(x[3], hc$height[1], x[4], hc$height[1])
+segments(x[1], hc$height[2], x[2], hc$height[2])
+
+midpoint = numeric(0)
+midpoint[1] = (x[3]+x[4])/2
+midpoint[2] = (x[1]+x[2])/2
+
+# the third row in `merge` is &#39;[3,]    1    2&#39;
+segments(midpoint[1], hc$height[3], midpoint[2], hc$height[3])</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-17-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Step 4 / row 4: connects item 5 (“e”) and sub-cluster 3. Similarly, middle point of sub-cluster 3 needs
+to be calculated in advance which is the middle of the middle points of its two sub clusters (sub-cluster 1 and 2).</p>
+<pre class="r"><code>plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+segments(x[3], hc$height[1], x[4], hc$height[1])
+segments(x[1], hc$height[2], x[2], hc$height[2])
+
+midpoint = numeric(0)
+midpoint[1] = (x[3]+x[4])/2
+midpoint[2] = (x[1]+x[2])/2
+
+segments(midpoint[1], hc$height[3], midpoint[2], hc$height[3])
+
+midpoint[3] = (midpoint[1] + midpoint[2])/2
+# the third row in `merge` is &#39;[4,]   -5    3&#39;
+segments(x[5], hc$height[4], midpoint[3], hc$height[4])</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-18-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Vertical lines can be added as:</p>
+<pre class="r"><code>plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+segments(x[3], hc$height[1], x[4], hc$height[1])
+segments(x[3], 0, x[3], hc$height[1])
+segments(x[4], 0, x[4], hc$height[1])
+
+segments(x[1], hc$height[2], x[2], hc$height[2])
+segments(x[1], 0, x[1], hc$height[2])
+segments(x[2], 0, x[2], hc$height[2])
+
+midpoint = numeric(0)
+midpoint[1] = (x[3]+x[4])/2
+midpoint[2] = (x[1]+x[2])/2
+
+segments(midpoint[1], hc$height[3], midpoint[2], hc$height[3])
+segments(midpoint[1], hc$height[3], midpoint[1], hc$height[1])
+segments(midpoint[2], hc$height[3], midpoint[2], hc$height[2])
+
+midpoint[3] = (midpoint[1] + midpoint[2])/2
+segments(x[5], hc$height[4], midpoint[3], hc$height[4])
+segments(midpoint[3], hc$height[4], midpoint[3], hc$height[3])
+segments(x[5], 0, x[5], hc$height[4])</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>We can merge all these processes into a function. The function is quite
+straightforward to understand. There are four <code>if-else</code> blocks which deal with:</p>
+<ol style="list-style-type: decimal">
+<li>both children are leaves,</li>
+<li>left child is a leaf, right child is a sub-cluster,</li>
+<li>left child is a sub-cluster, right child is a leaf,</li>
+<li>both children are sub-clusters.</li>
+</ol>
+<pre class="r"><code>plot_hc = function(hc) {
+    x = order(hc$order)
+    nobs = length(x)
+
+    if(length(hc$labels) == 0) {
+        hc$labels = as.character(seq_along(hc$order))
+    }
+
+    plot(NULL, xlim = c(0.5, nobs + 0.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+    axis(side = 1, at = 1:nobs, labels = hc$labels[hc$order])
+    axis(side = 2)
+        
+    merge = hc$merge
+    order = hc$order
+    nr = nrow(merge)
+    midpoint = numeric(nr)
+
+    for(i in seq_len(nr)) {
+        child1 = merge[i, 1]
+        child2 = merge[i, 2]
+
+        if(child1 &lt; 0 &amp;&amp; child2 &lt; 0) { # both are leaves
+            segments(x[ -child1 ], 
+                     hc$height[i],
+                     x[ -child2 ], 
+                     hc$height[i])
+            midpoint[i] = (x[ -child1 ] + x[ -child2 ])/2
+            segments(x[ -child1 ], hc$height[i], x[ -child1 ], 0)
+            segments(x[ -child2 ], hc$height[i], x[ -child2 ], 0)
+        } else if(child1 &lt; 0 &amp;&amp; child2 &gt; 0) {
+            segments(x[ -child1 ], 
+                     hc$height[i],
+                     midpoint[ child2 ], 
+                     hc$height[i])
+            midpoint[i] = (x[ -child1 ] + midpoint[ child2 ])/2
+            segments(x[ -child1 ], hc$height[i], x[ -child1 ], 0)
+            segments(midpoint[ child2 ], hc$height[i], midpoint[ child2 ], hc$height[ child2 ])
+        } else if(merge[i, 1] &gt; 0 &amp;&amp; merge[i, 2] &lt; 0) {
+            segments(midpoint[ child1 ], 
+                     hc$height[i],
+                     x[ -child2 ], 
+                     hc$height[i])
+            midpoint[i] = (midpoint[ child1 ] + x[ -child2 ])/2
+            segments(midpoint[ child1 ], hc$height[i], midpoint[ child1 ], hc$height[ child1 ])
+            segments(x[ -child2 ], hc$height[i], x[ -child2 ], 0)
+        } else {
+            segments(midpoint[ child1 ], 
+                     hc$height[i],
+                     midpoint[ child2 ], 
+                     hc$height[i])
+            midpoint[i] = (midpoint[ child1 ] + midpoint[ child2 ])/2
+            segments(midpoint[ child1 ], hc$height[i], midpoint[ child1 ], hc$height[ child1 ])
+            segments(midpoint[ child2 ], hc$height[i], midpoint[ child2 ], hc$height[ child2 ])
+        }
+    }
+}</code></pre>
+<pre class="r"><code>plot_hc(hc)</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-21-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Let’s try a larger clustering object:</p>
+<pre class="r"><code>m2 = matrix(rnorm(1000), nrow = 100)
+hc2 = hclust(dist(m2))
+plot_hc(hc2)</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-22-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Connecting a parent node and two children nodes in the clustering graph can be generalized as: with
+three points: <code>(left_x, left_y)</code>, <code>(top_x, top_y)</code> and <code>(right_x, right_y)</code> which correspond to
+xy coordinates of the left child, parent and right child, we can define a function to draw lines to connect
+the three points.</p>
+<p>The default connection actually connects the following points:</p>
+<pre><code>x-coordinates: left_x, left_x, right_x, right_x
+y-coordinates: left_y, top_y, top_y, right_y</code></pre>
+<p>In <code>plot_hc()</code>, let’s abstract the code which draws connections between parent and children nodes to
+<code>parent_children_connections()</code> which accepts coordinates of the three points.</p>
+<pre class="r"><code>plot_hc = function(hc) {
+    x = order(hc$order)
+    nobs = length(x)
+
+    if(length(hc$labels) == 0) {
+        hc$labels = as.character(seq_along(hc$order))
+    }
+
+    plot(NULL, xlim = c(0.5, nobs + 0.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+    axis(side = 1, at = 1:nobs, labels = hc$labels[hc$order])
+    axis(side = 2)
+            
+    merge = hc$merge
+    order = hc$order
+    height = hc$height
+    nr = nrow(merge)
+    midpoint = numeric(nr)
+
+    for(i in seq_len(nr)) {
+        child1 = merge[i, 1]
+        child2 = merge[i, 2]
+
+        if(child1 &lt; 0 &amp;&amp; child2 &lt; 0) { # both are leaves
+            midpoint[i] = (x[ -child1 ] + x[ -child2 ])/2
+            parent_children_connections(
+                x[-child1], 0,
+                midpoint[i], height[i],
+                x[-child2], 0
+            )
+        } else if(child1 &lt; 0 &amp;&amp; child2 &gt; 0) {
+            midpoint[i] = (x[ -child1 ] + midpoint[ child2 ])/2
+            parent_children_connections(
+                x[-child1], 0,
+                midpoint[i], height[i],
+                midpoint[child2], height[child2]
+            )
+        } else if(child1 &gt; 0 &amp;&amp; child2 &lt; 0) {
+            midpoint[i] = (midpoint[ child1 ] + x[ -child2 ])/2
+            parent_children_connections(
+                midpoint[child1], height[child1],
+                midpoint[i], height[i],
+                x[-child2], 0
+            )
+        } else {
+            midpoint[i] = (midpoint[ child1 ] + midpoint[ child2 ])/2
+            parent_children_connections(
+                midpoint[child1], height[child1],
+                midpoint[i], height[i],
+                midpoint[child2], height[child2]
+            )
+        }
+    }
+}</code></pre>
+<p>The following function is the default way to connect parent and children nodes:</p>
+<pre class="r"><code>parent_children_connections = function(left_x, left_y, top_x, top_y, right_x, right_y) {
+    lines(c(left_x, left_x, right_x, right_x),
+          c(left_y, top_y, top_y, right_y))
+}
+plot_hc(hc)</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-24-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>We can define a new way as:</p>
+<pre><code>x-coordinates: left_x, top_x, right_x
+y-coordinates: left_y, top_y, right_y</code></pre>
+<pre class="r"><code>parent_children_connections = function(left_x, left_y, top_x, top_y, right_x, right_y) {
+    lines(c(left_x, top_x, right_x),
+          c(left_y, top_y, right_y))
+}
+plot_hc(hc)</code></pre>
+<p><img src="/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-25-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Hierarchical clustering constructs a binary tree, where a parent always has two children in the tree.
+In the next post, I will introduce a more general structure, the dendrogram.</p>

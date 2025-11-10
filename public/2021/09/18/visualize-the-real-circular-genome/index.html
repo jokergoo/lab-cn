@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Visualize the &#39;real&#39; circular genome 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2021/09/18/visualize-the-real-circular-genome/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Visualize the &#39;real&#39; circular genome </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · September 2021
+    </div>
+  
+
+  <div class="entry-content">
+    <p><strong>circlize</strong> applies circular visualization. Essentially, it visualizes data in categories. E.g. for genomic data,
+the circle is segmented and each segment (or called sector) corresponds to one single chromosome. The following code visualizes 24 chromosomes of human genome.</p>
+<pre><code class="language-r">library(circlize)
+circos.initializeWithIdeogram()
+</code></pre>
+<img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" />
+<p>Now the question is how to visualize a &ldquo;real&rdquo; circular genome where the complete circle corresponds to the genome and the &ldquo;end&rdquo; of the genome
+goes smoothly over the &ldquo;start&rdquo; of the genome.</p>
+<p>Maybe we can create a single sector and set <code>gap.degree</code> to 0. In the following, I tried to draw a line from <code>x = 9</code> to <code>x = 1</code>. In
+the circular genome, we expect the line goes through <code>x = 0</code>.</p>
+<pre><code class="language-r">circos.par(gap.degree = 0, cell.padding = c(0.02, 0, 0.02, 0))
+circos.initialize(&quot;foo&quot;, xlim = c(0, 10))
+circos.track(ylim = c(0, 1))
+circos.lines(c(9, 1), c(0.2, 0.2), col = &quot;blue&quot;)
+circos.arrow(9, 1, y = 0.7, width = 0.2)
+</code></pre>
+<img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>Unfortunately it is not what we expected. If a line is drawn from <code>x = 9</code> to <code>x = 1</code> in the normal mode, it only goes reverse close wisely
+on the circle. And there is also a radical line in the ring which is actually the border of <code>x = 0</code> and <code>x = 10</code>. Thus in the coordination
+system, <code>x = 1</code> and <code>x = 9</code> are still far from each other.</p>
+<p>To support the &ldquo;real&rdquo; visualization on circular genomes, in <strong>circlize</strong>, now I add a new mode called &ldquo;the ring mode&rdquo;.
+Simply add <code>ring = TRUE</code> in <code>circos.initialize()</code>.</p>
+<pre><code class="language-r">circos.initialize(&quot;foo&quot;, xlim = c(0, 10), ring = TRUE)
+circos.track(ylim = c(0, 1))
+circos.lines(c(9, 1), c(0.2, 0.2), col = &quot;blue&quot;)
+circos.arrow(9, 1, y = 0.7, width = 0.2)
+</code></pre>
+<img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">circos.clear()
+</code></pre>
+<p>In the next example, I visualize genome of
+the Human gammaherpesvirus 4. The genomic coordinates of genes are from <a href="https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002402265.1/">https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_002402265.1/</a>.
+As you can see here, start position in the first row in larger than the end position.</p>
+<pre><code class="language-r">download.file(&quot;https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/402/265/GCF_002402265.1_ASM240226v1/GCF_002402265.1_ASM240226v1_genomic.gtf.gz&quot;, dest = &quot;GCF_002402265.1_ASM240226v1_genomic.gtf.gz&quot;)
+df = read.csv(&quot;GCF_002402265.1_ASM240226v1_genomic.gtf.gz&quot;, skip = 3, header = FALSE, sep = &quot;\t&quot;)
+head(df)
+</code></pre>
+<pre><code>##            V1     V2          V3   V4   V5 V6 V7 V8
+## 1 NC_007605.1 RefSeq        gene 1691 5856  .  +  .
+## 2 NC_007605.1 RefSeq         CDS 1736 5689  .  +  0
+## 3 NC_007605.1 RefSeq start_codon 1736 1738  .  +  0
+## 4 NC_007605.1 RefSeq  stop_codon 5690 5692  .  +  0
+## 5 NC_007605.1 RefSeq  transcript 6629 6795  .  +  .
+## 6 NC_007605.1 RefSeq        exon 6629 6795  .  +  .
+##                                                                                                                                                                                                               V9
+## 1                                        gene_id HHV4_BNRF1; transcript_id ; db_xref GeneID:3783722; gbkey Gene; gene BNRF1; gene_biotype protein_coding; locus_tag HHV4_BNRF1; note gamma gene; FGARAT family; 
+## 2 gene_id HHV4_BNRF1; transcript_id unassigned_transcript_1; db_xref UniProtKB/TrEMBL:Q777H3; gbkey CDS; gene BNRF1; locus_tag HHV4_BNRF1; product tegument protein G75; protein_id YP_401633.1; exon_number 1; 
+## 3 gene_id HHV4_BNRF1; transcript_id unassigned_transcript_1; db_xref UniProtKB/TrEMBL:Q777H3; gbkey CDS; gene BNRF1; locus_tag HHV4_BNRF1; product tegument protein G75; protein_id YP_401633.1; exon_number 1; 
+## 4 gene_id HHV4_BNRF1; transcript_id unassigned_transcript_1; db_xref UniProtKB/TrEMBL:Q777H3; gbkey CDS; gene BNRF1; locus_tag HHV4_BNRF1; product tegument protein G75; protein_id YP_401633.1; exon_number 1; 
+## 5                                                         gene_id unassigned_gene_1; transcript_id unassigned_transcript_2; gbkey misc_RNA; product EBER-1 (pol III transcript); transcript_biotype transcript; 
+## 6                                                          gene_id unassigned_gene_1; transcript_id unassigned_transcript_2; product EBER-1 (pol III transcript); transcript_biotype transcript; exon_number 1;
+</code></pre>
+<pre><code class="language-r">df = df[df[, 3] == &quot;gene&quot;, c(1, 4, 5, 7)]
+file.remove(&quot;GCF_002402265.1_ASM240226v1_genomic.gtf.gz&quot;)
+</code></pre>
+<pre><code>## [1] TRUE
+</code></pre>
+<p>I wrote a helper function <code>circos.initializeCircularGenome()</code> especially for circular genomes.
+In other parts of the code, just use <strong>circlize</strong> in the normal way.</p>
+<pre><code class="language-r">circos.initializeCircularGenome(&quot;NC_007605.1&quot;, genome_size = 171823)
+circos.genomicTrack(df, ylim = c(0, 1), panel.fun = function(region, value, ...) {
+    circos.genomicLines(region, value = runif(nrow(region)), type = &quot;segment&quot;, 
+        col = ifelse(value[, 1] == &quot;+&quot;, &quot;Red&quot;, &quot;blue&quot;))
+})
+circos.genomicLink(df[1, ], df[60, ], col = &quot;#00FF0080&quot;)
+</code></pre>
+<img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

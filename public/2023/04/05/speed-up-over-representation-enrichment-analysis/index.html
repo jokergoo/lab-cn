@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Speed up over-representation enrichment analysis 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2023/04/05/speed-up-over-representation-enrichment-analysis/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Speed up over-representation enrichment analysis </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · April 2023
+    </div>
+  
+
+  <div class="entry-content">
+    <p>Over-representation analysis (ORA) evaluates whether a list of genes
+(e.g. differentially expressed genes, DE genes) are enriched in a gene set,
+normally with the hypergeometric distribution to calculate p-values. With the
+function <code>phyper()</code>, there are the following parameters:</p>
+<pre><code class="language-r">phyper(x, m, n, k, lower.tail = FALSE)
+</code></pre>
+<p>where <code>x</code> is the number of DE genes in the gene set, <code>m</code> is the total number
+of genes in the gene set, <code>n</code> is the total number of genes not in the gene
+set, and <code>k</code> is the total number of DE genes.</p>
+<p><code>phyper(..., lower.tail = FALSE)</code> calculates <code>\(\mathrm{Pr}(X &gt; x)\)</code>. Normally we
+also include the case of <code>\(X = x\)</code> which gives the final p-value as
+<code>\(\mathrm{Pr}(X \ge x)\)</code>. Then we need to slightly change the <code>phyper()</code> call by
+switching <code>x</code> to <code>x-1</code>:</p>
+<pre><code class="language-r">phyper(x - 1, m, n, k, lower.tail = FALSE)
+</code></pre>
+<p>For a DE gene list and a gene set, it is easy to obtain values for these
+parameters. First I implement a function <code>ora_single()</code> that calculates
+p-value for a single gene set. As demonstrated as follows, <code>ora_single()</code> has
+three arguments, which correspond to the DE genes, gene set and the background
+genes. Sometimes the three types of genes may come from different sources, to
+make sure background genes always cover all DE genes and the gene set, we need to
+explicitly intersect the <code>genes</code> and <code>gene_set</code> vectors to the <code>universe</code>
+vector.</p>
+<pre><code class="language-r"># assume `genes`, `gene_set` and `universe` have the same gene ID type
+ora_single = function(genes, gene_set, universe) {
+    n_universe = length(universe)
+
+    genes = intersect(genes, universe)
+    gene_set = intersect(gene_set, universe)
+
+    x = length(intersect(genes, gene_set)) # DE genes in the gene set
+    m = length(gene_set)  # total genes in the gene set
+    n = n_universe - m    # total genes not in the gene set
+    k = length(genes)     # total DE genes
+
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
+}
+</code></pre>
+<p>Then, for a list of gene sets, we can apply <code>ora_single()</code> to each of them,
+with <code>sapply()</code> or in a <code>for</code> loop. In <code>ora_v1()</code>, I assume the gene sets
+are represented as a list of vectors where each vector is a gene set. <code>ora_v1()</code>
+returns a vector of p-values.</p>
+<pre><code class="language-r"># version 1
+ora_v1 = function(genes, gene_sets, universe) {
+    sapply(gene_sets, function(x) ora_single(genes, x, universe))
+}
+</code></pre>
+<p>To execute <code>ora_v1()</code>, I use GO gene sets in the BP namespace, I use all protein-coding genes as background,
+and I randomly generate 1000 genes as DE genes.</p>
+<pre><code class="language-r">library(org.Hs.eg.db)
+gs = as.list(org.Hs.egGO2ALLEGS)
+gs = lapply(gs, unique)  # genes may duplicate
+library(GO.db)
+gs = gs[Ontology(names(gs)) == &quot;BP&quot;]  # only take the BP GO gene sets
+
+pc_genes = select(org.Hs.eg.db, key = &quot;protein-coding&quot;, 
+    keytype = &quot;GENETYPE&quot;, column = c(&quot;ENTREZID&quot;))[, 2] # all protein-coding genes
+genes = sample(pc_genes, 1000)
+</code></pre>
+<p>This random dataset is also a good example of showing the necessarity of applying intersection in <code>ora_single()</code>.
+Here <code>pc_genes</code> does not completely cover genes in <code>gs</code>.</p>
+<pre><code class="language-r">length(setdiff(unlist(gs), pc_genes))
+</code></pre>
+<pre><code>## [1] 1708
+</code></pre>
+<p>The reason is <code>gs</code> also comtains microRNAs.</p>
+<p>Run <code>ora_v1()</code>:</p>
+<pre><code class="language-r">system.time(p1 &lt;- ora_v1(genes, gs, pc_genes))
+</code></pre>
+<pre><code>##    user  system elapsed 
+##   4.484   0.633   5.123
+</code></pre>
+<p>It takes more than 10 seconds.</p>
+<p>In version 1, we analyzed gene sets in <code>sapply()</code>, in a looping manner. In R,
+vectorization is always a good thing. Note <code>phyper()</code> also accepts vectors as
+input. In version 2, I generate the parameters <code>x</code>, <code>m</code> and <code>n</code> (<code>k</code> is the
+number of DE genes and is the same for all gene sets, so a scalar for <code>k</code> is enough) for <code>phyper()</code> all as
+vectors.</p>
+<pre><code class="language-r"># version 2
+ora_v2 = function(genes, gene_sets, universe) {
+    
+    genes = intersect(genes, universe)
+    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+
+    n_universe = length(universe)
+    n_genes = length(genes)
+    
+    x = sapply(gene_sets, function(x) length(intersect(x, genes)))
+    m = sapply(gene_sets, length)
+    n = n_universe - m
+    k = n_genes
+    
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
+}
+</code></pre>
+<p>With the same <code>genes</code>, <code>gs</code> and <code>pc_genes</code> variables, run <code>ora_v2()</code>.</p>
+<pre><code class="language-r">system.time(p2 &lt;- ora_v2(genes, gs, pc_genes))
+</code></pre>
+<pre><code>##    user  system elapsed 
+##   2.075   0.227   2.302
+</code></pre>
+<p>It speeds up more than 2 folds compared to <code>ora_v1()</code>, but still takes several
+seconds. Next we can perform code profiling on <code>ora_v2()</code>:</p>
+<pre><code class="language-r">Rprof()
+p2 = ora_v2(genes, gs, pc_genes)
+Rprof(NULL)
+summaryRprof()$by.self
+</code></pre>
+<pre><code>##                   self.time self.pct total.time total.pct
+## &quot;base::intersect&quot;       2.2      100        2.2       100
+</code></pre>
+<p>The Profiling result shows <code>intersect()</code> call is the most time-consuming part in the code,
+which uses more than 95% of all runtime. Not difficult to see, especially in this line (the second
+line in <code>ora_v2()</code>):</p>
+<pre><code class="language-r">    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+</code></pre>
+<p>for every gene set as <code>x</code>, we do intersection to <code>universe</code> which is a extremely long vector,
+The two vectors <code>x</code> and <code>universe</code> need to be fully scanned for every gene set.</p>
+<p>A thought to optimize the code is if we can change <code>universe</code> to a hash table,
+then in every gene set, we don&rsquo;t need to go through every element in
+<code>universe</code>, while we just check whether the current gene in the gene set
+exsits in the hash table.</p>
+<p>Based on this idea, we can implement it with Cpp code. Here <code>unordered_set</code>
+is a hash table data structure.</p>
+<pre><code class="language-r">library(Rcpp)
+sourceCpp(code = '
+// [[Rcpp::plugins(cpp11)]]
+
+#include &lt;Rcpp.h&gt;
+#include &lt;unordered_set&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+List intersectToList(List lt, StringVector x) {
+
+    int n = lt.size();
+    List out(n);
+
+    std::unordered_set&lt;String&gt; seen;
+    seen.insert(x.begin(), x.end());
+
+    for(int i = 0; i &lt; n; i++) {
+      
+        StringVector v = as&lt;StringVector&gt;(lt[i]);
+        LogicalVector l(v.size());
+
+        std::unordered_set&lt;String&gt; seen2;
+
+        for(int j = 0; j &lt; v.size(); j ++) {
+            l[j] = seen.find(v[j]) != seen.end() &amp;&amp; seen2.insert(v[j]).second;
+        }
+
+        out[i] = v[l];
+    }
+
+    return out;
+}
+')
+</code></pre>
+<p>The new function <code>intersectToList()</code> can be called in R with two arguments.
+The first one is a list of vectors (<code>lt</code>) and the second one is a single vector (<code>x</code>) which will
+intersect to every vector in the list. In the Cpp code, I also removed
+duplicated elements in every vector in the list (<code>lt</code>).</p>
+<p>Now we can switch the original line</p>
+<pre><code class="language-r">    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+</code></pre>
+<p>to the optimized code:</p>
+<pre><code class="language-r">    gene_sets = intersectToList(gene_sets, universe)
+</code></pre>
+<p>Also I use <code>intersectToList()</code> when intersecting genes with gene sets.
+The two lines that have beem optimized are marked in the following code,
+which I name it <code>ora_v3()</code>.</p>
+<pre><code class="language-r"># version 3
+ora_v3 = function(genes, gene_sets, universe) {
+
+    gs_names = names(gene_sets)
+
+    genes = intersect(genes, universe)
+    gene_sets = intersectToList(gene_sets, universe)  # this line has been improved
+
+    n_universe = length(universe)
+    n_genes = length(genes)
+    
+    x = sapply(intersectToList(gene_sets, genes), length)  # this line has been improved
+    m = sapply(gene_sets, length)
+    n = n_universe - m
+    k = n_genes
+    
+    p = phyper(x - 1, m, n, k, lower.tail = FALSE)
+    names(p) = gs_names
+    p
+}
+</code></pre>
+<p>Since in the Cpp implementaiton, names of the gene sets are lost, in the last three lines
+of <code>ora_v3()</code>, I manually add the gene set names to the returned object <code>p</code>.</p>
+<p>Now with the same <code>genes</code>, <code>gs</code> and <code>pc_genes</code> variables, I run <code>ora_v3()</code>.</p>
+<pre><code class="language-r">system.time(p3 &lt;- ora_v3(genes, gs, pc_genes))
+</code></pre>
+<pre><code>##    user  system elapsed 
+##   0.291   0.010   0.301
+</code></pre>
+<p>It finishes in less than one second!</p>
+<p>The three p-values vectors (<code>p1</code>, <code>p2</code> and <code>p3</code>) are identical:</p>
+<pre><code class="language-r">identical(p1, p2)
+</code></pre>
+<pre><code>## [1] TRUE
+</code></pre>
+<pre><code class="language-r">identical(p1, p3)
+</code></pre>
+<pre><code>## [1] TRUE
+</code></pre>
+<p>If we compare the three versions of ORA functions, <code>ora_v3()</code> is around 20x faster
+than <code>ora_v1()</code> and around 8x faster than <code>ora_v2()</code>.</p>
+<pre><code class="language-r">library(microbenchmark)
+microbenchmark(
+    &quot;loop(v1)&quot;       = ora_v1(genes, gs, pc_genes),
+    &quot;vectorized(v2)&quot; = ora_v2(genes, gs, pc_genes),
+    &quot;cpp(v3)&quot;        = ora_v3(genes, gs, pc_genes),
+    times = 10
+)
+</code></pre>
+<pre><code>## Unit: milliseconds
+##            expr       min        lq      mean   median       uq       max neval
+##        loop(v1) 5257.3628 5266.3783 5333.2993 5351.087 5376.623 5409.3270    10
+##  vectorized(v2) 2237.1768 2256.7567 2279.5512 2281.210 2296.748 2331.2009    10
+##         cpp(v3)  287.2289  291.9198  296.4855  296.932  301.904  304.1861    10
+</code></pre>
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+<pre><code>## R version 4.4.2 (2024-10-31)
+## Platform: aarch64-apple-darwin20
+## Running under: macOS 26.0.1
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## 
+## locale:
+## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] microbenchmark_1.5.0 Rcpp_1.0.14          GO.db_3.20.0         org.Hs.eg.db_3.20.0 
+##  [5] AnnotationDbi_1.68.0 IRanges_2.40.1       S4Vectors_0.44.0     Biobase_2.66.0      
+##  [9] BiocGenerics_0.52.0  knitr_1.50           colorout_1.3-2      
+## 
+## loaded via a namespace (and not attached):
+##  [1] bit_4.5.0.1             jsonlite_1.9.0          compiler_4.4.2          crayon_1.5.3           
+##  [5] blob_1.2.4              Biostrings_2.74.1       jquerylib_0.1.4         png_0.1-8              
+##  [9] yaml_2.3.10             fastmap_1.2.0           R6_2.6.1                XVector_0.46.0         
+## [13] GenomeInfoDb_1.42.3     bookdown_0.44           GenomeInfoDbData_1.2.13 DBI_1.2.3              
+## [17] bslib_0.9.0             rlang_1.1.5             KEGGREST_1.46.0         cachem_1.1.0           
+## [21] xfun_0.51               sass_0.4.9              bit64_4.6.0-1           RSQLite_2.3.9          
+## [25] memoise_2.0.1           cli_3.6.4               zlibbioc_1.52.0         digest_0.6.37          
+## [29] lifecycle_1.0.4         vctrs_0.6.5             evaluate_1.0.3          blogdown_1.19          
+## [33] rmarkdown_2.29          httr_1.4.7              pkgconfig_2.0.3         tools_4.4.2            
+## [37] htmltools_0.5.8.1       UCSC.utils_1.2.0
+</code></pre>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

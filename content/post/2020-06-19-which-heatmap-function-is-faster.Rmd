@@ -1,0 +1,313 @@
+---
+title: "Which heatmap function is faster?"
+date: 2020-06-19
+author: Zuguang Gu
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.align = "center",
+    fig.width = 8,
+    fig.height = 8
+)
+library(GetoptLong)
+options(digits = 4)
+```
+
+
+In this post I test the performance (the running time) of four heatmap
+functions: `gplots::heatmap.2()`, `heatmap()` which is natively supported in R,
+`ComplexHeatmap::Heatmap()` and `pheatmap::pheatmap()`.
+
+We generate a 1000x1000 random matrix.
+
+
+```{r}
+library(ComplexHeatmap)
+library(pheatmap)
+library(gplots)
+library(microbenchmark)
+
+set.seed(123)
+n = 1000
+mat = matrix(rnorm(n*n), nrow = n)
+```
+
+First I test drawing heatmaps as well as drawing dendrograms (with applying
+clustering):
+
+```{r}
+t1 = microbenchmark(
+	"heatmap()" = {
+		pdf(NULL) 
+		heatmap(mat) 
+		dev.off()
+	},
+	"heatmap.2()" = {
+		pdf(NULL) 
+		heatmap.2(mat, trace = "none") 
+		dev.off()
+	},
+	"Heatmap()" = {
+		pdf(NULL)
+		draw(Heatmap(mat)) 
+		dev.off()
+	},
+	"pheatmap()" = {
+		pdf(NULL) 
+		pheatmap(mat)
+		dev.off()
+	},
+	times = 5
+)
+print(t1, unit = "s")
+```
+
+The running time for all four heatmap functions looks similar, it might due to that
+clustering uses most of the running time. `Heatmap()` runs the longest, perhaps
+because `Heatmap()` applies additional manipulations on the dendrograms such as 
+dendrogram reordering.
+
+Next I suppress the clustering on both rows and columns and with no dendrogram.
+
+```{r}
+t2 = microbenchmark(
+	"heatmap()" = {
+		pdf(NULL)
+		heatmap(mat, Rowv = NA, Colv = NA)
+		dev.off()
+	},
+	"heatmap.2()" = {
+		pdf(NULL)
+		heatmap.2(mat, dendrogram = "none", trace = "none")
+		dev.off()
+	},
+	"Heatmap()" = {
+		pdf(NULL)
+		draw(Heatmap(mat, cluster_rows = FALSE, cluster_columns = FALSE))
+		dev.off()
+	},
+	"pheatmap()" = {
+		pdf(NULL)
+		pheatmap(mat, cluster_rows = FALSE, cluster_cols = FALSE)
+		dev.off()
+	},
+	times = 5
+)
+print(t2, unit = "s")
+```
+
+
+Now `heatmap.2()` now is the slowest if only draw the heatmap bodies.
+
+Next I perform clustering in advance and send the clustering objects to the heatmap
+functions. In this setting, dendrograms are also drawn along with the heatmaps.
+
+```{r}
+row_hc = hclust(dist(mat))
+col_hc = hclust(dist(t(mat)))
+```
+
+
+```{r}
+t3 = microbenchmark(
+	"heatmap()" = {
+		pdf(NULL)
+		heatmap(mat, Rowv = as.dendrogram(row_hc), Colv = as.dendrogram(col_hc))
+		dev.off()
+	},
+	"heatmap.2()" = {
+		pdf(NULL)
+		heatmap.2(mat, Rowv = row_hc, Colv = col_hc, trace = "none")
+		dev.off()
+	},
+	"Heatmap()" = {
+		pdf(NULL)
+		draw(Heatmap(mat, cluster_rows = row_hc, cluster_columns = col_hc))
+		dev.off()
+	},
+	"pheatmap()" = {
+		pdf(NULL)
+		pheatmap(mat, cluster_rows = row_hc, cluster_cols = col_hc)
+		dev.off()
+	},
+	times = 5
+)
+print(t3, unit = "s")
+```
+
+
+Finally I put the mean running time into a table for easy comparison:
+
+
+```{r, echo = FALSE}
+res = rbind(Function = paste0("`", levels(t1$expr), "`"),
+	"do clustering, draw dendrograms" = sprintf("`%.2fs`", summary(t1, unit = "s")[, "mean"]),
+	"no clusteirng, no dendrogram" = sprintf("`%.2fs`", summary(t2, unit = "s")[, "mean"]),
+	"only draw dendrograms" = sprintf("`%.2fs`", summary(t3, unit = "s")[, "mean"])
+)
+res = as.matrix(res)
+rownames(res)[1] = ""
+i = which.max(summary(t1, unit = "s")[, "mean"])
+res[2, i] = paste0("**", res[2, i], "**")
+i = which.max(summary(t2, unit = "s")[, "mean"])
+res[3, i] = paste0("**", res[3, i], "**")
+i = which.max(summary(t3, unit = "s")[, "mean"])
+res[4, i] = paste0("**", res[4, i], "**")
+kable(res)
+```
+
+The following plots illustrate the mean running time for the four matrices with different dimensions.
+
+```{r, echo = FALSE}
+benchmark1 = function(n) {
+	set.seed(123)
+	mat = matrix(rnorm(n*n), nrow = n)
+	t = microbenchmark(
+		"heatmap()" = {
+			pdf(NULL) 
+			heatmap(mat) 
+			dev.off()
+		},
+		"heatmap.2()" = {
+			pdf(NULL) 
+			heatmap.2(mat, trace = "none") 
+			dev.off()
+		},
+		"Heatmap()" = {
+			pdf(NULL)
+			draw(Heatmap(mat)) 
+			dev.off()
+		},
+		"pheatmap()" = {
+			pdf(NULL) 
+			pheatmap(mat)
+			dev.off()
+		},
+		times = 5
+	)
+	summary(t, unit = "s")
+}
+
+benchmark2 = function(n) {
+	set.seed(123)
+	mat = matrix(rnorm(n*n), nrow = n)
+	t = microbenchmark(
+		"heatmap()" = {
+			pdf(NULL)
+			heatmap(mat, Rowv = NA, Colv = NA)
+			dev.off()
+		},
+		"heatmap.2()" = {
+			pdf(NULL)
+			heatmap.2(mat, dendrogram = "none", trace = "none")
+			dev.off()
+		},
+		"Heatmap()" = {
+			pdf(NULL)
+			draw(Heatmap(mat, cluster_rows = FALSE, cluster_columns = FALSE))
+			dev.off()
+		},
+		"pheatmap()" = {
+			pdf(NULL)
+			pheatmap(mat, cluster_rows = FALSE, cluster_cols = FALSE)
+			dev.off()
+		},
+		times = 5
+	)
+	summary(t, unit = "s")
+}
+
+benchmark3 = function(n) {
+	set.seed(123)
+	mat = matrix(rnorm(n*n), nrow = n)
+	row_hc = hclust(dist(mat))
+	col_hc = hclust(dist(t(mat)))
+
+	t = microbenchmark(
+		"heatmap()" = {
+			pdf(NULL)
+			heatmap(mat, Rowv = as.dendrogram(row_hc), Colv = as.dendrogram(col_hc))
+			dev.off()
+		},
+		"heatmap.2()" = {
+			pdf(NULL)
+			heatmap.2(mat, Rowv = row_hc, Colv = col_hc, trace = "none")
+			dev.off()
+		},
+		"Heatmap()" = {
+			pdf(NULL)
+			draw(Heatmap(mat, cluster_rows = row_hc, cluster_columns = col_hc))
+			dev.off()
+		},
+		"pheatmap()" = {
+			pdf(NULL)
+			pheatmap(mat, cluster_rows = row_hc, cluster_cols = col_hc)
+			dev.off()
+		},
+		times = 5
+	)
+	summary(t, unit = "s")
+}
+```
+
+
+```{r, echo = FALSE}
+library(ggplot2)
+pl = list()
+for(n in c(50, 100, 500, 1000)) {
+	message(qq("benchmarking with n = @{n}"))
+	if(n == 1000) {
+		df1 = summary(t1, unit = "s")
+		df2 = summary(t2, unit = "s")
+		df3 = summary(t3, unit = "s")
+	} else {
+		df1 = benchmark1(n)
+		df2 = benchmark2(n)
+		df3 = benchmark3(n)
+	}
+
+	fun = NULL
+	cate = NULL
+	t = NULL
+
+	fun = c(fun, as.character(df1[, "expr"]))
+	t = c(t, df1[, "mean"])
+	cate = c(cate, rep(1, nrow(df1)))
+
+	fun = c(fun, as.character(df2[, "expr"]))
+	t = c(t, df2[, "mean"])
+	cate = c(cate, rep(2, nrow(df2)))
+
+	fun = c(fun, as.character(df3[, "expr"]))
+	t = c(t, df3[, "mean"])
+	cate = c(cate, rep(3, nrow(df3)))
+
+	df = data.frame(fun = fun, t = t, cate = cate)
+
+	p = ggplot(df, aes(x = factor(cate), y = t, fill = factor(fun))) + 
+		geom_bar(stat="identity", position=position_dodge()) +
+		ggtitle(paste0(n, "x", n, " matrix")) +
+		labs(x = "", y = "mean running time (sec)", fill = "") +
+		theme(legend.position="bottom") +
+		scale_x_discrete(breaks=c("1","2","3"),
+        	labels=c("do clustering,\ndraw dendrograms", "no clusteirng,\nno dendrogram", "only draw dendrograms"))
+	pl[[as.character(n)]] = p
+}
+```
+
+```{r, echo = FALSE, fig.width = 10, fig.height = 10, out.width = "700px"}
+library(cowplot)
+plot_grid(plotlist = pl, ncol = 2)
+```
+
+Session info:
+
+```{r}
+sessionInfo()
+```

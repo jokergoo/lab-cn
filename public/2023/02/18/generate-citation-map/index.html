@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Generate citation map 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2023/02/18/generate-citation-map/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Generate citation map </h1>
+
+  
+    <div id=sub-header>
+      February 2023
+    </div>
+  
+
+  <div class="entry-content">
+    
+
+
+<p>In Web of Science, you can generate a nice citation map to show how your papers are cited world wide. In this blog post,
+I will demonstrate how to fetch the citation data and how to make such citation map in R.</p>
+<p>The citation data is not straightforward to find. Since the citation map is presented on a web page, the data is actually
+downloaded by the browser. Thus, we just need to find the corresponding file there.</p>
+<p>In the following steps, I assume you are using Chrome browser.</p>
+<p><strong>Step 1:</strong> Log into your personal Web of Science.</p>
+<p><strong>Step 2:</strong> Open the “Developer Tools”. There are two ways to open it.</p>
+<ol style="list-style-type: decimal">
+<li>right click on the web page and click “Inspect” (which is the last one in the menu).</li>
+<li>or, in Chrome, View -&gt; Developer -&gt; Developer’s Tools</li>
+</ol>
+<p><strong>Step 3:</strong> In your Web of Science dashboard, click “My research profile”.</p>
+<p><img width="100%" src="https://user-images.githubusercontent.com/449218/219885010-2f701532-d5aa-4d3c-9c3f-83a70b3f73e3.png"></p>
+<p><strong>Step 4:</strong> In this page, click “Open dashboard” next to “Metrics”.</p>
+<p><strong>Step 5:</strong> Scroll downward to the section “Geographic Citation Map”, click “Click to show map”.</p>
+<p><img width="100%" src="https://user-images.githubusercontent.com/449218/219885008-9175cd66-5a03-4e55-92f3-4317a0a9aae9.png"></p>
+<p><strong>Step 6:</strong> In the Developer Tool, click on the “Netowrk” tab. You might see
+there are many files under downloading. Once all the files are downloaded, double click on the file above
+<code>natigation_poin.svg</code> (with name <code>?task_id=...</code>, normally the one with the largest file size).</p>
+<p><img width="100%" src="https://user-images.githubusercontent.com/449218/219885006-4c28d2a9-413f-4bc3-9847-5d1042346435.png"></p>
+<p>This will download the file, which is a json file that contains all the publication data for the citation map.</p>
+<p><img width="100%" src="https://user-images.githubusercontent.com/449218/219885001-0fe4e447-7fa3-4870-8509-c490c3409a20.png"></p>
+<p><strong>Step 7:</strong> Save the output into a file, e.g, by pressing “Ctrl + s”. Let’s save it into a file called <code>citation.json</code>.
+Unfortunately, this json file cannot be directly read by packages such as <strong>jsonlite</strong> or <strong>rjson</strong> (Actually it is not in json format). We need to slightly modify it a little bit.</p>
+<p>The content in <code>citation.json</code> is a valid JavaScript command. We explicitely let it be assgined to a variable. Simply add <code>citation =</code> in the very beginning
+of <code>citation.json</code> (we assume the variable is called <code>citation</code>).</p>
+<p><img width="100%" src="https://user-images.githubusercontent.com/449218/219884999-ada7add0-0d2e-4da1-a40b-e05d9346c189.png"></p>
+<p><strong>Step 8:</strong> Now we can use the <strong>V8</strong> package to execute the JavaScript code.</p>
+<pre class="r"><code>library(V8)
+ct = v8()
+ct$source(&quot;~/citation.json&quot;)</code></pre>
+<pre><code>## [1] &quot;[object Object]&quot;</code></pre>
+<p><strong>Step 9:</strong> Transfer the JavaScript variable <code>citation</code> into R by the <code>get()</code> method.</p>
+<pre class="r"><code>citation = ct$get(&quot;citation&quot;)</code></pre>
+<p>OK, now the citation data is obtained, and we can process it in R.</p>
+<p>I will not show the value of <code>citation</code> here because it is a little bit complex. I only take the <code>results</code> element which is a data frame.
+Also I only take the first four columns and the fifth column in <code>results</code> contains all the paper information (e.g. authors, titles) which is not needed for the visualization.</p>
+<pre class="r"><code>results = citation$results[, 1:4]
+head(results)</code></pre>
+<pre><code>##                     address publicationCount       lat       lon
+## 1             Putian, China                2  25.35331 119.05826
+## 2 Blacksburg, United States               10  37.22957 -80.41394
+## 3   Richmond, United States                7  37.55376 -77.46026
+## 4           Toronto, Canada              328  43.64455 -79.40712
+## 5  New Haven, United States               75  41.30815 -72.92816
+## 6         Sydney, Australia              135 -33.86785 151.20732</code></pre>
+<p>Now in the object <code>results</code>, there are the geographical coordinates (<code>lat</code> and <code>lon</code>), which can be used for the map.</p>
+<p>The next chunk of code is optional. It basically merges different insitutes/universities in the same city into one record.</p>
+<pre class="r"><code>tb = data.frame(address = tapply(results$address, results$address, function(x) x[1]),
+                publicationCount = tapply(results$publicationCount, results$address, sum),
+                lat = tapply(results$lat, results$address, mean),
+                lon = tapply(results$lon, results$address, mean))</code></pre>
+<p>Next we draw the world map. I basically follow a tutorial from the internet (<a href="https://r-spatial.org/r/2018/10/25/ggplot2-sf.html" class="uri">https://r-spatial.org/r/2018/10/25/ggplot2-sf.html</a>).</p>
+<pre class="r"><code>library(&quot;sf&quot;)
+library(&quot;rnaturalearth&quot;)
+library(&quot;rnaturalearthdata&quot;)
+world = ne_countries(scale = &quot;medium&quot;, returnclass = &quot;sf&quot;)
+
+library(ggplot2)
+library(ggrepel)
+library(RColorBrewer)
+
+ggplot(data = world) + geom_sf(color = &quot;grey&quot;, fill = NA) + 
+    geom_point(data = tb[order(tb$publicationCount), ], 
+        aes(x = lon, y = lat, color = publicationCount, size = publicationCount)) + 
+    scale_colour_gradientn(colours = rev(brewer.pal(9, &quot;Spectral&quot;))) +
+    scale_size(range = c(0.2, 3)) +
+    geom_text_repel(data = tb[order(-tb$publicationCount)[1:20], ], 
+        mapping = aes(x = lon, y = lat, label = gsub(&quot;, .*$&quot;, &quot;&quot;, address)), 
+        box.padding = 0.5, max.overlaps = Inf, min.segment.length = 0, size = 3)</code></pre>
+<p><img src="/post/2023-02-18-generate-citation-map_files/figure-html/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" /></p>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

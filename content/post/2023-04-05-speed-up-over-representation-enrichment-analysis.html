@@ -1,0 +1,243 @@
+---
+title: "Speed up over-representation enrichment analysis"
+date: 2023-04-05
+---
+
+
+
+<p>Over-representation analysis (ORA) evaluates whether a list of genes
+(e.g. differentially expressed genes, DE genes) are enriched in a gene set,
+normally with the hypergeometric distribution to calculate p-values. With the
+function <code>phyper()</code>, there are the following parameters:</p>
+<pre class="r"><code>phyper(x, m, n, k, lower.tail = FALSE)</code></pre>
+<p>where <code>x</code> is the number of DE genes in the gene set, <code>m</code> is the total number
+of genes in the gene set, <code>n</code> is the total number of genes not in the gene
+set, and <code>k</code> is the total number of DE genes.</p>
+<p><code>phyper(..., lower.tail = FALSE)</code> calculates <span class="math inline">\(\mathrm{Pr}(X &gt; x)\)</span>. Normally we
+also include the case of <span class="math inline">\(X = x\)</span> which gives the final p-value as
+<span class="math inline">\(\mathrm{Pr}(X \ge x)\)</span>. Then we need to slightly change the <code>phyper()</code> call by
+switching <code>x</code> to <code>x-1</code>:</p>
+<pre class="r"><code>phyper(x - 1, m, n, k, lower.tail = FALSE)</code></pre>
+<p>For a DE gene list and a gene set, it is easy to obtain values for these
+parameters. First I implement a function <code>ora_single()</code> that calculates
+p-value for a single gene set. As demonstrated as follows, <code>ora_single()</code> has
+three arguments, which correspond to the DE genes, gene set and the background
+genes. Sometimes the three types of genes may come from different sources, to
+make sure background genes always cover all DE genes and the gene set, we need to
+explicitly intersect the <code>genes</code> and <code>gene_set</code> vectors to the <code>universe</code>
+vector.</p>
+<pre class="r"><code># assume `genes`, `gene_set` and `universe` have the same gene ID type
+ora_single = function(genes, gene_set, universe) {
+    n_universe = length(universe)
+
+    genes = intersect(genes, universe)
+    gene_set = intersect(gene_set, universe)
+
+    x = length(intersect(genes, gene_set)) # DE genes in the gene set
+    m = length(gene_set)  # total genes in the gene set
+    n = n_universe - m    # total genes not in the gene set
+    k = length(genes)     # total DE genes
+
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
+}</code></pre>
+<p>Then, for a list of gene sets, we can apply <code>ora_single()</code> to each of them,
+with <code>sapply()</code> or in a <code>for</code> loop. In <code>ora_v1()</code>, I assume the gene sets
+are represented as a list of vectors where each vector is a gene set. <code>ora_v1()</code>
+returns a vector of p-values.</p>
+<pre class="r"><code># version 1
+ora_v1 = function(genes, gene_sets, universe) {
+    sapply(gene_sets, function(x) ora_single(genes, x, universe))
+}</code></pre>
+<p>To execute <code>ora_v1()</code>, I use GO gene sets in the BP namespace, I use all protein-coding genes as background,
+and I randomly generate 1000 genes as DE genes.</p>
+<pre class="r"><code>library(org.Hs.eg.db)
+gs = as.list(org.Hs.egGO2ALLEGS)
+gs = lapply(gs, unique)  # genes may duplicate
+library(GO.db)
+gs = gs[Ontology(names(gs)) == &quot;BP&quot;]  # only take the BP GO gene sets
+
+pc_genes = select(org.Hs.eg.db, key = &quot;protein-coding&quot;, 
+    keytype = &quot;GENETYPE&quot;, column = c(&quot;ENTREZID&quot;))[, 2] # all protein-coding genes
+genes = sample(pc_genes, 1000)</code></pre>
+<p>This random dataset is also a good example of showing the necessarity of applying intersection in <code>ora_single()</code>.
+Here <code>pc_genes</code> does not completely cover genes in <code>gs</code>.</p>
+<pre class="r"><code>length(setdiff(unlist(gs), pc_genes))</code></pre>
+<pre><code>## [1] 1705</code></pre>
+<p>The reason is <code>gs</code> also comtains microRNAs.</p>
+<p>Run <code>ora_v1()</code>:</p>
+<pre class="r"><code>system.time(p1 &lt;- ora_v1(genes, gs, pc_genes))</code></pre>
+<pre><code>##    user  system elapsed 
+##  11.054   2.011  13.070</code></pre>
+<p>It takes more than 10 seconds.</p>
+<p>In version 1, we analyzed gene sets in <code>sapply()</code>, in a looping manner. In R,
+vectorization is always a good thing. Note <code>phyper()</code> also accepts vectors as
+input. In version 2, I generate the parameters <code>x</code>, <code>m</code> and <code>n</code> (<code>k</code> is the
+number of DE genes and is the same for all gene sets, so a scalar for <code>k</code> is enough) for <code>phyper()</code> all as
+vectors.</p>
+<pre class="r"><code># version 2
+ora_v2 = function(genes, gene_sets, universe) {
+    
+    genes = intersect(genes, universe)
+    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+
+    n_universe = length(universe)
+    n_genes = length(genes)
+    
+    x = sapply(gene_sets, function(x) length(intersect(x, genes)))
+    m = sapply(gene_sets, length)
+    n = n_universe - m
+    k = n_genes
+    
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
+}</code></pre>
+<p>With the same <code>genes</code>, <code>gs</code> and <code>pc_genes</code> variables, run <code>ora_v2()</code>.</p>
+<pre class="r"><code>system.time(p2 &lt;- ora_v2(genes, gs, pc_genes))</code></pre>
+<pre><code>##    user  system elapsed 
+##   4.814   0.589   5.404</code></pre>
+<p>It speeds up more than 2 folds compared to <code>ora_v1()</code>, but still takes several
+seconds. Next we can perform code profiling on <code>ora_v2()</code>:</p>
+<pre class="r"><code>Rprof()
+p2 = ora_v2(genes, gs, pc_genes)
+Rprof(NULL)
+summaryRprof()$by.self</code></pre>
+<pre><code>##                      self.time self.pct total.time total.pct
+## &quot;base::intersect&quot;         4.84    93.08       5.06     97.31
+## &quot;duplicated.default&quot;      0.14     2.69       0.14      2.69
+## &quot;intersect&quot;               0.12     2.31       5.18     99.62
+## &quot;duplicated&quot;              0.04     0.77       0.18      3.46
+## &quot;c&quot;                       0.04     0.77       0.04      0.77
+## &quot;phyper&quot;                  0.02     0.38       0.02      0.38</code></pre>
+<p>The Profiling result shows <code>intersect()</code> call is the most time-consuming part in the code,
+which uses more than 95% of all runtime. Not difficult to see, especially in this line (the second
+line in <code>ora_v2()</code>):</p>
+<pre class="r"><code>    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))</code></pre>
+<p>for every gene set as <code>x</code>, we do intersection to <code>universe</code> which is a extremely long vector,
+The two vectors <code>x</code> and <code>universe</code> need to be fully scanned for every gene set.</p>
+<p>A thought to optimize the code is if we can change <code>universe</code> to a hash table,
+then in every gene set, we don’t need to go through every element in
+<code>universe</code>, while we just check whether the current gene in the gene set
+exsits in the hash table.</p>
+<p>Based on this idea, we can implement it with Cpp code. Here <code>unordered_set</code>
+is a hash table data structure.</p>
+<pre class="r"><code>library(Rcpp)
+sourceCpp(code = &#39;
+// [[Rcpp::plugins(cpp11)]]
+
+#include &lt;Rcpp.h&gt;
+#include &lt;unordered_set&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+List intersectToList(List lt, StringVector x) {
+
+    int n = lt.size();
+    List out(n);
+
+    std::unordered_set&lt;String&gt; seen;
+    seen.insert(x.begin(), x.end());
+
+    for(int i = 0; i &lt; n; i++) {
+      
+        StringVector v = as&lt;StringVector&gt;(lt[i]);
+        LogicalVector l(v.size());
+
+        std::unordered_set&lt;String&gt; seen2;
+
+        for(int j = 0; j &lt; v.size(); j ++) {
+            l[j] = seen.find(v[j]) != seen.end() &amp;&amp; seen2.insert(v[j]).second;
+        }
+
+        out[i] = v[l];
+    }
+
+    return out;
+}
+&#39;)</code></pre>
+<p>The new function <code>intersectToList()</code> can be called in R with two arguments.
+The first one is a list of vectors (<code>lt</code>) and the second one is a single vector (<code>x</code>) which will
+intersect to every vector in the list. In the Cpp code, I also removed
+duplicated elements in every vector in the list (<code>lt</code>).</p>
+<p>Now we can switch the original line</p>
+<pre class="r"><code>    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))</code></pre>
+<p>to the optimized code:</p>
+<pre class="r"><code>    gene_sets = intersectToList(gene_sets, universe)</code></pre>
+<p>Also I use <code>intersectToList()</code> when intersecting genes with gene sets.
+The two lines that have beem optimized are marked in the following code,
+which I name it <code>ora_v3()</code>.</p>
+<pre class="r"><code># version 3
+ora_v3 = function(genes, gene_sets, universe) {
+
+    gs_names = names(gene_sets)
+
+    genes = intersect(genes, universe)
+    gene_sets = intersectToList(gene_sets, universe)  # this line has been improved
+
+    n_universe = length(universe)
+    n_genes = length(genes)
+    
+    x = sapply(intersectToList(gene_sets, genes), length)  # this line has been improved
+    m = sapply(gene_sets, length)
+    n = n_universe - m
+    k = n_genes
+    
+    p = phyper(x - 1, m, n, k, lower.tail = FALSE)
+    names(p) = gs_names
+    p
+}</code></pre>
+<p>Since in the Cpp implementaiton, names of the gene sets are lost, in the last three lines
+of <code>ora_v3()</code>, I manually add the gene set names to the returned object <code>p</code>.</p>
+<p>Now with the same <code>genes</code>, <code>gs</code> and <code>pc_genes</code> variables, I run <code>ora_v3()</code>.</p>
+<pre class="r"><code>system.time(p3 &lt;- ora_v3(genes, gs, pc_genes))</code></pre>
+<pre><code>##    user  system elapsed 
+##   0.685   0.014   0.698</code></pre>
+<p>It finishes in less than one second!</p>
+<p>The three p-values vectors (<code>p1</code>, <code>p2</code> and <code>p3</code>) are identical:</p>
+<pre class="r"><code>identical(p1, p2)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>identical(p1, p3)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>If we compare the three versions of ORA functions, <code>ora_v3()</code> is around 20x faster
+than <code>ora_v1()</code> and around 8x faster than <code>ora_v2()</code>.</p>
+<pre class="r"><code>library(microbenchmark)
+microbenchmark(
+    &quot;loop(v1)&quot;       = ora_v1(genes, gs, pc_genes),
+    &quot;vectorized(v2)&quot; = ora_v2(genes, gs, pc_genes),
+    &quot;cpp(v3)&quot;        = ora_v3(genes, gs, pc_genes),
+    times = 10
+)</code></pre>
+<pre><code>## Unit: milliseconds
+##            expr        min        lq       mean     median         uq       max neval
+##        loop(v1) 12357.7165 12830.180 13181.9825 13127.5096 13233.0650 15122.301    10
+##  vectorized(v2)  5356.1756  5395.429  5540.5684  5500.2627  5605.6915  5900.981    10
+##         cpp(v3)   637.5977   681.095   952.9262   686.9258   688.6171  3402.574    10</code></pre>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 4.2.0 (2022-04-22)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Big Sur/Monterey 10.16
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] C/UTF-8/C/C/C/C
+## 
+## attached base packages:
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] microbenchmark_1.4.9 Rcpp_1.0.10          GO.db_3.16.0         org.Hs.eg.db_3.16.0 
+##  [5] AnnotationDbi_1.60.0 IRanges_2.32.0       S4Vectors_0.36.1     Biobase_2.58.0      
+##  [9] BiocGenerics_0.44.0  knitr_1.42          
+## 
+## loaded via a namespace (and not attached):
+##  [1] GenomeInfoDb_1.34.9    bslib_0.4.2            compiler_4.2.0         jquerylib_0.1.4       
+##  [5] XVector_0.38.0         bitops_1.0-7           tools_4.2.0            zlibbioc_1.44.0       
+##  [9] digest_0.6.31          bit_4.0.5              jsonlite_1.8.4         RSQLite_2.2.20        
+## [13] evaluate_0.20          memoise_2.0.1          pkgconfig_2.0.3        png_0.1-8             
+## [17] rlang_1.0.6            DBI_1.1.3              cli_3.6.0              yaml_2.3.7            
+## [21] blogdown_1.16          xfun_0.37              fastmap_1.1.0          GenomeInfoDbData_1.2.9
+## [25] httr_1.4.4             Biostrings_2.66.0      sass_0.4.5             vctrs_0.5.2           
+## [29] bit64_4.0.5            R6_2.5.1               rmarkdown_2.20         bookdown_0.32         
+## [33] blob_1.2.3             htmltools_0.5.4        KEGGREST_1.38.0        RCurl_1.98-1.10       
+## [37] cachem_1.0.6           crayon_1.5.2</code></pre>

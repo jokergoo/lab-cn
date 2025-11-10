@@ -1,0 +1,93 @@
+---
+title: "Control labels in anno_block()"
+date: 2021-03-11
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In <strong>ComplexHeatmap</strong>, <code>labels</code> and other related settings in <code>anno_block()</code>
+always correspond to the heatmap slices from top to bottom <strong>after the heatmap
+is generated</strong>, which means, you always need to first generate the heatmap,
+then to observe how the heatmap slices are ordered and finally to set a proper value for
+<code>labels</code>. It is difficult to map the labels in <code>anno_block()</code> to the heatmap
+slices if clustering is applied, or when the ordering is unknown before the heatmap
+is drawn.</p>
+<p>Let’s see the following example. In the first example, the <code>split</code> variable has the order
+of <code>"A", "B", "C"</code>, so when the row clustering is not applied, it is safe to also set
+<code>labels = c("A", "B", "C")</code> in <code>anno_block()</code>.</p>
+<pre class="r"><code>library(ComplexHeatmap)
+set.seed(123)
+m = matrix(rnorm(200), nrow = 20)
+split = c(rep(&quot;A&quot;, 12), rep(&quot;B&quot;, 6), rep(&quot;C&quot;, 2))
+Heatmap(m, row_split = split, cluster_rows = FALSE,
+    right_annotation = rowAnnotation(foo = anno_block(labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;))))</code></pre>
+<p><img src="/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>But if row clustering is applied, the labels in <code>anno_block()</code> correspond wrongly to the heatmap slices.</p>
+<pre class="r"><code>Heatmap(m, row_split = split, cluster_rows = TRUE,
+    right_annotation = rowAnnotation(foo = anno_block(labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;))))</code></pre>
+<p><img src="/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>We need to manually change the value for <code>labels</code> to correctly correspond to heatmap slices.</p>
+<pre class="r"><code>Heatmap(m, row_split = split, cluster_rows = TRUE,
+    right_annotation = rowAnnotation(foo = anno_block(labels = c(&quot;B&quot;, &quot;A&quot;, &quot;C&quot;))))</code></pre>
+<p><img src="/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>This would be a problem if we want to programmatically set <code>anno_block()</code>. To
+solve this problem, in the new version of <strong>ComplexHeatmap</strong>, I added a new
+argument <code>graphics</code> in <code>anno_block()</code>. The value for <code>graphics</code> should be a
+self-defined function with two arguments: 1. row/column indices in current slice, and
+2. the levels from the splitting variable in current slice. The <code>graphics</code>
+function will be executed to every slice.</p>
+<p>Let’s implement the previous example with <code>graphics</code>:</p>
+<pre class="r"><code>Heatmap(m, row_split = split, cluster_rows = TRUE,
+    right_annotation = rowAnnotation(foo = anno_block(
+        graphics = function(index, levels) {
+            grid.rect()
+            grid.text(levels, rot = 90)
+        }))
+)</code></pre>
+<p><img src="/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>As you can see, the labels in <code>anno_block()</code> now always correspond to the
+correct heatmap slice if clustering is appled.</p>
+<p>We can create more split variables. In the following example, the heatmap
+is split by a <em>k</em>-means clustering and a split variable, so there are two split variables.
+In this case, the value of <code>levels</code> in <code>anno_block()</code> will be a vector of length two: the correspond
+levels in the two split variables. Now it is also possible to customize according to the corresponding
+levels:</p>
+<pre class="r"><code>col = c(&quot;1&quot; = &quot;red&quot;, &quot;2&quot; = &quot;blue&quot;, &quot;A&quot; = &quot;green&quot;, &quot;B&quot; = &quot;orange&quot;, &quot;C&quot; = &quot;purple&quot;)
+Heatmap(m, row_km = 2, row_split = split) + 
+rowAnnotation(foo = anno_block(
+    graphics = function(index, levels) {
+        grid.rect(gp = gpar(fill = col[levels[2]], col = &quot;black&quot;))
+        grid.text(paste(levels, collapse = &quot;,&quot;), 0.5, 0.5, rot = 90,
+            gp = gpar(col = col[levels[1]]))
+    }
+))</code></pre>
+<p><img src="/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>We can define a mapping variable, then the original labels of the splitting levels can be changed:</p>
+<pre class="r"><code>labels = c(&quot;1&quot; = &quot;one&quot;, &quot;2&quot; = &quot;two&quot;, &quot;A&quot; = &quot;Group_A&quot;, &quot;B&quot; = &quot;Group_B&quot;, &quot;C&quot; = &quot;Group_C&quot;)
+Heatmap(m, row_km = 2, row_split = split) + 
+rowAnnotation(foo = anno_block(
+    graphics = function(index, levels) {
+        grid.rect(gp = gpar(fill = col[levels[2]], col = &quot;black&quot;))
+        grid.text(paste(labels[levels], collapse = &quot;,&quot;), 0.5, 0.5, rot = 90,
+            gp = gpar(col = col[levels[1]]))
+    }
+))</code></pre>
+<p><img src="/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>We can also construct more complex labels:</p>
+<pre class="r"><code>Heatmap(m, row_km = 2, row_split = split) + 
+rowAnnotation(foo = anno_block(
+    graphics = function(index, levels) {
+        grid.rect(gp = gpar(fill = col[levels[2]], col = &quot;black&quot;))
+        txt = paste(labels[levels], collapse = &quot;,&quot;)
+        txt = paste0(txt, &quot;\n&quot;, length(index), &quot; rows&quot;)
+        grid.text(txt, 0.5, 0.5, rot = 0,
+            gp = gpar(col = col[levels[1]]))
+    },
+    width = unit(4, &quot;cm&quot;)
+))</code></pre>
+<p><img src="/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>One drawback of setting <code>graphics</code> is now <code>anno_block()</code> does not know what
+graphics are going to be drawn, so it won’t automatically calculate the space for
+the graphics, which means, if the graphics are too large, you need to manually
+set <code>width</code> or <code>height</code> argument.</p>

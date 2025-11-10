@@ -1,0 +1,81 @@
+---
+title: "A completely customized annotation"
+date: 2021-10-17
+author: Zuguang Gu
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 6,
+    fig.height = 6,
+    fig.align = "center"
+)
+```
+
+For most annotation functions implemented in **ComplexHeatmap**, they only draw one same type of annotation graphics, e.g. `anno_points()`
+only draws points. From **ComplexHeatmap** version 2.9.4, I added a new annotation function `anno_customize()`, with which you can completely
+freely define graphics for every annotation cell.
+
+The input for `anno_customize()` should be a categorical vector.
+
+```{r}
+library(ComplexHeatmap)
+x = c("a", "a", "a", "b", "b", "b", "c", "c", "d", "d")
+```
+
+For each level, you need to define a graphics function for it. 
+
+```{r}
+graphics = list(
+    "a" = function(x, y, w, h) grid.rect(x, y, w*0.8, h*0.33, gp = gpar(fill = "red")),
+    "b" = function(x, y, w, h) grid.text("A", x, y, gp = gpar(col = "darkgreen")),
+    "c" = function(x, y, w, h) grid.points(x, y, gp = gpar(col = "orange"), pch = 16),
+    "d" = function(x, y, w, h) {
+        img = png::readPNG(system.file("extdata", "Rlogo.png", package = "circlize"))
+        grid.raster(img, x, y, width = unit(0.8, "snpc"), height = unit(0.8, "snpc")*nrow(img)/ncol(img))
+    }
+)
+```
+
+When adding graphics, each annotation cell is an independent viewport, thus, the self-defined graphics function accepts four arguments: `x` and `y`: the center
+of the viewport of the annotation cell, `w` and `h`: the width and height of the viewport. In the example above, we set a horizontal bar for `"a"`, a text for `"b"`,
+a point for `"c"` and an image for `"d"`.
+
+Then we add this new annotation to both row and column of the heatmap, just in the same way as normal annotations.
+
+```{r}
+m = matrix(rnorm(100), 10)
+Heatmap(m, 
+    top_annotation = HeatmapAnnotation(foo = anno_customize(x, graphics = graphics)),
+    right_annotation = rowAnnotation(bar = anno_customize(x, graphics = graphics)))
+```
+
+Reordering and splitting are automatically adjusted.
+
+```{r}
+Heatmap(m, 
+    top_annotation = HeatmapAnnotation(foo = anno_customize(x, graphics = graphics)),
+    right_annotation = rowAnnotation(bar = anno_customize(x, graphics = graphics)),
+    column_split = x, row_split = x)
+```
+
+`Legend()` function also accepts a `graphics` argument, so it is easy to add legends for the "customized annotations".
+
+```{r}
+m = matrix(rnorm(100), 10)
+ht = Heatmap(m, 
+    top_annotation = HeatmapAnnotation(foo = anno_customize(x, graphics = graphics)))
+lgd = Legend(title = "foo", at = names(graphics), graphics = graphics)
+draw(ht, annotation_legend_list = lgd)
+```
+
+## Session info
+
+```{r}
+sessionInfo()
+```

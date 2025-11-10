@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Use simplifyEnrichment for non-model organisms 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2023/03/30/use-simplifyenrichment-for-non-model-organisms/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Use simplifyEnrichment for non-model organisms </h1>
+
+  
+    <div id=sub-header>
+      March 2023
+    </div>
+  
+
+  <div class="entry-content">
+    
+
+
+<pre class="r"><code>library(simplifyEnrichment)</code></pre>
+<p>To perform GO clustering with the <strong>simplifyEnrichment</strong> package, the first step
+is to calculate GO similarities with the function <code>GO_similarity()</code>. The semantic similarity
+depends on the genes annotated to GO terms, thus, an <code>OrgDb</code> package is needed for
+the use of <code>GO_similarity()</code>. For example, for mouse:</p>
+<pre class="r"><code>GO_similarity(go_id, db = &quot;org.Mm.eg.db&quot;)</code></pre>
+<p>On Bioconductor, there are the following <code>OrgDb</code> packages that can be used with <code>GO_similarity()</code>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Package</th>
+<th align="left">Organism</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">org.Hs.eg.db</td>
+<td align="left">Human</td>
+</tr>
+<tr class="even">
+<td align="left">org.Mm.eg.db</td>
+<td align="left">Mouse</td>
+</tr>
+<tr class="odd">
+<td align="left">org.Rn.eg.db</td>
+<td align="left">Rat</td>
+</tr>
+<tr class="even">
+<td align="left">org.Dm.eg.db</td>
+<td align="left">Fly</td>
+</tr>
+<tr class="odd">
+<td align="left">org.At.tair.db</td>
+<td align="left">Arabidopsis</td>
+</tr>
+<tr class="even">
+<td align="left">org.Sc.sgd.db</td>
+<td align="left">Yeast</td>
+</tr>
+<tr class="odd">
+<td align="left">org.Dr.eg.db</td>
+<td align="left">Zebrafish</td>
+</tr>
+<tr class="even">
+<td align="left">org.Ce.eg.db</td>
+<td align="left">Worm</td>
+</tr>
+<tr class="odd">
+<td align="left">org.Bt.eg.db</td>
+<td align="left">Bovine</td>
+</tr>
+<tr class="even">
+<td align="left">org.Gg.eg.db</td>
+<td align="left">Chicken</td>
+</tr>
+<tr class="odd">
+<td align="left">org.Ss.eg.db</td>
+<td align="left">Pig</td>
+</tr>
+<tr class="even">
+<td align="left">org.Mmu.eg.db</td>
+<td align="left">Rhesus</td>
+</tr>
+<tr class="odd">
+<td align="left">org.Cf.eg.db</td>
+<td align="left">Canine</td>
+</tr>
+<tr class="even">
+<td align="left">org.EcK12.eg.db</td>
+<td align="left">E coli strain K12</td>
+</tr>
+<tr class="odd">
+<td align="left">org.Xl.eg.db</td>
+<td align="left">Xenopus</td>
+</tr>
+<tr class="even">
+<td align="left">org.Ag.eg.db</td>
+<td align="left">Anopheles</td>
+</tr>
+<tr class="odd">
+<td align="left">org.Pt.eg.db</td>
+<td align="left">Chimp</td>
+</tr>
+<tr class="even">
+<td align="left">org.EcSakai.eg.db</td>
+<td align="left">E coli strain Sakai</td>
+</tr>
+<tr class="odd">
+<td align="left">org.Mxanthus.db</td>
+<td align="left">Myxococcus xanthus DK 1622</td>
+</tr>
+</tbody>
+</table>
+<p>But what if there is no such Bioconductor package for your organism? Don’t worry, there are more
+resources provided on the Bioconductor cloud, where the data can be easily retrieved with
+the <strong>AnnotationHub</strong> package.</p>
+<p>To use <strong>AnnotationHub</strong>, first we need to create an <code>AnnotationHub</code> object. In this step, a local cache
+folder will be created and the same data will be directly read from the cache.</p>
+<pre class="r"><code>library(AnnotationHub)
+ah = AnnotationHub()
+ah</code></pre>
+<pre><code>## AnnotationHub with 69797 records
+## # snapshotDate(): 2022-10-31
+## # $dataprovider: Ensembl, BroadInstitute, UCSC, ftp://ftp.ncbi.nlm.nih.gov/g...
+## # $species: Homo sapiens, Mus musculus, Drosophila melanogaster, Bos taurus,...
+## # $rdataclass: GRanges, TwoBitFile, BigWigFile, EnsDb, Rle, OrgDb, ChainFile...
+## # additional mcols(): taxonomyid, genome, description,
+## #   coordinate_1_based, maintainer, rdatadateadded, preparerclass, tags,
+## #   rdatapath, sourceurl, sourcetype 
+## # retrieve records with, e.g., &#39;object[[&quot;AH5012&quot;]]&#39; 
+## 
+##             
+##   AH5012   |
+##   AH5013   |
+##   AH5014   |
+##   AH5015   |
+##   AH5016   |
+##   ...       
+##   AH111329 |
+##   AH111330 |
+##   AH111331 |
+##   AH111332 |
+##   AH111334 |
+##            title                                                              
+##   AH5012   Chromosome Band                                                    
+##   AH5013   STS Markers                                                        
+##   AH5014   FISH Clones                                                        
+##   AH5015   Recomb Rate                                                        
+##   AH5016   ENCODE Pilot                                                       
+##   ...      ...                                                                
+##   AH111329 Zonotrichia_albicollis.Zonotrichia_albicollis-1.0.1.109.abinitio...
+##   AH111330 Zonotrichia_albicollis.Zonotrichia_albicollis-1.0.1.109.gtf        
+##   AH111331 Zosterops_lateralis_melanops.ASM128173v1.109.abinitio.gtf          
+##   AH111332 Zosterops_lateralis_melanops.ASM128173v1.109.gtf                   
+##   AH111334 MassBank CompDb for release 2022.12.1</code></pre>
+<p><code>ah</code> contains summary of all available datasets on the cloud. To download an <code>OrgDb</code> object for a specific
+organism, we can pre-filter <code>ah</code> to let it only restrict on the <code>OrgDb</code> data type.</p>
+<pre class="r"><code>ah = ah[ah$rdataclass == &quot;OrgDb&quot;]
+ah</code></pre>
+<pre><code>## AnnotationHub with 1871 records
+## # snapshotDate(): 2022-10-31
+## # $dataprovider: ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/
+## # $species: Escherichia coli, greater Indian_fruit_bat, Zootoca vivipara, Zo...
+## # $rdataclass: OrgDb
+## # additional mcols(): taxonomyid, genome, description,
+## #   coordinate_1_based, maintainer, rdatadateadded, preparerclass, tags,
+## #   rdatapath, sourceurl, sourcetype 
+## # retrieve records with, e.g., &#39;object[[&quot;AH107050&quot;]]&#39; 
+## 
+##              title                                       
+##   AH107050 | org.Ag.eg.db.sqlite                         
+##   AH107051 | org.At.tair.db.sqlite                       
+##   AH107052 | org.Bt.eg.db.sqlite                         
+##   AH107053 | org.Cf.eg.db.sqlite                         
+##   AH107054 | org.Gg.eg.db.sqlite                         
+##   ...        ...                                         
+##   AH109234 | org.Rhizoctonia_praticola.eg.sqlite         
+##   AH109235 | org.Rhizoctonia_solani.eg.sqlite            
+##   AH109236 | org.Heterostelium_album_PN500.eg.sqlite     
+##   AH109237 | org.Heterostelium_pallidum_PN500.eg.sqlite  
+##   AH109238 | org.Polysphondylium_pallidum_PN500.eg.sqlite</code></pre>
+<p>Still, you can see there are more than 1800 organisms with their <code>OrgDb</code> data available on the Bioconductor cloud.
+So it is very likely you can find your organism there.</p>
+<p>Use <code>mcols()</code> to get a more informative description of all <code>OrgDb</code> records. In the following table,
+IDs as row names (e.g. <code>"AH5012"</code>) will be used to retrieve the corresponding dataset from the cloud.</p>
+<pre class="r"><code>head(mcols(ah))</code></pre>
+<pre><code>## DataFrame with 6 rows and 15 columns
+##                          title           dataprovider              species
+##                    &lt;character&gt;            &lt;character&gt;          &lt;character&gt;
+## AH107050   org.Ag.eg.db.sqlite ftp://ftp.ncbi.nlm.n..    Anopheles gambiae
+## AH107051 org.At.tair.db.sqlite ftp://ftp.ncbi.nlm.n.. Arabidopsis thaliana
+## AH107052   org.Bt.eg.db.sqlite ftp://ftp.ncbi.nlm.n..           Bos taurus
+## AH107053   org.Cf.eg.db.sqlite ftp://ftp.ncbi.nlm.n..     Canis familiaris
+## AH107054   org.Gg.eg.db.sqlite ftp://ftp.ncbi.nlm.n..        Gallus gallus
+## AH107055   org.Pt.eg.db.sqlite ftp://ftp.ncbi.nlm.n..      Pan troglodytes
+##          taxonomyid       genome            description coordinate_1_based
+##           &lt;integer&gt;  &lt;character&gt;            &lt;character&gt;          &lt;integer&gt;
+## AH107050     180454 NCBI genomes NCBI gene ID based a..                  1
+## AH107051       3702 NCBI genomes NCBI gene ID based a..                  1
+## AH107052       9913 NCBI genomes NCBI gene ID based a..                  1
+## AH107053       9615 NCBI genomes NCBI gene ID based a..                  1
+## AH107054       9031 NCBI genomes NCBI gene ID based a..                  1
+## AH107055       9598 NCBI genomes NCBI gene ID based a..                  1
+##                      maintainer rdatadateadded          preparerclass
+##                     &lt;character&gt;    &lt;character&gt;            &lt;character&gt;
+## AH107050 Bioconductor Maintai..     2022-09-29 OrgDbFromPkgsImportP..
+## AH107051 Bioconductor Maintai..     2022-09-29 OrgDbFromPkgsImportP..
+## AH107052 Bioconductor Maintai..     2022-09-29 OrgDbFromPkgsImportP..
+## AH107053 Bioconductor Maintai..     2022-09-29 OrgDbFromPkgsImportP..
+## AH107054 Bioconductor Maintai..     2022-09-29 OrgDbFromPkgsImportP..
+## AH107055 Bioconductor Maintai..     2022-09-29 OrgDbFromPkgsImportP..
+##                          tags  rdataclass              rdatapath
+##                        &lt;AsIs&gt; &lt;character&gt;            &lt;character&gt;
+## AH107050 NCBI,Gene,Annotation       OrgDb ncbi/standard/3.16/o..
+## AH107051 NCBI,Gene,Annotation       OrgDb ncbi/standard/3.16/o..
+## AH107052 NCBI,Gene,Annotation       OrgDb ncbi/standard/3.16/o..
+## AH107053 NCBI,Gene,Annotation       OrgDb ncbi/standard/3.16/o..
+## AH107054 NCBI,Gene,Annotation       OrgDb ncbi/standard/3.16/o..
+## AH107055 NCBI,Gene,Annotation       OrgDb ncbi/standard/3.16/o..
+##                       sourceurl   sourcetype
+##                     &lt;character&gt;  &lt;character&gt;
+## AH107050 ftp://ftp.ncbi.nlm.n.. NCBI/ensembl
+## AH107051 ftp://ftp.ncbi.nlm.n.. NCBI/ensembl
+## AH107052 ftp://ftp.ncbi.nlm.n.. NCBI/ensembl
+## AH107053 ftp://ftp.ncbi.nlm.n.. NCBI/ensembl
+## AH107054 ftp://ftp.ncbi.nlm.n.. NCBI/ensembl
+## AH107055 ftp://ftp.ncbi.nlm.n.. NCBI/ensembl</code></pre>
+<p>There are two ways to search for the specific organism. First you can directly search in the
+meta columns of <code>ah</code> (suggested columns are <code>species</code>, <code>taxonomyid</code>, <code>description</code>). For example:</p>
+<pre class="r"><code>meta = mcols(ah)
+rownames(meta)[ which(meta$species == &quot;Bos taurus&quot;) ]</code></pre>
+<pre><code>## [1] &quot;AH107052&quot;</code></pre>
+<pre class="r"><code>rownames(meta)[ which(meta$taxonomyid == 9031) ]</code></pre>
+<pre><code>## [1] &quot;AH107054&quot;</code></pre>
+<p>Second, you can use the <code>query()</code> function by providing a list of keywords. To search for a specific
+organism, I suggest to use its Latin name. In the next example, I search for the data for dolphins (Latin name is “Tursiops truncatus”).</p>
+<pre class="r"><code>query(ah, &quot;Tursiops truncatus&quot;)</code></pre>
+<pre><code>## AnnotationHub with 1 record
+## # snapshotDate(): 2022-10-31
+## # names(): AH108106
+## # $dataprovider: ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/
+## # $species: Tursiops truncatus
+## # $rdataclass: OrgDb
+## # $rdatadateadded: 2022-10-26
+## # $title: org.Tursiops_truncatus.eg.sqlite
+## # $description: NCBI gene ID based annotations about Tursiops truncatus
+## # $taxonomyid: 9739
+## # $genome: NCBI genomes
+## # $sourcetype: NCBI/UniProt
+## # $sourceurl: ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, ftp://ftp.uniprot.org/p...
+## # $sourcesize: NA
+## # $tags: c(&quot;NCBI&quot;, &quot;Gene&quot;, &quot;Annotation&quot;) 
+## # retrieve record with &#39;object[[&quot;AH108106&quot;]]&#39;</code></pre>
+<p>The Hub ID is <code>"AH108106"</code>. Then we can retrieve the <code>OrgDb</code> object with <code>ah[["AH108106"]]</code>:</p>
+<pre class="r"><code>orgdb = ah[[&quot;AH108106&quot;]]
+orgdb</code></pre>
+<pre><code>## OrgDb object:
+## | DBSCHEMAVERSION: 2.1
+## | DBSCHEMA: NOSCHEMA_DB
+## | ORGANISM: Tursiops truncatus
+## | SPECIES: Tursiops truncatus
+## | CENTRALID: GID
+## | Taxonomy ID: 9739
+## | Db type: OrgDb
+## | Supporting package: AnnotationDbi</code></pre>
+<p>We can check the supported columns in the object <code>orgdb</code>:</p>
+<pre class="r"><code>columns(orgdb)</code></pre>
+<pre><code>##  [1] &quot;ACCNUM&quot;      &quot;ALIAS&quot;       &quot;CHR&quot;         &quot;ENSEMBL&quot;     &quot;ENTREZID&quot;   
+##  [6] &quot;EVIDENCE&quot;    &quot;EVIDENCEALL&quot; &quot;GENENAME&quot;    &quot;GID&quot;         &quot;GO&quot;         
+## [11] &quot;GOALL&quot;       &quot;ONTOLOGY&quot;    &quot;ONTOLOGYALL&quot; &quot;PMID&quot;        &quot;REFSEQ&quot;     
+## [16] &quot;SYMBOL&quot;</code></pre>
+<p>In the next section of code, I will demonstrate how to perform simplifyEnrichment analysis
+on dolphnins. First I generate a random list of GO IDs.</p>
+<pre class="r"><code>all_GO_ids = select(orgdb, keys(orgdb, keytype = &quot;GO&quot;), c(&quot;GO&quot;, &quot;ONTOLOGY&quot;), keytype = &quot;GO&quot;)
+all_GO_ids = all_GO_ids[all_GO_ids$ONTOLOGY == &quot;BP&quot;, ]
+
+set.seed(666)
+go_id = sample(all_GO_ids$GO, 500)
+head(go_id)</code></pre>
+<pre><code>## [1] &quot;GO:0034969&quot; &quot;GO:0007223&quot; &quot;GO:0070816&quot; &quot;GO:0010845&quot; &quot;GO:1905259&quot;
+## [6] &quot;GO:0071300&quot;</code></pre>
+<p>Next I calculate the GO similarities. This time, I directly set the <code>db</code> argument with the <code>orgdb</code> object.</p>
+<pre class="r"><code>mat = GO_similarity(go_id, db = orgdb)</code></pre>
+<p>If you are not using the newest version of <strong>simplifyEnrichment</strong>, you need to also set <code>ont = "BP"</code> to get rid of errors:</p>
+<pre class="r"><code>mat = GO_similarity(go_id, db = orgdb, ont = &quot;BP&quot;)</code></pre>
+<p>And make the heatmap with word clouds.</p>
+<pre class="r"><code>simplifyGO(mat)</code></pre>
+<p><img src="/post/2022-03-30-use-simplifyEnrichment-for-non-model-organisms_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" /></p>
+<div id="session-info" class="section level2">
+<h2>Session info</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 4.2.0 (2022-04-22)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Big Sur/Monterey 10.16
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.2/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] C/UTF-8/C/C/C/C
+## 
+## attached base packages:
+## [1] stats4    grid      stats     graphics  grDevices utils     datasets 
+## [8] methods   base     
+## 
+## other attached packages:
+##  [1] AnnotationDbi_1.60.0     IRanges_2.32.0           S4Vectors_0.36.1        
+##  [4] Biobase_2.58.0           AnnotationHub_3.6.0      BiocFileCache_2.6.0     
+##  [7] dbplyr_2.3.0             simplifyEnrichment_1.9.2 BiocGenerics_0.44.0     
+## [10] knitr_1.42              
+## 
+## loaded via a namespace (and not attached):
+##  [1] bitops_1.0-7                  matrixStats_0.63.0           
+##  [3] bit64_4.0.5                   filelock_1.0.2               
+##  [5] doParallel_1.0.17             RColorBrewer_1.1-3           
+##  [7] httr_1.4.4                    GenomeInfoDb_1.34.9          
+##  [9] tools_4.2.0                   bslib_0.4.2                  
+## [11] utf8_1.2.3                    R6_2.5.1                     
+## [13] DBI_1.1.3                     colorspace_2.1-0             
+## [15] GetoptLong_1.1.0              withr_2.5.0                  
+## [17] tidyselect_1.2.0              proxyC_0.3.3                 
+## [19] bit_4.0.5                     curl_5.0.0                   
+## [21] compiler_4.2.0                cli_3.6.0                    
+## [23] Cairo_1.6-0                   xml2_1.3.3                   
+## [25] NLP_0.2-1                     bookdown_0.32                
+## [27] slam_0.1-50                   sass_0.4.5                   
+## [29] tm_0.7-11                     rappdirs_0.3.3               
+## [31] digest_0.6.31                 rmarkdown_2.20               
+## [33] XVector_0.38.0                pkgconfig_2.0.3              
+## [35] htmltools_0.5.4               highr_0.10                   
+## [37] fastmap_1.1.0                 rlang_1.0.6                  
+## [39] GlobalOptions_0.1.2           RSQLite_2.2.20               
+## [41] shiny_1.7.4                   shape_1.4.6                  
+## [43] jquerylib_0.1.4               generics_0.1.3               
+## [45] jsonlite_1.8.4                GOSemSim_2.24.0              
+## [47] dplyr_1.1.0                   RCurl_1.98-1.10              
+## [49] magrittr_2.0.3                GO.db_3.16.0                 
+## [51] GenomeInfoDbData_1.2.9        Matrix_1.5-3                 
+## [53] Rcpp_1.0.10                   fansi_1.0.4                  
+## [55] lifecycle_1.0.3               yaml_2.3.7                   
+## [57] zlibbioc_1.44.0               org.Hs.eg.db_3.16.0          
+## [59] blob_1.2.3                    promises_1.2.0.1             
+## [61] parallel_4.2.0                crayon_1.5.2                 
+## [63] lattice_0.20-45               Biostrings_2.66.0            
+## [65] circlize_0.4.16               KEGGREST_1.38.0              
+## [67] magick_2.7.3                  ComplexHeatmap_2.15.2        
+## [69] pillar_1.8.1                  rjson_0.2.21                 
+## [71] codetools_0.2-19              glue_1.6.2                   
+## [73] BiocVersion_3.16.0            evaluate_0.20                
+## [75] blogdown_1.16                 BiocManager_1.30.20          
+## [77] RcppParallel_5.1.6            httpuv_1.6.8                 
+## [79] png_0.1-8                     vctrs_0.5.2                  
+## [81] foreach_1.5.2                 purrr_1.0.1                  
+## [83] clue_0.3-64                   assertthat_0.2.1             
+## [85] cachem_1.0.6                  xfun_0.37                    
+## [87] mime_0.12                     xtable_1.8-4                 
+## [89] later_1.3.0                   tibble_3.1.8                 
+## [91] iterators_1.0.14              memoise_2.0.1                
+## [93] cluster_2.1.4                 ellipsis_0.3.2               
+## [95] interactiveDisplayBase_1.36.0</code></pre>
+</div>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

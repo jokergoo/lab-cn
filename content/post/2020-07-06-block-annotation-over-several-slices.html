@@ -1,0 +1,108 @@
+---
+title: "Block annotation over several slices"
+date: 2020-07-06
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In <strong>ComplexHeatmap</strong> package, <code>anno_block()</code> function draws rectangles for
+row/column slices, like in the following plot. Then what if we want to draw the
+rectangles over several slices to show they belong to certain groups?</p>
+<pre class="r"><code>set.seed(123)
+mat = matrix(rnorm(50*50), nrow = 50)
+library(ComplexHeatmap)
+ha = HeatmapAnnotation(foo = anno_block(gp = gpar(fill = 2:6), labels = LETTERS[1:5]))
+split = rep(1:5, each = 10)
+Heatmap(mat, name = &quot;mat&quot;, column_split = split, top_annotation = ha, 
+    column_title = NULL)</code></pre>
+<p><img src="/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Currently, it is difficult to directly support it in <code>anno_block()</code>, however,
+there is workaround for it. Actually, to draw rectangles across several
+slices, we need to know two things: 1. the positions of the slices in the
+plot, and 2. space to draw the rectangles. Luckily, the positions can be
+obtained by directly go to the correspoding viewport and the space can be
+allocated by <code>anno_empty()</code> function.</p>
+<p>In the following code, we use <code>anno_empty()</code> to create an empty annotation:</p>
+<pre class="r"><code>ha = HeatmapAnnotation(
+    empty = anno_empty(border = FALSE),
+    foo = anno_block(gp = gpar(fill = 2:6), labels = LETTERS[1:5])
+)
+Heatmap(mat, name = &quot;mat&quot;, column_split = split, top_annotation = ha, 
+    column_title = NULL)</code></pre>
+<p><img src="/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>Let’s say, we want to put the first three column slices as a group and the last two
+slices as the second group.</p>
+<p>The positions of the first and the third slicesm for annotation <code>"empty"</code> can be obtained by:</p>
+<pre class="r"><code>seekViewport(&quot;annotation_empty_1&quot;)
+loc1 = deviceLoc(x = unit(0, &quot;npc&quot;), y = unit(0, &quot;npc&quot;))
+seekViewport(&quot;annotation_empty_3&quot;)
+loc2 = deviceLoc(x = unit(1, &quot;npc&quot;), y = unit(1, &quot;npc&quot;))
+loc2</code></pre>
+<pre><code>## $x
+## [1] 4.07350393700788inches
+## 
+## $y
+## [1] 6.50787401574803inches</code></pre>
+<p>The viewport name <code>"annotation_empty_1"</code> correspond to the first slice for
+annotation <code>empty</code>, and we take the left bottom of the first “empty”
+annotation slice and the top right of the third slice, saved in <code>loc1</code> and
+<code>loc2</code> variables.</p>
+<p>Here what is important is the use of <code>grid::deviceLoc()</code> function. It directly
+converts a location measured in a certain viewport to the position in
+the graphics device.</p>
+<p>In the end, we go to the <code>"global"</code> viewport because the size of <code>"global"</code>
+viewport is the size of the graphics device, and draw the rectangle and add
+label.</p>
+<pre class="r"><code>seekViewport(&quot;global&quot;)
+grid.rect(loc1$x, loc1$y, width = loc2$x - loc1$x, height = loc2$y - loc1$y, 
+    just = c(&quot;left&quot;, &quot;bottom&quot;), gp = gpar(fill = &quot;red&quot;))
+grid.text(&quot;group 1&quot;, x = (loc1$x + loc2$x)*0.5, y = (loc1$y + loc2$y)*0.5)</code></pre>
+<p><img src="/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" /></p>
+<p>The viewport names for the annotations are in a fixed format, which is
+<code>annotation_{annotation_name}_{slice_index}</code>. The full set of viewport names
+can be obtained by <code>list_components()</code> function.</p>
+<pre class="r"><code>list_components()</code></pre>
+<pre><code>##  [1] &quot;ROOT&quot;                        &quot;global&quot;                     
+##  [3] &quot;global_layout&quot;               &quot;global-heatmaplist&quot;         
+##  [5] &quot;main_heatmap_list&quot;           &quot;heatmap_mat&quot;                
+##  [7] &quot;mat_heatmap_body_wrap&quot;       &quot;mat_heatmap_body_1_1&quot;       
+##  [9] &quot;mat_heatmap_body_1_2&quot;        &quot;mat_heatmap_body_1_3&quot;       
+## [11] &quot;mat_heatmap_body_1_4&quot;        &quot;mat_heatmap_body_1_5&quot;       
+## [13] &quot;mat_dend_row_1&quot;              &quot;mat_dend_column_1&quot;          
+## [15] &quot;mat_dend_column_2&quot;           &quot;mat_dend_column_3&quot;          
+## [17] &quot;mat_dend_column_4&quot;           &quot;mat_dend_column_5&quot;          
+## [19] &quot;annotation_empty_1&quot;          &quot;annotation_foo_1&quot;           
+## [21] &quot;annotation_empty_2&quot;          &quot;annotation_foo_2&quot;           
+## [23] &quot;annotation_empty_3&quot;          &quot;annotation_foo_3&quot;           
+## [25] &quot;annotation_empty_4&quot;          &quot;annotation_foo_4&quot;           
+## [27] &quot;annotation_empty_5&quot;          &quot;annotation_foo_5&quot;           
+## [29] &quot;global-heatmap_legend_right&quot; &quot;heatmap_legend&quot;</code></pre>
+<p>If more than one group-level rectangles are to be added, we can wrap the code
+into a simple function <code>group_block_anno()</code>:</p>
+<pre class="r"><code>ha = HeatmapAnnotation(
+    empty = anno_empty(border = FALSE, height = unit(8, &quot;mm&quot;)),
+    foo = anno_block(gp = gpar(fill = 2:6), labels = LETTERS[1:5])
+)
+Heatmap(mat, name = &quot;mat&quot;, column_split = split, top_annotation = ha, 
+    column_title = NULL)
+
+group_block_anno = function(group, empty_anno, gp = gpar(), 
+    label = NULL, label_gp = gpar()) {
+
+    seekViewport(qq(&quot;annotation_@{empty_anno}_@{min(group)}&quot;))
+    loc1 = deviceLoc(x = unit(0, &quot;npc&quot;), y = unit(0, &quot;npc&quot;))
+    seekViewport(qq(&quot;annotation_@{empty_anno}_@{max(group)}&quot;))
+    loc2 = deviceLoc(x = unit(1, &quot;npc&quot;), y = unit(1, &quot;npc&quot;))
+
+    seekViewport(&quot;global&quot;)
+    grid.rect(loc1$x, loc1$y, width = loc2$x - loc1$x, height = loc2$y - loc1$y, 
+        just = c(&quot;left&quot;, &quot;bottom&quot;), gp = gp)
+    if(!is.null(label)) {
+        grid.text(label, x = (loc1$x + loc2$x)*0.5, y = (loc1$y + loc2$y)*0.5, gp = label_gp)
+    }
+}
+
+group_block_anno(1:3, &quot;empty&quot;, gp = gpar(fill = &quot;red&quot;), label = &quot;group 1&quot;)
+group_block_anno(4:5, &quot;empty&quot;, gp = gpar(fill = &quot;blue&quot;), label = &quot;group 2&quot;)</code></pre>
+<p><img src="/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;" /></p>

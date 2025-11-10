@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Recent improvements on legends 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/10/29/recent-improvements-on-legends/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Recent improvements on legends </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · October 2020
+    </div>
+  
+
+  <div class="entry-content">
+    <p>In this post, I will demonstrate several improvements on the legends in
+<strong>ComplexHeatmap</strong> package (version 2.7.1).</p>
+<p>First I load the <strong>ComplexHeatmap</strong> package.</p>
+<pre><code class="language-r">library(ComplexHeatmap)
+</code></pre>
+<h2 id="discrete-legends">Discrete legends</h2>
+<p>Now it works with multi-line labels:</p>
+<pre><code class="language-r">lgd = Legend(labels = c(&quot;aaaaa\naaaaa&quot;, &quot;bbbbb\nbbbbb&quot;, &quot;c&quot;, &quot;d&quot;),
+    legend_gp = gpar(fill = 1:4))
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-5-1.png" width="71.0824146981627" style="display: block; margin: auto;" />
+<p>When the multi-line legend labels are in different rows:</p>
+<pre><code class="language-r">lgd = Legend(labels = c(&quot;aaaaa\naaaaa&quot;, &quot;c&quot;, &quot;d&quot;, &quot;bbbbb\nbbbbb&quot;),
+    legend_gp = gpar(fill = 1:4), nrow = 2)
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-7-1.png" width="134.072440944882" style="display: block; margin: auto;" />
+<p><code>Legend()</code> function has a new argument <code>graphics</code> where users can self-define the graphics
+drawn in the legend. Check the following example:</p>
+<pre><code class="language-r">lgd = Legend(labels = letters[1:4],
+    graphics = list(
+        function(x, y, w, h) grid.rect(x, y, w*0.33, h, gp = gpar(fill = &quot;red&quot;)),
+        function(x, y, w, h) grid.rect(x, y, w, h*0.33, gp = gpar(fill = &quot;blue&quot;)),
+        function(x, y, w, h) grid.text(&quot;A&quot;, x, y, gp = gpar(col = &quot;darkgreen&quot;)),
+        function(x, y, w, h) grid.points(x, y, gp = gpar(col = &quot;orange&quot;), pch = 16)
+    ))
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-9-1.png" width="41.4290813648294" style="display: block; margin: auto;" />
+<p>This new feature in mainly used <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/oncoprint.html">to draw complex legends in
+oncoPrint</a>.</p>
+<h2 id="continuous-legends">Continuous legends</h2>
+<p>I first define a color mapping function by <code>circlize::colorRamp2()</code> function.</p>
+<pre><code class="language-r">library(circlize)
+col_fun = colorRamp2(c(-2, 0, 2), c(&quot;green&quot;, &quot;white&quot;, &quot;red&quot;))
+</code></pre>
+<p>By default the legend looks like:</p>
+<pre><code class="language-r">lgd = Legend(col_fun = col_fun, title = &quot;foo&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-12-1.png" width="49.2157480314961" style="display: block; margin: auto;" />
+<p>If <code>at</code> is set in the decreasing order, the legend is reversed, <em>i.e.</em> the smallest value
+is on the top of the legend.</p>
+<pre><code class="language-r">lgd = Legend(col_fun = col_fun, title = &quot;foo&quot;, at = c(2, 1, 0, -1, -2))
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-14-1.png" width="49.2157480314961" style="display: block; margin: auto;" />
+<p>Most continuous legends have legend breaks with equal distance, which I mean,
+<em>e.g.</em> the distance between the first and the second breaks are the same as the
+distance between the second and the third breaks. However, there are still special
+cases where users want to set legend breaks with unequal distances.</p>
+<p>In the following example, the color mapping function <code>col_fun_prop</code> visualizes
+proportion values with breaks in <code>c(0, 0.05, 0.1, 0.5, 1)</code>. The legend breaks
+with unequal distance might reflect the different importance of the values in <code>c(0, 1)</code>.
+For example, maybe we want to see more details in the interval <code>c(0, 0.1)</code>.</p>
+<p>Following is the default style of the legend where the breaks are selected from 0 to 1
+with equal distance.</p>
+<pre><code class="language-r">col_fun_prop = colorRamp2(c(0, 0.05, 0.1, 0.5, 1), 
+	c(&quot;green&quot;, &quot;white&quot;, &quot;red&quot;, &quot;black&quot;, &quot;blue&quot;))
+lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-16-1.png" width="52.5490813648294" style="display: block; margin: auto;" />
+<p>You cann&rsquo;t see the details in the interval <code>c(0, 0.1)</code>, right? This also reminds us that
+the breaks set in <code>colorRamp2()</code> only defines the color mapping while not determine
+the breaks in the legend.</p>
+<p>If we manually select the break values, the color bar keeps the same. The labels
+are shifted and lines connect them to the original positions. In this case, the distance
+in the color bar is still proportional to the real difference in the break values, <em>i.e.</em>,
+the distance between 0.5 and 1 is five times longer than 0 and 0.1.</p>
+<pre><code class="language-r">col_fun_prop = colorRamp2(c(0, 0.05, 0.1, 0.5, 1), 
+	c(&quot;green&quot;, &quot;white&quot;, &quot;red&quot;, &quot;black&quot;, &quot;blue&quot;))
+lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;,
+	at = c(0, 0.05, 0.1, 0.5, 1))
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-18-1.png" width="71.3009973753281" style="display: block; margin: auto;" />
+<p>From version 2.7.1, <code>Legend()</code> function has a new argument <code>break_dist</code> that
+controls the distance between two neighbouring break values in the legend.
+<strong>It might be confusing, but from here, when I mention &ldquo;break distance&rdquo;, it
+always means the visual distance in the legend.</strong></p>
+<p>The value of <code>break_dist</code> should have length either one which means all break
+values have equal distance in the legend, or <code>length(at) - 1</code>.</p>
+<pre><code class="language-r">lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;, break_dist = 1)
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-20-1.png" width="59.9624146981627" style="display: block; margin: auto;" />
+<p>And in the following example, the top two break intervals are three times longer than
+the bottom two intervals.</p>
+<pre><code class="language-r">lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;, break_dist = c(1, 1, 3, 3))
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-22-1.png" width="71.3009973753281" style="display: block; margin: auto;" />
+<p>If we increase the legend height by <code>legend_height</code> argument, there will be enough space
+for the labels and their positions are not adjusted any more.</p>
+<pre><code class="language-r">lgd = Legend(col_fun = col_fun_prop, title = &quot;Prop&quot;, break_dist = c(1, 1, 3, 3),
+	legend_height = unit(4, &quot;cm&quot;))
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-24-1.png" width="59.9624146981627" style="display: block; margin: auto;" />
+<h2 id="multi-scheme-colors">Multi-scheme colors</h2>
+<p>Imaging following user case, we want to use one color scheme for the values in
+<code>c(0, 0.1)</code> and a second color schema for the values in <code>c(0.1, 1)</code>, maybe for
+the reason that we want to emphasize the two intervals are very different. The
+color mapping can be defined as:</p>
+<pre><code class="language-r">col_fun2 = colorRamp2(c(0, 0.1, 0.1+1e-6, 1), c(&quot;white&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;blue&quot;))
+</code></pre>
+<p>So here I just added a tiny shift (<code>1e-6</code>) to 0.1 and set it as the lower bound for the
+second color scheme. The legend looks like:</p>
+<pre><code class="language-r">lgd = Legend(col_fun = col_fun2, title = &quot;Prop&quot;, at = c(0, 0.05, 0.1, 0.5, 1),
+	break_dist = c(1, 1, 3, 3), legend_height = unit(4, &quot;cm&quot;))
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-27-1.png" width="59.9624146981627" style="display: block; margin: auto;" />
+<p>Now you can see the colors are not changed smoothly from 0 to 1 and there are two disticnt
+color schemes.</p>
+<h2 id="work-with-heatmaps-and-annotations">Work with heatmaps and annotations</h2>
+<p>As explained in <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/legends.html#heatmap-and-annotation-legends">the <strong>ComplexHeatmap</strong>
+book</a>,
+the new arguments be set either via argument <code>heatmap_legend_param</code> in
+<code>Heatmap()</code> function or argument <code>annotation_legend_param</code> in
+<code>HeatmapAnnotation()</code> function.</p>
+<h2 id="example-with-a-heatmap">Example with a heatmap</h2>
+<p>Here I made a simplified version of <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/more-examples.html#the-measles-vaccine-heatmap">the measles vaccine heatmap</a>.
+Check how I set the <code>heatmap_legend_param</code> argument.</p>
+<pre><code class="language-r">mat = readRDS(system.file(&quot;extdata&quot;, &quot;measles.rds&quot;, package = &quot;ComplexHeatmap&quot;))
+col_fun = colorRamp2(c(0, 800, 1000, 127000), c(&quot;white&quot;, &quot;cornflowerblue&quot;, &quot;yellow&quot;, &quot;red&quot;))
+Heatmap(mat, name = &quot;cases&quot;, col = col_fun, rect_gp = gpar(col= &quot;white&quot;),
+    cluster_columns = FALSE, show_row_dend = FALSE, show_column_names = FALSE,
+    row_names_side = &quot;left&quot;, row_names_gp = gpar(fontsize = 8),
+    heatmap_legend_param = list(
+    	at = c(0, 400, 800, 50000, 100000, 150000), 
+        labels = c(&quot;0&quot;, &quot;400&quot;, &quot;800&quot;, &quot;50k&quot;, &quot;100k&quot;, &quot;150k&quot;),
+        break_dist = c(1, 1, 3, 3, 3), 
+        legend_gp = gpar(col = &quot;black&quot;),
+        legend_height = unit(5, &quot;cm&quot;)
+    )
+)
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-28-1.png" width="672" style="display: block; margin: auto;" />
+<p>I can also adjust the legend to put it at the bottom of the heatmap.</p>
+<pre><code class="language-r">ht = Heatmap(mat, name = &quot;cases&quot;, col = col_fun, rect_gp = gpar(col= &quot;white&quot;),
+    cluster_columns = FALSE, show_row_dend = FALSE, show_column_names = FALSE,
+    row_names_side = &quot;left&quot;, row_names_gp = gpar(fontsize = 8),
+    heatmap_legend_param = list(
+    	at = c(0, 400, 800, 50000, 100000, 150000), 
+        labels = c(&quot;0&quot;, &quot;400&quot;, &quot;800&quot;, &quot;50k&quot;, &quot;100k&quot;, &quot;150k&quot;),
+        break_dist = c(1, 1, 3, 3, 3), 
+        legend_gp = gpar(col = &quot;black&quot;),
+        legend_width = unit(9, &quot;cm&quot;),
+        direction = &quot;horizontal&quot;,
+        title_position = &quot;lefttop&quot;
+    )
+)
+draw(ht, heatmap_legend_side = &quot;bottom&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-11-02-recent-improvements-on-legends_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" />
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

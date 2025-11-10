@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Translate from pheatmap to ComplexHeatmap 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/05/06/translate-from-pheatmap-to-complexheatmap/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Translate from pheatmap to ComplexHeatmap </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · May 2020
+    </div>
+  
+
+  <div class="entry-content">
+    <h2 id="introduction">Introduction</h2>
+<p><strong>pheatmap</strong> is a great R package for making heatmaps, inspiring a lot of other
+heatmap packages such as <strong>ComplexHeatmap</strong>. From version 2.5.2 of
+<strong>ComplexHeatmap</strong>, I implemented a new <code>ComplexHeatmap::pheatmap()</code> function
+which actually maps all the parameters in <code>pheatmap::pheatmap()</code> to proper
+parameters in <code>ComplexHeatmap::Heatmap()</code>, which means, it converts a pheatmap
+to a complex heatmap. By doing this, the most significant improvement is now you
+can add multiple pheatmaps and annotations (defined by
+<code>ComplexHeatmap::rowAnnotation()</code>).</p>
+<p><strong><code>ComplexHeatmap::pheatmap()</code> includes all arguments in <code>pheatmap::pheatmap()</code>,
+which means, you don&rsquo;t need to do any adaptation on your pheatmap code, you just
+rerun your pheatmap code and it will automatically and nicely convert to the
+complex heatmap.</strong></p>
+<p>Some arguments in <code>pheatmap::pheatmap()</code> are disabled and ignored in this translation,
+listed as follows:</p>
+<ul>
+<li><code>kmeans_k</code></li>
+<li><code>filename</code></li>
+<li><code>width</code></li>
+<li><code>height</code></li>
+<li><code>silent</code></li>
+</ul>
+<p>The usage of remaining arguments is <strong>exactly the same</strong> as in <code>pheatmap::pheatmap()</code>.</p>
+<p>In <code>pheatmap::pheatmap()</code>, the <code>color</code> argument is specified with a long color vector,
+e.g. :</p>
+<pre><code class="language-r">pheatmap::pheatmap(mat, 
+	color = colorRampPalette(rev(brewer.pal(n = 7, name = &quot;RdYlBu&quot;)))(100)
+)
+</code></pre>
+<p>You can use the same setting of <code>color</code> in <code>ComplexHeatmap::pheatmap()</code>, but you
+can also simplify it as:</p>
+<pre><code class="language-r">ComplexHeatmap::pheatmap(mat, 
+	color = rev(brewer.pal(n = 7, name = &quot;RdYlBu&quot;))
+)
+</code></pre>
+<p>The colors for individual values are automatically interpolated.</p>
+<h2 id="examples">Examples</h2>
+<p>First we load an example dataset which is from <a href="https://rdrr.io/cran/pheatmap/man/pheatmap.html#heading-6">the &ldquo;Examples&rdquo; section of
+the documentation of <code>pheatmap::pheatmap()</code> function</a> .</p>
+<pre><code class="language-r">library(ComplexHeatmap)
+test = matrix(rnorm(200), 20, 10)
+test[1:10, seq(1, 10, 2)] = test[1:10, seq(1, 10, 2)] + 3
+test[11:20, seq(2, 10, 2)] = test[11:20, seq(2, 10, 2)] + 2
+test[15:20, seq(2, 10, 2)] = test[15:20, seq(2, 10, 2)] + 4
+colnames(test) = paste(&quot;Test&quot;, 1:10, sep = &quot;&quot;)
+rownames(test) = paste(&quot;Gene&quot;, 1:20, sep = &quot;&quot;)
+</code></pre>
+<p>Calling <code>pheatmap()</code> (which is now actually <code>ComplexHeatmap::pheatmap()</code>) generates
+a similar heatmap as by <code>pheatmap::pheatmap()</code>.</p>
+<pre><code class="language-r">pheatmap(test)  # this is ComplexHeatmap::pheatmap
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-5-1.png" width="384" style="display: block; margin: auto;" />
+<p>Everything looks the same except the style of the heatmap legend. There are also
+some other visual difference which you can find in the &ldquo;Comparisons&rdquo; section in this post.</p>
+<p>The next one is an example for setting annotations (you should be familiar with
+how to set these data frames and color list if you are a pheatmap user).</p>
+<pre><code class="language-r">annotation_col = data.frame(
+    CellType = factor(rep(c(&quot;CT1&quot;, &quot;CT2&quot;), 5)), 
+    Time = 1:5
+)
+rownames(annotation_col) = paste(&quot;Test&quot;, 1:10, sep = &quot;&quot;)
+
+annotation_row = data.frame(
+    GeneClass = factor(rep(c(&quot;Path1&quot;, &quot;Path2&quot;, &quot;Path3&quot;), c(10, 4, 6)))
+)
+rownames(annotation_row) = paste(&quot;Gene&quot;, 1:20, sep = &quot;&quot;)
+
+ann_colors = list(
+    Time = c(&quot;white&quot;, &quot;firebrick&quot;),
+    CellType = c(CT1 = &quot;#1B9E77&quot;, CT2 = &quot;#D95F02&quot;),
+    GeneClass = c(Path1 = &quot;#7570B3&quot;, Path2 = &quot;#E7298A&quot;, Path3 = &quot;#66A61E&quot;)
+)
+</code></pre>
+<pre><code class="language-r">pheatmap(test, annotation_col = annotation_col, annotation_row = annotation_row, 
+	annotation_colors = ann_colors)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" />
+<p>You can split the heatmap by rows or by columns, which is a unique feature of <strong>ComplexHeatmap</strong>.</p>
+<pre><code class="language-r">pheatmap(test, annotation_col = annotation_col, annotation_row = annotation_row, 
+	annotation_colors = ann_colors, 
+	row_split = annotation_row$GeneClass,
+	column_split = annotation_col$CellType)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto;" />
+<p><code>ComplexHeatmap::pheatmap()</code> returns a <code>Heatmap</code> object, so it can be added with
+other heatmaps and annotations. Or in other words, you can add multiple pheatmaps
+and annotations. Cool!</p>
+<pre><code class="language-r">p1 = pheatmap(test, name = &quot;mat1&quot;)
+p2 = rowAnnotation(foo = anno_barplot(1:nrow(test)))
+p3 = pheatmap(test, name = &quot;mat2&quot;, 
+	col = colorRampPalette(c(&quot;navy&quot;, &quot;white&quot;, &quot;firebrick3&quot;))(50))
+# or you can simply specify as
+# p3 = pheatmap(test, name = &quot;mat2&quot;, col = c(&quot;navy&quot;, &quot;white&quot;, &quot;firebrick3&quot;))
+p1 + p2 + p3
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" />
+<p>Nevertheless, if you really want to add multiple pheatmaps, I still suggest you
+to directly use the <code>Heatmap()</code> function. You can find how to migrate from
+<code>pheatmap::pheatmap()</code> to <code>ComplexHeatmap::Heatmap()</code> in the next section.</p>
+<p>One last thing is since <code>ComplexHeatmap::pheatmap()</code> returns a <code>Heatmap</code> object,
+if <code>pheatmap()</code> is not called in an interactive environment, e.g. in an R script,
+inside a function or in a <code>for</code> loop, you need to explicitly use <code>draw()</code> function:</p>
+<pre><code class="language-r">for(...) {
+	p = pheatmap(...)
+	draw(p)
+}
+</code></pre>
+<h2 id="translation">Translation</h2>
+<p>Following table lists how to map parameters in <code>pheatmap::pheatmap()</code> to <code>ComplexHeatmap::Heatmap()</code>.</p>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Arguments in <code>pheatmap::pheatmap()</code></th>
+          <th style="text-align: left">Identical settings/arguments in <code>ComplexHeatmap::Heatmap()</code></th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><code>mat</code></td>
+          <td style="text-align: left"><code>matrix</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>color</code></td>
+          <td style="text-align: left">Users can specify a color mapping function by <code>circlize::colorRamp2()</code>, or provide a vector of colors on which colors for individual values are linearly interpolated.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>kmeans_k</code></td>
+          <td style="text-align: left">No corresponding parameter because it changes the matrix for heatmap.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>breaks</code></td>
+          <td style="text-align: left">It should be specified in the color mapping function.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>border_color</code></td>
+          <td style="text-align: left"><code>rect_gp = gpar(col = border_color)</code>. In the annotations, it is <code>HeatmapAnnotation(..., gp = gpar(col = border_color))</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>cellwidth</code></td>
+          <td style="text-align: left"><code>width = ncol(mat)*unit(cellwidth, &quot;pt&quot;)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>cellheight</code></td>
+          <td style="text-align: left"><code>height = nrow(mat)*unit(cellheight, &quot;pt&quot;)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>scale</code></td>
+          <td style="text-align: left">Users should simply apply <code>scale()</code> on the matrix before sending to <code>Heatmap()</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>cluster_rows</code></td>
+          <td style="text-align: left"><code>cluster_rows</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>cluster_cols</code></td>
+          <td style="text-align: left"><code>cluster_columns</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>clustering_distance_rows</code></td>
+          <td style="text-align: left"><code>clustering_distance_rows</code>. The value <code>correlation</code> should be changed to <code>pearson</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>clustering_distance_cols</code></td>
+          <td style="text-align: left"><code>clustering_distance_columns</code>, The value <code>correlation</code> should be changed to <code>pearson</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>clustering_method</code></td>
+          <td style="text-align: left"><code>clustering_method_rows</code>/<code>clustering_method_columns</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>clustering_callback</code></td>
+          <td style="text-align: left">The processing on the dendrogram should be applied before sending to <code>Heatmap()</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>cutree_rows</code></td>
+          <td style="text-align: left"><code>row_split</code> and row clustering should be applied.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>cutree_cols</code></td>
+          <td style="text-align: left"><code>column_split</code> and column clustering should be applied.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>treeheight_row</code></td>
+          <td style="text-align: left"><code>row_dend_width = unit(treeheight_row, &quot;pt&quot;)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>treeheight_col</code></td>
+          <td style="text-align: left"><code>column_dend_height = unit(treeheight_col, &quot;pt&quot;)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>legend</code></td>
+          <td style="text-align: left"><code>show_heatmap_legend</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>legend_breaks</code></td>
+          <td style="text-align: left"><code>heatmap_legend_param = list(at = legend_breaks)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>legend_labels</code></td>
+          <td style="text-align: left"><code>heatmap_legend_param = list(labels = legend_labels)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>annotation_row</code></td>
+          <td style="text-align: left"><code>left_annotatioin = rowAnnotation(df = annotation_row)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>annotation_col</code></td>
+          <td style="text-align: left"><code>top_annotation = HeatmapAnnotation(df = annotation_col)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>annotation</code></td>
+          <td style="text-align: left">Not supported.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>annotation_colors</code></td>
+          <td style="text-align: left"><code>col</code> argument in <code>HeatmapAnnotation()</code>/<code>rowAnnotation()</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>annotation_legend</code></td>
+          <td style="text-align: left"><code>show_legend</code> argument in <code>HeatmapAnnotation()</code>/<code>rowAnnotation()</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>annotation_names_row</code></td>
+          <td style="text-align: left"><code>show_annotation_name</code> in <code>rowAnnotation()</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>annotation_names_col</code></td>
+          <td style="text-align: left"><code>show_annotation_name</code> in <code>HeatmaoAnnotation()</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>drop_levels</code></td>
+          <td style="text-align: left">Unused levels are all dropped.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>show_rownames</code></td>
+          <td style="text-align: left"><code>show_row_names</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>show_colnames</code></td>
+          <td style="text-align: left"><code>show_column_names</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>main</code></td>
+          <td style="text-align: left"><code>column_title</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>fontsize</code></td>
+          <td style="text-align: left"><code>gpar(fontsize = fontsize)</code> in corresponding heatmap components.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>fontsize_row</code></td>
+          <td style="text-align: left"><code>row_names_gp = gpar(fontsize = fontsize_row)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>fontsize_col</code></td>
+          <td style="text-align: left"><code>column_names_gp = gpar(fontsize = fontsize_col)</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>angle_col</code></td>
+          <td style="text-align: left"><code>column_names_rot</code>. The rotation of row annotation names are not supported.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>display_numbers</code></td>
+          <td style="text-align: left">Users should set a proper <code>cell_fun</code> or <code>layer_fun</code> (vectorized and faster version of <code>cell_fun</code>). E.g. if <code>display_numbers</code> is <code>TRUE</code>, <code>layer_fun</code> can be set as <code>function(j, i, x, y, w, h, fill) { grid.text(sprintf(number_format, pindex(mat, i, j)), x = x, y = y, gp = gpar(col = number_color, fontsize = fontsize_number)) }</code>. If <code>display_numbers</code> is a matrix, replace <code>mat</code> to <code>display_numbers</code> in the <code>layer_fun</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>number_format</code></td>
+          <td style="text-align: left">See above.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>number_color</code></td>
+          <td style="text-align: left">See above.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>fontsize_number</code></td>
+          <td style="text-align: left">See above.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>gaps_row</code></td>
+          <td style="text-align: left">Users should construct a &ldquo;splitting variable&rdquo; and send to <code>row_split</code>. E.g. <code>slices = diff(c(0, gaps_row, nrow(mat))); rep(seq_along(slices), times = slices)</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>gaps_col</code></td>
+          <td style="text-align: left">Users should construct a &ldquo;splitting variable&rdquo; and send to <code>column_split</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>labels_row</code></td>
+          <td style="text-align: left"><code>row_labels</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>labels_col</code></td>
+          <td style="text-align: left"><code>column_labels</code></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>filename</code></td>
+          <td style="text-align: left">No corresponding setting in <code>Heatmap()</code>. Users need to explicitly use e.g. <code>pdf</code>().</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>width</code></td>
+          <td style="text-align: left">No corresponding setting in <code>Heatmap()</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>height</code></td>
+          <td style="text-align: left">No corresponding setting in <code>Heatmap()</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>silent</code></td>
+          <td style="text-align: left">No corresponding setting in <code>Heatmap()</code>.</td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><code>na_col</code></td>
+          <td style="text-align: left"><code>na_col</code></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="comparisons">Comparisons</h2>
+<p>I ran all the example code in <a href="https://rdrr.io/cran/pheatmap/man/pheatmap.html#heading-6">the &ldquo;Examples&rdquo; section of the documentation of
+<code>pheatmap::pheatmap()</code> function</a> .
+I also implemented a wrapper function <code>ComplexHeatmap::compare_pheatmap()</code> which basically uses the same
+set of arguments for <code>pheatmap::pheatmap()</code> and <code>ComplexHeatmap::pheatmap()</code> and
+draws two heatmaps, so that you can directly see the similarity and difference
+of the two heatmap implementations.</p>
+<pre><code class="language-r">compare_pheatmap(test)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-12-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, scale = &quot;row&quot;, clustering_distance_rows = &quot;correlation&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-13-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, 
+	color = colorRampPalette(c(&quot;navy&quot;, &quot;white&quot;, &quot;firebrick3&quot;))(50))
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-14-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, cluster_row = FALSE)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, legend = FALSE)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, display_numbers = TRUE)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, display_numbers = TRUE, number_format = &quot;%.1e&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, 
+	display_numbers = matrix(ifelse(test &gt; 5, &quot;*&quot;, &quot;&quot;), nrow(test)))
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, cluster_row = FALSE, legend_breaks = -1:4, 
+	legend_labels = c(&quot;0&quot;, &quot;1e-4&quot;, &quot;1e-3&quot;, &quot;1e-2&quot;, &quot;1e-1&quot;, &quot;1&quot;))
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, cellwidth = 15, cellheight = 12, main = &quot;Example heatmap&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-21-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">annotation_col = data.frame(
+    CellType = factor(rep(c(&quot;CT1&quot;, &quot;CT2&quot;), 5)), 
+    Time = 1:5
+)
+rownames(annotation_col) = paste(&quot;Test&quot;, 1:10, sep = &quot;&quot;)
+
+annotation_row = data.frame(
+    GeneClass = factor(rep(c(&quot;Path1&quot;, &quot;Path2&quot;, &quot;Path3&quot;), c(10, 4, 6)))
+)
+rownames(annotation_row) = paste(&quot;Gene&quot;, 1:20, sep = &quot;&quot;)
+
+compare_pheatmap(test, annotation_col = annotation_col)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, annotation_legend = FALSE)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, 
+	annotation_row = annotation_row)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-24-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, 
+	annotation_row = annotation_row, angle_col = &quot;45&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, angle_col = &quot;0&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-26-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">ann_colors = list(
+    Time = c(&quot;white&quot;, &quot;firebrick&quot;),
+    CellType = c(CT1 = &quot;#1B9E77&quot;, CT2 = &quot;#D95F02&quot;),
+    GeneClass = c(Path1 = &quot;#7570B3&quot;, Path2 = &quot;#E7298A&quot;, Path3 = &quot;#66A61E&quot;)
+)
+
+compare_pheatmap(test, annotation_col = annotation_col, 
+	annotation_colors = ann_colors, main = &quot;Title&quot;)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-27-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, 
+	annotation_row = annotation_row, annotation_colors = ann_colors)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-28-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, 
+	annotation_colors = ann_colors[2]) 
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-29-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, cluster_rows = FALSE, 
+	gaps_row = c(10, 14))
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-30-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, cluster_rows = FALSE, 
+	gaps_row = c(10, 14), cutree_col = 2)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-31-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">labels_row = c(&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, 
+	&quot;&quot;, &quot;&quot;, &quot;Il10&quot;, &quot;Il15&quot;, &quot;Il1b&quot;)
+compare_pheatmap(test, annotation_col = annotation_col, labels_row = labels_row)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-32-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">drows = dist(test, method = &quot;minkowski&quot;)
+dcols = dist(t(test), method = &quot;minkowski&quot;)
+compare_pheatmap(test, clustering_distance_rows = drows, 
+	clustering_distance_cols = dcols)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-33-1.png" width="768" style="display: block; margin: auto;" />
+<pre><code class="language-r">library(dendsort)
+callback = function(hc, ...){dendsort(hc)}
+compare_pheatmap(test, clustering_callback = callback)
+</code></pre>
+<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-34-1.png" width="768" style="display: block; margin: auto;" />
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

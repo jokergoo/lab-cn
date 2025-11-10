@@ -1,0 +1,37 @@
+---
+title: "Top10 first-authors on Bioinformatics"
+date: 2023-07-25
+---
+
+
+
+<p>Following code obtains numbers of papers for first-authors on Bioinformatics.</p>
+<pre class="r"><code>library(pubmedR)
+
+api_key = NULL
+
+# pubmed only allows downloading less than 10k records at a time,
+# so I split them into two parts
+query = &#39;(&quot;Bioinformatics (Oxford, England)&quot;[Journal]) AND ((&quot;1998&quot;[Date - Publication] : &quot;2014&quot;[Date - Publication]))&#39;
+res &lt;- pmQueryTotalCount(query = query, api_key = api_key)
+D1 &lt;- pmApiRequest(query = query, limit = res$total_count, api_key = NULL)
+
+query = &#39;(&quot;Bioinformatics (Oxford, England)&quot;[Journal]) AND ((&quot;2015&quot;[Date - Publication] : &quot;2023&quot;[Date - Publication]))&#39;
+res &lt;- pmQueryTotalCount(query = query, api_key = api_key)
+D2 &lt;- pmApiRequest(query = query, limit = res$total_count, api_key = NULL)
+
+m1 = pmApi2df(D1)
+m2 = pmApi2df(D2)
+m = rbind(m1, m2)
+
+df = df[df$DT == &quot;JOURNAL ARTICLE&quot;, ]</code></pre>
+<p>The top 10 first-authors are:</p>
+<pre class="r"><code>fa = gsub(&quot;;.*$&quot;, &quot;&quot;, df$AF)
+sort(table(fa), decreasing = TRUE)[1:10]</code></pre>
+<pre><code>## fa
+##   FOGG, CHRISTIANA N             LI, HENG             CHEN, LI DEOROWICZ, SEBASTIAN 
+##                   20                   19                   12                   10 
+##             LIU, BIN SAVOJARDO, CASTRENSE          GU, ZUGUANG      HÄKKINEN, ANTTI 
+##                    9                    9                    8                    8 
+##            CHEN, WEI     HAMADA, MICHIAKI 
+##                    7                    7</code></pre>

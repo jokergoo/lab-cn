@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         What is a hclust object 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2023/07/07/what-is-a-hclust-object/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> What is a hclust object </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · July 2023
+    </div>
+  
+
+  <div class="entry-content">
+    <p>Hierarchical clustering is a widely used approach for data analysis.
+In this post, I will demonstrate the internal structure of a <code>hclust</code> object.</p>
+<p>I first generate a random matrix and apply <code>hclust()</code>.</p>
+<pre><code class="language-r">set.seed(123456)
+m = matrix(rnorm(25), 5)
+rownames(m) = letters[1:5]
+hc = hclust(dist(m))
+</code></pre>
+<p>Typing the <code>hc</code> object simply prints the basic information of the object.</p>
+<pre><code class="language-r">hc
+</code></pre>
+<pre><code>## 
+## Call:
+## hclust(d = dist(m))
+## 
+## Cluster method   : complete 
+## Distance         : euclidean 
+## Number of objects: 5
+</code></pre>
+<p>And <code>plot()</code> function draws the clustering results:</p>
+<pre><code class="language-r">plot(hc)
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" />
+<p>Now, what is hiding behind the <code>hc</code> object? Let&rsquo;s first try <code>str()</code> function to reveal its internals:</p>
+<pre><code class="language-r">str(hc)
+</code></pre>
+<pre><code>## List of 7
+##  $ merge      : int [1:4, 1:2] -3 -1 1 -5 -4 -2 2 3
+##  $ height     : num [1:4] 2.01 2.48 3.51 4.11
+##  $ order      : int [1:5] 5 3 4 1 2
+##  $ labels     : chr [1:5] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; ...
+##  $ method     : chr &quot;complete&quot;
+##  $ call       : language hclust(d = dist(m))
+##  $ dist.method: chr &quot;euclidean&quot;
+##  - attr(*, &quot;class&quot;)= chr &quot;hclust&quot;
+</code></pre>
+<p>So, <code>hc</code> is just a simple list with 7 elements. The last three ones <code>method</code>, <code>call</code> and <code>dist.method</code>
+are less interesting because they are kind like label marks of the analysis. We will
+look at the first four elements.</p>
+<p>To correctly understand the <code>hc</code> object, we need to be careful with the orders of the vectors/matrices
+in <code>hc</code>. We start with <code>labels</code> and <code>order</code>.</p>
+<pre><code class="language-r">hc$labels
+</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;b&quot; &quot;c&quot; &quot;d&quot; &quot;e&quot;
+</code></pre>
+<pre><code class="language-r">hc$order
+</code></pre>
+<pre><code>## [1] 5 3 4 1 2
+</code></pre>
+<p>The <code>labels</code> element contains text labels of the items <em>in their original orders</em>. Here <code>hc</code>
+is from a matrix <code>m</code>, so the order of <code>labels</code> corresponds to <em>the original row order in the matrix</em>.</p>
+<p>The order in <code>order</code> is different from that in <code>labels</code>. As hierarchical clustering reorders
+the items, <code>order</code> element contains results after the reordering. In the following order vector:</p>
+<pre><code class="language-r">hc$order
+</code></pre>
+<pre><code>## [1] 5 3 4 1 2
+</code></pre>
+<p>the first value means item 5 is in position 1 after reordering, item 3 is in position 2 after reordering, etc. So if mapping labels to <code>order</code>, it will be:</p>
+<pre><code class="language-r">hc$labels[hc$order]
+</code></pre>
+<pre><code>## [1] &quot;e&quot; &quot;c&quot; &quot;d&quot; &quot;a&quot; &quot;b&quot;
+</code></pre>
+<p>As you can see in the plot, after the reordering by hierarchical clustering, item &ldquo;e&rdquo; locates on the very left,
+and then item &ldquo;c&rdquo;, &ldquo;d&rdquo;, &ldquo;a&rdquo; and &ldquo;b&rdquo;.</p>
+<p>Next let&rsquo;s check the <code>merge</code> and <code>height</code> elements in the <code>hc</code> object:</p>
+<pre><code class="language-r">hc$merge
+</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   -3   -4
+## [2,]   -1   -2
+## [3,]    1    2
+## [4,]   -5    3
+</code></pre>
+<pre><code class="language-r">hc$height
+</code></pre>
+<pre><code>## [1] 2.014138 2.478801 3.507676 4.113743
+</code></pre>
+<p>On the first glance, it may look a little bit unnatural that there are both positive and negative
+integers in <code>merge</code>. Actually, <code>merge</code> uses different signs to represent different types of objects in the
+clustering, i.e. an item or a sub-cluster.</p>
+<p>First we need to know, <code>hclust()</code> applies the agglomerative hierarchical clustering procedure, which is &ldquo;bottom-up&rdquo; approach, as shown in the following figures.</p>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-10-1.png" width="768" style="display: block; margin: auto;" />
+<p>So <code>merge</code> records the steps of clustering where negative integers correspond to items (or leaves)
+and positive integers correspond to intermediate sub-clusters. Then  <code>merge</code> can be read as:</p>
+<pre><code class="language-r">hc$merge
+</code></pre>
+<pre><code>##      [,1] [,2]
+## [1,]   -3   -4
+## [2,]   -1   -2
+## [3,]    1    2
+## [4,]   -5    3
+</code></pre>
+<ul>
+<li>Step 1 / row 1: item 3 (&ldquo;c&rdquo;) and 4 (&ldquo;d&rdquo;) are clustered. The sub-cluster has an index 1.</li>
+<li>Step 2 / row 2: item 1 (&ldquo;a&rdquo;) and 2 (&ldquo;b&rdquo;) are clustered. The sub-cluster has an index 2.</li>
+<li>Step 3 / row 3: Note now the values are both positive. This means sub-cluster 1 and sub-cluster 2 are merged where sub-cluster 1 was constructed in row 1 and sub-cluster 2 was constructed in row 2.</li>
+<li>Step 4 / row 4: This row contains both negative and positive values. This means a single item 5 (&ldquo;e&rdquo;) and a sub-cluster is merged where the sub-cluster is from row 3.</li>
+</ul>
+<p><code>hc$height</code> corresponds to <code>hc$merge</code>, and it is the height of each sub-cluster.</p>
+<p>With all the elements in <code>hc</code> being explained, let&rsquo;s try to draw the clustering. Let&rsquo;s draw the clustering
+according to the steps in <code>hc$merge</code>.</p>
+<p>The first step is to cluster item 3 and item 4. We know the height of this sub-cluster is <code>hc$height[1]</code>, but what is missing are the positions of items on x-axis, i.e. the horizontal positions of item 3 and 4. Let&rsquo;s
+try to get them.</p>
+<p>We know the following are the reordered labels on the plot:</p>
+<pre><code class="language-r">hc$labels[hc$order]
+</code></pre>
+<pre><code>## [1] &quot;e&quot; &quot;c&quot; &quot;d&quot; &quot;a&quot; &quot;b&quot;
+</code></pre>
+<p>which locate at <code>x = 1, 2, 3, 4, 5</code>. However, it is not in the original order.
+As in <code>hc$merge</code>, the &ldquo;negative&rdquo; integers correspond to the orignal order (e.g.
+-2 means item 2), thus we need to know the positions of items where items are in
+their <em>original orders</em>.</p>
+<p>This can be done by mapping with the labels:</p>
+<pre><code class="language-r"># 1:5 is the positions on x-axis
+map = structure(1:5, names = hc$labels[hc$order])
+# and we use the named vector to reorder into the original order
+x = map[hc$labels]
+x
+</code></pre>
+<pre><code>## a b c d e 
+## 4 5 2 3 1
+</code></pre>
+<p>Or we can directly use the following code which takes the order of <code>hc$order</code>.</p>
+<pre><code class="language-r">x = order(hc$order)
+x
+</code></pre>
+<pre><code>## [1] 4 5 2 3 1
+</code></pre>
+<p>In <code>hc$order</code>, values are the original indices of items, and the index of <code>hc$order</code> itself
+is the positions on x-axis in the clustering plot.</p>
+<pre><code>hc$order
+  value 5 3 4 1 2  # indices of items, i.e. item 5, item 3, ...
+  pos   1 2 3 4 5  # pos in x-axis in the plot
+</code></pre>
+<p>If we apply <code>order()</code> on the vector <code>hc$order</code> which is <code>5 3 4 1 2</code>, the first value
+in the returned vector is the position of &ldquo;1&rdquo; (item 1) in <code>5 3 4 1 2</code> which is 4,
+and the second value is the position of &ldquo;2&rdquo; (item 2) in <code>5 3 4 1 2</code> which is 5, etc.</p>
+<p>This means, applying <code>order()</code> on <code>hc$order</code> returns a vector in the original order of items
+and values are the positions on x-axis.</p>
+<p>OK, now we can draw the clustering step-by-step.</p>
+<p>Step 1 / row 1 in <code>hc$merge</code>: connects item 3 (&ldquo;c&rdquo;) and 4 (&ldquo;d&rdquo;):</p>
+<pre><code class="language-r">plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+# the first row in `merge` is '[1,]   -3   -4'
+segments(x[3], hc$height[1], x[4], hc$height[1])
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto;" />
+<p>Step 2 / row 2: connects item 1 (&ldquo;a&rdquo;) and 2 (&ldquo;b&rdquo;):</p>
+<pre><code class="language-r">plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+segments(x[3], hc$height[1], x[4], hc$height[1])
+# the second row in `merge` is '[2,]   -1   -2'
+segments(x[1], hc$height[2], x[2], hc$height[2])
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" />
+<p>Step 3 / row 3: connects sub-cluster 1 and sub-cluster 2. Now there is a new thing. Since we
+are now connecting two sub-clusters, we need to connect to the &ldquo;middle points&rdquo; of the two sub-clusters.
+This can be done very easily. The middle point of sub-cluster 1 is the middle of item 3 between 4, and
+the middle point of sub-cluster 2 is the middle of item 1 between 2.</p>
+<pre><code class="language-r">plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+segments(x[3], hc$height[1], x[4], hc$height[1])
+segments(x[1], hc$height[2], x[2], hc$height[2])
+
+midpoint = numeric(0)
+midpoint[1] = (x[3]+x[4])/2
+midpoint[2] = (x[1]+x[2])/2
+
+# the third row in `merge` is '[3,]    1    2'
+segments(midpoint[1], hc$height[3], midpoint[2], hc$height[3])
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-17-1.png" width="480" style="display: block; margin: auto;" />
+<p>Step 4 / row 4: connects item 5 (&ldquo;e&rdquo;) and sub-cluster 3. Similarly, middle point of sub-cluster 3 needs
+to be calculated in advance which is the middle of the middle points of its two sub clusters (sub-cluster 1 and 2).</p>
+<pre><code class="language-r">plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+segments(x[3], hc$height[1], x[4], hc$height[1])
+segments(x[1], hc$height[2], x[2], hc$height[2])
+
+midpoint = numeric(0)
+midpoint[1] = (x[3]+x[4])/2
+midpoint[2] = (x[1]+x[2])/2
+
+segments(midpoint[1], hc$height[3], midpoint[2], hc$height[3])
+
+midpoint[3] = (midpoint[1] + midpoint[2])/2
+# the third row in `merge` is '[4,]   -5    3'
+segments(x[5], hc$height[4], midpoint[3], hc$height[4])
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-18-1.png" width="480" style="display: block; margin: auto;" />
+<p>Vertical lines can be added as:</p>
+<pre><code class="language-r">plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
+axis(side = 2)
+
+segments(x[3], hc$height[1], x[4], hc$height[1])
+segments(x[3], 0, x[3], hc$height[1])
+segments(x[4], 0, x[4], hc$height[1])
+
+segments(x[1], hc$height[2], x[2], hc$height[2])
+segments(x[1], 0, x[1], hc$height[2])
+segments(x[2], 0, x[2], hc$height[2])
+
+midpoint = numeric(0)
+midpoint[1] = (x[3]+x[4])/2
+midpoint[2] = (x[1]+x[2])/2
+
+segments(midpoint[1], hc$height[3], midpoint[2], hc$height[3])
+segments(midpoint[1], hc$height[3], midpoint[1], hc$height[1])
+segments(midpoint[2], hc$height[3], midpoint[2], hc$height[2])
+
+midpoint[3] = (midpoint[1] + midpoint[2])/2
+segments(x[5], hc$height[4], midpoint[3], hc$height[4])
+segments(midpoint[3], hc$height[4], midpoint[3], hc$height[3])
+segments(x[5], 0, x[5], hc$height[4])
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" />
+<p>We can merge all these processes into a function. The function is quite
+straightforward to understand. There are four <code>if-else</code> blocks which deal with:</p>
+<ol>
+<li>both children are leaves,</li>
+<li>left child is a leaf, right child is a sub-cluster,</li>
+<li>left child is a sub-cluster, right child is a leaf,</li>
+<li>both children are sub-clusters.</li>
+</ol>
+<pre><code class="language-r">plot_hc = function(hc) {
+    x = order(hc$order)
+    nobs = length(x)
+
+    if(length(hc$labels) == 0) {
+        hc$labels = as.character(seq_along(hc$order))
+    }
+
+    plot(NULL, xlim = c(0.5, nobs + 0.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+    axis(side = 1, at = 1:nobs, labels = hc$labels[hc$order])
+    axis(side = 2)
+        
+    merge = hc$merge
+    order = hc$order
+    nr = nrow(merge)
+    midpoint = numeric(nr)
+
+    for(i in seq_len(nr)) {
+        child1 = merge[i, 1]
+        child2 = merge[i, 2]
+
+        if(child1 &lt; 0 &amp;&amp; child2 &lt; 0) { # both are leaves
+            segments(x[ -child1 ], 
+                     hc$height[i],
+                     x[ -child2 ], 
+                     hc$height[i])
+            midpoint[i] = (x[ -child1 ] + x[ -child2 ])/2
+            segments(x[ -child1 ], hc$height[i], x[ -child1 ], 0)
+            segments(x[ -child2 ], hc$height[i], x[ -child2 ], 0)
+        } else if(child1 &lt; 0 &amp;&amp; child2 &gt; 0) {
+            segments(x[ -child1 ], 
+                     hc$height[i],
+                     midpoint[ child2 ], 
+                     hc$height[i])
+            midpoint[i] = (x[ -child1 ] + midpoint[ child2 ])/2
+            segments(x[ -child1 ], hc$height[i], x[ -child1 ], 0)
+            segments(midpoint[ child2 ], hc$height[i], midpoint[ child2 ], hc$height[ child2 ])
+        } else if(merge[i, 1] &gt; 0 &amp;&amp; merge[i, 2] &lt; 0) {
+            segments(midpoint[ child1 ], 
+                     hc$height[i],
+                     x[ -child2 ], 
+                     hc$height[i])
+            midpoint[i] = (midpoint[ child1 ] + x[ -child2 ])/2
+            segments(midpoint[ child1 ], hc$height[i], midpoint[ child1 ], hc$height[ child1 ])
+            segments(x[ -child2 ], hc$height[i], x[ -child2 ], 0)
+        } else {
+            segments(midpoint[ child1 ], 
+                     hc$height[i],
+                     midpoint[ child2 ], 
+                     hc$height[i])
+            midpoint[i] = (midpoint[ child1 ] + midpoint[ child2 ])/2
+            segments(midpoint[ child1 ], hc$height[i], midpoint[ child1 ], hc$height[ child1 ])
+            segments(midpoint[ child2 ], hc$height[i], midpoint[ child2 ], hc$height[ child2 ])
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-r">plot_hc(hc)
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-21-1.png" width="480" style="display: block; margin: auto;" />
+<p>Let&rsquo;s try a larger clustering object:</p>
+<pre><code class="language-r">m2 = matrix(rnorm(1000), nrow = 100)
+hc2 = hclust(dist(m2))
+plot_hc(hc2)
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-22-1.png" width="960" style="display: block; margin: auto;" />
+<p>Connecting a parent node and two children nodes in the clustering graph can be generalized as: with
+three points: <code>(left_x, left_y)</code>, <code>(top_x, top_y)</code> and <code>(right_x, right_y)</code> which correspond to
+xy coordinates of the left child, parent and right child, we can define a function to draw lines to connect
+the three points.</p>
+<p>The default connection actually connects the following points:</p>
+<pre><code>x-coordinates: left_x, left_x, right_x, right_x
+y-coordinates: left_y, top_y, top_y, right_y
+</code></pre>
+<p>In <code>plot_hc()</code>, let&rsquo;s abstract the code which draws connections between parent and children nodes to
+<code>parent_children_connections()</code> which accepts coordinates of the three points.</p>
+<pre><code class="language-r">plot_hc = function(hc) {
+    x = order(hc$order)
+    nobs = length(x)
+
+    if(length(hc$labels) == 0) {
+        hc$labels = as.character(seq_along(hc$order))
+    }
+
+    plot(NULL, xlim = c(0.5, nobs + 0.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
+    axis(side = 1, at = 1:nobs, labels = hc$labels[hc$order])
+    axis(side = 2)
+            
+    merge = hc$merge
+    order = hc$order
+    height = hc$height
+    nr = nrow(merge)
+    midpoint = numeric(nr)
+
+    for(i in seq_len(nr)) {
+        child1 = merge[i, 1]
+        child2 = merge[i, 2]
+
+        if(child1 &lt; 0 &amp;&amp; child2 &lt; 0) { # both are leaves
+            midpoint[i] = (x[ -child1 ] + x[ -child2 ])/2
+            parent_children_connections(
+                x[-child1], 0,
+                midpoint[i], height[i],
+                x[-child2], 0
+            )
+        } else if(child1 &lt; 0 &amp;&amp; child2 &gt; 0) {
+            midpoint[i] = (x[ -child1 ] + midpoint[ child2 ])/2
+            parent_children_connections(
+                x[-child1], 0,
+                midpoint[i], height[i],
+                midpoint[child2], height[child2]
+            )
+        } else if(child1 &gt; 0 &amp;&amp; child2 &lt; 0) {
+            midpoint[i] = (midpoint[ child1 ] + x[ -child2 ])/2
+            parent_children_connections(
+                midpoint[child1], height[child1],
+                midpoint[i], height[i],
+                x[-child2], 0
+            )
+        } else {
+            midpoint[i] = (midpoint[ child1 ] + midpoint[ child2 ])/2
+            parent_children_connections(
+                midpoint[child1], height[child1],
+                midpoint[i], height[i],
+                midpoint[child2], height[child2]
+            )
+        }
+    }
+}
+</code></pre>
+<p>The following function is the default way to connect parent and children nodes:</p>
+<pre><code class="language-r">parent_children_connections = function(left_x, left_y, top_x, top_y, right_x, right_y) {
+    lines(c(left_x, left_x, right_x, right_x),
+          c(left_y, top_y, top_y, right_y))
+}
+plot_hc(hc)
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-24-1.png" width="480" style="display: block; margin: auto;" />
+<p>We can define a new way as:</p>
+<pre><code>x-coordinates: left_x, top_x, right_x
+y-coordinates: left_y, top_y, right_y
+</code></pre>
+<pre><code class="language-r">parent_children_connections = function(left_x, left_y, top_x, top_y, right_x, right_y) {
+    lines(c(left_x, top_x, right_x),
+          c(left_y, top_y, right_y))
+}
+plot_hc(hc)
+</code></pre>
+<img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-25-1.png" width="480" style="display: block; margin: auto;" />
+<p>Hierarchical clustering constructs a binary tree, where a parent always has two children in the tree.
+In the next post, I will introduce a more general structure, the dendrogram.</p>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

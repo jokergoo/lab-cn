@@ -1,0 +1,189 @@
+---
+title: "Add backgroud grid lines to heatmap annotations"
+date: 2025-04-01
+---
+
+
+
+<p>The question: for the following heatmap with a top barplot annotation, how to make it to a ggplot2-style plot, i.e., with background grid lines?</p>
+<pre class="r"><code>library(ComplexHeatmap)
+
+set.seed(666)
+m = matrix(rnorm(100), 10)
+x = abs(rnorm(10))
+
+Heatmap(m, top_annotation = HeatmapAnnotation(foo = anno_barplot(x), height = unit(8, &quot;cm&quot;)))</code></pre>
+<p><img src="/post/2025-04-01-add-background-grid-lines-to-heatmap-annotations_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>One natural solution is to use the <code>decorate_annotation()</code> function to add such
+additional graphics to the “foo” annotation. Just note
+<code>decorate_annotation()</code> is a post-processing function where the grey background will
+overwrite the bars in the annotation. Thus, we need to redraw the bars after
+the background grid lines are drawn.</p>
+<p>Also note, when there is column reordering, we need to capture the new order. This
+information will be used for redrawing the bars.</p>
+<pre class="r"><code>ht = Heatmap(m, top_annotation = HeatmapAnnotation(foo = anno_barplot(x), height = unit(8, &quot;cm&quot;)))
+ht = draw(ht)
+column_order = column_order(ht)
+
+decorate_annotation(&quot;foo&quot;, {
+    grid.rect(gp = gpar(fill = &quot;#DDDDDD&quot;))
+
+    # x-breaks are always located on 1:nc where `nc` is the number of columns
+    x_breaks = unit(1:10, &quot;native&quot;)
+    nx = length(x_breaks)
+
+    # y-breaks are read from the plot
+    y_breaks = unit(c(0, 0.5, 1, 1.5, 2), &quot;native&quot;)
+    ny = length(y_breaks)
+
+    grid.segments(x_breaks, rep(unit(0, &quot;npc&quot;), nx), x_breaks, rep(unit(1, &quot;npc&quot;), nx), gp = gpar(col = &quot;white&quot;))
+    grid.segments(rep(unit(0, &quot;npc&quot;), nx), y_breaks, rep(unit(1, &quot;npc&quot;), nx), y_breaks, gp = gpar(col = &quot;white&quot;))
+
+    # draw the bars again. Note `x` should be reordered to match the matrix columns
+    grid.rect(x_breaks, unit(0, &quot;npc&quot;), width = unit(0.6, &quot;native&quot;), height = unit(x[column_order], &quot;native&quot;), 
+        just = &quot;bottom&quot;, gp = gpar(fill = &quot;#808080&quot;, col = &quot;black&quot;))
+
+    # last step is to draw the global frame of the annotation region
+    grid.rect(gp = gpar(fill = NA))
+})</code></pre>
+<p><img src="/post/2025-04-01-add-background-grid-lines-to-heatmap-annotations_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In the previous code, we already know the values of x-breaks and y-breaks, which can be
+read from the plot and inferred from the number of columns of the matrix.
+Now the next question is, how to make it general where the x-breaks and y-breaks
+can be automatically inferred from the original matrix?</p>
+<p>Observe the heatmap, we can see the y-breaks are the y-coordinates of the ticks or labels on the y-axis. If we
+can obtain these grob objects, we can obtain the coordinates of y-breaks. Similarly, the x-breaks are the x-coordinates
+of bars. If we can obtain such rect grobs, we can also obtain the coordinates of x-breaks.</p>
+<p>Next let’s see whether we can obtain the axis tick grob and the bar (rect) grob from the heatmap.
+These two grobs are in the viewport of the “foo” annotation. The grob object can be obtained by
+the <code>grid.get()</code> function by providing the name of the grob. Now the problem becomes how to
+obtain the names of the axis grob and the rect grob within the “foo” annotation viewport?</p>
+<p>We use the <code>grid.ls()</code> function which lists all viewports and grobs on the display list.
+<code>grid.ls()</code> returns a list of full viewport paths (<code>vpPath</code>), grob paths (<code>gPath</code>) if the grob is a complex one,
+and the name of the low-level grobs (<code>name</code>). We use <code>vpPath</code> to match the “foo” annotation viewport,
+use <code>gPath</code> to match the y-axis (in <strong>ComplexHeatmap</strong>, the axis is implemented by a <code>annotation_axis</code> complex grob),
+and use <code>name</code> to match the segments of y-axis.</p>
+<pre class="r"><code>Heatmap(m, top_annotation = HeatmapAnnotation(foo = anno_barplot(x), height = unit(8, &quot;cm&quot;)))</code></pre>
+<pre class="r"><code># grid.ls() returns a lists of all viewports and grobs, from the ROOT (the global) level
+global_gl = grid.ls(viewport = TRUE, print = FALSE)
+str(global_gl)</code></pre>
+<pre><code>## List of 6
+##  $ name   : chr [1:77] &quot;ROOT&quot; &quot;global&quot; &quot;GRID.rect.235&quot; &quot;global_layout&quot; ...
+##  $ gDepth : num [1:77] 0 0 0 0 0 0 0 0 0 0 ...
+##  $ vpDepth: num [1:77] 0 1 2 2 3 4 5 6 7 8 ...
+##  $ gPath  : chr [1:77] &quot;&quot; &quot;&quot; &quot;&quot; &quot;&quot; ...
+##  $ vpPath : chr [1:77] &quot;&quot; &quot;ROOT&quot; &quot;ROOT::global&quot; &quot;ROOT::global&quot; ...
+##  $ type   : chr [1:77] &quot;vpListing&quot; &quot;vpListing&quot; &quot;grobListing&quot; &quot;vpListing&quot; ...
+##  - attr(*, &quot;class&quot;)= chr &quot;flatGridListing&quot;</code></pre>
+<p>The following code is put side <code>decorate_annotation()</code>. I first explain the code chunk by chunk.</p>
+<p>The code inside <code>decorate_annotation()</code> is applied in the corresponding annotation viewport,
+so here <code>current.viewport()</code> returns the “foo” annotation viewport, and <code>vp$name</code> is the name
+of the viewport.</p>
+<pre class="r"><code>vp = current.viewport()</code></pre>
+<p>Next we match the axis ticks. Note the last line can also be changed to <code>grepl("text", global_gl$name)</code> to
+match the axis labels.</p>
+<pre class="r"><code>i = which(grepl(vp$name, global_gl$vpPath) &amp; 
+          grepl(&quot;annotation_axis&quot;, global_gl$gPath) &amp; 
+          grepl(&quot;segments&quot;, global_gl$name))
+gb_name = unique(global_gl$name[i])</code></pre>
+<p>Once we have the name of the axis tick grob, we can retrieve the grob object with <code>grid.get()</code>.</p>
+<pre class="r"><code>gb_tick = grid.get(gb_name)</code></pre>
+<p><code>gb_tick</code> is a <code>segmentsGrob</code> object. The y-coordinates are in <code>gb_tick$y0</code>.</p>
+<pre class="r"><code>y_breaks = gb_tick$y0
+ny = length(y_breaks)</code></pre>
+<p>Similarly, to match the bar grobs:</p>
+<pre class="r"><code>i = which(grepl(vp$name, global_gl$vpPath) &amp; 
+          grepl(&quot;rect&quot;, global_gl$name))
+i = i[1]  # there might be multiple hits, but the values of grob names are the same
+gb_name = unique(global_gl$name[i])
+
+gb_bar = grid.get(gb_name)
+x_breaks = gb_bar$x
+nx = length(x_breaks)</code></pre>
+<p>Now with the coordinates of x-breaks and y-breaks known, we can draw the background grid lines. We put all these code
+inside <code>decorate_annotation()</code>.</p>
+<p>Note, to redraw the bars, we don’t need the column reordering any more. <code>gb_bar</code> already contains the reordered bars.</p>
+<pre class="r"><code>Heatmap(m, top_annotation = HeatmapAnnotation(foo = anno_barplot(x), height = unit(8, &quot;cm&quot;)))
+
+decorate_annotation(&quot;foo&quot;, {
+
+    global_gl = grid.ls(viewport = TRUE, print = FALSE)
+
+    vp = current.viewport()
+
+    i = which(grepl(vp$name, global_gl$vpPath) &amp; 
+              grepl(&quot;annotation_axis&quot;, global_gl$gPath) &amp; 
+              grepl(&quot;segments&quot;, global_gl$name))
+    gb_name = unique(global_gl$name[i])
+    gb_tick = grid.get(gb_name)
+    y_breaks = gb_tick$y0
+    ny = length(y_breaks)
+
+    i = which(grepl(vp$name, global_gl$vpPath) &amp; 
+              grepl(&quot;rect&quot;, global_gl$name))
+    i = i[1]  # there might be multiple hits, but the values of grob names are the same
+    gb_name = unique(global_gl$name[i])
+
+    gb_bar = grid.get(gb_name)
+    x_breaks = gb_bar$x
+    nx = length(x_breaks)
+
+    grid.rect(gp = gpar(fill = &quot;#DDDDDD&quot;))
+
+    # now we have the x-breaks and y-breaks, we can draw the grid lines
+    grid.segments(x_breaks, rep(unit(0, &quot;npc&quot;), nx), x_breaks, rep(unit(1, &quot;npc&quot;), nx), gp = gpar(col = &quot;white&quot;))
+    grid.segments(rep(unit(0, &quot;npc&quot;), nx), y_breaks, rep(unit(1, &quot;npc&quot;), nx), y_breaks, gp = gpar(col = &quot;white&quot;))
+
+    # draw the bars again
+    grid.draw(gb_bar)
+
+    # last step is to draw the global frame of the annotation region
+    grid.rect(gp = gpar(fill = NA))
+})</code></pre>
+<p><img src="/post/2025-04-01-add-background-grid-lines-to-heatmap-annotations_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Let’s wrap the code into a function and test it:</p>
+<pre class="r"><code>add_background_to_column_barplot_annotation = function(anno_name) {
+    decorate_annotation(anno_name, {
+
+        global_gl = grid.ls(viewport = TRUE, print = FALSE)
+
+        vp = current.viewport()
+
+        i = which(grepl(vp$name, global_gl$vpPath) &amp; 
+                  grepl(&quot;annotation_axis&quot;, global_gl$gPath) &amp; 
+                  grepl(&quot;segments&quot;, global_gl$name))
+        gb_name = unique(global_gl$name[i])
+        gb_tick = grid.get(gb_name)
+        y_breaks = gb_tick$y0
+        ny = length(y_breaks)
+
+        i = which(grepl(vp$name, global_gl$vpPath) &amp; 
+                  grepl(&quot;rect&quot;, global_gl$name))
+        i = i[1]  # there might be multiple hits, but the values of grob names are the same
+        gb_name = unique(global_gl$name[i])
+
+        gb_bar = grid.get(gb_name)
+        x_breaks = gb_bar$x
+        nx = length(x_breaks)
+
+        grid.rect(gp = gpar(fill = &quot;#DDDDDD&quot;))
+
+        # now we have the x-breaks and y-breaks, we can draw the grid lines
+        grid.segments(x_breaks, rep(unit(0, &quot;npc&quot;), nx), x_breaks, rep(unit(1, &quot;npc&quot;), nx), gp = gpar(col = &quot;white&quot;))
+        grid.segments(rep(unit(0, &quot;npc&quot;), nx), y_breaks, rep(unit(1, &quot;npc&quot;), nx), y_breaks, gp = gpar(col = &quot;white&quot;))
+
+        # draw the bars again
+        grid.draw(gb_bar)
+
+        # last step is to draw the global frame of the annotation region
+        grid.rect(gp = gpar(fill = NA))
+    })
+}
+
+Heatmap(m, top_annotation = HeatmapAnnotation(num = anno_barplot(1:10), height = unit(8, &quot;cm&quot;)))
+add_background_to_column_barplot_annotation(&quot;num&quot;)</code></pre>
+<p><img src="/post/2025-04-01-add-background-grid-lines-to-heatmap-annotations_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>Heatmap(m, top_annotation = HeatmapAnnotation(num = anno_barplot(1:10, axis_param = list(at = seq(0, 10, by = 2))), 
+                                              height = unit(8, &quot;cm&quot;)))
+add_background_to_column_barplot_annotation(&quot;num&quot;)</code></pre>
+<p><img src="/post/2025-04-01-add-background-grid-lines-to-heatmap-annotations_files/figure-html/unnamed-chunk-6-2.png" width="672" style="display: block; margin: auto;" /></p>

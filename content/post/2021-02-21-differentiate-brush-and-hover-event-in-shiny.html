@@ -1,0 +1,84 @@
+---
+title: "Differentiate brush and hover event in Shiny"
+date: 2021-02-21
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p><a href="https://jokergoo.github.io/2021/02/20/differentiate-brush-and-click-event-in-shiny/">In my last post</a> I described how I distinguish click and brush event in <code>plotOutput</code> in Shiny. In this post I try to solve another problem which is to differentiate hover and brush event.</p>
+<p>Similar as click, brush also intializes a hover event. To distinguish hover and brush, I didn’t use the
+default hover in <code>plotOutput</code>. Here I implement my own one. The implementation contains two parts:</p>
+<ol style="list-style-type: decimal">
+<li>the hover event is invoked after the mouse position keeps unchanged for a peroid of time, e.g. 300ms.</li>
+<li>the brush action starts with a hover action, then instantly, a <code>div</code> which corresponds to the brush is created.</li>
+</ol>
+<p>For part 1, we need a mouse event which stops at a certain position for a period of time. Here I use
+<a href="https://github.com/websanova/mousestop">mousestop.js</a>. And for the part 2, we just simply test whether
+the brush div exists or not.</p>
+<p>In the following example code, since <code>mousestop</code> does not support a function with event as argument, I additionally use <code>mousemove</code> to catch the mouse position and assign in <code>mousestop</code>.</p>
+<pre class="r"><code>library(circlize)
+library(GetoptLong)
+library(grid)
+library(shiny)
+library(glue)
+
+ui = fluidPage(
+    plotOutput(&quot;plot&quot;, width = 600, height = 400,
+        brush = &quot;brush&quot;),
+    includeScript(path = &quot;~/Downloads/mousestop-3.0.1/mousestop.min.js&quot;),
+    tags$script(HTML(&quot;
+        var relX = -1;
+        var relY = -1;
+        $(&#39;#plot&#39;).mousemove(function(e) {
+            var parentOffset = $(this).offset();
+            relX = e.pageX - parentOffset.left;
+            relY = e.pageY - parentOffset.top;
+        }).mousestop(function() {
+            if($(&#39;#plot_brush&#39;).length == 0) {
+                Shiny.setInputValue(&#39;x&#39;, relX);
+                Shiny.setInputValue(&#39;y&#39;, relY);
+                Shiny.setInputValue(&#39;action&#39;, Math.random());
+            }
+        });
+    &quot;)),
+    fluidRow(
+        column(3, htmlOutput(&quot;output1&quot;)),
+        column(3, htmlOutput(&quot;output2&quot;))
+    )
+)
+
+server = function(input, output, session) {
+    output$plot = renderPlot({
+        grid.newpage()
+        grid.rect()
+    })
+
+    observeEvent(input$action, {
+        output$output1 = renderText({
+            isolate(glue(&quot;
+&lt;pre style=&#39;background-color:{rand_color(1)}&#39;&gt;
+a hover:
+x = {input$x}
+y = {input$y}&lt;/pre&gt;&quot;))
+        })
+    })
+
+    observeEvent(input$brush, {
+        output$output2 = renderText({
+            isolate(glue(&quot;
+&lt;pre style=&#39;background-color:{rand_color(1)}&#39;&gt;
+a brush:
+input$brush$coords_css$xmin = {input$brush$coords_css$xmin}
+input$brush$coords_css$ymin = {input$brush$coords_css$ymin}
+input$brush$coords_css$xmax = {input$brush$coords_css$xmax}
+input$brush$coords_css$ymax = {input$brush$coords_css$ymax}&lt;/pre&gt;&quot;))
+        })
+    })
+}
+
+shinyApp(ui, server)</code></pre>
+<p>The demo is in the following figure:</p>
+<p><img src="https://user-images.githubusercontent.com/449218/108636937-b5d5e400-7488-11eb-922b-a9539d8abbb4.gif" /></p>

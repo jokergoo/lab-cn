@@ -1,0 +1,292 @@
+---
+title: "Speed up over-representation enrichment analysis"
+date: 2023-04-05
+author: Zuguang Gu
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 5,
+    fig.align = "center"
+)
+options("width" = 100)
+```
+
+Over-representation analysis (ORA) evaluates whether a list of genes
+(e.g. differentially expressed genes, DE genes) are enriched in a gene set,
+normally with the hypergeometric distribution to calculate p-values. With the
+function `phyper()`, there are the following parameters:
+
+```r
+phyper(x, m, n, k, lower.tail = FALSE)
+```
+
+
+where `x` is the number of DE genes in the gene set, `m` is the total number
+of genes in the gene set, `n` is the total number of genes not in the gene
+set, and `k` is the total number of DE genes.
+
+`phyper(..., lower.tail = FALSE)` calculates $\mathrm{Pr}(X > x)$. Normally we
+also include the case of $X = x$ which gives the final p-value as
+$\mathrm{Pr}(X \ge x)$. Then we need to slightly change the `phyper()` call by
+switching `x` to `x-1`:
+
+```r
+phyper(x - 1, m, n, k, lower.tail = FALSE)
+```
+
+For a DE gene list and a gene set, it is easy to obtain values for these
+parameters. First I implement a function `ora_single()` that calculates
+p-value for a single gene set. As demonstrated as follows, `ora_single()` has
+three arguments, which correspond to the DE genes, gene set and the background
+genes. Sometimes the three types of genes may come from different sources, to
+make sure background genes always cover all DE genes and the gene set, we need to
+explicitly intersect the `genes` and `gene_set` vectors to the `universe`
+vector.
+
+```{r}
+# assume `genes`, `gene_set` and `universe` have the same gene ID type
+ora_single = function(genes, gene_set, universe) {
+    n_universe = length(universe)
+
+    genes = intersect(genes, universe)
+    gene_set = intersect(gene_set, universe)
+
+    x = length(intersect(genes, gene_set)) # DE genes in the gene set
+    m = length(gene_set)  # total genes in the gene set
+    n = n_universe - m    # total genes not in the gene set
+    k = length(genes)     # total DE genes
+
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
+}
+```
+
+Then, for a list of gene sets, we can apply `ora_single()` to each of them,
+with `sapply()` or in a `for` loop. In `ora_v1()`, I assume the gene sets
+are represented as a list of vectors where each vector is a gene set. `ora_v1()`
+returns a vector of p-values.
+
+```{r}
+# version 1
+ora_v1 = function(genes, gene_sets, universe) {
+    sapply(gene_sets, function(x) ora_single(genes, x, universe))
+}
+```
+
+To execute `ora_v1()`, I use GO gene sets in the BP namespace, I use all protein-coding genes as background,
+and I randomly generate 1000 genes as DE genes.
+
+```{r}
+library(org.Hs.eg.db)
+gs = as.list(org.Hs.egGO2ALLEGS)
+gs = lapply(gs, unique)  # genes may duplicate
+library(GO.db)
+gs = gs[Ontology(names(gs)) == "BP"]  # only take the BP GO gene sets
+
+pc_genes = select(org.Hs.eg.db, key = "protein-coding", 
+    keytype = "GENETYPE", column = c("ENTREZID"))[, 2] # all protein-coding genes
+genes = sample(pc_genes, 1000)
+```
+
+This random dataset is also a good example of showing the necessarity of applying intersection in `ora_single()`.
+Here `pc_genes` does not completely cover genes in `gs`.
+
+```{r}
+length(setdiff(unlist(gs), pc_genes))
+```
+
+The reason is `gs` also comtains microRNAs.
+
+Run `ora_v1()`:
+
+```{r}
+system.time(p1 <- ora_v1(genes, gs, pc_genes))
+```
+
+
+It takes more than 10 seconds.
+
+In version 1, we analyzed gene sets in `sapply()`, in a looping manner. In R,
+vectorization is always a good thing. Note `phyper()` also accepts vectors as
+input. In version 2, I generate the parameters `x`, `m` and `n` (`k` is the
+number of DE genes and is the same for all gene sets, so a scalar for `k` is enough) for `phyper()` all as
+vectors.
+
+```{r}
+# version 2
+ora_v2 = function(genes, gene_sets, universe) {
+    
+    genes = intersect(genes, universe)
+    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+
+    n_universe = length(universe)
+    n_genes = length(genes)
+    
+    x = sapply(gene_sets, function(x) length(intersect(x, genes)))
+    m = sapply(gene_sets, length)
+    n = n_universe - m
+    k = n_genes
+    
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
+}
+```
+
+With the same `genes`, `gs` and `pc_genes` variables, run `ora_v2()`.
+
+```{r}
+system.time(p2 <- ora_v2(genes, gs, pc_genes))
+```
+
+It speeds up more than 2 folds compared to `ora_v1()`, but still takes several
+seconds. Next we can perform code profiling on `ora_v2()`:
+
+```{r}
+Rprof()
+p2 = ora_v2(genes, gs, pc_genes)
+Rprof(NULL)
+summaryRprof()$by.self
+```
+
+The Profiling result shows `intersect()` call is the most time-consuming part in the code,
+which uses more than 95% of all runtime. Not difficult to see, especially in this line (the second
+line in `ora_v2()`):
+
+```r
+    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+```
+
+for every gene set as `x`, we do intersection to `universe` which is a extremely long vector,
+The two vectors `x` and `universe` need to be fully scanned for every gene set.
+
+A thought to optimize the code is if we can change `universe` to a hash table,
+then in every gene set, we don't need to go through every element in
+`universe`, while we just check whether the current gene in the gene set
+exsits in the hash table.
+
+Based on this idea, we can implement it with Cpp code. Here `unordered_set`
+is a hash table data structure.
+
+```{r}
+library(Rcpp)
+sourceCpp(code = '
+// [[Rcpp::plugins(cpp11)]]
+
+#include <Rcpp.h>
+#include <unordered_set>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+List intersectToList(List lt, StringVector x) {
+
+    int n = lt.size();
+    List out(n);
+
+    std::unordered_set<String> seen;
+    seen.insert(x.begin(), x.end());
+
+    for(int i = 0; i < n; i++) {
+      
+        StringVector v = as<StringVector>(lt[i]);
+        LogicalVector l(v.size());
+
+        std::unordered_set<String> seen2;
+
+        for(int j = 0; j < v.size(); j ++) {
+            l[j] = seen.find(v[j]) != seen.end() && seen2.insert(v[j]).second;
+        }
+
+        out[i] = v[l];
+    }
+
+    return out;
+}
+')
+```
+
+The new function `intersectToList()` can be called in R with two arguments.
+The first one is a list of vectors (`lt`) and the second one is a single vector (`x`) which will
+intersect to every vector in the list. In the Cpp code, I also removed
+duplicated elements in every vector in the list (`lt`).
+
+Now we can switch the original line
+
+```r
+    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+```
+
+to the optimized code:
+
+```r
+    gene_sets = intersectToList(gene_sets, universe)
+```
+
+Also I use `intersectToList()` when intersecting genes with gene sets. 
+The two lines that have beem optimized are marked in the following code,
+which I name it `ora_v3()`.
+
+
+```{r}
+# version 3
+ora_v3 = function(genes, gene_sets, universe) {
+
+    gs_names = names(gene_sets)
+
+    genes = intersect(genes, universe)
+    gene_sets = intersectToList(gene_sets, universe)  # this line has been improved
+
+    n_universe = length(universe)
+    n_genes = length(genes)
+    
+    x = sapply(intersectToList(gene_sets, genes), length)  # this line has been improved
+    m = sapply(gene_sets, length)
+    n = n_universe - m
+    k = n_genes
+    
+    p = phyper(x - 1, m, n, k, lower.tail = FALSE)
+    names(p) = gs_names
+    p
+}
+```
+
+Since in the Cpp implementaiton, names of the gene sets are lost, in the last three lines
+of `ora_v3()`, I manually add the gene set names to the returned object `p`.
+
+Now with the same `genes`, `gs` and `pc_genes` variables, I run `ora_v3()`.
+
+```{r}
+system.time(p3 <- ora_v3(genes, gs, pc_genes))
+```
+
+It finishes in less than one second!
+
+The three p-values vectors (`p1`, `p2` and `p3`) are identical:
+
+```{r}
+identical(p1, p2)
+identical(p1, p3)
+```
+
+If we compare the three versions of ORA functions, `ora_v3()` is around 20x faster
+than `ora_v1()` and around 8x faster than `ora_v2()`.
+
+```{r}
+library(microbenchmark)
+microbenchmark(
+    "loop(v1)"       = ora_v1(genes, gs, pc_genes),
+    "vectorized(v2)" = ora_v2(genes, gs, pc_genes),
+    "cpp(v3)"        = ora_v3(genes, gs, pc_genes),
+    times = 10
+)
+```
+
+
+```{r}
+sessionInfo()
+```
+

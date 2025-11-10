@@ -1,0 +1,109 @@
+---
+title: "Align heatmap legends"
+date: 2020-06-29
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In this post, I will demonstrate the automatic alignment of heatmap legends.
+This new feature in avaiable in <strong>ComplexHeatmap</strong> &gt;= 2.5.4.</p>
+<p>In the following heatmaps, I use a random 10x10 matrix generated as
+follows:</p>
+<pre class="r"><code>library(ComplexHeatmap)
+set.seed(123)
+m = matrix(rnorm(100), 10)</code></pre>
+<p>In the older versions (&lt;= 2.5.3), the legends are put in the middle of a
+viewport which almost has the same height as the whole plot. It looks nice
+when there are no column names in the heatmap.</p>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>When using heatmaps to visualize large data sets (e.g. with many columns),
+normally we turn off the column names and the legends are in good positions.
+However, for some cases, e.g. for a small matrix where column names/labels are
+important to visualize, putting the legends in the center of that viewport
+will make the plot look very strange. In the next code, I add long column
+names to the matrix.</p>
+<pre class="r"><code>colnames(m) = strrep(letters[1:10], 20)</code></pre>
+<p>And the legend is too far away from the heatmap and it looks really bad.</p>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>From version 2.5.4, the alignment of the legends can be controlled by
+<code>align_heatmap_legend</code> and <code>align_annotation_legend</code> arguments in
+the <code>draw()</code> function. There are three possible values:</p>
+<ul>
+<li><code>global_center</code>: This is the same as in the old versions. The legends
+are put in the middle of the viewport.</li>
+<li><code>heatmap_center</code>: The center of the legends is aligned to the center
+of the heatmap body.</li>
+<li><code>heatmap_top</code>: The top of the legends is aligned to the top of the heatmap body.</li>
+</ul>
+<p>An example code of setting e.g. <code>align_heatmap_legend</code> is:</p>
+<pre class="r"><code>ht = Heatmap(m, ...)
+draw(ht, align_heatmap_legend = &quot;heatmap_center&quot;, ...)</code></pre>
+<p>The visual effects of the three options are demonstrated in the following plot:</p>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+<p>Although you can manually set <code>align_heatmap_legend</code>/<code>align_annotation_legend</code>,
+the good thing in version 2.5.4 is it can automatically identify which value
+to set to these two arguments. The basic rules are (take <code>align_heatmap_legend</code>
+as an example):</p>
+<ol style="list-style-type: decimal">
+<li>If the height of the legends is smaller than the height of the heatmap body,
+the value for <code>align_heatmap_legend</code> is set to <code>"heatmap_center"</code>.</li>
+<li>If the height of the legends is smaller than the height of the heatmap body plus
+the sum of heights of the bottom elements of the heatmap (e.g., column names, bottom annotations),
+the value for <code>align_heatmap_legend</code> is set to <code>"heatmap_top"</code>.</li>
+<li>For other scenarios, the value for <code>align_heatmap_legend</code> is set to <code>"global_center"</code>.</li>
+</ol>
+<p>In the following code, there are two heatmaps with two legends. The height of the
+two legends is still smaller than the height of the heatmap body, thus, as we can observe
+from the plot, the legends are centered to the center of the heatmap body.</p>
+<pre class="r"><code>Heatmap(m, name = &quot;mat1&quot;) + 
+    Heatmap(m, name = &quot;mat2&quot;)</code></pre>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-8-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Next we add a third heatmap. Now the legends are higher than the
+heatmap body. Thus they are aligned to the top of the heatmap body.</p>
+<pre class="r"><code>Heatmap(m, name = &quot;mat1&quot;) + 
+    Heatmap(m, name = &quot;mat2&quot;) + 
+    Heatmap(m, name = &quot;mat3&quot;)</code></pre>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>When there are four legends, their height is larger than the height of the heatmap body
+and plus column names, so the mode is set to <code>"global_center"</code>.</p>
+<pre class="r"><code>Heatmap(m, name = &quot;mat1&quot;) + 
+    Heatmap(m, name = &quot;mat2&quot;) + 
+    Heatmap(m, name = &quot;mat3&quot;) + 
+    Heatmap(m, name = &quot;mat4&quot;)</code></pre>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-10-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>When there are five legends, since the height of the legends now exceeds the height of the plot,
+now they are wrapped into two columns.</p>
+<pre class="r"><code>Heatmap(m, name = &quot;mat1&quot;) + 
+    Heatmap(m, name = &quot;mat2&quot;) + 
+    Heatmap(m, name = &quot;mat3&quot;) + 
+    Heatmap(m, name = &quot;mat4&quot;) + 
+    Heatmap(m, name = &quot;mat5&quot;)</code></pre>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Similarly, for ten legends, they are wrapped into three columns, so all the legends are drawn
+and visible in the plot.</p>
+<pre class="r"><code>Heatmap(m, name = &quot;mat1&quot;) + Heatmap(m, name = &quot;mat2&quot;) + 
+    Heatmap(m, name = &quot;mat3&quot;) + Heatmap(m, name = &quot;mat4&quot;) + 
+    Heatmap(m, name = &quot;mat5&quot;) + Heatmap(m, name = &quot;mat6&quot;) + 
+    Heatmap(m, name = &quot;mat7&quot;) + Heatmap(m, name = &quot;mat8&quot;) + 
+    Heatmap(m, name = &quot;mat9&quot;) + Heatmap(m, name = &quot;mat10&quot;)</code></pre>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Let’s try also with the annotation legends.</p>
+<pre class="r"><code>ha = HeatmapAnnotation(foo1 = 1:10)
+Heatmap(m, name = &quot;mat&quot;, top_annotation = ha)</code></pre>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-13-1.png" width="288" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>ha = HeatmapAnnotation(foo1 = 1:10, foo2 = 1:10)
+Heatmap(m, name = &quot;mat&quot;, top_annotation = ha)</code></pre>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-14-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p>Currently, there is a limit for this new functionality that the legends might
+overlap to the annotaiton labels if they are on the same side of the heatmap.</p>
+<pre class="r"><code>ha = HeatmapAnnotation(foo1 = 1:10, foo2 = 1:10, foo3 = 1:10)
+Heatmap(m, name = &quot;mat&quot;, top_annotation = ha)</code></pre>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-15-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p>One solution is to move the annotation labels to the other side.</p>
+<pre class="r"><code>ha = HeatmapAnnotation(foo1 = 1:10, foo2 = 1:10, foo3 = 1:10, 
+    annotation_name_side = &quot;left&quot;)
+Heatmap(m, name = &quot;mat&quot;, top_annotation = ha)</code></pre>
+<p><img src="/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-16-1.png" width="288" style="display: block; margin: auto;" /></p>
+<p>This new functionality also works for the horizontal legend list that is
+put at the bottom of the heatmaps.</p>

@@ -1,0 +1,70 @@
+---
+title: "Dynamic graphical object in grid, part 2"
+date: 2023-09-25
+---
+
+
+
+<p>I have introduced how to define a dynamic grob by setting its <code>makeContext()</code> method. In this post,
+I will demonstrate two other ways, which are either identical to the previous method, or very similar to it.</p>
+<p>Again, the plotting task: drawing two circles at <code>(1, 0)</code> and <code>(-1, 0)</code> with both radius of 1, and
+we want the two circles fill the plotting region as much as possible no matter how the graphical device is resized.</p>
+<pre class="r"><code>theta = seq(0, 2*pi, length = 50)
+
+x1 = cos(theta) + 1
+y1 = sin(theta)
+
+x2 = cos(theta) - 1
+y2 = sin(theta)</code></pre>
+<p>In the first method, we use the <code>grid.delay()</code> function, which accepts an
+expression and it will be evaluated when the image is redrawn (e.g. by
+resizing the graphical device).</p>
+<p>This method is idential to the use of <code>makeContext()</code>/<code>makeContent()</code> hook functions.
+<code>grid.delay()</code>/<code>delayGrob()</code> generates a grob in the <code>delayGrob</code> class, and the
+corresponding S3 method <code>grid:::makeContent.delayedgrob()</code> evaluates the
+expression.</p>
+<pre class="r"><code>library(grid)
+grid.newpage()
+
+vp = viewport(xscale = c(-2, 2), yscale = c(-1, 1))
+x = grobTree(linesGrob(x1, y1, default.units = &quot;native&quot;), 
+             linesGrob(x2, y2, default.units = &quot;native&quot;),
+             vp = vp)
+
+grid.delay({
+    vp_width = convertWidth(x$vp$width, &quot;in&quot;, valueOnly = TRUE)
+    vp_height = convertHeight(x$vp$height, &quot;in&quot;, valueOnly = TRUE)
+
+    if(vp_width &gt; 2*vp_height) {
+        x$vp$width = unit(2*vp_height, &quot;in&quot;)
+        x$vp$height = unit(vp_height, &quot;in&quot;)
+    } else {
+        x$vp$width = unit(vp_width, &quot;in&quot;)
+        x$vp$height = unit(vp_width/2, &quot;in&quot;)
+    }
+    x
+}, list())</code></pre>
+<p>Besides <code>makeContext()</code>/<code>makeContent()</code> that define what to do when drawing
+the graphical object, another set of hook functions (the old style)
+<code>preDrawDetails()</code>/<code>drawDetails()</code>/<code>postDrawDetails()</code> can also be used. Similar to <code>grid.delay()</code>,
+<code>grid.record()</code> is a helper function which internally calls the three hook functions. The first argument
+for <code>grid.record()</code> is also an expression. The difference is, in the expression for <code>grid.delay()</code>, it must
+return a grob object, while in <code>grid.record()</code> you can put <code>grid.*()</code> plotting functions there.</p>
+<pre class="r"><code>grid.record({
+    pushViewport(viewport())
+    vp = current.viewport()
+    vp_width = convertWidth(vp$width, &quot;in&quot;, valueOnly = TRUE)
+    vp_height = convertHeight(vp$height, &quot;in&quot;, valueOnly = TRUE)
+
+    if(vp_width &gt; 2*vp_height) {
+        w = unit(2*vp_height, &quot;in&quot;)
+        h = unit(vp_height, &quot;in&quot;)
+    } else {
+        w = unit(vp_width, &quot;in&quot;)
+        h = unit(vp_width/2, &quot;in&quot;)
+    }
+    pushViewport(viewport(xscale = c(-2, 2), yscale = c(-1, 1), width = w, height = h))
+    grid.lines(x1, y1, default.units = &quot;native&quot;)
+    grid.lines(x2, y2, default.units = &quot;native&quot;)
+    upViewport()
+}, list())</code></pre>

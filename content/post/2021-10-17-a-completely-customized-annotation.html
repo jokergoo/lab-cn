@@ -1,0 +1,84 @@
+---
+title: "A completely customized annotation"
+date: 2021-10-17
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>For most annotation functions implemented in <strong>ComplexHeatmap</strong>, they only draw one same type of annotation graphics, e.g. <code>anno_points()</code>
+only draws points. From <strong>ComplexHeatmap</strong> version 2.9.4, I added a new annotation function <code>anno_customize()</code>, with which you can completely
+freely define graphics for every annotation cell.</p>
+<p>The input for <code>anno_customize()</code> should be a categorical vector.</p>
+<pre class="r"><code>library(ComplexHeatmap)
+x = c(&quot;a&quot;, &quot;a&quot;, &quot;a&quot;, &quot;b&quot;, &quot;b&quot;, &quot;b&quot;, &quot;c&quot;, &quot;c&quot;, &quot;d&quot;, &quot;d&quot;)</code></pre>
+<p>For each level, you need to define a graphics function for it.</p>
+<pre class="r"><code>graphics = list(
+    &quot;a&quot; = function(x, y, w, h) grid.rect(x, y, w*0.8, h*0.33, gp = gpar(fill = &quot;red&quot;)),
+    &quot;b&quot; = function(x, y, w, h) grid.text(&quot;A&quot;, x, y, gp = gpar(col = &quot;darkgreen&quot;)),
+    &quot;c&quot; = function(x, y, w, h) grid.points(x, y, gp = gpar(col = &quot;orange&quot;), pch = 16),
+    &quot;d&quot; = function(x, y, w, h) {
+        img = png::readPNG(system.file(&quot;extdata&quot;, &quot;Rlogo.png&quot;, package = &quot;circlize&quot;))
+        grid.raster(img, x, y, width = unit(0.8, &quot;snpc&quot;), height = unit(0.8, &quot;snpc&quot;)*nrow(img)/ncol(img))
+    }
+)</code></pre>
+<p>When adding graphics, each annotation cell is an independent viewport, thus, the self-defined graphics function accepts four arguments: <code>x</code> and <code>y</code>: the center
+of the viewport of the annotation cell, <code>w</code> and <code>h</code>: the width and height of the viewport. In the example above, we set a horizontal bar for <code>"a"</code>, a text for <code>"b"</code>,
+a point for <code>"c"</code> and an image for <code>"d"</code>.</p>
+<p>Then we add this new annotation to both row and column of the heatmap, just in the same way as normal annotations.</p>
+<pre class="r"><code>m = matrix(rnorm(100), 10)
+Heatmap(m, 
+    top_annotation = HeatmapAnnotation(foo = anno_customize(x, graphics = graphics)),
+    right_annotation = rowAnnotation(bar = anno_customize(x, graphics = graphics)))</code></pre>
+<p><img src="/post/2021-10-17-a-completely-customized-annotation_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Reordering and splitting are automatically adjusted.</p>
+<pre class="r"><code>Heatmap(m, 
+    top_annotation = HeatmapAnnotation(foo = anno_customize(x, graphics = graphics)),
+    right_annotation = rowAnnotation(bar = anno_customize(x, graphics = graphics)),
+    column_split = x, row_split = x)</code></pre>
+<p><img src="/post/2021-10-17-a-completely-customized-annotation_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><code>Legend()</code> function also accepts a <code>graphics</code> argument, so it is easy to add legends for the “customized annotations”.</p>
+<pre class="r"><code>m = matrix(rnorm(100), 10)
+ht = Heatmap(m, 
+    top_annotation = HeatmapAnnotation(foo = anno_customize(x, graphics = graphics)))
+lgd = Legend(title = &quot;foo&quot;, at = names(graphics), graphics = graphics)
+draw(ht, annotation_legend_list = lgd)</code></pre>
+<p><img src="/post/2021-10-17-a-completely-customized-annotation_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
+<div id="session-info" class="section level2">
+<h2>Session info</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 4.1.0 (2021-05-18)
+## Platform: x86_64-apple-darwin17.0 (64-bit)
+## Running under: macOS Big Sur 10.16
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRblas.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] C/UTF-8/C/C/C/C
+## 
+## attached base packages:
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+## [1] ComplexHeatmap_2.9.4 knitr_1.33          
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.7          highr_0.9           bslib_0.3.0        
+##  [4] compiler_4.1.0      RColorBrewer_1.1-2  jquerylib_0.1.4    
+##  [7] iterators_1.0.13    tools_4.1.0         digest_0.6.27      
+## [10] clue_0.3-59         jsonlite_1.7.2      evaluate_0.14      
+## [13] png_0.1-7           rlang_0.4.11        foreach_1.5.1      
+## [16] magick_2.7.2        yaml_2.2.1          parallel_4.1.0     
+## [19] blogdown_0.20       xfun_0.24           fastmap_1.1.0      
+## [22] cluster_2.1.2       stringr_1.4.0       sass_0.4.0         
+## [25] GlobalOptions_0.1.2 S4Vectors_0.30.0    IRanges_2.26.0     
+## [28] stats4_4.1.0        R6_2.5.0            GetoptLong_1.0.3   
+## [31] rmarkdown_2.9       bookdown_0.22       magrittr_2.0.1     
+## [34] codetools_0.2-18    htmltools_0.5.2     matrixStats_0.59.0 
+## [37] BiocGenerics_0.38.0 shape_1.4.6         colorspace_2.0-2   
+## [40] circlize_0.4.14     stringi_1.6.2       doParallel_1.0.16  
+## [43] crayon_1.4.1        rjson_0.2.20</code></pre>
+</div>

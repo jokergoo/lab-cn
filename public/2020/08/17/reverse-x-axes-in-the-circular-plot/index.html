@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Reverse x-axes in the circular plot 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/08/17/reverse-x-axes-in-the-circular-plot/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Reverse x-axes in the circular plot </h1>
+
+  
+    <div id=sub-header>
+      August 2020
+    </div>
+  
+
+  <div class="entry-content">
+    
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>By default, in <em>circlize</em>, the directions of x-axes of all cells are clockwise, which means, in the cells
+located on top of the circle, the direction of x-axes is from left to right, which fits how we normally
+read the figures. For example, the following figure shows several tracks with different graphics.</p>
+<pre class="r"><code>library(circlize)
+circos.par(gap.degree = 4)
+circos.initialize(letters[1:8], xlim = c(0, 10))
+circos.track(ylim = c(0, 10), panel.fun = function(x, y) {
+    circos.axis()
+    circos.points(0:10, 0:10)
+    circos.text(CELL_META$xlim[1] + mm_x(5), CELL_META$ycenter, CELL_META$sector.index, col = &quot;red&quot;)
+})
+circos.track(ylim = c(0, 10), panel.fun = function(x, y) {
+    circos.rect(1, 4, 5, 6)
+    circos.arrow(6, 9)
+})
+circos.link(&quot;a&quot;, 1, &quot;c&quot;, 9)</code></pre>
+<p><img src="/post/2020-08-17-reverse-x-axes-in-the-circular-plot_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>However, some users might want the axes in the other direction, like the request <a href="https://github.com/jokergoo/circlize/issues/124">here</a>. The solution was to manually reverse the x-axes by defining a <code>rev_x()</code> function.</p>
+<p>Then all positions related to x-axes should be wrapped by <code>rev_x()</code>.</p>
+<pre class="r"><code>rev_x = function(x, sector.index = NULL) {
+    if(!is.null(sector.index)) set.current.cell(sector.index, 1)
+
+    xrange = CELL_META$xlim
+    xrange[2] - x + xrange[1]
+}
+circos.par(gap.degree = 4)
+circos.initialize(letters[1:8], xlim = c(0, 10))
+circos.track(ylim = c(0, 10), panel.fun = function(x, y) {
+    circos.axis(major.at = rev_x(seq(0, 10, by = 2)), labels = seq(0, 10, by = 2))
+    circos.points(rev_x(0:10), 0:10)
+    circos.text(rev_x(CELL_META$xlim[1] + mm_x(5)), CELL_META$ycenter, CELL_META$sector.index, col = &quot;red&quot;)
+})
+circos.track(ylim = c(0, 10), panel.fun = function(x, y) {
+    circos.rect(rev_x(1), 4, rev_x(5), 6)
+    circos.arrow(rev_x(6), rev_x(9))
+})
+circos.link(&quot;a&quot;, rev_x(1, &quot;a&quot;), &quot;c&quot;, rev_x(9, &quot;c&quot;))</code></pre>
+<p><img src="/post/2020-08-17-reverse-x-axes-in-the-circular-plot_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>This might be painful if there are so many positions on x-axes to adjust. From circlize 0.4.11. I have added
+a new global option <code>xaxis.clock.wise</code> to globally control the directions of x-axes. The <code>xaxis.clock.wise</code>
+option should be called by <code>circos.par()</code> and should be called before the circular plot is initialized.</p>
+<p>See the following example. It is super easy to reverse all x-axes now.</p>
+<pre class="r"><code>circos.par(gap.degree = 4, xaxis.clock.wise = FALSE)
+circos.initialize(letters[1:8], xlim = c(0, 10))
+circos.track(ylim = c(0, 10), panel.fun = function(x, y) {
+    circos.axis()
+    circos.points(0:10, 0:10)
+    circos.text(CELL_META$xlim[1] + mm_x(5), CELL_META$ycenter, CELL_META$sector.index, col = &quot;red&quot;)
+})
+circos.track(ylim = c(0, 10), panel.fun = function(x, y) {
+    circos.rect(1, 4, 5, 6)
+    circos.arrow(6, 9)
+})
+circos.link(&quot;a&quot;, 1, &quot;c&quot;, 9)</code></pre>
+<p><img src="/post/2020-08-17-reverse-x-axes-in-the-circular-plot_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>Setting <code>circos.par(xaxis.clock.wise = FALSE)</code> reverses all positions on x-direction. Following is a genomic
+circular plot with and without reversing x-axes. As you can see, the code for making the plot are exactly the same.
+The only difference is in the second plot, we change the direction of x-axes by setting <code>circos.par(xaxis.clock.wise = FALSE)</code>.</p>
+<pre class="r"><code>load(system.file(package = &quot;circlize&quot;, &quot;extdata&quot;, &quot;DMR.RData&quot;))
+bed_list = list(DMR_hyper, DMR_hypo)
+
+par(mfrow = c(1, 2))
+circos.initializeWithIdeogram()
+circos.genomicRainfall(bed_list, pch = 16, cex = 0.4, col = c(&quot;#FF000080&quot;, &quot;#0000FF80&quot;))
+circos.genomicDensity(DMR_hyper, col = c(&quot;#FF000080&quot;), track.height = 0.1)
+circos.genomicDensity(DMR_hypo, col = c(&quot;#0000FF80&quot;), track.height = 0.1)
+circos.clear()
+
+circos.par(xaxis.clock.wise = FALSE)
+circos.initializeWithIdeogram()
+circos.genomicRainfall(bed_list, pch = 16, cex = 0.4, col = c(&quot;#FF000080&quot;, &quot;#0000FF80&quot;))
+circos.genomicDensity(DMR_hyper, col = c(&quot;#FF000080&quot;), track.height = 0.1)
+circos.genomicDensity(DMR_hypo, col = c(&quot;#0000FF80&quot;), track.height = 0.1)</code></pre>
+<p><img src="/post/2020-08-17-reverse-x-axes-in-the-circular-plot_files/figure-html/unnamed-chunk-5-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>We show a second genomic circular plot which visualizes all transcripts of three genes. We first define
+a <code>draw_tx()</code> function which draws the plot and we will use it twice.</p>
+<pre class="r"><code>draw_tx = function() {
+    tp_family = readRDS(system.file(package = &quot;circlize&quot;, &quot;extdata&quot;, &quot;tp_family_df.rds&quot;))
+    circos.genomicInitialize(tp_family)
+    circos.track(ylim = c(0, 1), 
+        bg.col = c(&quot;#FF000040&quot;, &quot;#00FF0040&quot;, &quot;#0000FF40&quot;), 
+        bg.border = NA, track.height = 0.05)
+    n = max(tapply(tp_family$transcript, tp_family$gene, function(x) length(unique(x))))
+    circos.genomicTrack(tp_family, ylim = c(0.5, n + 0.5), 
+        panel.fun = function(region, value, ...) {
+            all_tx = unique(value$transcript)
+            for(i in seq_along(all_tx)) {
+                l = value$transcript == all_tx[i]
+                # for each transcript
+                current_tx_start = min(region[l, 1])
+                current_tx_end = max(region[l, 2])
+                circos.lines(c(current_tx_start, current_tx_end), 
+                    c(n - i + 1, n - i + 1), col = &quot;#CCCCCC&quot;)
+                circos.genomicRect(region[l, , drop = FALSE], ytop = n - i + 1 + 0.4, 
+                    ybottom = n - i + 1 - 0.4, col = &quot;orange&quot;, border = NA)
+            }
+    }, bg.border = NA, track.height = 0.4)
+}</code></pre>
+<p>And we make the plot:</p>
+<pre class="r"><code>par(mfrow = c(1, 2))
+draw_tx()
+circos.clear()
+
+circos.par(xaxis.clock.wise = FALSE)
+draw_tx()</code></pre>
+<p><img src="/post/2020-08-17-reverse-x-axes-in-the-circular-plot_files/figure-html/unnamed-chunk-7-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>If the reversing of x-axes is not applied globally, but rather a subset of cells, <code>rev_x()</code> should
+be manually applied to those cells where x-axes are reversed. In the following example, we only reverse
+the x-axis in the top cell.</p>
+<pre class="r"><code>circos.par(gap.degree = 5)
+circos.initialize(letters[1:2], xlim = c(0, 10))
+circos.track(ylim = c(0, 10))
+circos.arrow(1, 9, sector.index = &quot;a&quot;)
+circos.axis(major.at = seq(0, 10, by = 2), sector.index = &quot;a&quot;)
+
+circos.arrow(rev_x(1), rev_x(9), sector.index = &quot;b&quot;)
+circos.axis(major.at = rev_x(seq(0, 10, by = 2)), labels = seq(0, 10, by = 2), sector.index = &quot;b&quot;)</code></pre>
+<p><img src="/post/2020-08-17-reverse-x-axes-in-the-circular-plot_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+  $(document).ready(function(){
+  $("main.content").css("max-width", "900px");
+});
+</script>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

@@ -1,0 +1,47 @@
+---
+title: "Edit grobs in ggplot2 plots"
+date: 2024-05-16
+---
+
+
+
+<p>Load the packages and generate test dataset.</p>
+<pre class="r"><code>library(ggplot2)
+library(grid)
+df = data.frame(
+    x = rep(c(2, 5, 7, 9, 12), 2),
+    y = rep(c(1, 2), each = 5),
+    z = factor(rep(1:5, each = 2)),
+    w = rep(diff(c(0, 4, 6, 8, 10, 14)), 2)
+)</code></pre>
+<p>We make a “heatmap” with the <strong>ggplot2</strong> package.</p>
+<pre class="r"><code>ggplot(df, aes(x, y)) +
+    geom_tile(aes(fill = z), color = NA)</code></pre>
+<p><img src="/post/2024-05-16-edit-grobs-in-ggplot2-plots_files/figure-html/unnamed-chunk-3-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p>Depends on the “graphics device” you use, you might see white vertical and horizontal lines between cells in the plot. Here in
+this example I use “svg”, but there is no such problem with other devices such as “png” or “jpeg”.</p>
+<p>Of course you can remove <code>color = NA</code> to add borders for these cells. But you might see</p>
+<p>One solution to remove such white lines</p>
+<ol style="list-style-type: decimal">
+<li>obtain the cells</li>
+<li>for each cell, increase its width and height by 1 point on the four sides</li>
+</ol>
+<pre class="r"><code>ggplot(df, aes(x, y)) +
+    geom_tile(aes(fill = z), color = NA)
+
+# making viewports available
+grid.force()
+
+# obtain the path of `geom_rect`
+vpath = grid.grep(&quot;geom_rect&quot;, grobs = TRUE, viewports = TRUE, grep = TRUE)
+
+# obtain the rect grobs
+grect = grid.get(vpath)
+
+# edit the grob by extending 1pt on both sides
+grect$width = grect$width + unit(2, &quot;pt&quot;)
+grect$height = grect$height + unit(2, &quot;pt&quot;)
+
+# update the plot
+grid.set(vpath, grect)</code></pre>
+<p><img src="/post/2024-05-16-edit-grobs-in-ggplot2-plots_files/figure-html/unnamed-chunk-4-1.svg" width="672" style="display: block; margin: auto;" /></p>

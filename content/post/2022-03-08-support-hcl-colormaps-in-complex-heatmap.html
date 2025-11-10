@@ -1,0 +1,107 @@
+---
+title: "Support HCL colormaps in ComplexHeatmap"
+date: 2022-03-08
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>To demonstrate this new feature, I first generate a small random matrix.</p>
+<pre class="r"><code>set.seed(123)
+nr1 = 4; nr2 = 8; nr3 = 6; nr = nr1 + nr2 + nr3
+nc1 = 6; nc2 = 8; nc3 = 10; nc = nc1 + nc2 + nc3
+mat = cbind(rbind(matrix(rnorm(nr1*nc1, mean = 1,   sd = 0.5), nr = nr1),
+                  matrix(rnorm(nr2*nc1, mean = 0,   sd = 0.5), nr = nr2),
+                  matrix(rnorm(nr3*nc1, mean = 0,   sd = 0.5), nr = nr3)),
+            rbind(matrix(rnorm(nr1*nc2, mean = 0,   sd = 0.5), nr = nr1),
+                  matrix(rnorm(nr2*nc2, mean = 1,   sd = 0.5), nr = nr2),
+                  matrix(rnorm(nr3*nc2, mean = 0,   sd = 0.5), nr = nr3)),
+            rbind(matrix(rnorm(nr1*nc3, mean = 0.5, sd = 0.5), nr = nr1),
+                  matrix(rnorm(nr2*nc3, mean = 0.5, sd = 0.5), nr = nr2),
+                  matrix(rnorm(nr3*nc3, mean = 1,   sd = 0.5), nr = nr3))
+           )</code></pre>
+<p>Since this matrix contains both positive and negative values, we may want the color mapping to be symmetric to zero,
+thus we define a zero-centric color mapping function with <code>circlize::colorRamp2()</code>.
+The “blue-white-red” heatmap looks like as follows:</p>
+<pre class="r"><code>library(circlize)
+library(ComplexHeatmap)
+col_fun = colorRamp2(c(-2, 0, 2), c(&quot;blue&quot;, &quot;white&quot;, &quot;red&quot;))
+Heatmap(mat, name = &quot;mat&quot;, col = col_fun,
+    show_row_dend = FALSE, show_column_dend = FALSE)</code></pre>
+<p><img src="/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>In the example, the color mapping function <code>col_fun</code> defines three colors (blue/white/red) for the three breaks values (-2/0/2), and
+other values are linearly interpolated in <a href="https://en.wikipedia.org/wiki/CIELAB_color_space">the LAB color space (by default)</a>.</p>
+<p>In the paper <a href="https://www.jstatsoft.org/article/view/v096i01">“colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes”</a>, it
+described color maps in <a href="https://en.wikipedia.org/wiki/HCL_color_space">the HCL color space</a>, which are more natural for human perception of colors. It also provides rich color palettes extracted in the HCL color space. The list of color palettes are listed in <code>grDevides::hcl.pals()</code>.</p>
+<pre class="r"><code>hcl.pals(&quot;diverging&quot;)</code></pre>
+<pre><code>##  [1] &quot;Blue-Red&quot;      &quot;Blue-Red 2&quot;    &quot;Blue-Red 3&quot;    &quot;Red-Green&quot;    
+##  [5] &quot;Purple-Green&quot;  &quot;Purple-Brown&quot;  &quot;Green-Brown&quot;   &quot;Blue-Yellow 2&quot;
+##  [9] &quot;Blue-Yellow 3&quot; &quot;Green-Orange&quot;  &quot;Cyan-Magenta&quot;  &quot;Tropic&quot;       
+## [13] &quot;Broc&quot;          &quot;Cork&quot;          &quot;Vik&quot;           &quot;Berlin&quot;       
+## [17] &quot;Lisbon&quot;        &quot;Tofino&quot;</code></pre>
+<pre class="r"><code>hcl.pals(&quot;divergingx&quot;)</code></pre>
+<pre><code>##  [1] &quot;ArmyRose&quot; &quot;Earth&quot;    &quot;Fall&quot;     &quot;Geyser&quot;   &quot;TealRose&quot; &quot;Temps&quot;   
+##  [7] &quot;PuOr&quot;     &quot;RdBu&quot;     &quot;RdGy&quot;     &quot;PiYG&quot;     &quot;PRGn&quot;     &quot;BrBG&quot;    
+## [13] &quot;RdYlBu&quot;   &quot;RdYlGn&quot;   &quot;Spectral&quot; &quot;Zissou 1&quot; &quot;Cividis&quot;  &quot;Roma&quot;</code></pre>
+<pre class="r"><code>hcl.pals(&quot;sequential&quot;)</code></pre>
+<pre><code>##  [1] &quot;Grays&quot;         &quot;Light Grays&quot;   &quot;Blues 2&quot;       &quot;Blues 3&quot;      
+##  [5] &quot;Purples 2&quot;     &quot;Purples 3&quot;     &quot;Reds 2&quot;        &quot;Reds 3&quot;       
+##  [9] &quot;Greens 2&quot;      &quot;Greens 3&quot;      &quot;Oslo&quot;          &quot;Purple-Blue&quot;  
+## [13] &quot;Red-Purple&quot;    &quot;Red-Blue&quot;      &quot;Purple-Orange&quot; &quot;Purple-Yellow&quot;
+## [17] &quot;Blue-Yellow&quot;   &quot;Green-Yellow&quot;  &quot;Red-Yellow&quot;    &quot;Heat&quot;         
+## [21] &quot;Heat 2&quot;        &quot;Terrain&quot;       &quot;Terrain 2&quot;     &quot;Viridis&quot;      
+## [25] &quot;Plasma&quot;        &quot;Inferno&quot;       &quot;Rocket&quot;        &quot;Mako&quot;         
+## [29] &quot;Dark Mint&quot;     &quot;Mint&quot;          &quot;BluGrn&quot;        &quot;Teal&quot;         
+## [33] &quot;TealGrn&quot;       &quot;Emrld&quot;         &quot;BluYl&quot;         &quot;ag_GrnYl&quot;     
+## [37] &quot;Peach&quot;         &quot;PinkYl&quot;        &quot;Burg&quot;          &quot;BurgYl&quot;       
+## [41] &quot;RedOr&quot;         &quot;OrYel&quot;         &quot;Purp&quot;          &quot;PurpOr&quot;       
+## [45] &quot;Sunset&quot;        &quot;Magenta&quot;       &quot;SunsetDark&quot;    &quot;ag_Sunset&quot;    
+## [49] &quot;BrwnYl&quot;        &quot;YlOrRd&quot;        &quot;YlOrBr&quot;        &quot;OrRd&quot;         
+## [53] &quot;Oranges&quot;       &quot;YlGn&quot;          &quot;YlGnBu&quot;        &quot;Reds&quot;         
+## [57] &quot;RdPu&quot;          &quot;PuRd&quot;          &quot;Purples&quot;       &quot;PuBuGn&quot;       
+## [61] &quot;PuBu&quot;          &quot;Greens&quot;        &quot;BuGn&quot;          &quot;GnBu&quot;         
+## [65] &quot;BuPu&quot;          &quot;Blues&quot;         &quot;Lajolla&quot;       &quot;Turku&quot;        
+## [69] &quot;Hawaii&quot;        &quot;Batlow&quot;</code></pre>
+<p>From <strong>circlize</strong> version 0.4.14, the function <code>colorRamp2()</code> now accepts a
+new argument <code>hcl_palette</code> which allows to set a specific HCL color palette.
+The valid values are those supported in <code>grDevides::hcl.pals()</code>.</p>
+<p>To set a color mapping function which extends colors in the HCL color space, simply set the <code>hcl_palette</code> argument. For example:</p>
+<pre class="r"><code>colorRamp2(c(-2, 0, 2), hcl_palette = &quot;Blue-Red 2&quot;)</code></pre>
+<p>Please note: DO NOT set as in the following code. In there, three colors are extracted from the “Blue-Red 2” palette, but all other colors
+are still interpolated in the LAB color space.</p>
+<pre class="r"><code>colorRamp2(c(-2, 0, 2), hcl.colors(3, &quot;Blue-Red 2&quot;))  # this is wrong</code></pre>
+<p>In the following, each heatmap uses a specific HCL color palette. You can see how the heatmap looks like under different HCL color palettes.</p>
+<pre class="r"><code>pl = list()
+for(palette in sort(hcl.pals(&quot;diverging&quot;))) {
+    col_fun = colorRamp2(c(-2, 0, 2), hcl_palette = palette)
+    ht = Heatmap(mat, name = &quot;mat&quot;, col = col_fun, 
+        show_row_dend = FALSE, show_column_dend = FALSE,
+        column_title = paste0(&quot;palette = &#39;&quot;, palette, &quot;&#39;&quot;),
+        heatmap_legend_param = list(legend_height = unit(6, &quot;cm&quot;)))
+    pl[[palette]] = grid.grabExpr(draw(ht))
+}
+library(cowplot)
+plot_grid(plotlist = pl, ncol = 5)</code></pre>
+<p><img src="/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pl = list()
+for(palette in sort(hcl.pals(&quot;divergingx&quot;))) {
+    col_fun = colorRamp2(c(-2, 0, 2), hcl_palette = palette)
+    ht = Heatmap(mat, name = &quot;mat&quot;, col = col_fun, 
+        show_row_dend = FALSE, show_column_dend = FALSE,
+        column_title = paste0(&quot;palette = &#39;&quot;, palette, &quot;&#39;&quot;),
+        heatmap_legend_param = list(legend_height = unit(6, &quot;cm&quot;)))
+    pl[[palette]] = grid.grabExpr(draw(ht))
+}
+plot_grid(plotlist = pl, ncol = 5)</code></pre>
+<p><img src="/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>pl = list()
+for(palette in sort(hcl.pals(&quot;sequential&quot;))) {
+    col_fun = colorRamp2(range(mat), hcl_palette = palette, reverse = TRUE)
+    ht = Heatmap(mat, name = &quot;mat&quot;, col = col_fun, 
+        show_row_dend = FALSE, show_column_dend = FALSE,
+        column_title = paste0(&quot;palette = &#39;&quot;, palette, &quot;&#39;&quot;),
+        heatmap_legend_param = list(legend_height = unit(6, &quot;cm&quot;)))
+    pl[[palette]] = grid.grabExpr(draw(ht))
+}
+plot_grid(plotlist = pl, ncol = 5)</code></pre>
+<p><img src="/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /></p>

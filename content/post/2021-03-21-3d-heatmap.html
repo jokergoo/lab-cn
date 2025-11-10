@@ -1,0 +1,130 @@
+---
+title: "3D Heatmap"
+date: 2021-03-24
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<div style="width:80%;border:1px dotted #EEEEEE;padding:6px 10px 0px 10px;background-color:#F8F8F8;margin:0 auto;">
+<p style="text-align:center;">
+From version 2.7.9, <b>ComplexHeatmap</b> can make simple 3D heatmap with a new function <code>Heatmap3D()</code>.
+</p>
+</div>
+<div id="motivation" class="section level3">
+<h3>Motivation</h3>
+<p><strong>ComplexHeatmap</strong> has a <code>densityHeatmap()</code> to visualize a list of density
+distributions, such as in the following example:</p>
+<pre class="r"><code>library(ComplexHeatmap)
+set.seed(123)
+mat = matrix(rnorm(500), ncol = 10)
+colnames(mat) = letters[1:10]
+densityHeatmap(mat)</code></pre>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>In basic R graphics, since distributions can also be visualized by histograms, from <strong>ComplexHeatmap</strong>
+version 2.7.9, I added a new function <code>frequencyHeatmap()</code> which is like a histogram-version
+of density heatmap. The usage is similar as <code>densityHeatmap()</code>:</p>
+<pre class="r"><code>frequencyHeatmap(mat)</code></pre>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>In the previous example, the frequency matrix is visualized as a heatmap. Note you can use different statistic
+in <code>frequencyHeatmap()</code>, <em>i.e.</em>, <code>"count"</code>, <code>"proportion"</code> or <code>"density"</code>.</p>
+<p>Well, the frequency heatmap claims to be a histogram-version of density heatmap, but it does not
+look like histograms at all. Maybe a 3D heatmap with 3D bars is more proper.
+This can be done by setting argument <code>use_3d = TRUE</code> in <code>frequencyHeatmap()</code>.</p>
+<pre class="r"><code>frequencyHeatmap(mat, use_3d = TRUE)</code></pre>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-4-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>This looks nicer! In the next section I will explain how the 3D Heatmap is implemented.</p>
+</div>
+<div id="implementation-of-3d-heatmap" class="section level3">
+<h3>Implementation of 3D heatmap</h3>
+<p>First, we need to draw 3D bars. This can be done by the new function <code>bar3D()</code>. The usage is as follows:</p>
+<pre class="r"><code>bar3D(x = 0.5, y = 0.5, w = 0.2, h = 0.2, l = unit(1, &quot;cm&quot;), theta = 60)</code></pre>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="96" style="display: block; margin: auto;" /></p>
+<p>The arguments are:</p>
+<ul>
+<li><code>x</code>: x coordinate of the center point in the bottom face. Value should be a <code>unit</code> object. If it is numeric, the default unit is <code>npc</code>.</li>
+<li><code>y</code>: y coordinate of the center point in the bottom face.</li>
+<li><code>w</code>: Width of the bar (in the x direction). See the following figure.</li>
+<li><code>h</code>: Height of the bar (in the y direction). See the following figure.</li>
+<li><code>l</code>: Length of the bar (in the z direction). See the following figure.</li>
+<li><code>theta</code>: Angle for the projection. See the following figure. Note <code>theta</code> can only take value between 0 and 90.</li>
+</ul>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-6-1.png" width="192" style="display: block; margin: auto;" /></p>
+<p><code>fill</code> argument sets the color. To enhance the visual effect of 3D visualization, the three faces actually have slighly different brightness.</p>
+<pre class="r"><code>bar3D(x = seq(0.2, 0.8, length = 4), y = 0.5, w = unit(5, &quot;mm&quot;), h = unit(5, &quot;mm&quot;), 
+    l = unit(1, &quot;cm&quot;), fill = c(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;purple&quot;))</code></pre>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p><code>theta</code> argument sets the angle of the projection. Since I am a right-hand
+person, my left hand is more free so that it feels like it’s giving invisible
+force to push the bars to the right, thus, <code>theta</code> can only take value between
+0 and 90. :)</p>
+<pre class="r"><code>bar3D(x = seq(0.2, 0.8, length = 4), y = 0.5, w = unit(5, &quot;mm&quot;), h = unit(5, &quot;mm&quot;), 
+    l = unit(1, &quot;cm&quot;), theta = c(20, 40, 60, 80))</code></pre>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>To add bars to heatmap cells, we can simply implement <code>bar3D()</code> in <code>cell_fun</code>
+or <code>layer_fun</code> where we add each bar to each cell. Here we have a new function
+<code>Heatmap3D()</code> which simplifies this. <code>Heatmap3D()</code> accepts almost all the arguments
+in <code>Heatmap()</code> and the only difference is each cell has a 3D bar of which the
+height corresponds to its value.</p>
+<p><code>Heatmap3D()</code> only allows non-negative matrix as input. Also default values
+are changes for some arguments, such as row names are put on the left side of heatmap,
+and clusterings are still applied but the dendrograms are not drawn by default.</p>
+<p>Following is a demonstration of the usage of <code>Heatmap3D()</code>:</p>
+<pre class="r"><code>set.seed(7)
+mat = matrix(runif(100), 10)
+rownames(mat) = LETTERS[1:10]
+colnames(mat) = letters[1:10]
+Heatmap3D(mat, name = &quot;mat&quot;, column_title = &quot;This is a 3D heatmap&quot;)</code></pre>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-9-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>In the previous example, if bars close to the top of the heatmap or to the right of the
+heatmap have too large length, they will overlap to the heatmap title or the legend, in
+this case, we need to manually adjust the space between, <em>e.g.</em>, title and
+the heatmap body.</p>
+<p>In <strong>ComplexHeatmap</strong>, there are several global options that control the
+spaces between heatmap components. To solve the problem in the previous example,
+we can manually set a proper value for <code>ht_opt$HEATMAP_LEGEND_PADDING</code> and
+<code>ht_opt$TITLE_PADDING</code>.</p>
+<pre class="r"><code>ht_opt$HEATMAP_LEGEND_PADDING = unit(5, &quot;mm&quot;)
+ht_opt$TITLE_PADDING = unit(c(9, 2), &quot;mm&quot;) # bottom and top padding
+Heatmap3D(mat, name = &quot;mat&quot;, column_title = &quot;This is a 3D heatmap&quot;)</code></pre>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Reset the global options by <code>ht_opt(RESET = TRUE)</code>:</p>
+<pre class="r"><code>ht_opt(RESET = TRUE)</code></pre>
+<p>Next I demonstrate another example which is applied to the well-known measles vaccine dataset. First I show
+the “normal 2D heatmap”. Code for generating the heatmap can be found <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/more-examples.html#the-measles-vaccine-heatmap">here</a>.</p>
+<p><img src="https://jokergoo.github.io/ComplexHeatmap-reference/book/12-examples_files/figure-html/unnamed-chunk-2-1.png" width="100%" /></p>
+<p>To change it to 3D visualization, simply replace <code>Heatmap()</code> with
+<code>Heatmap3D()</code> and most of the original arguments for <code>Heatmap()</code> can still be
+put there. For simplicity, in the 3D heatmap, I removed the top annotation and
+the right annotation.</p>
+<pre class="r"><code>mat = readRDS(system.file(&quot;extdata&quot;, &quot;measles.rds&quot;, package = &quot;ComplexHeatmap&quot;))
+year_text = as.numeric(colnames(mat))
+year_text[year_text %% 10 != 0] = &quot;&quot;
+ha_column = HeatmapAnnotation(
+    year = anno_text(year_text, rot = 0, location = unit(1, &quot;npc&quot;), just = &quot;top&quot;)
+)
+col_fun = circlize::colorRamp2(c(0, 800, 1000, 127000), c(&quot;white&quot;, &quot;cornflowerblue&quot;, &quot;yellow&quot;, &quot;red&quot;))
+ht_opt$TITLE_PADDING = unit(c(15, 2), &quot;mm&quot;)
+Heatmap3D(mat, name = &quot;cases&quot;, col = col_fun,
+    cluster_columns = FALSE, show_row_dend = FALSE, 
+    show_column_names = FALSE,
+    row_names_side = &quot;left&quot;, row_names_gp = gpar(fontsize = 8),
+    column_title = &#39;Measles cases in US states 1930-2001\nVaccine introduced 1961&#39;,
+    bottom_annotation = ha_column,
+    heatmap_legend_param = list(at = c(0, 5e4, 1e5, 1.5e5), 
+        labels = c(&quot;0&quot;, &quot;50k&quot;, &quot;100k&quot;, &quot;150k&quot;)),
+    # new arguments for Heatmap3D()
+    bar_rel_width = 1, bar_rel_height = 1, bar_max_length = unit(2, &quot;cm&quot;)
+)</code></pre>
+<p><img src="/post/2021-03-21-3d-heatmap_files/figure-html/unnamed-chunk-12-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<p>By the way, it is also possible to turn the static 3D heatmap to an
+interactive Shiny application by package <strong>InteractiveComplexHeatmap</strong>. See the
+following figure:</p>
+<p><img src="https://user-images.githubusercontent.com/449218/112438755-8e548e80-8d48-11eb-972b-f3b0a41a1de2.png" width="100%" /></p>
+<p><code>Heatmap3D()</code> can do a lot of things that are the same as <code>Heatmap()</code>, such as adding
+annotations, splitting the heatmap or concatenating more heatmaps by <code>+</code>/<code>%v%</code>. But since 3D
+visualization is in general not a good idea and it actually won’t give you
+more information than what you can get from 2D visualization, thus, if you
+want to use <code>Heatmap3D()</code>, you better keep it as simple as possible. Also, please
+apply it to small matrices, it will take long time to generate for large matrices.</p>
+</div>

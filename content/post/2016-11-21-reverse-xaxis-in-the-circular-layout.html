@@ -1,0 +1,67 @@
+---
+title: "Reverse x-axis in the circular layout"
+date: 2016-11-21
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In <strong>circlize</strong> package, x-axis in always clockwise in each sector, no matter it
+is on the top of the circle or at the bottom. However, you can manually reverse
+the original positions on x-axis to pretend you have a reversed x-axis. Take following example:</p>
+<pre class="r"><code>library(circlize)</code></pre>
+<pre><code>## ========================================
+## circlize version 0.4.9
+## CRAN page: https://cran.r-project.org/package=circlize
+## Github page: https://github.com/jokergoo/circlize
+## Documentation: https://jokergoo.github.io/circlize_book/book/
+## 
+## If you use it in published research, please cite:
+## Gu, Z. circlize implements and enhances circular visualization
+##   in R. Bioinformatics 2014.
+## 
+## This message can be suppressed by:
+##   suppressPackageStartupMessages(library(circlize))
+## ========================================</code></pre>
+<pre class="r"><code>circos.par(gap.degree = c(10, 10), start.degree = -5)
+circos.initialize(factors = c(&quot;a&quot;, &quot;b&quot;), xlim = c(0, 1))
+circos.trackPlotRegion(ylim = c(0, 1), panel.fun = function(x, y) {
+    circos.axis(major.at = seq(0, 1, by = 0.1))
+})
+circos.rect(0.2, 0.2, 0.4, 0.4, col = &quot;red&quot;, sector.index = &quot;a&quot;)
+circos.link(&quot;a&quot;, 0.3, &quot;b&quot;, 0.7)</code></pre>
+<p><img src="/post/2016-11-21-reverse-xaxis-in-the-circular-layout_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>In the bottom sector, the order of x-axis seems not very convinient to read.
+Actually we can make some transformation on the original coordinates on x-axis.
+In following we defined <code>reverse_xaxis()</code> which flips the x-axis.</p>
+<pre class="r"><code>reverse_xaxis = function(x, xlim = get.cell.meta.data(&quot;xlim&quot;)) {
+    (xlim[2] - xlim[1]) - (x - xlim[1]) + xlim[1]
+}
+reverse_xaxis(seq(0, 1, by = 0.1), xlim = c(0, 1))</code></pre>
+<pre><code>##  [1] 1.0 0.9 0.8 0.7 0.6 0.5 0.4 0.3 0.2 0.1 0.0</code></pre>
+<p>In the arguments of <code>reverse_xaxis()</code>, the default value for <code>xlim</code> is <code>get.cell.meta.data("xlim")</code>
+so that it can automatically get the ranges on x-axis if <code>reverse_xaxis()</code> is called inside <code>panel.fun()</code>.
+If it is called somewhere else, <code>xlim</code> should be defined explicitly.</p>
+<p>Now we apply <code>reverse_xaxis()</code> to all the coordinates in the sectors we want to
+flip.</p>
+<pre class="r"><code>circos.par(gap.degree = c(10, 10), start.degree = -5)
+circos.initialize(factors = c(&quot;a&quot;, &quot;b&quot;), xlim = c(0, 1))
+circos.trackPlotRegion(ylim = c(0, 1), panel.fun = function(x, y) {
+    sector.index = get.cell.meta.data(&quot;sector.index&quot;)
+    at = seq(0, 1, by = 0.1)
+    if(sector.index == &quot;a&quot;) {
+        circos.axis(major.at = at, labels = reverse_xaxis(at))
+        circos.rect(reverse_xaxis(0.2), 0.2, reverse_xaxis(0.4), 0.4, 
+            col = &quot;red&quot;, sector.index = &quot;a&quot;)
+    } else {
+        circos.axis(major.at = at)
+    }
+})
+xlim = get.cell.meta.data(&quot;xlim&quot;, sector.index = &quot;a&quot;)
+circos.link(&quot;a&quot;, reverse_xaxis(0.3, xlim), &quot;b&quot;, 0.7)</code></pre>
+<p><img src="/post/2016-11-21-reverse-xaxis-in-the-circular-layout_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>In the end, I want to say that users should be very careful with reversing the x-axes. The default
+design that all x-axes are clockwise actually makes it easy and straightforward to compare between sectors,
+especially when you have many sectors in the circle.</p>

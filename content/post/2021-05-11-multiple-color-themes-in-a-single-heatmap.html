@@ -1,0 +1,107 @@
+---
+title: "Multiple color themes in a single heatmap"
+date: 2021-05-11
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>Some people might want to use multiple color schemas in a single heatmap to
+highlight group-wise patterns. If groups are also separated in heatmap, then actually
+each group can be treated as a single heatmap with its own color theme,
+later these heatmaps can be concatenated into the final heatmap.</p>
+<p>In the following example, we assume there are two groups on columns. Colors for group A use
+the theme “green-black-red” and colors for group B use “purple-white-orange”.</p>
+<pre class="r"><code>set.seed(123)
+mat = cbind(rbind(matrix(rnorm(20*20, mean = 1, sd = 0.5), nr = 20),
+              matrix(rnorm(20*20, mean = 0, sd = 0.5), nr = 20),
+              matrix(rnorm(20*20, mean = 0, sd = 0.5), nr = 20)),
+       rbind(matrix(rnorm(20*20, mean = 0, sd = 0.5), nr = 20),
+              matrix(rnorm(20*20, mean = 1, sd = 0.5), nr = 20),
+              matrix(rnorm(20*20, mean = 0, sd = 0.5), nr = 20)),
+       rbind(matrix(rnorm(20*20, mean = 0.5, sd = 0.5), nr = 20),
+              matrix(rnorm(20*20, mean = 0.5, sd = 0.5), nr = 20),
+              matrix(rnorm(20*20, mean = 1, sd = 0.5), nr = 20))
+       ) + matrix(rnorm(60*60, sd = 0.5), nr = 60)
+group = rep(c(&quot;A&quot;, &quot;B&quot;), times = c(40, 20))
+group = sample(group, length(group))
+
+library(circlize)
+library(ComplexHeatmap)
+
+col1 = colorRamp2(c(-2, 0, 2), c(&quot;green&quot;, &quot;black&quot;, &quot;red&quot;))
+col2 = colorRamp2(c(-2, 0, 2), c(&quot;purple&quot;, &quot;white&quot;, &quot;orange&quot;))
+
+ht1 = Heatmap(mat[, group == &quot;A&quot;], col = col1, name = &quot;Group_A&quot;)
+ht2 = Heatmap(mat[, group == &quot;B&quot;], col = col2, name = &quot;Group_B&quot;)
+ht1 + ht2</code></pre>
+<p><img src="/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>The problem here is row clustering is only calculated from the “main heatmap” which corresponds to
+the submatrix in group A.</p>
+<p>This problem can be solved by calculating the row clustering from the complete matrix in advance, later
+assign to <code>cluster_rows</code> in <code>draw()</code> function to change it globally (you can also assign to <code>cluster_rows</code> in
+the main heatmap).</p>
+<pre class="r"><code>row_hlust = hclust(dist(mat))
+draw(ht1 + ht2, cluster_rows = row_hlust)</code></pre>
+<p><img src="/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>Now people want to say, no, I want to mix the two groups in a single heatmap while not separating them.
+This time the single heatmap really contains two color themes and we need to draw the heatmap grids manually
+with the argument <code>cell_fun</code> or <code>layer_fun</code>.</p>
+<p>First we need to turn off the heatmap grids by setting <code>rect_gp = gpar(type = "none")</code>, also the legend should
+be turned off by setting <code>show_heatmap_legend = FALSE</code> because later we will add the two color legends manually. Here
+the heatmap grids are added by self-defining a <code>cell_fun</code>. See the code below.</p>
+<pre class="r"><code>ht = Heatmap(mat, rect_gp = gpar(type = &quot;none&quot;), show_heatmap_legend = FALSE,
+    cell_fun = function(j, i, x, y, w, h, fill) {
+        if(group[j] == &quot;A&quot;) {
+            grid.rect(x, y, w, h, gp = gpar(fill = col1(mat[j, i]), col = NA))
+        } else {
+            grid.rect(x, y, w, h, gp = gpar(fill = col2(mat[j, i]), col = NA))
+        }
+    })</code></pre>
+<p>And we manually define two color legends and send to <code>heatmap_legend_list</code> argument.</p>
+<pre class="r"><code>draw(ht, heatmap_legend_list = list(
+    Legend(title = &quot;Group_A&quot;, col_fun = col1),
+    Legend(title = &quot;Group_B&quot;, col_fun = col2)
+))</code></pre>
+<p><img src="/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p><code>cell_fun</code> draws heatmap cells on after the other. It might be slow when there are large number
+of cells to draw. <code>layer_fun</code> is a vectorized version of <code>cell_fun</code>, which improves the speed quite a lot.
+For explanation of <code>layer_fun</code> as well as the usage of function <code>pindex()</code>, please refer to <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/a-single-heatmap.html#layer-fun" class="uri">https://jokergoo.github.io/ComplexHeatmap-reference/book/a-single-heatmap.html#layer-fun</a>.</p>
+<pre class="r"><code>ht = Heatmap(mat, rect_gp = gpar(type = &quot;none&quot;), show_heatmap_legend = FALSE,
+    layer_fun = function(j, i, x, y, w, h, fill) {
+        l = group[j] == &quot;A&quot;
+        grid.rect(x[l], y[l], w[l], h[l], 
+            gp = gpar(fill = col1(pindex(mat, i[l], j[l])), col = NA))
+        l = group[j] == &quot;B&quot;
+        grid.rect(x[l], y[l], w[l], h[l], 
+            gp = gpar(fill = col2(pindex(mat, i[l], j[l])), col = NA))
+    })
+draw(ht, heatmap_legend_list = list(
+    Legend(title = &quot;Group_A&quot;, col_fun = col1),
+    Legend(title = &quot;Group_B&quot;, col_fun = col2)
+))</code></pre>
+<p><img src="/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-6-1.png" width="384" style="display: block; margin: auto;" /></p>
+<p>The method is the same if you want to use two color themes for a symmetric matrix:</p>
+<pre class="r"><code>corm = cor(mat)
+col1 = colorRamp2(c(-1, 0, 1), c(&quot;green&quot;, &quot;black&quot;, &quot;red&quot;))
+col2 = colorRamp2(c(-1, 0, 1), c(&quot;purple&quot;, &quot;white&quot;, &quot;orange&quot;))
+
+# here reordering the symmetric matrix is necessary
+od = hclust(dist(corm))$order
+corm = corm[od, od]
+
+ht = Heatmap(corm, rect_gp = gpar(type = &quot;none&quot;), show_heatmap_legend = FALSE,
+    cluster_rows = FALSE, cluster_columns = FALSE,
+    layer_fun = function(j, i, x, y, w, h, fill) {
+        l = i &gt; j
+        grid.rect(x[l], y[l], w[l], h[l], 
+            gp = gpar(fill = col1(pindex(corm, i[l], j[l])), col = NA))
+        l = i &lt; j
+        grid.rect(x[l], y[l], w[l], h[l], 
+            gp = gpar(fill = col2(pindex(corm, i[l], j[l])), col = NA))
+    })
+draw(ht, heatmap_legend_list = list(
+    Legend(title = &quot;Group_A&quot;, col_fun = col1),
+    Legend(title = &quot;Group_B&quot;, col_fun = col2)
+))</code></pre>
+<p><img src="/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-7-1.png" width="384" style="display: block; margin: auto;" /></p>

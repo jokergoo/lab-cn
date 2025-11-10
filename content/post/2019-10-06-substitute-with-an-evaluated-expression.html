@@ -1,0 +1,69 @@
+---
+title: "Substitute with an evaluated expression"
+date: 2019-10-06
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>In Perl, if we want to substitute with an evaluated expression with regular
+expression, we can do as follows.</p>
+<pre class="perl"><code>%map = (
+    &quot;a&quot; =&gt; &quot;one&quot;,
+    &quot;b&quot; =&gt; &quot;two&quot;,
+    &quot;c&quot; =&gt; &quot;three&quot;,
+);
+$txt = &quot;a, b, c&quot;;
+$txt =~s/([a|b|c])/$map{$1}/g;</code></pre>
+<p>Here <code>$map{$1}</code> is evaluated and <code>$txt</code> will be <code>one, two, three</code>.</p>
+<p>To be formal, the matched text <em>s</em> is replaced by <em>f(s)</em> where <em>f()</em> is a
+transformation to the text <em>s</em>.</p>
+<p>In R, we use <code>gsub()</code> to perform substitution, however, the second argument
+<code>replacement</code> can only be a normal string that the matched text cannot be
+changed. In following example, <code>\\1</code> can be not changed.</p>
+<pre class="r"><code>map = c(&quot;a&quot; = &quot;one&quot;, &quot;b&quot; = &quot;two&quot;, &quot;c&quot; = &quot;three&quot;)
+txt = &quot;a, b, c&quot;;
+gsub(&quot;([a|b|c])&quot;, &quot;_\\1_&quot;, txt)  # &quot;a&quot; is still &quot;a&quot;</code></pre>
+<pre><code>## [1] &quot;_a_, _b_, _c_&quot;</code></pre>
+<p>But how can we also apply <em>f(s)</em> in R?</p>
+<p>If we go back to Perl, we can use the form <code>this is a $thing</code> to mix code
+(<code>$thing</code>) and normal text that <code>$thing</code> will be evaluated later and the value
+will be intepolated back to the text.</p>
+<p>This scenario is similar as in the text substitution. Actually we can modify
+the previous example a little bit:</p>
+<pre class="perl"><code>$txt =~s/([a|b|c])/_$map{$1}_/g;</code></pre>
+<p>where in the replacement part <code>_$map{$1}_</code>, <code>$map{$1}</code> is the code and will be
+evaluated. The value of <code>$map{$1}</code> will be sent back to <code>_$map{$1}_</code> to
+perform the normal substitution.</p>
+<p>In R, there are also similar functions that do variable or code intepolation,
+such as <code>glue::glue()</code> or <code>GetoptLong::qq()</code>. Then we can do similar as in
+Perl to substitute with the evaluated expression.</p>
+<p>For the text <code>"a, b, c"</code>, to convert to <code>"one, two, three"</code>, we can first use <code>gsub()</code>
+to replace <code>a/b/c</code> to a template:</p>
+<pre class="r"><code>library(GetoptLong)
+txt2 = gsub(&quot;([a|b|c])&quot;, &quot;@{map[&#39;\\1&#39;]}&quot;, txt)
+txt2</code></pre>
+<pre><code>## [1] &quot;@{map[&#39;a&#39;]}, @{map[&#39;b&#39;]}, @{map[&#39;c&#39;]}&quot;</code></pre>
+<p>then evaluate the template by e.g. <code>GetoptLong:qq()</code>:</p>
+<pre class="r"><code>qq(txt2)</code></pre>
+<pre><code>## [1] &quot;one, two, three&quot;</code></pre>
+<p>In following, we defined a simple function <code>gsub_eval()</code> according to this thought:</p>
+<pre class="r"><code>gsub_eval = function(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
+    fixed = FALSE, useBytes = FALSE, envir = parent.frame()) {
+    txt = gsub(
+        pattern = pattern, 
+        replacement = replacement, 
+        x = x, 
+        ignore.case = ignore.case, 
+        perl = perl,
+        fixed = fixed, 
+        useBytes = useBytes
+    )
+    unname(sapply(txt, function(x) GetoptLong::qq(x, envir = envir)))
+}</code></pre>
+<pre class="r"><code>gsub_eval(&quot;([a|b|c])&quot;, &quot;@{map[&#39;\\1&#39;]}&quot;, txt)</code></pre>
+<pre><code>## [1] &quot;one, two, three&quot;</code></pre>
+<p>You can use any type of code in the template. Following is another example
+using <code>gsub_eval()</code>:</p>
+<pre class="r"><code>gsub_eval(&quot;(\\d),(\\d)&quot;, &quot;sum=@{\\1 + \\2}&quot;, c(&quot;number 1,2&quot;, &quot;number 3,4&quot;))</code></pre>
+<pre><code>## [1] &quot;number sum=3&quot; &quot;number sum=7&quot;</code></pre>

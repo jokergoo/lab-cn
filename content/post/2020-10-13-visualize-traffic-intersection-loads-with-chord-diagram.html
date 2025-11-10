@@ -1,0 +1,83 @@
+---
+title: "Visualize traffic intersection loads with Chord diagram"
+date: 2020-10-13
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p><a href="http://www.sankey-diagrams.com/traffic-load-visualization-using-sankey/">In this blog
+post</a>,
+the author demonstrated how to visualize the traffic loads with Sankey
+diagram. It looks very nice and here I implemente it with Chord diagram.</p>
+<p>Following data frame contains data for the traffic loads, which is basically
+the number of vehicles that travel through every two directions.</p>
+<pre class="r"><code>df = read.table(textConnection(
+&quot;B A 1000
+C A 5000
+D A 690
+A B 2200
+C B 1240
+D B 5000
+A C 5000
+B C 2400
+D C 2000
+A D 2000
+B D 3000
+C D 3000
+&quot;))</code></pre>
+<p>The colors for the four directions:</p>
+<pre class="r"><code>grid_col = c(
+    A = &quot;#FFD701&quot;,
+    B = &quot;#4169E1&quot;,
+    C = &quot;#32CC32&quot;,
+    D = &quot;#FE6500&quot;
+)</code></pre>
+<p>The order of sectors that will be drawn in the Chord diagram:</p>
+<pre class="r"><code>sector_order = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;)</code></pre>
+<p>There is one specific condition for the traffic loads diagram that is the sectors of
+the four directions should be put orthogonally, i.e. on the exact left, bottom, right and top sides.
+To do this, we need to calculate the proper values for <code>start.degree</code> and <code>gap.after</code> for the
+circular layout.</p>
+<p>Basically just do a little bit of simple math :), calculatd as follows:</p>
+<pre class="r"><code># size of sectors, measured by the data
+size = sapply(sector_order, function(x) sum(df[df[, 1] == x | df[, 2] == x, 3]))
+names(size) = sector_order
+
+gap_total = 180 # This is the total width of gaps, can be self-defined
+
+# size of sectors, measured in degree
+sector_size = (360 - gap_total)/sum(size)*size
+# the first sector starts from the right side, clock wise
+sector_middle = c(180, 90, 0, 270); names(sector_middle) = names(sector_size)
+
+start.degree = sector_middle[1] + sector_size[1]/2
+gap.after = c(
+    90 - sector_size[1]/2 - sector_size[2]/2,
+    90 - sector_size[2]/2 - sector_size[3]/2,
+    90 - sector_size[3]/2 - sector_size[4]/2,
+    90 - sector_size[4]/2 - sector_size[1]/2
+)</code></pre>
+<p>Now we put <code>start.degree</code> and <code>gap.after</code> in <code>circos.par()</code> and run <code>chordDiagram()</code>:</p>
+<pre class="r"><code>library(circlize)
+circos.par(start.degree = start.degree, gap.after = gap.after)
+chordDiagram(df, order = sector_order,
+    grid.col = grid_col,
+    directional = 1,
+    direction.type = c(&quot;diffHeight&quot;, &quot;arrows&quot;),
+    link.arr.type = &quot;big.arrow&quot;
+)</code></pre>
+<p><img src="/post/2020-10-13-visualize-traffic-intersection-loads-with-chord-diagram_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>And with some customizations:</p>
+<pre class="r"><code>circos.par(start.degree = start.degree, gap.after = gap.after)
+chordDiagram(df, order = sector_order,
+    transparency = 0, link.border = &quot;white&quot;,
+    grid.col = grid_col,
+    directional = 1,
+    direction.type = c(&quot;diffHeight&quot;, &quot;arrows&quot;),
+    link.arr.type = &quot;big.arrow&quot;
+)</code></pre>
+<p><img src="/post/2020-10-13-visualize-traffic-intersection-loads-with-chord-diagram_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>Finally, thanks to @<a href="https://github.com/temospena">temospena</a> for <a href="https://github.com/jokergoo/circlize/issues/220">such an interesting use case</a>.</p>

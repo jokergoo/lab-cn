@@ -1,0 +1,456 @@
+---
+title: "Parse command-line arguments"
+date: 2020-06-06
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<style>
+pre.terminal {
+    background: hsl(70, 0%, 15%);
+    color: white;
+}
+pre.terminal .hljs {
+    background: hsl(70, 0%, 15%);
+    color: white;
+}
+</style>
+<p>There are already several R packages which parse command-line arguments such
+as <a href="https://CRAN.R-project.org/package=getopt"><strong>getopt</strong></a>,
+<a href="https://CRAN.R-project.org/package=optparse"><strong>optparse</strong></a>,
+<a href="https://CRAN.R-project.org/package=argparse"><strong>argparse</strong></a>,
+<a href="https://CRAN.R-project.org/package=docopt"><strong>docopt</strong></a>. Here
+<strong>GetoptLong</strong> is another command-line argument parser (actually it was
+developed very early. <a href="https://cran.r-project.org/src/contrib/Archive/GetoptLong/">The first CRAN
+version</a> was in
+2013) which wraps the powerful Perl module
+<a href="https://metacpan.org/pod/Getopt::Long"><code>Getopt::Long</code></a>. <strong>GetoptLong</strong>
+package also provides some adaptations for easier use in R.</p>
+<p>Using <strong>GetoptLong</strong> is simple especially for users having Perl experience (Oops, age
+exposed :)) because the specification is almost the same as in Perl. The
+original website of
+<a href="https://metacpan.org/pod/Getopt::Long"><code>Getopt::Long</code></a> is always
+your best reference.</p>
+<p>The documentation of the package is at <a href="http://jokergoo.github.io/GetoptLong/articles/GetoptLong.html" class="uri">http://jokergoo.github.io/GetoptLong/articles/GetoptLong.html</a>.
+Here this post is a simplified version.</p>
+<p>The <strong>GetoptLong</strong> package has not been udpated to CRAN yet, so you need to install it
+from GitHub:</p>
+<pre class="r"><code>devtools::install_github(&quot;jokergoo/GetoptLong&quot;)</code></pre>
+<div id="a-quick-example" class="section level2">
+<h2>A quick example</h2>
+<div id="specify-as-a-vector" class="section level3">
+<h3>Specify as a vector</h3>
+<p>The following example gives you some feels of using <strong>GetoptLong</strong> package. The following
+code is saved in to an R script named <code>foo.R</code>.</p>
+<pre class="r"><code>library(GetoptLong)
+
+cutoff = 0.05
+GetoptLong(
+    &quot;number=i&quot;, &quot;Number of items.&quot;,
+    &quot;cutoff=f&quot;, &quot;Cutoff for filtering results.&quot;,
+    &quot;verbose&quot;,  &quot;Print message.&quot;
+)</code></pre>
+<p>The R script can be executed as:</p>
+<pre class="terminal"><code>~\&gt; Rscript foo.R --number 4 --cutoff 0.01 --verbose
+~\&gt; Rscript foo.R --number=4 --cutoff=0.01 --verbose
+~\&gt; Rscript foo.R -n 4 -c 0.01 -v
+~\&gt; Rscript foo.R -n 4 --verbose</code></pre>
+<p>In this example, <code>number</code> is a mandatory option and it should only be in
+integer mode (has a tab <code>i</code>). <code>cutoff</code> is numeric (tag <code>f</code>) and optional and
+it already has a default value 0.05. <code>verbose</code> is a logical option. If parsing
+is successful, two variables <code>number</code> and <code>verbose</code> will be imported into the
+working environment with the specified values. Value for <code>cutoff</code> will be
+updated if it is specified in command-line.</p>
+<p>Data types are automatically checked. <em>E.g.</em>, if <code>cutoff</code> is specified with a character,
+an error will be thrown.</p>
+<p>The option usage triggered by <code>--help</code> is automatically generated. There are
+two styles:</p>
+<p>The one-column style:</p>
+<pre class="terminal"><code>Usage: Rscript foo.R [options]
+
+Options:
+  --number, -n integer
+    Number of items.
+ 
+  --cutoff, -c numeric
+    Cutoff for filtering results.
+    [default: 0.05]
+ 
+  --verbose
+    Print message.
+ 
+  --help, -h
+    Print help message and exit.
+ 
+  --version
+    Print version information and exit.
+ </code></pre>
+<p>Or the two-column style:</p>
+<pre class="terminal"><code>Usage: Rscript foo.R [options]
+
+Options:
+  --number, -n     Number of items.
+    [type: int] 
+  --cutoff, -c     Cutoff for filtering results.                 
+    [type: num]    [default: 0.05] 
+  --verbose        Print message. 
+  --help, -h       Print help message and exit. 
+  --version        Print version information and exit. </code></pre>
+<p>You can find the short option names (in single letters, <em>e.g.</em>, <code>-n</code>, <code>-c</code>,
+<code>-h</code>) are automatically added. The information of default values is added as
+well (<em>e.g.</em>, <code>[default: 0.05]</code> for <code>cutoff</code> option).</p>
+</div>
+<div id="specify-as-a-template" class="section level3">
+<h3>Specify as a template</h3>
+<p>The specification can also be set as a template where the specifications are marked
+by <code>&lt;&gt;</code>.</p>
+<pre class="r"><code>library(GetoptLong)
+spec = &quot;
+This is an example of using template to specify options.
+
+Usage: Rscript foo.R [options]
+
+Options:
+  &lt;number=i&gt; Number of items.
+  &lt;cutoff=f&gt; Cutoff for filtering results.               
+  &lt;verbose&gt; Print messages.
+
+Contact: name@address
+&quot;
+
+GetoptLong(spec, template_control = list(opt_width = 23))</code></pre>
+<p>The parameter <code>opt_width</code> controls the maximal width of the option description
+(<em>i.e.</em>, <code>--number, -n integer</code>, <code>--cutoff, -c numeric</code> and <code>--verbose</code>).</p>
+<p>Calling <code>Rscript foo.R --help</code> generates the following message:</p>
+<pre class="terminal"><code>This is an example of using template to specify options.
+
+Usage: Rscript foo.R [options]
+
+Options:
+  --number, -n integer    Number of items.
+  --cutoff, -c numeric    Cutoff for filtering results.               
+  --verbose               Print messages.
+
+Contact: name@address </code></pre>
+</div>
+</div>
+<div id="advantages" class="section level2">
+<h2>Advantages</h2>
+<p>There are several advantages compared to other command-line argument parser
+packages. The major advantage comes from the <code>Getopt::Long</code> Perl module which
+actually parses the options. The <code>Getopt::Long</code> module provides a flexible,
+smart and compact way for specifying command-line arguments. The major
+features are:</p>
+<ol style="list-style-type: decimal">
+<li>Various formats of specifying options with values, such as</li>
+</ol>
+<pre class="terminal"><code>-s 24 -s24</code></pre>
+<p>or</p>
+<pre class="terminal"><code>--size 24  --size=24 -size 24  -size=24</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Single-letter options can be bundled:</li>
+</ol>
+<pre class="terminal"><code>-a -b -c  -abs</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Options with multiple names. With the following specification, <code>--length</code>,
+<code>--height</code> are the same.</li>
+</ol>
+<pre class="terminal"><code>length|height=f</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Automatically support single-letter options. If the first letter of an
+option is unique to all other options, the first letter can be used as an
+optional option name. For example, if <code>l</code> and <code>h</code> are unique, <code>--length</code>,
+<code>--height</code>, <code>-l</code> and <code>-h</code> set the same option.</li>
+</ol>
+<pre class="terminal"><code>length|height=f  --length --height -l -h</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Rich option data types, including scalar, vector (array in Perl), list (hash
+in Perl). For example:</li>
+</ol>
+<pre class="terminal"><code>length=i     a single integer scalar
+name=s       a single character scalar</code></pre>
+<p>can be specified as:</p>
+<pre class="terminal"><code>--length 1 --name a</code></pre>
+<p>or</p>
+<pre class="terminal"><code>length=i@       a integer vector
+name=s@         a character vector
+length=i{2,}    a integer vector, at least two elements
+name=s{2,}      a character vector, at least two elements</code></pre>
+<p>can be specified as:</p>
+<pre class="terminal"><code>--length 1 2 3 --name a b c</code></pre>
+<p>or</p>
+<pre class="terminal"><code>length=i%    name-value pair, values should be integers
+name=s%      name-value pair, values should be characters</code></pre>
+<p>to be specified as:</p>
+<pre class="terminal"><code>--length foo=1 bar=3 --name foo=a bar=b</code></pre>
+<p>The features from R part are:</p>
+<ol style="list-style-type: decimal">
+<li><p>It automaticlly generates option usage in two styles. The data type and
+default value of options are automatically detected and included.</p></li>
+<li><p>It supports specifying the usage in a template which allows more complex
+text of option usage.</p></li>
+<li><p>It allows grouping options.</p></li>
+<li><p>It provides a natural and convenient way to specify defaults.</p></li>
+</ol>
+</div>
+<div id="help-option" class="section level2">
+<h2>Help option</h2>
+<p>Option usage is automatically generated and can be retrieved by setting
+<code>--help</code> in the command. In following example, I create an option
+specification that contains all types of options (with long descriptions):</p>
+<pre class="r"><code>library(GetoptLong)
+GetoptLong(
+    &quot;count=i&quot;,  paste(&quot;This is a count. This is a count. This is a count.&quot;,
+                      &quot;This is a count.  This is a count. This is a count.&quot;),
+    &quot;number=f&quot;, paste(&quot;This is a number. This is a number. This is a number.&quot;,
+                      &quot;This is a number. This is a number. This is a number.&quot;),
+    &quot;array=f@&quot;, paste(&quot;This is an array. This is an array. This is an array.&quot;,
+                      &quot;This is an array. This is an array. This is an array.&quot;),
+    &quot;hash=s%&quot;,  paste(&quot;This is a hash. This is a hash. This is a hash.&quot;,
+                      &quot;This is a hash. This is a hash. This is a hash.&quot;),
+    &quot;verbose!&quot;, &quot;Whether show messages&quot;,
+    &quot;flag&quot;,     &quot;a non-sense option&quot;
+)</code></pre>
+<p>The option usage is as follows. Here, for example, the single-letter option
+<code>-c</code> for <code>--count</code> is automatically extracted while not for <code>--help</code> because <code>h</code>
+matches two options.</p>
+<pre class="terminal"><code>Usage: Rscript foo.R [options]
+
+Options:
+  --count, -c integer
+    This is a count. This is a count. This is a count. This is a count.  This is
+    a count. This is a count.
+ 
+  --number, -n numeric
+    This is a number. This is a number. This is a number. This is a number. This
+    is a number. This is a number.
+ 
+  --array, -a [numeric, ...]
+    This is an array. This is an array. This is an array. This is an array. This
+    is an array. This is an array.
+ 
+  --hash {name=character, ...}
+    This is a hash. This is a hash. This is a hash. This is a hash. This is a
+    hash. This is a hash.
+ 
+  --verbose, -no-verbose
+    Whether show messages
+    [default: off]
+ 
+  --flag, -f
+    a non-sense option
+ 
+  --help
+    Print help message and exit.
+ 
+  --version
+    Print version information and exit.
+ </code></pre>
+<p>If default values for options are provided, they are properly inserted to the
+usage message.</p>
+<pre class="r"><code>library(GetoptLong)
+count = 1
+number = 0.1
+array = c(1, 2)
+hash = list(&quot;foo&quot; = &quot;a&quot;, &quot;bar&quot; = &quot;b&quot;)
+verbose = TRUE
+
+GetoptLong(
+  ...
+)</code></pre>
+<pre class="terminal"><code>Usage: Rscript foo.R [options]
+
+Options:
+  --count, -c integer
+    This is a count. This is a count. This is a count. This is a count.  This is
+    a count. This is a count.
+    [default: 1]
+ 
+  --number, -n numeric
+    This is a number. This is a number. This is a number. This is a number. This
+    is a number. This is a number.
+    [default: 0.1]
+ 
+  --array, -a [numeric, ...]
+    This is an array. This is an array. This is an array. This is an array. This
+    is an array. This is an array.
+    [default: 1, 2]
+ 
+  --hash {name=character, ...}
+    This is a hash. This is a hash. This is a hash. This is a hash. This is a
+    hash. This is a hash.
+    [default: foo=a, bar=b]
+ 
+  --verbose, -no-verbose
+    Whether show messages
+    [default: on]
+ 
+  --flag, -f
+    a non-sense option
+ 
+  --help
+    Print help message and exit.
+ 
+  --version
+    Print version information and exit.
+ </code></pre>
+<p>The global parameters <code>help_style</code> can be set to <code>two-column</code> to change
+to another style:</p>
+<pre class="r"><code>library(GetoptLong)
+GetoptLong.options(help_style = &quot;two-column&quot;)
+# specifying the defaults
+...
+
+GetoptLong{
+    ...
+}</code></pre>
+<pre class="terminal"><code>Usage: Rscript foo.R [options]
+
+Options:
+  --count, -c                  This is a count. This is a count. This is a count.
+    [type: int]                This is a count.  This is a count. This is a count.                             
+                               [default: 1] 
+  --number, -n                 This is a number. This is a number. This is a
+    [type: num]                number. This is a number. This is a number. This is
+                               a number.                             
+                               [default: 0.1] 
+  --array, -a                  This is an array. This is an array. This is an
+    [type: [num, ...]]         array. This is an array. This is an array. This is
+                               an array.                             
+                               [default: 1, 2] 
+  --hash                       This is a hash. This is a hash. This is a hash. This
+    [type: {name=chr, ...}]    is a hash. This is a hash. This is a hash.                             
+                               [default: foo=a, bar=b] 
+  --verbose, -no-verbose       Whether show messages                             
+                               [default: on] 
+  --flag, -f                   a non-sense option 
+  --help                       Print help message and exit. 
+  --version                    Print version information and exit. </code></pre>
+<p>The options in the usage text can be grouped by setting separator lines.
+The separator line should contain two elements: the separator and the description.
+The separator can be any character in <code>-+=#%</code> with any length.</p>
+<pre class="r"><code>library(GetoptLong)
+count = 1
+array = c(0.1, 0.2)
+GetoptLong(
+    &quot;--------&quot;, &quot;Binary options:&quot;,
+    &quot;verbose!&quot;, &quot;Whether show messages&quot;,
+    &quot;flag&quot;,     &quot;a non-sense option&quot;,
+
+    &quot;-------&quot;, &quot;Single-value options:&quot;,
+    &quot;count=i&quot;,  paste(&quot;This is a count. This is a count. This is a count.&quot;,
+                      &quot;This is a count.  This is a count. This is a count.&quot;),
+    &quot;number=f&quot;, paste(&quot;This is a number. This is a number. This is a number.&quot;,
+                      &quot;This is a number. This is a number. This is a number.&quot;),
+    
+    &quot;--------&quot;, paste(&quot;Multiple-vlaue options: long text long text long text&quot;,
+                      &quot; long text long text long text long text long text&quot;),
+    &quot;array=f@&quot;, paste(&quot;This is an array. This is an array. This is an array.&quot;,
+                      &quot;This is an array. This is an array. This is an array.&quot;),
+    &quot;hash=s%&quot;,  paste(&quot;This is a hash. This is a hash. This is a hash.&quot;,
+                      &quot;This is a hash. This is a hash. This is a hash.&quot;),
+    
+    &quot;-------&quot;, &quot;Other options:&quot;
+)</code></pre>
+<pre class="terminal"><code>Usage: Rscript foo.R [options]
+
+Binary options:
+  --verbose, -no-verbose
+    Whether show messages
+    [default: off]
+ 
+  --flag, -f
+    a non-sense option
+ 
+Single-value options:
+  --count, -c integer
+    This is a count. This is a count. This is a count. This is a count.  This is
+    a count. This is a count.
+    [default: 1]
+ 
+  --number, -n numeric
+    This is a number. This is a number. This is a number. This is a number. This
+    is a number. This is a number.
+ 
+Multiple-vlaue options: long text long text long text long text long text long
+text long text long text
+  --array, -a [numeric, ...]
+    This is an array. This is an array. This is an array. This is an array. This
+    is an array. This is an array.
+    [default: 0.1, 0.2]
+ 
+  --hash {name=character, ...}
+    This is a hash. This is a hash. This is a hash. This is a hash. This is a
+    hash. This is a hash.
+ 
+Other options:
+  --help
+    Print help message and exit.
+ 
+  --version
+    Print version information and exit.
+ </code></pre>
+<p>And the two-column style for the grouped options.</p>
+<pre class="r"><code>library(GetoptLong)
+GetoptLong.options(help_style = &quot;two-column&quot;)
+GetoptLong{
+    ...
+}</code></pre>
+<pre class="terminal"><code>Usage: Rscript foo.R [options]
+
+Binary options:
+  --verbose, -no-verbose    Whether show messages                          
+                            [default: off] 
+  --flag, -f                a non-sense option 
+
+Single-value options:
+  --count, -c      This is a count. This is a count. This is a count. This is a
+    [type: int]    count.  This is a count. This is a count.                 
+                   [default: 1] 
+  --number, -n     This is a number. This is a number. This is a number. This is
+    [type: num]    a number. This is a number. This is a number. 
+
+Multiple-vlaue options: long text long text long text long text long text long
+text long text long text
+  --array, -a                  This is an array. This is an array. This is an
+    [type: [num, ...]]         array. This is an array. This is an array. This is
+                               an array.                             
+                               [default: 0.1, 0.2] 
+  --hash                       This is a hash. This is a hash. This is a hash. This
+    [type: {name=chr, ...}]    is a hash. This is a hash. This is a hash. 
+
+Other options:
+  --help       Print help message and exit. 
+  --version    Print version information and exit. </code></pre>
+<p>For more detailed explanationa, please go to <a href="http://jokergoo.github.io/GetoptLong/">the web site of <strong>GetoptLong</strong>
+package</a>.</p>
+</div>
+<div id="session-info" class="section level2">
+<h2>Session info</h2>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre class="NULL"><code>R version 4.0.0 (2020-04-24)
+Platform: x86_64-apple-darwin17.0 (64-bit)
+Running under: macOS Catalina 10.15.4
+
+Matrix products: default
+BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
+LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+
+locale:
+[1] en_GB.UTF-8/en_GB.UTF-8/en_GB.UTF-8/C/en_GB.UTF-8/en_GB.UTF-8
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+other attached packages:
+[1] GetoptLong_1.0.0 knitr_1.28      
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_1.0.4.6        bookdown_0.19       digest_0.6.25      
+ [4] crayon_1.3.4        magrittr_1.5        evaluate_0.14      
+ [7] blogdown_0.19       GlobalOptions_0.1.3 rlang_0.4.6        
+[10] stringi_1.4.6       rmarkdown_2.1       rjson_0.2.20       
+[13] tools_4.0.0         stringr_1.4.0       xfun_0.14          
+[16] yaml_2.2.1          compiler_4.0.0      htmltools_0.4.0    </code></pre>
+</div>

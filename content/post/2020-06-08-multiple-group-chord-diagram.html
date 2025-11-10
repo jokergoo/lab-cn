@@ -1,0 +1,105 @@
+---
+title: "Multiple-group Chord diagram"
+date: 2020-06-08
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>From verion 0.4.10 of the <strong>circlize</strong> package, there is a new <code>group</code>
+argument in <code>chordDiagram()</code> function which is very convenient for making
+multiple-group Chord diagrams.</p>
+<p>I first generate a random matrix where there are three groups (<code>A</code>, <code>B</code>, and <code>C</code>).
+Note this new functionality works the same for the input as a data frame.</p>
+<pre class="r"><code>library(circlize)
+mat1 = matrix(rnorm(25), nrow = 5)
+rownames(mat1) = paste0(&quot;A&quot;, 1:5)
+colnames(mat1) = paste0(&quot;B&quot;, 1:5)
+
+mat2 = matrix(rnorm(25), nrow = 5)
+rownames(mat2) = paste0(&quot;A&quot;, 1:5)
+colnames(mat2) = paste0(&quot;C&quot;, 1:5)
+
+mat3 = matrix(rnorm(25), nrow = 5)
+rownames(mat3) = paste0(&quot;B&quot;, 1:5)
+colnames(mat3) = paste0(&quot;C&quot;, 1:5)
+
+mat = matrix(0, nrow = 10, ncol = 10)
+rownames(mat) = c(rownames(mat2), rownames(mat3))
+colnames(mat) = c(colnames(mat1), colnames(mat2))
+mat[rownames(mat1), colnames(mat1)] = mat1
+mat[rownames(mat2), colnames(mat2)] = mat2
+mat[rownames(mat3), colnames(mat3)] = mat3
+mat</code></pre>
+<pre><code>##        B1     B2    B3    B4     B5     C1    C2     C3     C4    C5
+## A1  1.799  0.647 -1.35  0.23  1.340  0.045 -1.03 -0.001  1.667 -0.33
+## A2  0.317  0.931  1.58 -0.33 -1.980  0.104 -2.29 -1.650 -1.065 -0.50
+## A3  0.774  1.090  0.55 -0.52 -1.415  0.616  1.09  0.873 -0.310 -0.62
+## A4  0.061  0.036  0.87 -0.90  0.024 -0.224  1.58 -0.782 -0.035  0.44
+## A5 -0.262 -0.413  0.40  0.13  1.113  0.542  1.05  1.045  1.147  2.60
+## B1  0.000  0.000  0.00  0.00  0.000 -1.433 -1.22  0.065  1.444  0.41
+## B2  0.000  0.000  0.00  0.00  0.000 -1.035 -0.38 -0.413 -1.425  1.31
+## B3  0.000  0.000  0.00  0.00  0.000 -0.942  0.51  0.137  0.017 -0.65
+## B4  0.000  0.000  0.00  0.00  0.000  0.142 -1.12 -0.272  0.960  0.22
+## B5  0.000  0.000  0.00  0.00  0.000 -1.247  1.66 -0.204 -0.986  0.16</code></pre>
+<p>The main thing is to create “a grouping variable”. The variable contains
+the group labels and the sector names are used as the names in the vector.</p>
+<pre class="r"><code>nm = unique(unlist(dimnames(mat)))
+group = structure(gsub(&quot;\\d&quot;, &quot;&quot;, nm), names = nm)
+group</code></pre>
+<pre><code>##  A1  A2  A3  A4  A5  B1  B2  B3  B4  B5  C1  C2  C3  C4  C5 
+## &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;A&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;B&quot; &quot;C&quot; &quot;C&quot; &quot;C&quot; &quot;C&quot; &quot;C&quot;</code></pre>
+<p>Assign <code>group</code> variable to the <code>group</code> argument:</p>
+<pre class="r"><code>grid.col = structure(c(rep(2, 5), rep(3, 5), rep(4, 5)),
+                names = c(paste0(&quot;A&quot;, 1:5), paste0(&quot;B&quot;, 1:5), paste0(&quot;C&quot;, 1:5)))
+chordDiagram(mat, group = group, grid.col = grid.col)</code></pre>
+<p><img src="/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-4-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>We can try another grouping:</p>
+<pre class="r"><code>group = structure(gsub(&quot;^\\w&quot;, &quot;&quot;, nm), names = nm)
+group</code></pre>
+<pre><code>##  A1  A2  A3  A4  A5  B1  B2  B3  B4  B5  C1  C2  C3  C4  C5 
+## &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot; &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot; &quot;1&quot; &quot;2&quot; &quot;3&quot; &quot;4&quot; &quot;5&quot;</code></pre>
+<pre class="r"><code>chordDiagram(mat, group = group, grid.col = grid.col)</code></pre>
+<p><img src="/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>The order of <code>group</code> controls the sector orders and if <code>group</code> is set as a factor,
+the order of levels controls the order of groups.</p>
+<pre class="r"><code>group = structure(gsub(&quot;\\d&quot;, &quot;&quot;, nm), names = nm)
+group = factor(group[sample(length(group), length(group))], levels = c(&quot;C&quot;, &quot;A&quot;, &quot;B&quot;))
+group</code></pre>
+<pre><code>## B2 C1 A5 A2 A1 C4 B5 C5 C2 A4 B1 A3 B4 B3 C3 
+##  B  C  A  A  A  C  B  C  C  A  B  A  B  B  C 
+## Levels: C A B</code></pre>
+<pre class="r"><code>chordDiagram(mat, group = group, grid.col = grid.col)</code></pre>
+<p><img src="/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>The gap between groups is controlled by <code>big.gap</code> argument and the gap between
+sectors is controlled by <code>small.gap</code> argument.</p>
+<pre class="r"><code>group = structure(gsub(&quot;\\d&quot;, &quot;&quot;, nm), names = nm)
+chordDiagram(mat, group = group, grid.col = grid.col, big.gap = 20, small.gap = 5)</code></pre>
+<p><img src="/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>
+<p>As a normal Chord diagram, the labels and other tracks can be manually adjusted:</p>
+<pre class="r"><code>group = structure(gsub(&quot;\\d&quot;, &quot;&quot;, nm), names = nm)
+chordDiagram(mat, group = group, grid.col = grid.col,
+    annotationTrack = c(&quot;grid&quot;, &quot;axis&quot;),
+    preAllocateTracks = list(
+        track.height = mm_h(4),
+        track.margin = c(mm_h(4), 0)
+))
+circos.track(track.index = 2, panel.fun = function(x, y) {
+    sector.index = get.cell.meta.data(&quot;sector.index&quot;)
+    xlim = get.cell.meta.data(&quot;xlim&quot;)
+    ylim = get.cell.meta.data(&quot;ylim&quot;)
+    circos.text(mean(xlim), mean(ylim), sector.index, cex = 0.6, niceFacing = TRUE)
+}, bg.border = NA)
+
+highlight.sector(rownames(mat1), track.index = 1, col = &quot;red&quot;, 
+    text = &quot;A&quot;, cex = 0.8, text.col = &quot;white&quot;, niceFacing = TRUE)
+highlight.sector(colnames(mat1), track.index = 1, col = &quot;green&quot;, 
+    text = &quot;B&quot;, cex = 0.8, text.col = &quot;white&quot;, niceFacing = TRUE)
+highlight.sector(colnames(mat2), track.index = 1, col = &quot;blue&quot;, 
+    text = &quot;C&quot;, cex = 0.8, text.col = &quot;white&quot;, niceFacing = TRUE)</code></pre>
+<p><img src="/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>circos.clear()</code></pre>

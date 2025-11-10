@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Easily convert static heatmaps to interactive heatmaps in Shiny apps 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2022/03/01/easily-convert-static-heatmaps-to-interactive-heatmaps-in-shiny-apps/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Easily convert static heatmaps to interactive heatmaps in Shiny apps </h1>
+
+  
+    <div id=sub-header>
+      Zuguang Gu · March 2022
+    </div>
+  
+
+  <div class="entry-content">
+    <p>Some people might have already implemented <strong>ComplexHeatmap</strong> in their Shiny
+apps, where a static heatmap is automatically generated by adjusting
+parameters for heatmaps. For example, in the following example, in the left panel,
+users can control three types of parameters for heatmaps:</p>
+<ul>
+<li>Whether to apply clustering?</li>
+<li>Whether to order heatmaps by row and column names?</li>
+<li>Whether to perform k-means clustering with 2-group on both rows and columns?</li>
+</ul>
+<p>The following code can be directly copied and pasted to an R session. It is runnable.</p>
+<pre><code class="language-r">m = scale(as.matrix(mtcars))  # the matrix is scaled by columns
+
+library(shiny)
+library(ComplexHeatmap)
+
+ui = fluidPage(
+    sidebarLayout(
+        sidebarPanel(
+            radioButtons(&quot;order_method&quot;, &quot;How to order rows and columns:&quot;, 
+                c(&quot;Clustering&quot; = &quot;clustering&quot;, &quot;Order by names&quot; = &quot;by_name&quot;), 
+                selected = &quot;clustering&quot;),
+            checkboxInput('split', &quot;Split rows and columns into 2 groups?&quot;, FALSE),
+            width = 3
+        ),
+        mainPanel(
+            plotOutput('heatmap', height = &quot;600px&quot;, width = &quot;400px&quot;),
+        ),
+    )
+)
+
+server = function(input, output, session) {
+    output$heatmap = renderPlot({
+        cluster_rows = FALSE
+        cluster_columns = FALSE
+        row_order = NULL
+        column_order = NULL
+        row_km = NULL
+        column_km = NULL
+
+        if(input$order_method == &quot;clustering&quot;) {
+            cluster_rows = TRUE
+            cluster_columns = TRUE
+        } else {
+            row_order = order(rownames(m))
+            column_order = order(colnames(m))
+        }
+
+        if(input$split) {
+            row_km = 2
+            column_km = 2
+        }
+
+        ht = Heatmap(m, name = &quot;mtcars&quot;,
+            cluster_rows = cluster_rows, cluster_columns = cluster_columns,
+            row_order = row_order, column_order = column_order, 
+            row_km = row_km, column_km = column_km)
+        draw(ht)
+    })
+}
+
+shinyApp(ui = ui, server = server)
+</code></pre>
+<img src="https://jokergoo.github.io/images/heatmap1.gif" width="100%" />
+<p>In the Shiny app above, it is &ldquo;interactive&rdquo; from the perspective of the app,
+which is, it allows users to interactively adjust the parameters and heatmaps
+are generated accordingly and automatically. But, the heatmap itself is
+static, which means, users cannot directly interact with the heatmap.</p>
+<p>Nevertheless, with the help of <strong>InteractiveComplexHeatmap</strong> package, it is very
+easy to &ldquo;interactivate&rdquo; the static heatmap with only a few lines of code.</p>
+<p>In the previous code, in the UI of the Shiny app, the heatmap is wrapped in a <code>plotOutput()</code>.
+Now to &ldquo;interactivate&rdquo; the static heatmap, we use <code>InteractiveComplexHeatmapOutput()</code> from
+<strong>InteractiveComplexHeatmap</strong> instead. Note in the following code chunk, the lines that
+I have changed are marked with &ldquo;<code># &lt;- this line is changed</code>&rdquo;.</p>
+<p>Also, in the server function in the previous Shiny app, the static heatmap is generated
+as <code>output$heatmap = renderPlot({...})</code>, now we change it to <code>observe({...; makeInteractiveComplexHeatmap(input, output, session, ht)})</code>
+so that changes of heatmap parameters can automatically refresh the interactive heatmap.</p>
+<p>Please check the following code where there are only three lines of change compared
+to the previous &ldquo;static heatmap&rdquo; Shiny app. Also, the following code is runnable that it can
+be directly copied and pasted to an R session.</p>
+<pre><code class="language-r">library(InteractiveComplexHeatmap)
+ui = fluidPage(
+    sidebarLayout(
+        sidebarPanel(
+            radioButtons(&quot;order_method&quot;, &quot;How to order rows and columns:&quot;, 
+                c(&quot;Clustering&quot; = &quot;clustering&quot;, &quot;Order by names&quot; = &quot;by_name&quot;), 
+                selected = &quot;clustering&quot;),
+            checkboxInput('split', &quot;Split rows and columns into 2 groups?&quot;, FALSE),
+            width = 3
+        ),
+        mainPanel(
+            InteractiveComplexHeatmapOutput(),  # &lt;- this line is changed
+        ),
+    )
+)
+
+server = function(input, output, session) {
+    observe({       # &lt;- this line is changed
+        cluster_rows = FALSE
+        cluster_columns = FALSE
+        row_order = NULL
+        column_order = NULL
+        row_km = NULL
+        column_km = NULL
+
+        if(input$order_method == &quot;clustering&quot;) {
+            cluster_rows = TRUE
+            cluster_columns = TRUE
+        } else {
+            row_order = order(rownames(m))
+            column_order = order(colnames(m))
+        }
+
+        if(input$split) {
+            row_km = 2
+            column_km = 2
+        }
+
+        ht = Heatmap(m, name = &quot;mtcars&quot;,
+            cluster_rows = cluster_rows, cluster_columns = cluster_columns,
+            row_order = row_order, column_order = column_order, 
+            row_km = row_km, column_km = column_km)
+        makeInteractiveComplexHeatmap(input, output, session, ht)    # &lt;- this line is changed
+    })
+}
+
+shinyApp(ui = ui, server = server)
+</code></pre>
+<img src="https://jokergoo.github.io/images/heatmap2.gif" width="100%" />
+<p>In the previous &ldquo;interactive heatmap&rdquo; example, since the number of rows and columns are not too many that
+individual cell can actually be easily identified from the heatmap, thus, maybe it is not necessary to support
+the &ldquo;brush&rdquo; response which allows to select an area from the heatmap. Here we set two arguments <code>compact = TRUE, response = &quot;click&quot;</code>
+in <code>InteractiveComplexHeatmapOutput()</code> so that the interactive heatmap only responses to the click event and it pops
+a box around the mouse click that contains detailed information of the clicked cell.</p>
+<pre><code class="language-r">ui = fluidPage(
+    sidebarLayout(
+        sidebarPanel(
+            radioButtons(&quot;order_method&quot;, &quot;How to order rows and columns:&quot;, 
+                c(&quot;Clustering&quot; = &quot;clustering&quot;, &quot;Order by names&quot; = &quot;by_name&quot;), 
+                selected = &quot;clustering&quot;),
+            checkboxInput('split', &quot;Split rows and columns into 2 groups?&quot;, FALSE),
+            width = 3
+        ),
+        mainPanel(
+            InteractiveComplexHeatmapOutput(compact = TRUE, response = &quot;click&quot;),  # &lt;- this line is changed
+        ),
+    )
+)
+
+server = function(input, output, session) {
+    observe({
+        cluster_rows = FALSE
+        cluster_columns = FALSE
+        row_order = NULL
+        column_order = NULL
+        row_km = NULL
+        column_km = NULL
+
+        if(input$order_method == &quot;clustering&quot;) {
+            cluster_rows = TRUE
+            cluster_columns = TRUE
+        } else {
+            row_order = order(rownames(m))
+            column_order = order(colnames(m))
+        }
+
+        if(input$split) {
+            row_km = 2
+            column_km = 2
+        }
+
+        ht = Heatmap(m, name = &quot;mtcars&quot;,
+            cluster_rows = cluster_rows, cluster_columns = cluster_columns,
+            row_order = row_order, column_order = column_order, 
+            row_km = row_km, column_km = column_km)
+        makeInteractiveComplexHeatmap(input, output, session, ht)
+    })
+}
+
+shinyApp(ui = ui, server = server)
+</code></pre>
+<img src="https://jokergoo.github.io/images/heatmap3.gif" width="100%" />
+<p>The response of the click event can be self-defined.
+Note, the matrix <code>m</code> for heatmap visualization is column-scaled on the original <code>mtcars</code>.
+In the next example, when a cell is click, the response will include a point chart of the distribution
+of the corresponding column in <code>mtcars</code>.</p>
+<pre><code class="language-r">ui = fluidPage(
+    sidebarLayout(
+        sidebarPanel(
+            radioButtons(&quot;order_method&quot;, &quot;How to order rows and columns:&quot;, 
+                c(&quot;Clustering&quot; = &quot;clustering&quot;, &quot;Order by names&quot; = &quot;by_name&quot;), 
+                selected = &quot;clustering&quot;),
+            checkboxInput('split', &quot;Split rows and columns into 2 groups?&quot;, FALSE),
+            width = 3
+        ),
+        mainPanel(
+            InteractiveComplexHeatmapOutput(response = &quot;click&quot;,
+                output_ui = plotOutput(&quot;plot&quot;, width = 400, height = 400)),  # &lt;- this line is changed
+        ),
+    )
+)
+
+# This function defines the response of the click event
+click_action = function(df, output) {
+    output$plot = renderPlot({
+        if(is.null(df)) {
+            grid.text(&quot;You should click on heatmap cells.&quot;)
+        } else {
+            i = df$row_index
+            j = df$column_index
+            od = order(mtcars[, j], rownames(mtcars))
+            plot(1:nrow(mtcars), mtcars[od, j], xlab = &quot;&quot;, ylab = colnames(mtcars)[j],
+                main = paste0(&quot;Selected: &quot;, rownames(mtcars)[i], &quot;, &quot;, colnames(mtcars)[j], &quot; = &quot;, mtcars[i, j]))
+            map = structure(1:32, names = od)
+            points(map[as.character(i)], mtcars[i, j], pch = 16, col = &quot;red&quot;, cex = 1.2)
+        }
+    })
+}
+
+server = function(input, output, session) {
+    observe({ 
+        cluster_rows = FALSE
+        cluster_columns = FALSE
+        row_order = NULL
+        column_order = NULL
+        row_km = NULL
+        column_km = NULL
+
+        if(input$order_method == &quot;clustering&quot;) {
+            cluster_rows = TRUE
+            cluster_columns = TRUE
+        } else {
+            row_order = order(rownames(m))
+            column_order = order(colnames(m))
+        }
+
+        if(input$split) {
+            row_km = 2
+            column_km = 2
+        }
+
+        ht = Heatmap(m, name = &quot;mtcars&quot;,
+            cluster_rows = cluster_rows, cluster_columns = cluster_columns,
+            row_order = row_order, column_order = column_order, 
+            row_km = row_km, column_km = column_km)
+        makeInteractiveComplexHeatmap(input, output, session, ht,
+            click_action = click_action)    # &lt;- this line is changed
+    })
+}
+
+shinyApp(ui = ui, server = server)
+</code></pre>
+<img src="https://jokergoo.github.io/images/heatmap4.gif" width="100%" />
+<h2 id="session-info">Session info</h2>
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+<pre><code>## R version 4.4.2 (2024-10-31)
+## Platform: aarch64-apple-darwin20
+## Running under: macOS 26.0.1
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## 
+## locale:
+## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] knitr_1.50     colorout_1.3-2
+## 
+## loaded via a namespace (and not attached):
+##  [1] digest_0.6.37     R6_2.6.1          bookdown_0.44     fastmap_1.2.0    
+##  [5] xfun_0.51         blogdown_1.19     cachem_1.1.0      htmltools_0.5.8.1
+##  [9] rmarkdown_2.29    lifecycle_1.0.4   cli_3.6.4         sass_0.4.9       
+## [13] jquerylib_0.1.4   compiler_4.4.2    tools_4.4.2       evaluate_1.0.3   
+## [17] bslib_0.9.0       yaml_2.3.10       jsonlite_1.9.0    rlang_1.1.5
+</code></pre>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

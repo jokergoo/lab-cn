@@ -1,0 +1,169 @@
+---
+title: "Partially change default values of arguments"
+date: 2022-10-22
+---
+
+
+
+<p>This is the problem I have. For example, in the <code>Heatmap()</code> function in the <strong>ComplexHeatmap</strong> package, one of its argument <code>row_title_gp</code> has a default value <code>gpar(fontsize = 13.2)</code>:</p>
+<pre class="r"><code>Heatmap = function(..., row_title_gp = gpar(fontsize = 13.2), ...) {
+    ...
+}</code></pre>
+<p>Here <code>row_title_gp</code> controls the graphics parameters for the row title and it accepts a list of other parameters, such as <code>col</code> and <code>fontfamily</code>.
+Now the problem is when users set <code>row_title_gp</code> with other parameters, e.g. to set the color of text, they must also set <code>fontsize</code> with its default value,
+even though when they only want to set the color. If they do not set <code>fontsize</code>, it will not use the default value of 13.2, while it will use the “global default” which is 12 (try <code>get.gpar("fontsize")</code>).</p>
+<pre class="r"><code>Heatmap(..., row_title_gp = gpar(fontsize = 13.2,  col = &quot;red&quot;))</code></pre>
+<p>This is tedious and user-unfriendly.</p>
+<p>The good thing is, in the function arguments, explictely coding as <code>row_title_gp = gpar(fontsize = 13.2)</code> helps users to know that a specific default is set
+to the argument <code>row_title_gp</code> which is not the system-default one. But the bad thing is, users might forget to set <code>fontsize</code> at the same time if they set other parameters.</p>
+<p>Now the question is: can the default paramters which are not modified by users be automatically saved? In the prevous example, when we set <code>Heatmap(..., row_title_gp = gpar(col = "red"))</code>,
+can <code>row_title_gp</code> still use <code>fontsize = 13.2</code>?</p>
+<p>One widely-used solution is to write a “control” function which controls the default parameters. For example, in the <code>Mclust()</code> function from the <strong>mclust</strong> package:</p>
+<pre class="r"><code>Mclust = function (..., control = emControl(), ...) {
+    ...
+}</code></pre>
+<p>There is a <code>emControl()</code> function which takes care of the default values.</p>
+<pre class="r"><code>library(mclust)
+emControl()</code></pre>
+<pre><code>## $eps
+## [1] 2.220446e-16
+## 
+## $tol
+## [1] 1.000000e-05 1.490116e-08
+## 
+## $itmax
+## [1] 2147483647 2147483647
+## 
+## $equalPro
+## [1] FALSE</code></pre>
+<p>And if only change one parameter, default values for other parameters are still used:</p>
+<pre class="r"><code>emControl(eps = 1e-10)</code></pre>
+<pre><code>## $eps
+## [1] 1e-10
+## 
+## $tol
+## [1] 1.000000e-05 1.490116e-08
+## 
+## $itmax
+## [1] 2147483647 2147483647
+## 
+## $equalPro
+## [1] FALSE</code></pre>
+<p>Similarly, in <strong>ComplexHeatmap</strong>, to control the graphics parameters for axes, there is also a “control-like” function <code>default_axis_param()</code> which takes care of
+the default graphics parameters for axes.</p>
+<p>Writing a “control” or “default_param” function is very helpful when the default parameter list is long. The drawback is also obvous. Users neeed to execute the “control”
+functions or go to the documentations to see the exact default values.</p>
+<p>Now my question is, if the default parameters are still hard coded in the argument of the function, can we still keep the default parameters if they are not specified by users?</p>
+<p>The solution is not difficult. If default parameters are coded in the argument, just extract them. Let’s take the argument <code>row_title_gp</code> in <code>Heatmap()</code> as an example.</p>
+<p><strong>Step 1:</strong> Get the new value of <code>row_title_gp</code> which is specified by users.</p>
+<pre class="r"><code>Heatmap = function(..., row_title_gp = gpar(fontsize = 13.2), ...) {
+    new = row_title_gp
+    ...
+}</code></pre>
+<p><strong>Step 2:</strong> Get the default value of <code>row_title_gp</code> which is coded in the function definition.</p>
+<p>This is a little bit tricky. If users have specified <code>row_title_gp</code>, its the default value is overwritten and not seeable in <code>Heatmap()</code>. Nevertheless,
+we can use <code>sys.function()</code> to get the function that was called by users (which is <code>Heatmap()</code>), next with the <code>formals</code> functions
+to obtain the argument lists, and finally evaluate the argument (with <code>eval()</code>) to obtain the default value of <code>row_title_gp</code>.</p>
+<pre class="r"><code>Heatmap = function(..., row_title_gp = gpar(fontsize = 13.2), ...) {
+    new = row_title_gp
+    fml = formals(sys.function(sys.parent(1)))
+    default = eval(fml[[&quot;row_title_gp&quot;]])
+    ...
+}</code></pre>
+<p><strong>Step 3:</strong> Merge the new value and default value.</p>
+<p>The new code is very straightforward.</p>
+<pre class="r"><code>Heatmap = function(..., row_title_gp = gpar(fontsize = 13.2), ...) {
+    new = row_title_gp
+    fml = formals(sys.function(sys.parent(1)))
+    default = eval(fml[[&quot;row_title_gp&quot;]])
+
+    dnm = setdiff(names(default), names(new))
+    if(length(dnm) &gt; 0) {
+        for(n in dnm) lt[[n]] = default[[n]]
+    }
+    row_title_gp = new
+    ...
+}</code></pre>
+<p>Next we want to make this functionality more general. The following utility function <code>mark_default()</code> can be used
+inside any function which “marks” arguments to automatically reuse the default parameters.</p>
+<pre class="r"><code>mark_default = function(arg) {
+    e = parent.frame()
+    new = get(arg, envir = e)
+    fml = formals(sys.function(sys.parent(1)))
+    default = eval(fml[[arg]])
+
+    lt = new
+    dnm = setdiff(names(default), names(new))
+    if(length(dnm) &gt; 0) {
+        for(n in dnm) lt[[n]] = default[[n]]
+    }
+
+    assign(arg, lt, envir = e)
+    invisible(lt)
+}</code></pre>
+<p>Let me show you some simple experiments of <code>mark_default()</code>.</p>
+<p>In the first experiment, there are two default parameters for <code>gp</code> which are <code>col</code> and <code>lty</code>.
+As you can see, if only <code>col</code> is set, <code>lty</code> is lost.</p>
+<pre class="r"><code>library(grid)
+draw_sth = function(gp = gpar(col = &quot;red&quot;, lty = 2)) {
+    print(gp)
+}
+draw_sth(gp = gpar(col = &quot;black&quot;))</code></pre>
+<pre><code>## $col
+## [1] &quot;black&quot;</code></pre>
+<p>Next, we simply add <code>mark_default()</code> inside <code>draw_sth()</code> and mark the argument <code>gp</code>. Now the default <code>gpar(col = "red", lty = 2)</code>
+can be reused.</p>
+<pre class="r"><code>draw_sth = function(gp = gpar(col = &quot;red&quot;, lty = 2)) {
+    mark_default(&quot;gp&quot;)
+    print(gp)
+}
+draw_sth(gp = gpar(col = &quot;black&quot;))</code></pre>
+<pre><code>## $col
+## [1] &quot;black&quot;
+## 
+## $lty
+## [1] 2</code></pre>
+<pre class="r"><code>draw_sth(gp = gpar(lwd = 3))</code></pre>
+<pre><code>## $lwd
+## [1] 3
+## 
+## $col
+## [1] &quot;red&quot;
+## 
+## $lty
+## [1] 2</code></pre>
+<!-- 
+f = function(x, y = gpar(a = 1, b = 2)) {
+    mark_default("y")
+    
+    print(y)
+    y
+}
+
+mark_default = function(arg, merge_fun = merge_fun_list) {
+    e = parent.frame()
+    value = get(arg, envir = e)
+    fml = formals(sys.function(sys.parent(1)))
+    oe = try(dft <- eval(fml[[arg]]), silent = TRUE)
+    if(inherits(oe, "try-error")) {
+        if(grepl("argument is missing, with no default", oe)) {
+            stop("Argument '", arg, "' has no default.")
+        } else {
+            stop(oe)
+        }
+    }
+
+    lt = merge_fun(dft, value)
+    assign(arg, lt, envir = e)
+    invisible(lt)
+}
+
+merge_fun_list = function(default, new) {
+    lt = new
+    dnm = setdiff(names(default), names(new))
+    if(length(dnm) > 0) {
+        for(n in dnm) lt[[n]] = default[[n]]
+    }
+    lt
+}
+ -->

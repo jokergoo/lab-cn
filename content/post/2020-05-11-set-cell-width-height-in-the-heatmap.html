@@ -1,0 +1,109 @@
+---
+title: "Set cell width/height in the heatmap"
+date: 2020-05-11
+---
+
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>When making a heatmap, the width and height of heatmap cells are automatically
+adjusted to fill in the figure (e.g. the following figure), which means, when
+you change the width and height of the final figure, the width and height of
+the cells change accordingly.</p>
+<pre class="r"><code>library(ComplexHeatmap)
+set.seed(123)
+mat = matrix(rnorm(100), 10)
+Heatmap(mat, name = &quot;mat&quot;)</code></pre>
+<p><img src="/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>When the matrix is small, there are scenarios where you might want to manually
+set the width and height of cells to fixed values, so that you can, <em>e.g.</em>,
+put proper row/column labels or to make it easy to compare to other heatmaps
+with different dimensions.</p>
+<p>In <code>Heatmap()</code> function, <strong>the total width and height of the heatmap body</strong>
+can be controlled by the <code>width</code> and <code>height</code> arguments, which means you can
+control the size of the whole heatmap by setting proper values to these two
+arguments. <em>E.g.</em> setting <code>width</code> to <code>ncol(mat)*unit(5, "mm")</code> and <code>height</code> to
+<code>nrow(mat)*unit(5, "mm")</code> ensures the cells to be 5mm for both width and
+height.</p>
+<p>To save the plot into an figure file, one problem arising is you need to
+properly calculate the size of the figure to completely place the plot, or
+else the plot is either clipped or there has white spaces around the plot.</p>
+<p>In the following figures, the size of the figure is larger than the size of
+the heatmap. A black border is added to show the size of the figure.</p>
+<style>
+img {
+    border: 1px black solid;
+}
+</style>
+<pre class="r"><code>Heatmap(mat, name = &quot;mat&quot;, 
+    width = ncol(mat)*unit(5, &quot;mm&quot;), 
+    height = nrow(mat)*unit(5, &quot;mm&quot;))</code></pre>
+<p><img src="/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<p>In <strong>ComplexHeatmap</strong>, the size of the heatmap (including dendrograms, titles
+and legends, …) can be retrieved by <code>ComplexHeatmap:::width()</code> and
+<code>ComplexHeatmap:::height()</code> functions. Note these two functions currently are
+not exported, so you need to use <code>:::</code> to use them.</p>
+<p>To use <code>ComplexHeatmap:::width()</code> and <code>ComplexHeatmap:::height()</code>, you first
+need to explicitly execute <code>draw()</code> function to perform clustering and
+initialize the layout, then <code>ComplexHeatmap:::width()</code> and
+<code>ComplexHeatmap:::height()</code> and be applied and they return the corresponding
+width and height as <code>grid::unit</code> objects in mm. You can convert to any other
+units by <code>grid::convertX()</code> and <code>grid::convertY()</code> functions.</p>
+<pre class="r"><code>ht = Heatmap(mat, , name = &quot;mat&quot;, 
+    width = ncol(mat)*unit(5, &quot;mm&quot;), 
+    height = nrow(mat)*unit(5, &quot;mm&quot;))
+ht = draw(ht) # it generates a plot, but we don&#39;t show here</code></pre>
+<pre class="r"><code>w = ComplexHeatmap:::width(ht)
+w = convertX(w, &quot;inch&quot;, valueOnly = TRUE)
+h = ComplexHeatmap:::height(ht)
+h = convertY(h, &quot;inch&quot;, valueOnly = TRUE)
+c(w, h)</code></pre>
+<pre><code>## [1] 2.973294 2.539370</code></pre>
+<p>Now <code>w</code> and <code>h</code> are the sizes of the heatmap, measured in inches which you can
+set in <code>pdf()</code> function. If you save the plot as a PNG plot, then you need to
+convert <code>w</code> and <code>h</code> to a unit of <code>pt</code> (see the help page of <code>grid::unit</code>).</p>
+<pre class="r"><code># pdf(..., width = w, height = h)
+Heatmap(mat, name = &quot;mat&quot;, 
+    width = ncol(mat)*unit(5, &quot;mm&quot;), 
+    height = nrow(mat)*unit(5, &quot;mm&quot;))</code></pre>
+<p><img src="/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="285.436220472441" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># dev.off()</code></pre>
+<p>The calculation of heatmap size actually can be wrapped as a function, which
+takes a <code>Heatmap</code> or <code>HeatmapList</code> object as input and returns the
+corresponding width and height.</p>
+<p>In the following <code>calc_ht_size()</code> function, since we don’t need the first
+heatmap, we put it into a null device defined by <code>pdf(NULL)</code>.</p>
+<pre class="r"><code>calc_ht_size = function(ht, unit = &quot;inch&quot;) {
+    pdf(NULL)
+    ht = draw(ht)
+    w = ComplexHeatmap:::width(ht)
+    w = convertX(w, unit, valueOnly = TRUE)
+    h = ComplexHeatmap:::height(ht)
+    h = convertY(h, unit, valueOnly = TRUE)
+    dev.off()
+
+    c(w, h)
+}</code></pre>
+<p>Now we can try to use <code>calc_ht_size()</code></p>
+<pre class="r"><code>ht = Heatmap(mat, name = &quot;mat&quot;, 
+        width = ncol(mat)*unit(5, &quot;mm&quot;), 
+        height = nrow(mat)*unit(5, &quot;mm&quot;))
+size = calc_ht_size(ht)
+size</code></pre>
+<pre><code>## [1] 2.973294 2.539370</code></pre>
+<pre class="r"><code># pdf(..., width = size[1], height = size[2])
+ht</code></pre>
+<p><img src="/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="285.436220472441" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># dev.off()</code></pre>
+<p>Similar for a smaller matrix:</p>
+<pre class="r"><code>mat2 = mat[1:5, 1:5]
+ht2 = Heatmap(mat2, name = &quot;mat2&quot;, 
+        width = ncol(mat2)*unit(5, &quot;mm&quot;), 
+        height = nrow(mat2)*unit(5, &quot;mm&quot;))
+size2 = calc_ht_size(ht2)
+size2</code></pre>
+<pre><code>## [1] 1.989042 1.555118</code></pre>
+<pre class="r"><code># pdf(..., width = size2[1], height = size2[2])
+ht2 # or draw(ht2)</code></pre>
+<p><img src="/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="190.948031496063" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># dev.off()</code></pre>

@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         Interactivate indirect use of pheatmap(), heatmap.2() and heatmap() 
+      
+    </title>
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2021/01/22/interactivate-indirect-use-of-pheatmap-heatmap.2-and-heatmap/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">文章</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> Interactivate indirect use of pheatmap(), heatmap.2() and heatmap() </h1>
+
+  
+    <div id=sub-header>
+      January 2021
+    </div>
+  
+
+  <div class="entry-content">
+    
+<script src="/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+<link href="/rmarkdown-libs/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/anchor-sections/anchor-sections.js"></script>
+
+
+<p>With <strong>InteractiveComplexHeatmap</strong>, the following heatmaps can be exported as an interactive Shiny app:</p>
+<ol style="list-style-type: decimal">
+<li>heatmaps directly produced from <strong>ComplexHeatmap</strong>,</li>
+<li>heatmaps from other functions or packages which are implement with <strong>ComplexHeatmap</strong>,</li>
+<li>heatmaps originally produced by <code>stats::heatmap()</code>, <code>gplots::heatmap.2()</code>
+and <code>pheatmap::pheatmap()</code>, but can be reproduced by the “translation
+functions”: <code>ComplexHeatmap:::heatmap()</code>, <code>ComplexHeatmap:::heatmap.2()</code>
+and <code>ComplexHeatmap::pheatmap()</code>.</li>
+</ol>
+<p>All these types of heatmaps can be turned into interactive just by calling
+<code>htShiny()</code> after the heatmaps are drawn. E.g.:</p>
+<pre class="r"><code>ComplexHeatmap::pheatmap(...)
+htShiny()</code></pre>
+<p>which means you don’t need to touch your heatmap code. After you see the heatmap in your R terminal,
+directly calling <code>htShiny()</code> with no argument will produce an interactive heatmap, like magic. :P</p>
+<p>Now there is a fourth scenario where the heatmap is produced by third-party
+functions which uses <code>stats::heatmap()</code>, <code>gplots::heatmap.2()</code> or
+<code>pheatmap::pheatmap()</code>. Since now we cannot directly interact with
+<code>heatmap()</code>, <code>heatmap.2()</code> or <code>pheatmap()</code>, how can we turn these heatmaps into
+interactive? The solution is fairly simple. We just need to go to <em>e.g.</em> <strong>pheatmap</strong>
+namespace and replace <code>pheatmap</code> with <code>ComplexHeatmap::pheatmap</code>.</p>
+<p>The following example is from the <strong>SC3</strong> package where
+function <code>sc3_plot_expression()</code> internally uses <code>pheatmap()</code>.</p>
+<pre class="r"><code>library(SingleCellExperiment)
+library(SC3)
+library(scater)
+
+sce &lt;- SingleCellExperiment(
+    assays = list(
+        counts = as.matrix(yan),
+        logcounts = log2(as.matrix(yan) + 1)
+    ), 
+    colData = ann
+)
+
+rowData(sce)$feature_symbol &lt;- rownames(sce)
+sce &lt;- sce[!duplicated(rowData(sce)$feature_symbol), ]
+sce &lt;- runPCA(sce)
+sce &lt;- sc3(sce, ks = 2:4, biology = TRUE)
+
+sc3_plot_expression(sce, k = 3)</code></pre>
+<p><img src="/post/2021-01-22-interactivate-indirect-use-of-pheatmap-heatmap2-and-heatmap_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>To replace the internally use of <code>pheatmap::pheatmap</code> with
+<code>ComplexHeatmap::pheatmap</code>, we can use <code>assignInNamespace()</code> to directly
+change the value of <code>pheatmap</code> in <strong>pheatmap</strong> namespace. After that,
+recalling <code>sc3_plot_expression()</code> will directly use
+<code>ComplexHeatmap::pheatmap()</code> and now you can use <code>htShiny()</code> to export it as
+an interactive app. Of course, you need to regenerate the heatmap with the
+same code.</p>
+<pre class="r"><code>assignInNamespace(&quot;pheatmap&quot;, ComplexHeatmap::pheatmap, ns = &quot;pheatmap&quot;)
+library(InteractiveComplexHeatmap)
+sc3_plot_expression(sce, k = 3)
+htShiny()</code></pre>
+<p><img width="100%" alt="pheatmap" src="https://user-images.githubusercontent.com/449218/105490976-e40faa80-5cb5-11eb-85f5-df2c80939aef.png"></p>
+<p>If you check the source code of <code>sc3_plot_expression()</code>, <code>pheatmap()</code> is used
+by explicitely adding its namespace (check the last few lines of the function definition):</p>
+<pre class="r"><code>selectMethod(&quot;sc3_plot_expression&quot;, signature = &quot;SingleCellExperiment&quot;)</code></pre>
+<pre><code>## Method Definition:
+## 
+## function (object, k, show_pdata = NULL) 
+## {
+##     if (is.null(metadata(object)$sc3$consensus)) {
+##         warning(paste0(&quot;Please run sc3_consensus() first!&quot;))
+##         return(object)
+##     }
+##     hc &lt;- metadata(object)$sc3$consensus[[as.character(k)]]$hc
+##     dataset &lt;- get_processed_dataset(object)
+##     if (!is.null(metadata(object)$sc3$svm_train_inds)) {
+##         dataset &lt;- dataset[, metadata(object)$sc3$svm_train_inds]
+##     }
+##     add_ann_col &lt;- FALSE
+##     ann &lt;- NULL
+##     if (!is.null(show_pdata)) {
+##         ann &lt;- make_col_ann_for_heatmaps(object, show_pdata)
+##         if (!is.null(ann)) {
+##             add_ann_col &lt;- TRUE
+##             rownames(ann) &lt;- colnames(dataset)
+##         }
+##     }
+##     if (nrow(dataset) &gt; 100) {
+##         do.call(pheatmap::pheatmap, c(list(dataset, cluster_cols = hc, 
+##             kmeans_k = 100, cutree_cols = k, show_rownames = FALSE, 
+##             show_colnames = FALSE), list(annotation_col = ann)[add_ann_col]))
+##     }
+##     else {
+##         do.call(pheatmap::pheatmap, c(list(dataset, cluster_cols = hc, 
+##             cutree_cols = k, show_rownames = FALSE, show_colnames = FALSE), 
+##             list(annotation_col = ann)[add_ann_col]))
+##     }
+## }
+## &lt;bytecode: 0x7fa0fd0305f8&gt;
+## &lt;environment: namespace:SC3&gt;
+## 
+## Signatures:
+##         object                
+## target  &quot;SingleCellExperiment&quot;
+## defined &quot;SingleCellExperiment&quot;</code></pre>
+<p>In this case, changing <code>pheatmap</code> in <strong>pheatmap</strong> namespace directly affects <code>sc3_plot_expression()</code>.</p>
+<p>However, if the heatmap function is called without adding the namespace, you
+need to first unload the package, modify the heatmap function in the heatmap
+namespace and later load the package back.</p>
+<p>Let’s look at the next example from <strong>GOexpress</strong> package where the function <code>heatmap_GO()</code> internally use <code>heatmap.2()</code>.</p>
+<pre class="r"><code>library(GOexpress)
+data(AlvMac)
+set.seed(4543)
+AlvMac_results &lt;- GO_analyse(
+    eSet = AlvMac, f = &quot;Treatment&quot;,
+    GO_genes=AlvMac_GOgenes, all_GO=AlvMac_allGO, all_genes=AlvMac_allgenes)
+BP.5 &lt;- subset_scores(
+    result = AlvMac_results.pVal,
+    namespace = &quot;biological_process&quot;,
+    total = 5,
+    p.val=0.05)
+heatmap_GO(
+    go_id = &quot;GO:0034142&quot;, result = BP.5, eSet=AlvMac, cexRow=0.4,
+    cexCol=1, cex.main=1, main.Lsplit=30)</code></pre>
+<p><img src="/post/2021-01-22-interactivate-indirect-use-of-pheatmap-heatmap2-and-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="576" style="display: block; margin: auto;" /></p>
+<p>Now note in <code>heatmap_GO()</code> function, <code>heatmap.2()</code> is used without <strong>gplots</strong> namespace (go to
+the end of the function definition listed below).</p>
+<pre class="r"><code>heatmap_GO</code></pre>
+<pre><code>## function (go_id, result, eSet, f = result$factor, subset = NULL, 
+##     gene_names = TRUE, NA.names = FALSE, margins = c(7, 5), scale = &quot;none&quot;, 
+##     cexCol = 1.2, cexRow = 0.5, labRow = NULL, cex.main = 1, 
+##     trace = &quot;none&quot;, expr.col = bluered(75), row.col.palette = &quot;Accent&quot;, 
+##     row.col = c(), main = paste(go_id, result$GO[result$GO$go_id == 
+##         go_id, &quot;name_1006&quot;]), main.Lsplit = NULL, ...) 
+## {
+##     if (!all(c(&quot;factor&quot;, &quot;GO&quot;, &quot;genes&quot;) %in% names(result))) {
+##         stop(&quot;&#39;result=&#39; argument misses required slots.\n    Is it a GO_analyse() output?&quot;)
+##     }
+##     if (!go_id %in% result$GO$go_id) {
+##         stop(&quot;go_id: &quot;, go_id, &quot; was not found in result$mapping$go_id.&quot;)
+##     }
+##     if (!is.null(subset)) {
+##         eSet &lt;- subEset(eSet = eSet, subset = subset)
+##     }
+##     if (length(row.col) != ncol(eSet)) {
+##         row.col &lt;- brewer.pal(n = length(unique(pData(eSet)[, 
+##             f])), name = row.col.palette)
+##     }
+##     gene_ids &lt;- list_genes(go_id = go_id, result = result, data.only = TRUE)
+##     genes_expr &lt;- t(exprs(eSet)[gene_ids, ])
+##     if (is.null(labRow)) {
+##         labRow &lt;- pData(eSet)[, f]
+##     }
+##     else {
+##         if (length(labRow) == 1) {
+##             labRow = pData(eSet)[, labRow]
+##         }
+##         else if (length(labRow) != ncol(eSet)) {
+##             stop(&quot;The number of custom row labels provided (&quot;, 
+##                 length(labRow), &quot;) does not match the number of samples (&quot;, 
+##                 ncol(eSet), &quot;.&quot;)
+##         }
+##     }
+##     if (gene_names) {
+##         gene_labels &lt;- result$genes[gene_ids, &quot;external_gene_name&quot;]
+##         if (any(gene_labels == &quot;&quot;) &amp; !NA.names) {
+##             gene_labels[gene_labels == &quot;&quot;] &lt;- gene_ids[gene_labels == 
+##                 &quot;&quot;]
+##         }
+##     }
+##     else {
+##         gene_labels &lt;- gene_ids
+##     }
+##     if (!is.null(main.Lsplit)) {
+##         if (is.numeric(main.Lsplit)) {
+##             main &lt;- string_Lsplit(string = main, line.length = main.Lsplit)
+##         }
+##         else {
+##             stop(&quot;main.Lsplit should be a numeric value or NULL.&quot;)
+##         }
+##     }
+##     samples.col &lt;- row.col[as.factor(pData(eSet)[, f])]
+##     op &lt;- par(no.readonly = TRUE)
+##     on.exit(par(op))
+##     par(cex.main = cex.main)
+##     heatmap.2(genes_expr, labRow = labRow, labCol = gene_labels, 
+##         scale = scale, cexCol = cexCol, cexRow = cexRow, main = main, 
+##         trace = trace, RowSideColors = samples.col, col = expr.col, 
+##         margins = margins, ...)
+## }
+## &lt;bytecode: 0x7fa0e29035b8&gt;
+## &lt;environment: namespace:GOexpress&gt;</code></pre>
+<p>In this case, the <strong>GOexpression</strong> namespace should firstly be removed by
+<code>detach()</code>, or else <code>heatmap_GO()</code> will still use <code>gplots::heatmap.2()</code>.</p>
+<pre class="r"><code>detach(&quot;package:GOexpress&quot;, unload = TRUE)
+assignInNamespace(&quot;heatmap.2&quot;, ComplexHeatmap:::heatmap.2, ns = &quot;gplots&quot;)
+library(GOexpress)
+
+library(InteractiveComplexHeatmap)
+heatmap_GO(
+    go_id = &quot;GO:0034142&quot;, result = BP.5, eSet=AlvMac, cexRow=0.4,
+    cexCol=1, cex.main=1, main.Lsplit=30)
+htShiny()</code></pre>
+<p><img width="100%" alt="heatmap 2" src="https://user-images.githubusercontent.com/449218/105490966-e114ba00-5cb5-11eb-8839-3ba1f25b5fa5.png"></p>
+<p>In the end, to safely change all <code>stats::heatmap()</code>, <code>gplots::heatmap.2()</code> and
+<code>pheatmap::pheatmap()</code> to <code>ComplexHeatmap:::heatmap()</code>,
+<code>ComplexHeatmap:::heatmap.2()</code> and <code>ComplexHeatmap::pheatmap()</code>, you can add following lines
+at the start of your R script:</p>
+<pre class="r"><code>library(pheatmap)
+library(gplots)
+assignInNamespace(&quot;heatmap&quot;, ComplexHeatmap:::heatmap, ns = &quot;stats&quot;)
+assignInNamespace(&quot;heatmap.2&quot;, ComplexHeatmap:::heatmap.2, ns = &quot;gplots&quot;)
+assignInNamespace(&quot;pheatmap&quot;, ComplexHeatmap::pheatmap, ns = &quot;pheatmap&quot;)</code></pre>
+
+  </div>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+
