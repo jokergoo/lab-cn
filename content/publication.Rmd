@@ -104,7 +104,7 @@ https://doi.org/10.1186/1471-2164-12-335). _BMC Genomics_ 2011.
 
 ### 引用统计
 
-累计引用量与日增引用量。
+累计引用量与日增引用量，更新于`r Sys.Date()`。
 
 ```{r, echo = FALSE, fig.width = 10}
 library(scholar)
@@ -167,4 +167,5 @@ p = ggplot(data = world) + geom_sf(color = "grey", fill = NA) +
     theme(legend.position="bottom")
 print(p)
 ```
+
 

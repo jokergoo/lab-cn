@@ -6,7 +6,7 @@ title: "论文"
 
 
 
-更新于2025-11-09，论文列表按研究方向和时间排序。#通讯作者，*共同第一作者。
+更新于2025-11-21，论文列表按研究方向和时间排序。#通讯作者，*共同第一作者。
 
 <style>
 ul {
@@ -96,11 +96,12 @@ https://doi.org/10.1186/1471-2164-12-335). _BMC Genomics_ 2011.
 
 ### 引用统计
 
-累计引用量与日增引用量。
+累计引用量与日增引用量，更新于2025-11-21。
 
 <img src="/lab-cn/publication_files/figure-html/unnamed-chunk-2-1.png" width="960" />
 
 全球引用地图。
 
 <img src="/lab-cn/publication_files/figure-html/unnamed-chunk-3-1.png" width="960" />
+
 
