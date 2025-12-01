@@ -22,7 +22,7 @@ menu:
     - name: 软件
       url: /software/
       weight: 4
-    - name: 文章
+    - name: 博客
       url: /post
       weight: 5
     - name: 职位

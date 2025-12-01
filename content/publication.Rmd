@@ -13,7 +13,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 更新于`r Sys.Date()`，论文列表按研究方向和时间排序。#通讯作者，*共同第一作者。
 
 <style>
@@ -164,7 +163,7 @@ p = ggplot(data = world) + geom_sf(color = "grey", fill = NA) +
         mapping = aes(x = lon, y = lat, label = gsub(", .*$", "", address)), 
         box.padding = 0.5, max.overlaps = Inf, min.segment.length = 0, size = 3) +
     ggtitle(qq("Global citation map, data retrieved on @{citation_date}")) +
-    theme(legend.position="bottom")
+    theme(legend.position="bottom") + labs(x = "", y = "")
 print(p)
 ```
 
