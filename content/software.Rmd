@@ -12,19 +12,32 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 ```{r, echo = FALSE}
 library(rvest)
 library(jsonlite)
-downloads_from_conda = function(pkg) {
-	x = read_html(paste0("https://anaconda.org/search?q=r-", pkg))
-	tb = html_nodes(x, "table") %>% html_table()
-	if(length(tb) > 0) {
-		tb = tb[[1]]
-		sum(tb[, 2])
+downloads_from_conda = function(pkg, where, channel) {
+	if(where == "cran") {
+		oe = try(x <- read_html(paste0("https://anaconda.org/", channel, "/r-", tolower(pkg), "/badges/downloads.svg")), silent = TRUE)
 	} else {
-		0
+		oe = try(x <- read_html(paste0("https://anaconda.org/", channel, "/bioconductor-", tolower(pkg), "/badges/downloads.svg")), silent = TRUE)
 	}
+	if(inherits(oe, "try-error")) {
+		return(0)
+	}
+	txt = html_nodes(x, "title") |> html_text()
+	txt = gsub("^downloads: ", "", txt)
+	txt = gsub(" total", "", txt)
+	unit = tolower(substr(txt, nchar(txt), nchar(txt)))
+	num = as.numeric(gsub("\\w$", "", txt))
+	if(is.na(num)) {
+		return(0)
+	}
+	if(unit == "k") {
+		num = num*1024
+	} else if(unit == "m") {
+		num = num*1024*1024
+	}
+	return(num)
 }
 downloads_from_cran = function(pkg) {
 	x = read_json(paste0("https://cranlogs.r-pkg.org/downloads/total/2001-01-01:2114-01-01/", pkg))
@@ -53,10 +66,13 @@ dn = function(pkg, cran = FALSE, bioc_anno = FALSE) {
 	s = 0
 	if(cran) {
 		s = downloads_from_cran(pkg)
+		s = s + downloads_from_conda(pkg, "cran", "conda-forge")
+		s = s + downloads_from_conda(pkg, "cran", "bioconda")
 	} else {
 		s = downloads_from_bioc(pkg, bioc_anno = bioc_anno)
+		s = s + downloads_from_conda(pkg, "bioc", "bioconda")
 	}
-	s = s + downloads_from_conda(pkg)
+	
 	s
 }
 ```

@@ -63,7 +63,7 @@ $( function() {
         var old_src = $(this).attr("src");
         var pattern = new RegExp("^" + root_dir);
         if(!pattern.test(old_src)) {
-            pattern = /^http(s):\/\//;
+            pattern = /^http(s?):\/\//;
             if(!pattern.test(old_src)) {
                 $(this).attr("src", root_dir + "/" + old_src);
             }
