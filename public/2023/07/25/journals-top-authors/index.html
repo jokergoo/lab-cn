@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         学术期刊 top 作者 
+      
+    </title>
+    <link rel="canonical" href="/lab-cn/2023/07/25/journals-top-authors/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+#license {
+  font-style: italic;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color:#403c3b;
+}
+#license a {
+  color:#403c3b;
+}
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s?):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">博客</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> 学术期刊 top 作者 </h1>
+
+  
+    <div id=sub-header>
+      顾祖光 · July 2023 · <a href="#license">版权信息</a>
+    </div>
+  
+
+  <div class="entry-content">
+    <p>NCBI 提供的 <a href="https://www.ncbi.nlm.nih.gov/books/NBK25501/">E-utilities</a> API 可以很方便的从 NCBI 的数据库中提取信息。对于其 PubMed 数据库，
+<strong>pubmedR</strong> 封装了 E-utilities API（内部基于底层 <strong>rentrez</strong> 包），用户可以更为直接的从 PubMed 数据库提取相应的数据。</p>
+<p>本文将展示如何获取来自某一学术期刊的所有论文，通过分析作者，获取在此学术期刊上发表论文最高的作者。</p>
+<p>批量从 PubMed 上获取数据需要提供 NCBI 的 API key。可以免费获得，具体步骤为：登录 NCBI -&gt; Account Settings -&gt; API Key Management。</p>
+<pre><code class="language-r">library(pubmedR)
+api_key = 
+</code></pre>
+<p>对 PubMed 数据库进行查询时，我们需要提供格式化的查询字串，详见 <a href="https://pubmed.ncbi.nlm.nih.gov/help/#using-search-field-tags">https://pubmed.ncbi.nlm.nih.gov/help/#using-search-field-tags</a> 。如果不知道如何编写查询字串，可先在网页版上输入查询内容，PubMed 的搜索功能会自动将其格式化成标准查询字串，然后再
+按照自己的需求略加修改即可。</p>
+<p>注意通过 NCBI
+API 最多一次只能获取一万条记录，如果超过一万条，需要分次获取。在下面的例子中，我们将所有2014年至2025年 Bioinformatics 期刊上的所有论文分两次获取。</p>
+<p>期刊的标准名字可以在 <a href="https://ftp.ncbi.nlm.nih.gov/pubmed/J_Medline.txt">https://ftp.ncbi.nlm.nih.gov/pubmed/J_Medline.txt</a> 查询获得。</p>
+<pre><code class="language-r">query = '(&quot;Bioinformatics (Oxford, England)&quot;[Journal]) AND ((&quot;1998&quot;[Date - Publication] : &quot;2014&quot;[Date - Publication]))'
+res = pmQueryTotalCount(query = query, api_key = api_key)
+D1 = pmApiRequest(query = query, limit = res$total_count, api_key = NULL)
+
+query = '(&quot;Bioinformatics (Oxford, England)&quot;[Journal]) AND ((&quot;2015&quot;[Date - Publication] : &quot;2025&quot;[Date - Publication]))'
+res = pmQueryTotalCount(query = query, api_key = api_key)
+D2 = pmApiRequest(query = query, limit = res$total_count, api_key = NULL)
+
+D1 = pmApi2df(D1)
+D2 = pmApi2df(D2)
+df = rbind(D1, D2)
+
+df = df[df$DT == &quot;JOURNAL ARTICLE&quot;, ]
+</code></pre>
+<p>现在所有的论文信息均存储在<code>df</code>数据框中，其中作者列表在<code>AF</code>列中。</p>
+<p>以第一作者最高发文量前十名：</p>
+<pre><code class="language-r">first_authors = gsub(&quot;;.*$&quot;, &quot;&quot;, df$AF)
+first_authors = first_authors[first_authors != &quot;&quot;]
+sort(table(first_authors), decreasing = TRUE)[1:10]
+</code></pre>
+<pre><code>## first_authors
+##             LI, HENG   FOGG, CHRISTIANA N             CHEN, LI DEOROWICZ, SEBASTIAN 
+##                   21                   17                   12                   11 
+## SAVOJARDO, CASTRENSE             LIU, BIN          GU, ZUGUANG      HÄKKINEN, ANTTI 
+##                   10                    9                    8                    8 
+##             LI, YANG            CHEN, WEI 
+##                    8                    7
+</code></pre>
+<p>以最后作者最高发文量前十名：</p>
+<pre><code class="language-r">last_authors = gsub(&quot;^.*;&quot;, &quot;&quot;, df$AF)
+last_authors = last_authors[last_authors != &quot;&quot;]
+sort(table(last_authors), decreasing = TRUE)[1:10]
+</code></pre>
+<pre><code>## last_authors
+##       WANG, JIANXIN  DEANE, CHARLOTTE M            GAO, XIN       BALDI, PIERRE      CHENG, JIANLIN 
+##                  41                  30                  28                  27                  25 
+## DOUGHERTY, EDWARD R       ASAI, KIYOSHI     BAR-JOSEPH, ZIV RAPHAEL, BENJAMIN J         ZHANG, YANG 
+##                  25                  24                  24                  24                  24
+</code></pre>
+<p>我们可以让代码变得略微聪明一点，我们可以将总记录按年逐份提取，可以编写如下函数 <code>top_authors()</code>.</p>
+<pre><code class="language-r">library(GetoptLong)
+
+cache = new.env()
+cache$data = list()
+
+top_authors = function(journal, year_start = 2000, remove_single_author = FALSE) {
+
+    year_end = as.integer(gsub(&quot;-.*$&quot;, &quot;&quot;, as.character(Sys.Date())))
+
+    df = NULL
+    for(y in seq(year_start, year_end)) {
+        query = qq('(&quot;@{journal}&quot;[Journal]) AND ((&quot;@{y}/01/01&quot;[Date - Publication] : &quot;@{y}/12/31&quot;[Date - Publication]))')
+        cat(query, &quot;\n&quot;)
+        res = pmQueryTotalCount(query = query, api_key = api_key)
+        if(res$total_count &gt; 1) {
+
+            if(!is.null(cache$data[[qq(&quot;@{journal}/@{y}&quot;)]])) {
+                cat(&quot;  read from cache\n&quot;)
+                m1 = cache$data[[qq(&quot;@{journal}/@{y}&quot;)]]
+            } else {
+
+                if(res$total_count &gt; 8000) {
+                    query = qq('(&quot;@{journal}&quot;[Journal]) AND ((&quot;@{y}/01/01&quot;[Date - Publication] : &quot;@{y}/06/30&quot;[Date - Publication]))')
+                    cat(&quot;  &quot;, query, &quot;\n&quot;)
+                    res = pmQueryTotalCount(query = query, api_key = api_key)
+                    D1 = pmApiRequest(query = query, limit = res$total_count, api_key = api_key)
+                    m1 = pmApi2df(D1)
+                    
+                    query = qq('(&quot;@{journal}&quot;[Journal]) AND ((&quot;@{y}/07/01&quot;[Date - Publication] : &quot;@{y}/12/31&quot;[Date - Publication]))')
+                    cat(&quot;  &quot;, query, &quot;\n&quot;)
+                    res = pmQueryTotalCount(query = query, api_key = api_key)
+                    D1 = pmApiRequest(query = query, limit = res$total_count, api_key = api_key)
+                    m1 = rbind(m1, pmApi2df(D1))
+
+                } else {
+                    D1 = pmApiRequest(query = query, limit = res$total_count, api_key = api_key)
+                    m1 = pmApi2df(D1)
+                }
+
+                cache$data[[qq(&quot;@{journal}/@{y}&quot;)]] = m1
+            }
+
+            df = rbind(df, m1)
+        }
+    }
+
+    df = df[df$DT == &quot;JOURNAL ARTICLE&quot;, ]
+
+    author_list = df$AF
+    author_list = strsplit(author_list, &quot;;&quot;)
+    author_list = lapply(author_list, function(x) x[!grepl(&quot;^\\d*$&quot;, x)])
+    author_list = author_list[sapply(author_list, length) &gt; 0]
+
+    # 某些期刊会有editor's letter，在pubmed中也算journal article
+    # 一般来说，这种文章只有一个作者
+    if(remove_single_author) {
+        author_list = author_list[sapply(author_list, length) &gt; 1]
+    }
+
+    authors = sapply(author_list, function(x) x[1])
+    cat(&quot;top 10 first authors:\n&quot;)
+    print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+    # last author
+    authors = sapply(author_list, function(x) x[length(x)])
+    cat(&quot;top 10 last authors:\n&quot;)
+    print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+    # all authors
+    authors = unlist(author_list)
+    cat(&quot;top 10 all authors:\n&quot;)
+    print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+    return(invisible(df))
+}
+</code></pre>
+<p>我们来试验一下近十年的：</p>
+<pre><code class="language-r">top_authors(&quot;BMC bioinformatics&quot;, year_start = 2015)
+</code></pre>
+<pre><code>## top 10 first authors:
+</code></pre>
+<pre><code>##               authors Freq
+## 1           DENG, LEI    7
+## 2        PENG, JIAJIE    6
+## 3  FIANNACA, ANTONINO    5
+## 4        TAGUCHI, Y-H    5
+## 5      ZHANG, JUNPENG    5
+## 6     ADHIKARI, BADRI    4
+## 7   BONNICI, VINCENZO    4
+## 8       CHEN, YAO-MEI    4
+## 9      EZAWA, KIYOSHI    4
+## 10      FAN, YONGXIAN    4
+</code></pre>
+<pre><code>## top 10 last authors:
+</code></pre>
+<pre><code>##                  authors Freq
+## 1         CHENG, JIANLIN   15
+## 2          SHANG, XUEQUN   13
+## 3           WANG, YADONG   12
+## 4  PAPPALARDO, FRANCESCO   11
+## 5         ROST, BURKHARD   10
+## 6             LI, JINYAN    9
+## 7              WANG, LEI    9
+## 8        ZHENG, CHUN-HOU    9
+## 9        BOUTROS, PAUL C    7
+## 10        KAHVECI, TAMER    7
+</code></pre>
+<pre><code>## top 10 all authors:
+</code></pre>
+<pre><code>##                  authors Freq
+## 1              WANG, LEI   20
+## 2           WANG, YADONG   20
+## 3             WANG, JIAN   17
+## 4          WANG, JIANXIN   16
+## 5         CHENG, JIANLIN   15
+## 6          LIU, JIN-XING   15
+## 7           LIN, HONGFEI   14
+## 8  PAPPALARDO, FRANCESCO   14
+## 9          SHANG, XUEQUN   14
+## 10             DENG, LEI   13
+</code></pre>
+<pre><code class="language-r">top_authors(&quot;Genome biology&quot;, year_start = 2015)
+</code></pre>
+<pre><code>## top 10 first authors:
+</code></pre>
+<pre><code>##                   authors Freq
+## 1       MARINOV, GEORGI K    4
+## 2              ARAN, DVIR    3
+## 3       DAVIDSON, NADIA M    3
+## 4          HUANG, YUANHUA    3
+## 5   LIPINSKA, AGNIESZKA P    3
+## 6     MCCARTNEY, DANIEL L    3
+## 7           MURAT, PIERRE    3
+## 8           RUBIN, ALAN F    3
+## 9           SONG, QINGXIN    3
+## 10 TESCHENDORFF, ANDREW E    3
+</code></pre>
+<pre><code>## top 10 last authors:
+</code></pre>
+<pre><code>##                     authors Freq
+## 1            STEGLE, OLIVER    9
+## 2           YUAN, GUO-CHENG    9
+## 3  BALASUBRAMANIAN, SHANKAR    8
+## 4              ERNST, JASON    8
+## 5            GERSTEIN, MARK    8
+## 6        ALKURAYA, FOWZAN S    7
+## 7             LANGMEAD, BEN    7
+## 8        LI, JINGYI JESSICA    7
+## 9          ROBINSON, MARK D    7
+## 10   SCHLÖTTERER, CHRISTIAN    7
+</code></pre>
+<pre><code>## top 10 all authors:
+</code></pre>
+<pre><code>##                 authors Freq
+## 1               LI, WEI   16
+## 2        STEGLE, OLIVER   16
+## 3       MARIONI, JOHN C   15
+## 4            REIK, WOLF   13
+## 5             HE, CHUAN   12
+## 6    LI, JINGYI JESSICA   12
+## 7  MASON, CHRISTOPHER E   12
+## 8           SHI, LEMING   12
+## 9             CHEN, WEI   11
+## 10         FLICEK, PAUL   11
+</code></pre>
+<pre><code class="language-r">top_authors(&quot;Nature communications&quot;, year_start = 2015)
+</code></pre>
+<pre><code>## top 10 first authors:
+</code></pre>
+<pre><code>##       authors Freq
+## 1   LIU, YANG   25
+## 2  YANG, YANG   25
+## 3    LIU, WEI   23
+## 4   WANG, WEI   22
+## 5  ZHANG, LEI   22
+## 6     LI, XIN   20
+## 7    LI, YANG   19
+## 8  LIU, CHANG   19
+## 9  ZHANG, TAO   19
+## 10   WANG, YU   18
+</code></pre>
+<pre><code>## top 10 last authors:
+</code></pre>
+<pre><code>##              authors Freq
+## 1         HUANG, WEI   42
+## 2    TANG, BEN ZHONG   40
+## 3    WANG, ZHONG LIN   38
+## 4  SARGENT, EDWARD H   35
+## 5   STEFANSSON, KARI   33
+## 6          CHEN, WEI   31
+## 7         YANG, YANG   29
+## 8          CHEN, JUN   28
+## 9          WANG, LEI   28
+## 10     NUREKI, OSAMU   27
+</code></pre>
+<pre><code>## top 10 all authors:
+</code></pre>
+<pre><code>##               authors Freq
+## 1  TANIGUCHI, TAKASHI  249
+## 2     WATANABE, KENJI  249
+## 3             LI, WEI  222
+## 4           LIU, YANG  218
+## 5           WANG, WEI  199
+## 6          ZHANG, WEI  189
+## 7          WANG, JING  175
+## 8           WANG, LEI  175
+## 9          YANG, YANG  168
+## 10          CHEN, WEI  165
+</code></pre>
+<pre><code class="language-r">top_authors(&quot;Nature&quot;, year_start = 2015, remove_single_author = TRUE)
+</code></pre>
+<pre><code>## top 10 first authors:
+</code></pre>
+<pre><code>##                authors Freq
+## 1            LIU, YANG   11
+## 2            AHMADI, M    8
+## 3           DONG, XIAO    6
+## 4             WANG, LI    6
+## 5     COORENS, TIM H H    5
+## 6    EVARISTO, JAIVIME    5
+## 7            LIU, PENG    5
+## 8        ROGELJ, JOERI    5
+## 9  ABBOSH, CHRISTOPHER    4
+## 10    BLUVSTEIN, DOLEV    4
+</code></pre>
+<pre><code>## top 10 last authors:
+</code></pre>
+<pre><code>##                 authors Freq
+## 1          BAKER, DAVID   36
+## 2  MACMILLAN, DAVID W C   16
+## 3       DUAN, XIANGFENG   15
+## 4         PAN, JIAN-WEI   15
+## 5     SARGENT, EDWARD H   15
+## 6          GOUAUX, ERIC   14
+## 7      LUKIN, MIKHAIL D   14
+## 8         BARAN, PHIL S   13
+## 9       CRAMER, PATRICK   13
+## 10      DIXIT, VISHVA M   13
+</code></pre>
+<pre><code>## top 10 all authors:
+</code></pre>
+<pre><code>##               authors Freq
+## 1     WATANABE, KENJI  132
+## 2  TANIGUCHI, TAKASHI  130
+## 3        BAKER, DAVID   51
+## 4           LIU, YANG   44
+## 5         REGEV, AVIV   41
+## 6   CAMPBELL, PETER J   39
+## 7           WANG, WEI   35
+## 8     CHANG, HOWARD Y   30
+## 9           ZHANG, YU   30
+## 10          REN, BING   29
+</code></pre>
+<pre><code class="language-r">top_authors(&quot;Science&quot;, year_start = 2015, remove_single_author = TRUE)
+</code></pre>
+<pre><code>## top 10 first authors:
+</code></pre>
+<pre><code>##              authors Freq
+## 1    VIGNIERI, SACHA   44
+## 2      LOPEZ, BIANCA   29
+## 3       SMITH, JESSE   16
+## 4     SMITH, KEITH T   16
+## 5      ASH, CAROLINE   13
+## 6   SIMONTI, CORINNE   12
+## 7  GROCHOLSKI, BRENT   11
+## 8     SMITH, H JESSE   11
+## 9          JIANG, DI   10
+## 10      STERN, PETER    9
+</code></pre>
+<pre><code>## top 10 last authors:
+</code></pre>
+<pre><code>##               authors Freq
+## 1        BAKER, DAVID   29
+## 2      OLINGY, CLAIRE   25
+## 3         ZHANG, FENG   19
+## 4         SHI, YIGONG   18
+## 5  DOUDNA, JENNIFER A   15
+## 6       BARAN, PHIL S   14
+## 7      MALO, COURTNEY   14
+## 8       PAN, JIAN-WEI   14
+## 9   SABATINI, DAVID M   14
+## 10      ASH, CAROLINE   13
+</code></pre>
+<pre><code>## top 10 all authors:
+</code></pre>
+<pre><code>##              authors Freq
+## 1          JIANG, DI  135
+## 2    VIGNIERI, SACHA  135
+## 3     LAVINE, MARC S  129
+## 4      SZUROMI, PHIL  125
+## 5      ASH, CAROLINE  118
+## 6    FUNK, MICHAEL A  115
+## 7      LOPEZ, BIANCA  104
+## 8     STAJIC, JELENA  104
+## 9     MAROSO, MATTIA   98
+## 10 GROCHOLSKI, BRENT   97
+</code></pre>
+<pre><code class="language-r">top_authors(&quot;Cell&quot;, year_start = 2015, remove_single_author = TRUE)
+</code></pre>
+<pre><code>## top 10 first authors:
+</code></pre>
+<pre><code>##                       authors Freq
+## 1          GRUBAUGH, NATHAN D    6
+## 2          WALLS, ALEXANDRA C    5
+## 3                     WU, JUN    5
+## 4                 YAN, LIMING    5
+## 5                   CHEN, YUN    4
+## 6  GARCIA-BELTRAN, WILFREDO F    4
+## 7            HOFFMANN, MARKUS    4
+## 8                  LE, TUNG T    4
+## 9          LÓPEZ-OTÍN, CARLOS    4
+## 10             VATANEN, TOMMI    4
+</code></pre>
+<pre><code>## top 10 last authors:
+</code></pre>
+<pre><code>##                          authors Freq
+## 1             DIAMOND, MICHAEL S   18
+## 2                      AMIT, IDO   15
+## 3                  CLEVERS, HANS   12
+## 4                     LUO, LIQUN   12
+## 5                 COLONNA, MARCO   11
+## 6               DEISSEROTH, KARL   11
+## 7                 DILLIN, ANDREW   11
+## 8                 GINTY, DAVID D   11
+## 9  IZPISUA BELMONTE, JUAN CARLOS   11
+## 10                 FUCHS, ELAINE   10
+</code></pre>
+<pre><code>## top 10 all authors:
+</code></pre>
+<pre><code>##               authors Freq
+## 1         REGEV, AVIV   45
+## 2  DIAMOND, MICHAEL S   29
+## 3             LI, WEI   27
+## 4           AMIT, IDO   26
+## 5    DEISSEROTH, KARL   25
+## 6      GYGI, STEVEN P   25
+## 7    GINHOUX, FLORENT   23
+## 8         ZHANG, BING   23
+## 9       CLEVERS, HANS   22
+## 10     COLONNA, MARCO   22
+</code></pre>
+<p>Session Info：</p>
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+<pre><code>## R version 4.4.2 (2024-10-31)
+## Platform: aarch64-apple-darwin20
+## Running under: macOS 26.1
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## 
+## locale:
+## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] GetoptLong_1.0.5 pubmedR_0.0.3    knitr_1.50       colorout_1.3-2  
+## 
+## loaded via a namespace (and not attached):
+##  [1] crayon_1.5.3        httr_1.4.7          cli_3.6.4           rlang_1.1.5        
+##  [5] xfun_0.51           jsonlite_1.9.0      rjson_0.2.23        htmltools_0.5.8.1  
+##  [9] GlobalOptions_0.1.4 XML_3.99-0.18       sass_0.4.9          rmarkdown_2.29     
+## [13] evaluate_1.0.3      jquerylib_0.1.4     fastmap_1.2.0       yaml_2.3.10        
+## [17] lifecycle_1.0.4     bookdown_0.44       compiler_4.4.2      rentrez_1.2.4      
+## [21] blogdown_1.19       digest_0.6.37       R6_2.6.1            curl_6.2.1         
+## [25] bslib_0.9.0         tools_4.4.2         cachem_1.1.0
+</code></pre>
+
+  </div>
+
+  <p id="license">本文使用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans'>CC BY-NC-SA 4.0</a> 协议发布。</p>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

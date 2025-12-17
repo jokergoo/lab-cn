@@ -5,13 +5,15 @@
 
   {{ if .Params.date }}
     <div id=sub-header>
-      {{.Params.author}}{{if .Params.author}} · {{end}}{{ .Date.Format (.Site.Params.dateform | default "January 2006") }}
+      {{.Params.author}}{{if .Params.author}} · {{end}}{{ .Date.Format (.Site.Params.dateform | default "January 2006") }} · <a href="#license">版权信息</a>
     </div>
   {{ end }}
 
   <div class="entry-content">
     {{ .Content }}
   </div>
+
+  <p id="license">本文使用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans'>CC BY-NC-SA 4.0</a> 协议发布。</p>
 
 </section>
 

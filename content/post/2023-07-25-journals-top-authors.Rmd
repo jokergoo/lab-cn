@@ -1,0 +1,349 @@
+---
+title: "学术期刊 top 作者"
+slug: "journals-top-authors"
+date: 2023-07-25
+author: 顾祖光
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 5,
+    fig.height = 5,
+    fig.align = "center"
+)
+options("width" = 100)
+```
+
+NCBI 提供的 [E-utilities](https://www.ncbi.nlm.nih.gov/books/NBK25501/) API 可以很方便的从 NCBI 的数据库中提取信息。对于其 PubMed 数据库，
+**pubmedR** 封装了 E-utilities API（内部基于底层 **rentrez** 包），用户可以更为直接的从 PubMed 数据库提取相应的数据。
+
+本文将展示如何获取来自某一学术期刊的所有论文，通过分析作者，获取在此学术期刊上发表论文最高的作者。
+
+批量从 PubMed 上获取数据需要提供 NCBI 的 API key。可以免费获得，具体步骤为：登录 NCBI -> Account Settings -> API Key Management。
+
+
+```r
+library(pubmedR)
+api_key = 
+```
+
+```{r, echo = FALSE}
+library(pubmedR)
+api_key = readLines("~/Documents/pubmed_api_key")
+```
+
+对 PubMed 数据库进行查询时，我们需要提供格式化的查询字串，详见 https://pubmed.ncbi.nlm.nih.gov/help/#using-search-field-tags 。如果不知道如何编写查询字串，可先在网页版上输入查询内容，PubMed 的搜索功能会自动将其格式化成标准查询字串，然后再
+按照自己的需求略加修改即可。
+
+注意通过 NCBI
+API 最多一次只能获取一万条记录，如果超过一万条，需要分次获取。在下面的例子中，我们将所有2014年至2025年 Bioinformatics 期刊上的所有论文分两次获取。
+
+期刊的标准名字可以在 https://ftp.ncbi.nlm.nih.gov/pubmed/J_Medline.txt 查询获得。
+
+```{r, message = FALSE, results = "hide"}
+query = '("Bioinformatics (Oxford, England)"[Journal]) AND (("1998"[Date - Publication] : "2014"[Date - Publication]))'
+res = pmQueryTotalCount(query = query, api_key = api_key)
+D1 = pmApiRequest(query = query, limit = res$total_count, api_key = NULL)
+
+query = '("Bioinformatics (Oxford, England)"[Journal]) AND (("2015"[Date - Publication] : "2025"[Date - Publication]))'
+res = pmQueryTotalCount(query = query, api_key = api_key)
+D2 = pmApiRequest(query = query, limit = res$total_count, api_key = NULL)
+
+D1 = pmApi2df(D1)
+D2 = pmApi2df(D2)
+df = rbind(D1, D2)
+
+df = df[df$DT == "JOURNAL ARTICLE", ]
+```
+
+现在所有的论文信息均存储在`df`数据框中，其中作者列表在`AF`列中。
+
+以第一作者最高发文量前十名：
+
+```{r}
+first_authors = gsub(";.*$", "", df$AF)
+first_authors = first_authors[first_authors != ""]
+sort(table(first_authors), decreasing = TRUE)[1:10]
+```
+
+以最后作者最高发文量前十名：
+
+```{r}
+last_authors = gsub("^.*;", "", df$AF)
+last_authors = last_authors[last_authors != ""]
+sort(table(last_authors), decreasing = TRUE)[1:10]
+```
+
+我们可以让代码变得略微聪明一点，我们可以将总记录按年逐份提取，可以编写如下函数 `top_authors()`.
+
+```{r}
+library(GetoptLong)
+
+cache = new.env()
+cache$data = list()
+
+top_authors = function(journal, year_start = 2000, remove_single_author = FALSE) {
+
+    year_end = as.integer(gsub("-.*$", "", as.character(Sys.Date())))
+
+    df = NULL
+    for(y in seq(year_start, year_end)) {
+        query = qq('("@{journal}"[Journal]) AND (("@{y}/01/01"[Date - Publication] : "@{y}/12/31"[Date - Publication]))')
+        cat(query, "\n")
+        res = pmQueryTotalCount(query = query, api_key = api_key)
+        if(res$total_count > 1) {
+
+            if(!is.null(cache$data[[qq("@{journal}/@{y}")]])) {
+                cat("  read from cache\n")
+                m1 = cache$data[[qq("@{journal}/@{y}")]]
+            } else {
+
+                if(res$total_count > 8000) {
+                    query = qq('("@{journal}"[Journal]) AND (("@{y}/01/01"[Date - Publication] : "@{y}/06/30"[Date - Publication]))')
+                    cat("  ", query, "\n")
+                    res = pmQueryTotalCount(query = query, api_key = api_key)
+                    D1 = pmApiRequest(query = query, limit = res$total_count, api_key = api_key)
+                    m1 = pmApi2df(D1)
+                    
+                    query = qq('("@{journal}"[Journal]) AND (("@{y}/07/01"[Date - Publication] : "@{y}/12/31"[Date - Publication]))')
+                    cat("  ", query, "\n")
+                    res = pmQueryTotalCount(query = query, api_key = api_key)
+                    D1 = pmApiRequest(query = query, limit = res$total_count, api_key = api_key)
+                    m1 = rbind(m1, pmApi2df(D1))
+
+                } else {
+                    D1 = pmApiRequest(query = query, limit = res$total_count, api_key = api_key)
+                    m1 = pmApi2df(D1)
+                }
+
+                cache$data[[qq("@{journal}/@{y}")]] = m1
+            }
+
+            df = rbind(df, m1)
+        }
+    }
+
+    df = df[df$DT == "JOURNAL ARTICLE", ]
+
+    author_list = df$AF
+    author_list = strsplit(author_list, ";")
+    author_list = lapply(author_list, function(x) x[!grepl("^\\d*$", x)])
+    author_list = author_list[sapply(author_list, length) > 0]
+
+    # 某些期刊会有editor's letter，在pubmed中也算journal article
+    # 一般来说，这种文章只有一个作者
+    if(remove_single_author) {
+        author_list = author_list[sapply(author_list, length) > 1]
+    }
+
+    authors = sapply(author_list, function(x) x[1])
+    cat("top 10 first authors:\n")
+    print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+    # last author
+    authors = sapply(author_list, function(x) x[length(x)])
+    cat("top 10 last authors:\n")
+    print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+    # all authors
+    authors = unlist(author_list)
+    cat("top 10 all authors:\n")
+    print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+
+    return(invisible(df))
+}
+```
+
+我们来试验一下近十年的：
+
+
+```r
+top_authors("BMC bioinformatics", year_start = 2015)
+```
+
+```{r, echo = FALSE}
+# df = top_authors("BMC bioinformatics", year_start = 2015)
+# saveRDS(df, file = "pubmed_bmc_bioinformatics.rds", compress = "xz")
+
+df = readRDS("pubmed_bmc_bioinformatics.rds")
+author_list = df$AF
+author_list = strsplit(author_list, ";")
+author_list = lapply(author_list, function(x) x[!grepl("^\\d*$", x)])
+author_list = author_list[sapply(author_list, length) > 0]
+
+authors = sapply(author_list, function(x) x[1])
+cat("top 10 first authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# last author
+authors = sapply(author_list, function(x) x[length(x)])
+cat("top 10 last authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# all authors
+authors = unlist(author_list)
+cat("top 10 all authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+```
+
+
+```r
+top_authors("Genome biology", year_start = 2015)
+```
+
+```{r, echo = FALSE}
+# df = top_authors("Genome biology", year_start = 2015)
+# saveRDS(df, file = "pubmed_gb.rds", compress = "xz")
+
+df = readRDS("pubmed_gb.rds")
+author_list = df$AF
+author_list = strsplit(author_list, ";")
+author_list = lapply(author_list, function(x) x[!grepl("^\\d*$", x)])
+author_list = author_list[sapply(author_list, length) > 0]
+
+authors = sapply(author_list, function(x) x[1])
+cat("top 10 first authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# last author
+authors = sapply(author_list, function(x) x[length(x)])
+cat("top 10 last authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# all authors
+authors = unlist(author_list)
+cat("top 10 all authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+```
+
+```r
+top_authors("Nature communications", year_start = 2015)
+```
+
+```{r, echo = FALSE}
+# df = top_authors("Nature communications", year_start = 2015)
+# saveRDS(df, file = "pubmed_ns.rds", compress = "xz")
+
+df = readRDS("pubmed_ns.rds")
+author_list = df$AF
+author_list = strsplit(author_list, ";")
+author_list = lapply(author_list, function(x) x[!grepl("^\\d*$", x)])
+author_list = author_list[sapply(author_list, length) > 0]
+
+authors = sapply(author_list, function(x) x[1])
+cat("top 10 first authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# last author
+authors = sapply(author_list, function(x) x[length(x)])
+cat("top 10 last authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# all authors
+authors = unlist(author_list)
+cat("top 10 all authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+```
+
+
+```r
+top_authors("Nature", year_start = 2015, remove_single_author = TRUE)
+```
+
+```{r, echo = FALSE}
+# df = top_authors("Nature", year_start = 2015)
+# saveRDS(df, file = "pubmed_nature.rds", compress = "xz")
+
+df = readRDS("pubmed_nature.rds")
+author_list = df$AF
+author_list = strsplit(author_list, ";")
+author_list = lapply(author_list, function(x) x[!grepl("^\\d*$", x)])
+author_list = author_list[sapply(author_list, length) > 1]
+
+authors = sapply(author_list, function(x) x[1])
+cat("top 10 first authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# last author
+authors = sapply(author_list, function(x) x[length(x)])
+cat("top 10 last authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# all authors
+authors = unlist(author_list)
+cat("top 10 all authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+```
+
+
+```r
+top_authors("Science", year_start = 2015, remove_single_author = TRUE)
+```
+
+```{r, echo = FALSE}
+# df = top_authors("Science", year_start = 2015)
+# saveRDS(df, file = "pubmed_science.rds", compress = "xz")
+
+df = readRDS("pubmed_science.rds")
+author_list = df$AF
+author_list = strsplit(author_list, ";")
+author_list = lapply(author_list, function(x) x[!grepl("^\\d*$", x)])
+author_list = author_list[sapply(author_list, length) > 1]
+
+authors = sapply(author_list, function(x) x[1])
+cat("top 10 first authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# last author
+authors = sapply(author_list, function(x) x[length(x)])
+cat("top 10 last authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# all authors
+authors = unlist(author_list)
+cat("top 10 all authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+```
+
+
+```r
+top_authors("Cell", year_start = 2015, remove_single_author = TRUE)
+```
+
+```{r, echo = FALSE}
+# df = top_authors("Cell", year_start = 2015)
+# saveRDS(df, file = "pubmed_cell.rds", compress = "xz")
+
+df = readRDS("pubmed_cell.rds")
+author_list = df$AF
+author_list = strsplit(author_list, ";")
+author_list = lapply(author_list, function(x) x[!grepl("^\\d*$", x)])
+author_list = author_list[sapply(author_list, length) > 1]
+
+authors = sapply(author_list, function(x) x[1])
+cat("top 10 first authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# last author
+authors = sapply(author_list, function(x) x[length(x)])
+cat("top 10 last authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+
+# all authors
+authors = unlist(author_list)
+cat("top 10 all authors:\n")
+print(as.data.frame(sort(table(authors), decreasing = TRUE)[1:10]))
+```
+
+
+Session Info：
+
+```{r}
+sessionInfo()
+```

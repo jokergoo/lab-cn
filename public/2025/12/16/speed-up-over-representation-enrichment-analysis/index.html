@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         提速 ORA 富集分析 
+      
+    </title>
+    <link rel="canonical" href="/lab-cn/2025/12/16/speed-up-over-representation-enrichment-analysis/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+#license {
+  font-style: italic;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color:#403c3b;
+}
+#license a {
+  color:#403c3b;
+}
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script>
+window.root_dir = "\/lab-cn\/";
+const regex = /^https?:\/\/[^/]+?\//;
+root_dir = root_dir.replace(regex, "/");
+$( function() {
+  $("#content img").each(function(i) {
+        var old_src = $(this).attr("src");
+        var pattern = new RegExp("^" + root_dir);
+        if(!pattern.test(old_src)) {
+            pattern = /^http(s?):\/\//;
+            if(!pattern.test(old_src)) {
+                $(this).attr("src", root_dir + "/" + old_src);
+            }
+        }
+    });
+  $("#nav-logo-text").attr("href", root_dir);
+  $("#no-found-a").attr("href", root_dir);
+
+  var url = window.location.href;
+  var pattern = /lab-cn/;
+  var url2 = url.replace(pattern, "lab-en");
+  $("#nav ul li:last-child a").attr("href", url2);
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="/lab-cn/research/">研究</a></li>
+        
+          <li><a href="/lab-cn/publication/">论文</a></li>
+        
+          <li><a href="/lab-cn/software/">软件</a></li>
+        
+          <li><a href="/lab-cn/post">博客</a></li>
+        
+          <li><a href="/lab-cn/members/">成员</a></li>
+        
+          <li><a href="/lab-cn/opening/">职位</a></li>
+        
+          <li><a href="/lab-en/">EN</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> 提速 ORA 富集分析 </h1>
+
+  
+    <div id=sub-header>
+      顾祖光 · December 2025 · <a href="#license">版权信息</a>
+    </div>
+  
+
+  <div class="entry-content">
+    <p>富集分析，Over-representation analysis（ORA）是用来分析一个基因列表（例如差异基因，或者任意形式的基因列表，本文中我们以差异基因，也就是DE基因为例）是否富集在一个基因集合中的方法。我们一般使用超几何分布来计算<em>p</em>值，对应的函数是<code>phyper()</code>，参数为：</p>
+<pre><code class="language-r">phyper(x, m, n, k, lower.tail = FALSE)
+</code></pre>
+<p>其中</p>
+<ul>
+<li><code>x</code>是基因集合中DE基因的个数，</li>
+<li><code>m</code>是基因集合中基因的总数，</li>
+<li><code>n</code>是不属于此基因集合的基因总数，</li>
+<li><code>k</code>是DE基因的总数。</li>
+</ul>
+<p>参数<code>lower.tail = FALSE</code>计算的是$\mathrm{Pr}(X &gt; x)$。在计算<em>p</em>值时，我们常也包含$X = x$的情形，此时最终的<em>p</em>值应当为$\mathrm{Pr}(X \ge x)$。那么在使用<code>phyper()</code>时，我们需要将<code>x</code>调整为<code>x - 1</code>。</p>
+<pre><code class="language-r">phyper(x - 1, m, n, k, lower.tail = FALSE)
+</code></pre>
+<h3 id="使用forsapply循环">使用for/sapply循环</h3>
+<p>已知一个DE基因列表和一个基因集合，很容易能够计算出<code>phyper()</code>所需的四个参数的值。首先我们编写一个<code>ora_single()</code>函数用来计算对一个单独基因集合做富集分析的<em>p</em>值。如下代码所示，<code>ora_single()</code>需要三个参数：一个DE基因向量<code>genes</code>，一个基因集合基因向量<code>gene_set</code>和一个背景基因向量<code>universe</code>。在很多情况下，并不能保证背景基因能够完全包含DE基因或者基因集合，因此，我们需要手动去除不包含在背景基因中的基因（使用<code>intersect()</code>函数）。</p>
+<p>在下面的例子中，我们假设所有的基因向量中的基因都具有相同类型的ID类型。</p>
+<pre><code class="language-r">ora_single = function(genes, gene_set, universe) {
+    n_universe = length(universe)
+
+    # 将genes和gene_set都限制在universe中
+    genes = intersect(genes, universe)
+    gene_set = intersect(gene_set, universe)
+
+    x = length(intersect(genes, gene_set)) # DE genes in the gene set
+    m = length(gene_set)  # total genes in the gene set
+    n = n_universe - m    # total genes not in the gene set
+    k = length(genes)     # total DE genes
+
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
+}
+</code></pre>
+<p>然后，对于一组基因集合，我们只需要使用<code>sapply()</code>或者<code>for</code>循环将<code>ora_single()</code>应用到每一个基因集合上。在<code>ora_v1()</code>中，我们假设基因集合的格式是一个list，其中每一个成员向量表示一个基因集合。<code>ora_v1()</code>返回一个<em>p</em>值向量。</p>
+<pre><code class="language-r"># version 1
+ora_v1 = function(genes, gene_sets, universe) {
+    sapply(gene_sets, function(x) ora_single(genes, x, universe))
+}
+</code></pre>
+<p>可见在R中编写一个支持ORA分析的函数非常简单。为了执行<code>ora_v1()</code>，我们使用GO基因集合，使用蛋白编码基因作为背景基因，从其中随机抽取1000个基因作为DE基因。</p>
+<pre><code class="language-r">library(org.Hs.eg.db)
+gs = as.list(org.Hs.egGO2ALLEGS)
+gs = lapply(gs, unique)  # 基因有可能重复
+library(GO.db)
+gs = gs[Ontology(names(gs)) == &quot;BP&quot;]  # 取GO BP基因集合
+
+pc_genes = select(org.Hs.eg.db, key = &quot;protein-coding&quot;, 
+    keytype = &quot;GENETYPE&quot;, column = c(&quot;ENTREZID&quot;))[, 2] # 获取所有的protein-coding基因
+genes = sample(pc_genes, 1000)
+</code></pre>
+<p>注意在上述的例子中<code>pc_genes</code>作为背景基因，但是并不是所有<code>gs</code>中的基因均能被包含在<code>pc_genes</code>中。因为在GO注释中，也包含了非蛋白编码基因，如microRNA。</p>
+<p>现在让我们运行<code>ora_v1()</code>：</p>
+<pre><code class="language-r">system.time(p1 &lt;- ora_v1(genes, gs, pc_genes))
+</code></pre>
+<pre><code>##    user  system elapsed 
+##   4.385   0.697   5.083
+</code></pre>
+<h3 id="使用向量化的hyper">使用向量化的hyper()</h3>
+<p>在版本1中，我们使用循环的方式进行代码编写。在R中，我们往往推荐向量化计算。注意<code>phyper()</code>同样也支持以向量作为参数，同时计算多个<em>p</em>值。在版本2中，在运行<code>phyper()</code>之前，我们直接生成参数<code>x</code>，<code>m</code>和<code>n</code>向量。</p>
+<pre><code class="language-r"># version 2
+ora_v2 = function(genes, gene_sets, universe) {
+    
+    genes = intersect(genes, universe)
+    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+
+    n_universe = length(universe)
+    n_genes = length(genes)
+    
+    # 注意现在x, m, n, k均为向量
+    x = sapply(gene_sets, function(x) length(intersect(x, genes)))
+    m = sapply(gene_sets, length)
+    n = n_universe - m
+    k = n_genes
+    
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
+}
+</code></pre>
+<p>使用相同的<code>genes</code>，<code>gs</code>和<code>pc_genes</code>变量，运行<code>ora_v2()</code>。</p>
+<pre><code class="language-r">system.time(p2 &lt;- ora_v2(genes, gs, pc_genes))
+</code></pre>
+<pre><code>##    user  system elapsed 
+##   2.034   0.276   2.311
+</code></pre>
+<p>可见和<code>ora_v1()</code>相比，<code>ora_v2()</code>提速了一倍。</p>
+<h3 id="再看intersect函数">再看intersect()函数</h3>
+<p>下面我们对<code>ora_v2()</code>进行代码profiling，看看其中最耗时的是哪一部分。</p>
+<pre><code class="language-r">Rprof()
+p2 = ora_v2(genes, gs, pc_genes)
+Rprof(NULL)
+summaryRprof()$by.self
+</code></pre>
+<pre><code>##                   self.time self.pct total.time total.pct
+## &quot;base::intersect&quot;      2.16      100       2.16       100
+</code></pre>
+<p>可见<code>intersect()</code>是代码中最耗时的一步。</p>
+<p>数学中，<code>intersect(A, B)</code>和<code>intersect(B, A)</code>是等价的，但是在R中，<code>intersect()</code>内部是基于哈希表，其第一个参数是输入向量，而第二个参数会被视为“字典”用来内部构建一个哈希表。
+让我们做如下实验：</p>
+<pre><code class="language-r">system.time(lapply(gs, function(x) intersect(x, pc_genes)))
+</code></pre>
+<pre><code>##    user  system elapsed 
+##   1.845   0.310   2.158
+</code></pre>
+<pre><code class="language-r">system.time(lapply(gs, function(x) intersect(pc_genes, x)))
+</code></pre>
+<pre><code>##    user  system elapsed 
+##   4.897   0.683   5.581
+</code></pre>
+<p>在上述代码的第一行中，因为<code>pc_genes</code>只需要在第一次运行<code>intersect()</code>时生成一份临时的哈希表，而在以后的运行时可以重复使用。而在第二行中，由于<code>intersect()</code>的第二个参数为<code>x</code>，在每次循环中都会发生变化，因此每次都会重新生成关于<code>x</code>的新的哈希表。</p>
+<p>那么到这里的讨论告诉我们，如果以后我们需要对一组向量对同一个向量做intersect，永远把那个单独的向量作为<code>intersect()</code>的第二个参数。</p>
+<h3 id="fastmatch包">fastmatch包</h3>
+<p>如果你查看<code>intersect()</code>的源代码，会发现其内部使用了<code>match()</code>函数。在R中，<strong>fastmatch</strong>提供了一个更快的match操作，名为<code>fmatch()</code>，或者与<code>%in%</code>类似的<code>%fin%</code>。我们来把<code>ora_v2()</code>修改一下：</p>
+<pre><code class="language-r"># version 3
+library(fastmatch)
+ora_v3 = function(genes, gene_sets, universe) {
+    
+    genes = genes[genes %fin% universe]
+    gene_sets = lapply(gene_sets, function(x) x[x %fin% universe])
+
+    n_universe = length(universe)
+    n_genes = length(genes)
+    
+    # 注意现在x, m, n, k均为向量
+    x = sapply(gene_sets, function(x) sum(x %fin% genes))
+    m = sapply(gene_sets, length)
+    n = n_universe - m
+    k = n_genes
+    
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
+}
+system.time(p3 &lt;- ora_v3(genes, gs, pc_genes))
+</code></pre>
+<pre><code>##    user  system elapsed 
+##   0.045   0.001   0.046
+</code></pre>
+<p>速度得到了超大幅度的提升！</p>
+<p>三个方法得到的<em>p</em>值是相同的。</p>
+<pre><code class="language-r">identical(p1, p2)
+</code></pre>
+<pre><code>## [1] TRUE
+</code></pre>
+<pre><code class="language-r">identical(p1, p3)
+</code></pre>
+<pre><code>## [1] TRUE
+</code></pre>
+<h3 id="结语">结语</h3>
+<p>下面综合比较一下：</p>
+<pre><code class="language-r">library(microbenchmark)
+microbenchmark(
+    &quot;loop(v1)&quot;       = ora_v1(genes, gs, pc_genes),
+    &quot;vectorized(v2)&quot; = ora_v2(genes, gs, pc_genes),
+    &quot;fastmatch(v3)&quot;  = ora_v3(genes, gs, pc_genes),
+    times = 10
+)
+</code></pre>
+<pre><code>## Unit: milliseconds
+##            expr       min        lq       mean     median         uq        max neval
+##        loop(v1) 5318.1961 5383.5570 5828.39005 5880.66780 6045.01761 6804.51104    10
+##  vectorized(v2) 2308.4575 2318.3023 2439.03654 2373.14585 2584.79236 2665.35383    10
+##   fastmatch(v3)   40.7178   42.7744   44.96102   43.88181   45.23243   52.91075    10
+</code></pre>
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+<pre><code>## R version 4.4.2 (2024-10-31)
+## Platform: aarch64-apple-darwin20
+## Running under: macOS 26.1
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## 
+## locale:
+## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] microbenchmark_1.5.0 fastmatch_1.1-6      GO.db_3.20.0         org.Hs.eg.db_3.20.0 
+##  [5] AnnotationDbi_1.68.0 IRanges_2.40.1       S4Vectors_0.44.0     Biobase_2.66.0      
+##  [9] BiocGenerics_0.52.0  knitr_1.50           colorout_1.3-2      
+## 
+## loaded via a namespace (and not attached):
+##  [1] bit_4.5.0.1             jsonlite_1.9.0          compiler_4.4.2          crayon_1.5.3           
+##  [5] blob_1.2.4              Biostrings_2.74.1       jquerylib_0.1.4         png_0.1-8              
+##  [9] yaml_2.3.10             fastmap_1.2.0           R6_2.6.1                XVector_0.46.0         
+## [13] GenomeInfoDb_1.42.3     bookdown_0.44           GenomeInfoDbData_1.2.13 DBI_1.2.3              
+## [17] bslib_0.9.0             rlang_1.1.5             KEGGREST_1.46.0         cachem_1.1.0           
+## [21] xfun_0.51               sass_0.4.9              bit64_4.6.0-1           RSQLite_2.3.9          
+## [25] memoise_2.0.1           cli_3.6.4               zlibbioc_1.52.0         digest_0.6.37          
+## [29] lifecycle_1.0.4         vctrs_0.6.5             evaluate_1.0.3          blogdown_1.19          
+## [33] rmarkdown_2.29          httr_1.4.7              pkgconfig_2.0.3         tools_4.4.2            
+## [37] htmltools_0.5.8.1       UCSC.utils_1.2.0
+</code></pre>
+
+  </div>
+
+  <p id="license">本文使用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans'>CC BY-NC-SA 4.0</a> 协议发布。</p>
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

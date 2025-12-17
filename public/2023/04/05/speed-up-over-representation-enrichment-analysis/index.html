@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head>
+  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -28,10 +28,10 @@
     <title>
       
       
-         Speed up over-representation enrichment analysis 
+         提速 ORA 富集分析 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2023/04/05/speed-up-over-representation-enrichment-analysis/">
+    <link rel="canonical" href="http://localhost:4321/lab-cn/2023/04/05/speed-up-over-representation-enrichment-analysis/">
 
     <style>
   * {
@@ -315,7 +315,15 @@
   padding: 2px 10px 2px 0px;
 }
 
-
+#license {
+  font-style: italic;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color:#403c3b;
+}
+#license a {
+  color:#403c3b;
+}
   @media (max-width: 750px) {
     body {
       padding-left:20px;
@@ -423,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,42 +480,35 @@ $( function() {
 
 
 <section id=content>
-  <h1 style="margin-bottom: 40px"> Speed up over-representation enrichment analysis </h1>
+  <h1 style="margin-bottom: 40px"> 提速 ORA 富集分析 </h1>
 
   
     <div id=sub-header>
-      Zuguang Gu · April 2023
+      顾祖光 · April 2023
     </div>
   
 
   <div class="entry-content">
-    <p>Over-representation analysis (ORA) evaluates whether a list of genes
-(e.g. differentially expressed genes, DE genes) are enriched in a gene set,
-normally with the hypergeometric distribution to calculate p-values. With the
-function <code>phyper()</code>, there are the following parameters:</p>
+    <p>富集分析，Over-representation analysis（ORA）是用来分析一个基因列表（例如差异基因，或者任意形式的基因列表，本文中我们以差异基因，也就是DE基因为例）是否富集在一个基因集合中的方法。我们一般使用超几何分布来计算<em>p</em>-值，对应的函数是<code>phyper()</code>，参数为：</p>
 <pre><code class="language-r">phyper(x, m, n, k, lower.tail = FALSE)
 </code></pre>
-<p>where <code>x</code> is the number of DE genes in the gene set, <code>m</code> is the total number
-of genes in the gene set, <code>n</code> is the total number of genes not in the gene
-set, and <code>k</code> is the total number of DE genes.</p>
-<p><code>phyper(..., lower.tail = FALSE)</code> calculates <code>\(\mathrm{Pr}(X &gt; x)\)</code>. Normally we
-also include the case of <code>\(X = x\)</code> which gives the final p-value as
-<code>\(\mathrm{Pr}(X \ge x)\)</code>. Then we need to slightly change the <code>phyper()</code> call by
-switching <code>x</code> to <code>x-1</code>:</p>
+<p>其中</p>
+<ul>
+<li><code>x</code>是基因集合中DE基因的个数，</li>
+<li><code>m</code>是基因集合中基因的总数，</li>
+<li><code>n</code>是不属于此基因集合的基因总数，</li>
+<li><code>k</code>是DE基因的总数。</li>
+</ul>
+<p>参数<code>lower.tail = FALSE</code>计算的是$\mathrm{Pr}(X &gt; x)$。在计算<em>p</em>值时，我们常也包含$X = x$的情形，此时最终的<em>p</em>值应当为$\mathrm{Pr}(X \ge x)$。那么在使用<code>phyper()</code>时，我们需要将<code>x</code>调整为<code>x - 1</code>。</p>
 <pre><code class="language-r">phyper(x - 1, m, n, k, lower.tail = FALSE)
 </code></pre>
-<p>For a DE gene list and a gene set, it is easy to obtain values for these
-parameters. First I implement a function <code>ora_single()</code> that calculates
-p-value for a single gene set. As demonstrated as follows, <code>ora_single()</code> has
-three arguments, which correspond to the DE genes, gene set and the background
-genes. Sometimes the three types of genes may come from different sources, to
-make sure background genes always cover all DE genes and the gene set, we need to
-explicitly intersect the <code>genes</code> and <code>gene_set</code> vectors to the <code>universe</code>
-vector.</p>
-<pre><code class="language-r"># assume `genes`, `gene_set` and `universe` have the same gene ID type
-ora_single = function(genes, gene_set, universe) {
+<h3 id="使用forsapply循环">使用for/sapply循环</h3>
+<p>已知一个DE基因列表和一个基因集合，很容易能够计算出<code>phyper()</code>所需的四个参数的值。首先我们编写一个<code>ora_single()</code>函数用来计算对一个单独基因集合做富集分析的<em>p</em>值。如下代码所示，<code>ora_single()</code>需要三个参数：一个DE基因向量<code>genes</code>，一个基因集合基因向量<code>gene_set</code>和一个背景基因向量<code>universe</code>。在很多情况下，并不能保证背景基因能够完全包含DE基因或者基因集合，因此，我们需要手动去除不包含在背景基因中的基因（使用<code>intersect()</code>函数）。</p>
+<p>在下面的例子中，我们假设所有的基因向量中的基因都具有相同类型的ID类型。</p>
+<pre><code class="language-r">ora_single = function(genes, gene_set, universe) {
     n_universe = length(universe)
 
+    # 将genes和gene_set都限制在universe中
     genes = intersect(genes, universe)
     gene_set = intersect(gene_set, universe)
 
@@ -519,46 +520,32 @@ ora_single = function(genes, gene_set, universe) {
     phyper(x - 1, m, n, k, lower.tail = FALSE)
 }
 </code></pre>
-<p>Then, for a list of gene sets, we can apply <code>ora_single()</code> to each of them,
-with <code>sapply()</code> or in a <code>for</code> loop. In <code>ora_v1()</code>, I assume the gene sets
-are represented as a list of vectors where each vector is a gene set. <code>ora_v1()</code>
-returns a vector of p-values.</p>
+<p>然后，对于一组基因集合，我们只需要使用<code>sapply()</code>或者<code>for</code>循环将<code>ora_single()</code>应用到每一个基因集合上。在<code>ora_v1()</code>中，我们假设基因集合的格式是一个list，其中每一个成员向量表示一个基因集合。<code>ora_v1()</code>返回一个<em>p</em>值向量。</p>
 <pre><code class="language-r"># version 1
 ora_v1 = function(genes, gene_sets, universe) {
     sapply(gene_sets, function(x) ora_single(genes, x, universe))
 }
 </code></pre>
-<p>To execute <code>ora_v1()</code>, I use GO gene sets in the BP namespace, I use all protein-coding genes as background,
-and I randomly generate 1000 genes as DE genes.</p>
+<p>可见在R中编写一个支持ORA分析的函数非常简单。为了执行<code>ora_v1()</code>，我们使用GO基因集合，使用蛋白编码基因作为背景基因，从其中随机抽取1000个基因作为DE基因。</p>
 <pre><code class="language-r">library(org.Hs.eg.db)
 gs = as.list(org.Hs.egGO2ALLEGS)
-gs = lapply(gs, unique)  # genes may duplicate
+gs = lapply(gs, unique)  # 基因有可能重复
 library(GO.db)
-gs = gs[Ontology(names(gs)) == &quot;BP&quot;]  # only take the BP GO gene sets
+gs = gs[Ontology(names(gs)) == &quot;BP&quot;]  # 取GO BP基因集合
 
 pc_genes = select(org.Hs.eg.db, key = &quot;protein-coding&quot;, 
-    keytype = &quot;GENETYPE&quot;, column = c(&quot;ENTREZID&quot;))[, 2] # all protein-coding genes
+    keytype = &quot;GENETYPE&quot;, column = c(&quot;ENTREZID&quot;))[, 2] # 获取所有的protein-coding基因
 genes = sample(pc_genes, 1000)
 </code></pre>
-<p>This random dataset is also a good example of showing the necessarity of applying intersection in <code>ora_single()</code>.
-Here <code>pc_genes</code> does not completely cover genes in <code>gs</code>.</p>
-<pre><code class="language-r">length(setdiff(unlist(gs), pc_genes))
-</code></pre>
-<pre><code>## [1] 1708
-</code></pre>
-<p>The reason is <code>gs</code> also comtains microRNAs.</p>
-<p>Run <code>ora_v1()</code>:</p>
+<p>注意在上述的例子中<code>pc_genes</code>作为背景基因，但是并不是所有<code>gs</code>中的基因均能被包含在<code>pc_genes</code>中。因为在GO注释中，也包含了非蛋白编码基因，如microRNA。</p>
+<p>现在让我们运行<code>ora_v1()</code>：</p>
 <pre><code class="language-r">system.time(p1 &lt;- ora_v1(genes, gs, pc_genes))
 </code></pre>
 <pre><code>##    user  system elapsed 
-##   4.484   0.633   5.123
+##   4.392   0.759   5.152
 </code></pre>
-<p>It takes more than 10 seconds.</p>
-<p>In version 1, we analyzed gene sets in <code>sapply()</code>, in a looping manner. In R,
-vectorization is always a good thing. Note <code>phyper()</code> also accepts vectors as
-input. In version 2, I generate the parameters <code>x</code>, <code>m</code> and <code>n</code> (<code>k</code> is the
-number of DE genes and is the same for all gene sets, so a scalar for <code>k</code> is enough) for <code>phyper()</code> all as
-vectors.</p>
+<h3 id="使用向量化的hyper">使用向量化的hyper()</h3>
+<p>在版本1中，我们使用循环的方式进行代码编写。在R中，我们往往推荐向量化计算。注意<code>phyper()</code>同样也支持以向量作为参数，同时计算多个<em>p</em>值。在版本2中，在运行<code>phyper()</code>之前，我们直接生成参数<code>x</code>，<code>m</code>和<code>n</code>向量。</p>
 <pre><code class="language-r"># version 2
 ora_v2 = function(genes, gene_sets, universe) {
     
@@ -568,6 +555,7 @@ ora_v2 = function(genes, gene_sets, universe) {
     n_universe = length(universe)
     n_genes = length(genes)
     
+    # 注意现在x, m, n, k均为向量
     x = sapply(gene_sets, function(x) length(intersect(x, genes)))
     m = sapply(gene_sets, length)
     n = n_universe - m
@@ -576,114 +564,67 @@ ora_v2 = function(genes, gene_sets, universe) {
     phyper(x - 1, m, n, k, lower.tail = FALSE)
 }
 </code></pre>
-<p>With the same <code>genes</code>, <code>gs</code> and <code>pc_genes</code> variables, run <code>ora_v2()</code>.</p>
+<p>使用想通的<code>genes</code>，<code>gs</code>和<code>pc_genes</code>变量，运行<code>ora_v2()</code>。</p>
 <pre><code class="language-r">system.time(p2 &lt;- ora_v2(genes, gs, pc_genes))
 </code></pre>
 <pre><code>##    user  system elapsed 
-##   2.075   0.227   2.302
+##   2.044   0.245   2.289
 </code></pre>
-<p>It speeds up more than 2 folds compared to <code>ora_v1()</code>, but still takes several
-seconds. Next we can perform code profiling on <code>ora_v2()</code>:</p>
+<p>可见和<code>ora_v1()</code>相比，<code>ora_v2()</code>提速了一倍。</p>
+<h3 id="再看intersect函数">再看intersect()函数</h3>
+<p>下面我们对<code>ora_v2()</code>进行代码profiling，看看其中最耗时的是哪一部分。</p>
 <pre><code class="language-r">Rprof()
 p2 = ora_v2(genes, gs, pc_genes)
 Rprof(NULL)
 summaryRprof()$by.self
 </code></pre>
-<pre><code>##                   self.time self.pct total.time total.pct
-## &quot;base::intersect&quot;       2.2      100        2.2       100
+<pre><code>##                      self.time self.pct total.time total.pct
+## &quot;base::intersect&quot;         2.06    97.17       2.10     99.06
+## &quot;duplicated.default&quot;      0.04     1.89       0.04      1.89
+## &quot;lengths&quot;                 0.02     0.94       0.02      0.94
 </code></pre>
-<p>The Profiling result shows <code>intersect()</code> call is the most time-consuming part in the code,
-which uses more than 95% of all runtime. Not difficult to see, especially in this line (the second
-line in <code>ora_v2()</code>):</p>
-<pre><code class="language-r">    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+<p>可见<code>intersect()</code>是代码中最耗时的一步。</p>
+<p>数学中，<code>intersect(A, B)</code>和<code>intersect(B, A)</code>是等价的，但是在R中，<code>intersect()</code>内部是基于哈希表，其第一个参数是输入向量，而第二个参数会被视为“字典”用来内部构建一个哈希表。
+让我们做如下实验：</p>
+<pre><code class="language-r">system.time(lapply(gs, function(x) intersect(x, pc_genes)))
 </code></pre>
-<p>for every gene set as <code>x</code>, we do intersection to <code>universe</code> which is a extremely long vector,
-The two vectors <code>x</code> and <code>universe</code> need to be fully scanned for every gene set.</p>
-<p>A thought to optimize the code is if we can change <code>universe</code> to a hash table,
-then in every gene set, we don&rsquo;t need to go through every element in
-<code>universe</code>, while we just check whether the current gene in the gene set
-exsits in the hash table.</p>
-<p>Based on this idea, we can implement it with Cpp code. Here <code>unordered_set</code>
-is a hash table data structure.</p>
-<pre><code class="language-r">library(Rcpp)
-sourceCpp(code = '
-// [[Rcpp::plugins(cpp11)]]
-
-#include &lt;Rcpp.h&gt;
-#include &lt;unordered_set&gt;
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-List intersectToList(List lt, StringVector x) {
-
-    int n = lt.size();
-    List out(n);
-
-    std::unordered_set&lt;String&gt; seen;
-    seen.insert(x.begin(), x.end());
-
-    for(int i = 0; i &lt; n; i++) {
-      
-        StringVector v = as&lt;StringVector&gt;(lt[i]);
-        LogicalVector l(v.size());
-
-        std::unordered_set&lt;String&gt; seen2;
-
-        for(int j = 0; j &lt; v.size(); j ++) {
-            l[j] = seen.find(v[j]) != seen.end() &amp;&amp; seen2.insert(v[j]).second;
-        }
-
-        out[i] = v[l];
-    }
-
-    return out;
-}
-')
+<pre><code>##    user  system elapsed 
+##   1.825   0.316   2.141
 </code></pre>
-<p>The new function <code>intersectToList()</code> can be called in R with two arguments.
-The first one is a list of vectors (<code>lt</code>) and the second one is a single vector (<code>x</code>) which will
-intersect to every vector in the list. In the Cpp code, I also removed
-duplicated elements in every vector in the list (<code>lt</code>).</p>
-<p>Now we can switch the original line</p>
-<pre><code class="language-r">    gene_sets = lapply(gene_sets, function(x) intersect(x, universe))
+<pre><code class="language-r">system.time(lapply(gs, function(x) intersect(pc_genes, x)))
 </code></pre>
-<p>to the optimized code:</p>
-<pre><code class="language-r">    gene_sets = intersectToList(gene_sets, universe)
+<pre><code>##    user  system elapsed 
+##   4.722   0.806   5.528
 </code></pre>
-<p>Also I use <code>intersectToList()</code> when intersecting genes with gene sets.
-The two lines that have beem optimized are marked in the following code,
-which I name it <code>ora_v3()</code>.</p>
+<p>在上述代码的第一行中，因为<code>pc_genes</code>只需要在第一次运行<code>intersect()</code>时生成一份临时的哈希表，而在以后的运行时可以重复使用。而在第二行中，由于<code>intersect()</code>的第二个参数为<code>x</code>，在每次循环中都会发生变化，因为每次都会重新生成关于<code>x</code>的新的哈希表。</p>
+<p>那么到这里的讨论告诉我们，如果以后我们需要对一组向量对同一个向量做intersect，把那个单独的向量作为<code>intersect()</code>的第二个参数。</p>
+<h3 id="fastmatch包">fastmatch包</h3>
+<p>如果你查看<code>intersect()</code>的源代码，会发现其内部使用了<code>match()</code>函数。在R中，<strong>fastmatch</strong>提供了一个更快的match操作，名为<code>fmatch()</code>，或者与<code>%in%</code>类似的<code>%fin%</code>。我们来把<code>ora_v2()</code>修改一下：</p>
 <pre><code class="language-r"># version 3
+library(fastmatch)
 ora_v3 = function(genes, gene_sets, universe) {
-
-    gs_names = names(gene_sets)
-
-    genes = intersect(genes, universe)
-    gene_sets = intersectToList(gene_sets, universe)  # this line has been improved
+    
+    genes = genes[genes %fin% universe]
+    gene_sets = lapply(gene_sets, function(x) x[x %fin% universe])
 
     n_universe = length(universe)
     n_genes = length(genes)
     
-    x = sapply(intersectToList(gene_sets, genes), length)  # this line has been improved
+    # 注意现在x, m, n, k均为向量
+    x = sapply(gene_sets, function(x) sum(x %fin% genes))
     m = sapply(gene_sets, length)
     n = n_universe - m
     k = n_genes
     
-    p = phyper(x - 1, m, n, k, lower.tail = FALSE)
-    names(p) = gs_names
-    p
+    phyper(x - 1, m, n, k, lower.tail = FALSE)
 }
-</code></pre>
-<p>Since in the Cpp implementaiton, names of the gene sets are lost, in the last three lines
-of <code>ora_v3()</code>, I manually add the gene set names to the returned object <code>p</code>.</p>
-<p>Now with the same <code>genes</code>, <code>gs</code> and <code>pc_genes</code> variables, I run <code>ora_v3()</code>.</p>
-<pre><code class="language-r">system.time(p3 &lt;- ora_v3(genes, gs, pc_genes))
+system.time(p3 &lt;- ora_v3(genes, gs, pc_genes))
 </code></pre>
 <pre><code>##    user  system elapsed 
-##   0.291   0.010   0.301
+##   0.043   0.001   0.044
 </code></pre>
-<p>It finishes in less than one second!</p>
-<p>The three p-values vectors (<code>p1</code>, <code>p2</code> and <code>p3</code>) are identical:</p>
+<p>速度得到了超大幅度的提升！</p>
+<p>三个方法得到的p值是相同的。</p>
 <pre><code class="language-r">identical(p1, p2)
 </code></pre>
 <pre><code>## [1] TRUE
@@ -692,27 +633,26 @@ of <code>ora_v3()</code>, I manually add the gene set names to the returned obje
 </code></pre>
 <pre><code>## [1] TRUE
 </code></pre>
-<p>If we compare the three versions of ORA functions, <code>ora_v3()</code> is around 20x faster
-than <code>ora_v1()</code> and around 8x faster than <code>ora_v2()</code>.</p>
+<p>下面综合比较一下：</p>
 <pre><code class="language-r">library(microbenchmark)
 microbenchmark(
     &quot;loop(v1)&quot;       = ora_v1(genes, gs, pc_genes),
     &quot;vectorized(v2)&quot; = ora_v2(genes, gs, pc_genes),
-    &quot;cpp(v3)&quot;        = ora_v3(genes, gs, pc_genes),
+    &quot;fastmatch(v3)&quot;        = ora_v3(genes, gs, pc_genes),
     times = 10
 )
 </code></pre>
 <pre><code>## Unit: milliseconds
-##            expr       min        lq      mean   median       uq       max neval
-##        loop(v1) 5257.3628 5266.3783 5333.2993 5351.087 5376.623 5409.3270    10
-##  vectorized(v2) 2237.1768 2256.7567 2279.5512 2281.210 2296.748 2331.2009    10
-##         cpp(v3)  287.2289  291.9198  296.4855  296.932  301.904  304.1861    10
+##            expr        min         lq       mean     median         uq       max neval
+##        loop(v1) 5649.05819 5763.44659 5821.75060 5804.00836 5876.68109 6042.1081    10
+##  vectorized(v2) 2474.73073 2504.88696 2626.48767 2626.07591 2677.42513 2877.5379    10
+##   fastmatch(v3)   42.34164   43.31859   52.88501   43.75707   45.80647  132.7435    10
 </code></pre>
 <pre><code class="language-r">sessionInfo()
 </code></pre>
 <pre><code>## R version 4.4.2 (2024-10-31)
 ## Platform: aarch64-apple-darwin20
-## Running under: macOS 26.0.1
+## Running under: macOS 26.1
 ## 
 ## Matrix products: default
 ## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
@@ -728,7 +668,7 @@ microbenchmark(
 ## [1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] microbenchmark_1.5.0 Rcpp_1.0.14          GO.db_3.20.0         org.Hs.eg.db_3.20.0 
+##  [1] microbenchmark_1.5.0 fastmatch_1.1-6      GO.db_3.20.0         org.Hs.eg.db_3.20.0 
 ##  [5] AnnotationDbi_1.68.0 IRanges_2.40.1       S4Vectors_0.44.0     Biobase_2.66.0      
 ##  [9] BiocGenerics_0.52.0  knitr_1.50           colorout_1.3-2      
 ## 
@@ -744,6 +684,7 @@ microbenchmark(
 ## [33] rmarkdown_2.29          httr_1.4.7              pkgconfig_2.0.3         tools_4.4.2            
 ## [37] htmltools_0.5.8.1       UCSC.utils_1.2.0
 </code></pre>
+<p id="license">本文使用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans'>CC BY-NC-SA 4.0</a> 协议发布。</p>
 
   </div>
 

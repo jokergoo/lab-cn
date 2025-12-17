@@ -1,16 +1,15 @@
 ---
-title: "What is a hclust object"
+title: "hclust 对象里究竟有什么？"
+slug: "what is a hclust object"
 date: 2023-07-07
-author: Zuguang Gu
+author: 顾祖光
 ---
 
 
 
-Hierarchical clustering is a widely used approach for data analysis.
-In this post, I will demonstrate the internal structure of a `hclust` object.
+等级聚类或者层级聚类是常用的数据分析方法，在R中，我们使用`hclust()`函数进行聚类分析。`hclust()`返回一个`hclust`类的对象。在本文中，让我们来揭开`hclust`对象的真面目。
 
-
-I first generate a random matrix and apply `hclust()`.
+首先生成一个随机的5x5矩阵，我们对矩阵的行进行聚类。
 
 
 ``` r
@@ -20,7 +19,7 @@ rownames(m) = letters[1:5]
 hc = hclust(dist(m))
 ```
 
-Typing the `hc` object simply prints the basic information of the object.
+`hc`属于一个`hclust`的类。输入`hc`变量名打印出这个变量的一些基本信息。
 
 
 ``` r
@@ -37,7 +36,8 @@ hc
 ## Number of objects: 5
 ```
 
-And `plot()` function draws the clustering results:
+基本上就告诉你这是一个黑盒子，不告诉你其内部的结构。使用`plot()`函数可以绘制聚类图。
+
 
 
 ``` r
@@ -46,7 +46,8 @@ plot(hc)
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" />
 
-Now, what is hiding behind the `hc` object? Let's first try `str()` function to reveal its internals:
+上面这两步是最标准的进行等级聚类分析的步骤，那么，`hc`变量中到底存储着什么信息呢？
+本文就来揭示这个`hc`变量的内部结构。在遇到任何一个未知格式的对象时，一般我们使用`str()`来展示其内部结构：
 
 
 ``` r
@@ -65,12 +66,9 @@ str(hc)
 ##  - attr(*, "class")= chr "hclust"
 ```
 
-So, `hc` is just a simple list with 7 elements. The last three ones `method`, `call` and `dist.method`
-are less interesting because they are kind like label marks of the analysis. We will
-look at the first four elements.
+可以看到，`hc`只是一个包含7个成员的简单列表。最后三个成员`method`，`call`和`dist.method`只是关于此变量的一些文字标记，我们跳过不谈。我们主要看前四个成员。
 
-To correctly understand the `hc` object, we need to be careful with the orders of the vectors/matrices
-in `hc`. We start with `labels` and `order`.
+为了正确理解`hc`的格式，我们要对其中成员向量或者矩阵的顺序额外注意。我们首先介绍`labels`和`order`成员。
 
 
 ``` r
@@ -89,11 +87,9 @@ hc$order
 ## [1] 5 3 4 1 2
 ```
 
-The `labels` element contains text labels of the items _in their original orders_. Here `hc`
-is from a matrix `m`, so the order of `labels` corresponds to _the original row order in the matrix_.
+`labels`成员包含了原始变量的文字标签，其顺序和原始变量的顺序一致。在这里`hc`是来源于矩阵`m`，那么`labels`中值的顺序和`m`行的顺序一致。如果原始矩阵没有行名的话，`labels`是一个长度为零的向量。
 
-The order in `order` is different from that in `labels`. As hierarchical clustering reorders
-the items, `order` element contains results after the reordering. In the following order vector:
+`order`的顺序和`labels`不一样。等级聚类会对变量进行重排序，那么`order`中记录了排完序之后变量的下标。
 
 
 ``` r
@@ -104,7 +100,7 @@ hc$order
 ## [1] 5 3 4 1 2
 ```
 
-the first value means item 5 is in position 1 after reordering, item 3 is in position 2 after reordering, etc. So if mapping labels to `order`, it will be:
+第一个元素表示聚完类后，变量5在第一个位置上，变量3在第二个位置上，以此类推。如果我们使用原始矩阵的行名的话，聚类之后的顺序为：
 
 
 ``` r
@@ -115,10 +111,9 @@ hc$labels[hc$order]
 ## [1] "e" "c" "d" "a" "b"
 ```
 
-As you can see in the plot, after the reordering by hierarchical clustering, item "e" locates on the very left,
-and then item "c", "d", "a" and "b".
+也就是说，聚类之后，变量`"e"`在最左侧，然后分别是`"c"`, `"d"`, `"a"`和`"b"`。
 
-Next let's check the `merge` and `height` elements in the `hc` object:
+现在让我们来看看`merge`和`height`成员。
 
 
 ``` r
@@ -141,17 +136,15 @@ hc$height
 ## [1] 2.014138 2.478801 3.507676 4.113743
 ```
 
-On the first glance, it may look a little bit unnatural that there are both positive and negative
-integers in `merge`. Actually, `merge` uses different signs to represent different types of objects in the
-clustering, i.e. an item or a sub-cluster.
+第一眼看`hc$merge`，我们可能会说这是什么鬼，既有正的整数，又有负的整数。其实，`merge`使用不同的符号来表示聚类过程中不同类型的“节点”，比如说，这是一个变量/叶节点呢，还是一个子聚类/子树节点？
 
-First we need to know, `hclust()` applies the agglomerative hierarchical clustering procedure, which is "bottom-up" approach, as shown in the following figures. 
+首先我们要知道，`hclust()`执行的是聚集式的聚类方式，也就是自底而上的方式。下图展示了`hc`中的四步聚类：
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-10-1.png" width="768" style="display: block; margin: auto;" />
 
-So `merge` records the steps of clustering where negative integers correspond to items (or leaves)
-and positive integers correspond to intermediate sub-clusters. Then  `merge` can be read as:
+那么，其实`merge`中记录了聚类的步骤，第一行为聚类的第一步，第二行为聚类的第二步。每一行包含两个数据，表示把两个子节点聚成一类。其中如果值为负数时，这表示这是一个变量（或叶节点），那么其绝对值对应着这个变量的下标（第几号变量）；如果值为正数的话，这表示这是一个子树，值对应着子树在`merge`中的下标（第几号子树）。
 
+现在`merge`可以读作：
 
 
 ``` r
@@ -166,22 +159,22 @@ hc$merge
 ## [4,]   -5    3
 ```
 
-- Step 1 / row 1: item 3 ("c") and 4 ("d") are clustered. The sub-cluster has an index 1.
-- Step 2 / row 2: item 1 ("a") and 2 ("b") are clustered. The sub-cluster has an index 2.
-- Step 3 / row 3: Note now the values are both positive. This means sub-cluster 1 and sub-cluster 2 are merged where sub-cluster 1 was constructed in row 1 and sub-cluster 2 was constructed in row 2.
-- Step 4 / row 4: This row contains both negative and positive values. This means a single item 5 ("e") and a sub-cluster is merged where the sub-cluster is from row 3.
+- 聚类第一步/`merge`中第一行：变量3（`"c"`)和变量4（`"d"`）聚成一类。这个子树（或者可以看成变量3和4的父节点）的编号为1（因为是`merge`中的第一行）。
+- 聚类第二步/`merge`中第二行：变量1（`"a"`)和变量2（`"b"`）聚成一类。这个子树的编号为2。
+- 聚类第三步/`merge`中第三行：现在这行的两个数字都是正数，这表示要合并的两个都是聚类的子树，编号为1和2。这两个在前两步已经生成。
+- 聚类第四步/`merge`中第四行：这里有一个负数和一个正数，这表示要合并的是一个变量（变量5，`"e"`）和一个子树（编号为3，在第三步中生成）。
 
 
-`hc$height` corresponds to `hc$merge`, and it is the height of each sub-cluster.
+`hc$height`中的元素和`hc$merge`中的行对应，就是每一个子树的高度。
 
-With all the elements in `hc` being explained, let's try to draw the clustering. Let's draw the clustering 
-according to the steps in `hc$merge`.
+现在看来，`hclust`对象的格式还是很简单的。
 
-The first step is to cluster item 3 and item 4. We know the height of this sub-cluster is `hc$height[1]`, but what is missing are the positions of items on x-axis, i.e. the horizontal positions of item 3 and 4. Let's 
-try to get them.
+我们可以试着基于`hc`的内部格式绘制聚类图。让我们按照`hc$merge`中所记录的聚类的步骤一步一步来绘制。
 
+第一步是绘制合并3号变量和4号变量的子树，我们知道这个子树的高度是`hc$height[1]`，但是现在缺的是这些变量或者子树在x轴上的位置。这些位置很容易获得。
 
-We know the following are the reordered labels on the plot:
+我们知道下面标签的顺序和聚类图上的顺序一致：
+
 
 
 ``` r
@@ -192,19 +185,15 @@ hc$labels[hc$order]
 ## [1] "e" "c" "d" "a" "b"
 ```
 
-which locate at `x = 1, 2, 3, 4, 5`. However, it is not in the original order.
-As in `hc$merge`, the "negative" integers correspond to the orignal order (e.g.
--2 means item 2), thus we need to know the positions of items where items are in
-their _original orders_.
+也就是说，`"e"`在位置1，`"c"`在位置2，... 但是这五个标签的顺序并不是原始顺序。在`hc$merge`中，其中的整数对应的是变量的原始顺序，例如-2表示在原始顺序中的2号变量。那么我们需要一个变量，其中记录着每个变量在聚类图上的位置，并且处于原始顺序中（也就是对应`"a"`, `"b"`, `"c"`, `"d"`, `"e"`）。
 
-
-This can be done by mapping with the labels:
+我们可以首先创建一个有名字的向量，其中聚类之后的位置为值，名字为变量的标签。
 
 
 ``` r
-# 1:5 is the positions on x-axis
+# 1:5 是在x轴上的位置
 map = structure(1:5, names = hc$labels[hc$order])
-# and we use the named vector to reorder into the original order
+# 然后我们用这个有名字的向量获得对应原始顺序的变量
 x = map[hc$labels]
 x
 ```
@@ -214,7 +203,8 @@ x
 ## 4 5 2 3 1
 ```
 
-Or we can directly use the following code which takes the order of `hc$order`.
+其实我们可以直接取`hc$order`的order获得这个向量。
+
 
 
 ``` r
@@ -226,8 +216,7 @@ x
 ## [1] 4 5 2 3 1
 ```
 
-In `hc$order`, values are the original indices of items, and the index of `hc$order` itself
-is the positions on x-axis in the clustering plot.
+看起来有点绕，什么叫order的order？在`hc$order`中，值是变量的原始下标（也就是第几个变量），`hc$order`的下标（也就是1, 2, 3, 4, 5）对应着在聚完类后变量在x轴上的位置。
 
 ```
 hc$order
@@ -235,17 +224,13 @@ hc$order
   pos   1 2 3 4 5  # pos in x-axis in the plot
 ```
 
-If we apply `order()` on the vector `hc$order` which is `5 3 4 1 2`, the first value
-in the returned vector is the position of "1" (item 1) in `5 3 4 1 2` which is 4,
-and the second value is the position of "2" (item 2) in `5 3 4 1 2` which is 5, etc.
+那么如果我们对`hc$order`（值为`5, 3, 4, 1, 2`）进行第二次`order()`时，在返回的变量中，第一个值是`5, 3, 4, 1, 2`中最小值的位置，就是1（1号变量）的位置是4（这个4是变量1在x轴上的位置），第二个值就是2（2号变量）的位置是5（变量2在x轴上的位置）。以此类推。这就意味着，`order(hc$order)`能够返回变量在聚类图上的位置，并且处于原始顺序中。
 
-This means, applying `order()` on `hc$order` returns a vector in the original order of items
-and values are the positions on x-axis.
+OK，现在我们有了所有的信息，可以一步一步的绘制聚类图了。我们按照`hc$merge`中的顺序：
+
+第一步/对应着`hc$merge`中的第一行，我们画一条线连接3号变量（`"c"`）和4号变量（`"d"`）。
 
 
-OK, now we can draw the clustering step-by-step. 
-
-Step 1 / row 1 in `hc$merge`: connects item 3 ("c") and 4 ("d"):
 
 
 ``` r
@@ -259,7 +244,8 @@ segments(x[3], hc$height[1], x[4], hc$height[1])
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-15-1.png" width="480" style="display: block; margin: auto;" />
 
-Step 2 / row 2: connects item 1 ("a") and 2 ("b"):
+第二步/对应着`hc$merge`中的第二行，我们画一条线连接1号变量（`"a"`）和2号变量（`"b"`）。
+
 
 
 ``` r
@@ -274,10 +260,11 @@ segments(x[1], hc$height[2], x[2], hc$height[2])
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-16-1.png" width="480" style="display: block; margin: auto;" />
 
-Step 3 / row 3: connects sub-cluster 1 and sub-cluster 2. Now there is a new thing. Since we
-are now connecting two sub-clusters, we need to connect to the "middle points" of the two sub-clusters.
-This can be done very easily. The middle point of sub-cluster 1 is the middle of item 3 between 4, and
-the middle point of sub-cluster 2 is the middle of item 1 between 2.
+第三步/对应着`hc$merge`中的第三行。现在这里有个新情况，第三步我们需要合并两个子树，我们通常连接两个子树的中点。计算子树1和子树2的中点很容易。子树1的中点就是其两个子节点（变量3和变量4）的中点，子树2的中点就是其两个子节点（变量1和变量2）的中点。
+
+在下面的代码中，变量`midpoint`记录了中点的位置。
+
+
 
 
 ``` r
@@ -298,8 +285,7 @@ segments(midpoint[1], hc$height[3], midpoint[2], hc$height[3])
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-17-1.png" width="480" style="display: block; margin: auto;" />
 
-Step 4 / row 4: connects item 5 ("e") and sub-cluster 3. Similarly, middle point of sub-cluster 3 needs
-to be calculated in advance which is the middle of the middle points of its two sub clusters (sub-cluster 1 and 2).
+第四步/对应着`hc$merge`中的第四行。这一步合并5号变量和3号子树，同样我们需要先获得3号子树的中点（3号子树的中点是其两个子节点中点`midpoint[1]`和`midpoint[2]`的中点，看代码一目了然）。
 
 
 ``` r
@@ -323,7 +309,8 @@ segments(x[5], hc$height[4], midpoint[3], hc$height[4])
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-18-1.png" width="480" style="display: block; margin: auto;" />
 
-Vertical lines can be added as:
+我们可以添加垂直的线条，让其看起来像一个完整的聚类树。
+
 
 
 ``` r
@@ -355,13 +342,12 @@ segments(x[5], 0, x[5], hc$height[4])
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-19-1.png" width="480" style="display: block; margin: auto;" />
 
-We can merge all these processes into a function. The function is quite
-straightforward to understand. There are four `if-else` blocks which deal with:
+为了重复利用上面的代码，我们可以把它们放在一个函数中。这个函数`plot_hc()`很简单，其中四个`if-else`代码块处理下面四个不同的条件：
 
-1. both children are leaves,
-2. left child is a leaf, right child is a sub-cluster,
-3. left child is a sub-cluster, right child is a leaf,
-4. both children are sub-clusters.
+1. 两个子节点都是变量（或者叶节点）
+2. 左子节点是叶节点，右子节点是一个子树
+3. 左子节点是一个子树，右子节点是叶节点
+4. 两个子节点都是子树
 
 
 ``` r
@@ -423,6 +409,9 @@ plot_hc = function(hc) {
 }
 ```
 
+我们试一试这个函数：
+
+
 
 ``` r
 plot_hc(hc)
@@ -430,7 +419,8 @@ plot_hc(hc)
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-21-1.png" width="480" style="display: block; margin: auto;" />
 
-Let's try a larger clustering object:
+
+或者试一个更大的聚类结果：
 
 
 ``` r
@@ -441,20 +431,18 @@ plot_hc(hc2)
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-22-1.png" width="960" style="display: block; margin: auto;" />
 
-Connecting a parent node and two children nodes in the clustering graph can be generalized as: with
-three points: `(left_x, left_y)`, `(top_x, top_y)` and `(right_x, right_y)` which correspond to
-xy coordinates of the left child, parent and right child, we can define a function to draw lines to connect
-the three points.
+到这里，通常我们会有很大的成就感。因为`plot_hc()`是基于一个微小的数据测试和编写的，现在居然在很大的数据上能够成功运行。
 
-The default connection actually connects the following points:
+下面我们来看，给定一个父节点(`top_x`, `top_y`)，和两个子节点(`left_x`, `left_y`)，(`right_x`, `right_y`)，我们来定义如何连接这三个节点。
+
+默认的连接方式是连接下面四个点：
 
 ```
 x-coordinates: left_x, left_x, right_x, right_x
 y-coordinates: left_y, top_y, top_y, right_y
 ``` 
 
-In `plot_hc()`, let's abstract the code which draws connections between parent and children nodes to
-`parent_children_connections()` which accepts coordinates of the three points.
+在`plot_hc()`中，让我们将绘制父节点和子节点的代码抽象化。我们引入一个函数`parent_children_connections()`，其中我们可以自定义如何绘制连接方式。
 
 
 ``` r
@@ -513,7 +501,8 @@ plot_hc = function(hc) {
 }
 ```
 
-The following function is the default way to connect parent and children nodes:
+下面是默认的连接父节点和两个子节点的方式：
+
 
 
 ``` r
@@ -526,7 +515,8 @@ plot_hc(hc)
 
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-24-1.png" width="480" style="display: block; margin: auto;" />
 
-We can define a new way as:
+我们可以定义一个新的方式，让连接方式呈三角形状：
+
 
 ```
 x-coordinates: left_x, top_x, right_x
@@ -545,6 +535,9 @@ plot_hc(hc)
 <img src="/lab-cn/post/2023-07-07-what-is-a-hclust-object_files/figure-html/unnamed-chunk-25-1.png" width="480" style="display: block; margin: auto;" />
 
 
-Hierarchical clustering constructs a binary tree, where a parent always has two children in the tree.
-In the next post, I will introduce a more general structure, the dendrogram.
+同理，你可以自定义`parent_children_connections()`来实现其他连接方式，例如使用贝泽尔曲线。
+
+
+<p id="license">本文使用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans'>CC BY-NC-SA 4.0</a> 协议发布。</p>
+
 
