@@ -2,244 +2,244 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>/lab-cn/</loc>
+    <loc>http://localhost:4321/lab-cn/</loc>
     <lastmod>2025-12-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/post/</loc>
+    <loc>http://localhost:4321/lab-cn/post/</loc>
     <lastmod>2025-12-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2025/12/16/speed-up-over-representation-enrichment-analysis/</loc>
+    <loc>http://localhost:4321/lab-cn/2025/12/16/speed-up-over-representation-enrichment-analysis/</loc>
     <lastmod>2025-12-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2025/04/01/add-backgroud-grid-lines-to-heatmap-annotations/</loc>
+    <loc>http://localhost:4321/lab-cn/2025/04/01/add-backgroud-grid-lines-to-heatmap-annotations/</loc>
     <lastmod>2025-04-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2024/05/16/edit-grobs-in-ggplot2-plots/</loc>
+    <loc>http://localhost:4321/lab-cn/2024/05/16/edit-grobs-in-ggplot2-plots/</loc>
     <lastmod>2024-05-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2024/02/05/get-gene-region-associations-for-a-group-of-go-terms/</loc>
+    <loc>http://localhost:4321/lab-cn/2024/02/05/get-gene-region-associations-for-a-group-of-go-terms/</loc>
     <lastmod>2024-02-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2023/11/16/package-dependencies-in-your-session/</loc>
+    <loc>http://localhost:4321/lab-cn/2023/11/16/package-dependencies-in-your-session/</loc>
     <lastmod>2023-11-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2023/10/02/simplified-simplifyenrichment-plot/</loc>
+    <loc>http://localhost:4321/lab-cn/2023/10/02/simplified-simplifyenrichment-plot/</loc>
     <lastmod>2023-10-02T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2023/09/25/dynamic-graphical-object-in-grid-part-2/</loc>
+    <loc>http://localhost:4321/lab-cn/2023/09/25/dynamic-graphical-object-in-grid-part-2/</loc>
     <lastmod>2023-09-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2023/09/22/dynamic-graphical-object-in-grid-part-1/</loc>
+    <loc>http://localhost:4321/lab-cn/2023/09/22/dynamic-graphical-object-in-grid-part-1/</loc>
     <lastmod>2023-09-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2023/07/25/journals-top-authors/</loc>
+    <loc>http://localhost:4321/lab-cn/2023/07/25/journals-top-authors/</loc>
     <lastmod>2023-07-25T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2023/07/07/what-is-a-hclust-object/</loc>
+    <loc>http://localhost:4321/lab-cn/2023/07/07/what-is-a-hclust-object/</loc>
     <lastmod>2023-07-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2023/04/03/align-heatmaps/</loc>
+    <loc>http://localhost:4321/lab-cn/2023/04/03/align-heatmaps/</loc>
     <lastmod>2023-04-03T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2023/01/09/visualize-cpan-modules-with-hilbert-curve/</loc>
+    <loc>http://localhost:4321/lab-cn/2023/01/09/visualize-cpan-modules-with-hilbert-curve/</loc>
     <lastmod>2023-01-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2022/12/09/draw-links-on-the-two-different-sides-of-a-track/</loc>
+    <loc>http://localhost:4321/lab-cn/2022/12/09/draw-links-on-the-two-different-sides-of-a-track/</loc>
     <lastmod>2022-12-09T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2022/10/22/partially-change-default-values-of-arguments/</loc>
+    <loc>http://localhost:4321/lab-cn/2022/10/22/partially-change-default-values-of-arguments/</loc>
     <lastmod>2022-10-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2022/09/13/visualize-lift-over-between-two-assemblies/</loc>
+    <loc>http://localhost:4321/lab-cn/2022/09/13/visualize-lift-over-between-two-assemblies/</loc>
     <lastmod>2022-09-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2022/06/15/textbox-annotation/</loc>
+    <loc>http://localhost:4321/lab-cn/2022/06/15/textbox-annotation/</loc>
     <lastmod>2022-06-15T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2022/05/31/how-to-change-font-family-globally-in-complexheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2022/05/31/how-to-change-font-family-globally-in-complexheatmap/</loc>
     <lastmod>2022-05-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2022/04/01/set-cell_fun/layer_fun-in-interactivecomplexheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2022/04/01/set-cell_fun/layer_fun-in-interactivecomplexheatmap/</loc>
     <lastmod>2022-04-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2022/03/08/support-hcl-colormaps-in-complexheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2022/03/08/support-hcl-colormaps-in-complexheatmap/</loc>
     <lastmod>2022-03-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2022/03/01/easily-convert-static-heatmaps-to-interactive-heatmaps-in-shiny-apps/</loc>
+    <loc>http://localhost:4321/lab-cn/2022/03/01/easily-convert-static-heatmaps-to-interactive-heatmaps-in-shiny-apps/</loc>
     <lastmod>2022-03-01T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/10/17/a-completely-customized-annotation/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/10/17/a-completely-customized-annotation/</loc>
     <lastmod>2021-10-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/09/18/visualize-the-real-circular-genome/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/09/18/visualize-the-real-circular-genome/</loc>
     <lastmod>2021-09-18T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/08/04/create-self-defined-annotations/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/08/04/create-self-defined-annotations/</loc>
     <lastmod>2021-08-04T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/07/22/make-triangle-heatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/07/22/make-triangle-heatmap/</loc>
     <lastmod>2021-07-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/05/11/multiple-color-themes-in-a-single-heatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/05/11/multiple-color-themes-in-a-single-heatmap/</loc>
     <lastmod>2021-05-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/04/05/implement-interactive-heatmap-from-scratch/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/04/05/implement-interactive-heatmap-from-scratch/</loc>
     <lastmod>2021-04-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/03/24/3d-heatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/03/24/3d-heatmap/</loc>
     <lastmod>2021-03-24T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/03/11/control-labels-in-anno_block/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/03/11/control-labels-in-anno_block/</loc>
     <lastmod>2021-03-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/03/05/cluster-groups-in-complexheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/03/05/cluster-groups-in-complexheatmap/</loc>
     <lastmod>2021-03-05T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/02/21/differentiate-brush-and-hover-event-in-shiny/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/02/21/differentiate-brush-and-hover-event-in-shiny/</loc>
     <lastmod>2021-02-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/02/20/differentiate-brush-and-click-event-in-shiny/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/02/20/differentiate-brush-and-click-event-in-shiny/</loc>
     <lastmod>2021-02-20T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2021/01/07/set-heatmap-cell-width-in-circos.heatmap-function/</loc>
+    <loc>http://localhost:4321/lab-cn/2021/01/07/set-heatmap-cell-width-in-circos.heatmap-function/</loc>
     <lastmod>2021-01-07T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/12/14/translate-from-other-heatmap-functions-to-complexheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/12/14/translate-from-other-heatmap-functions-to-complexheatmap/</loc>
     <lastmod>2020-12-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/11/28/make-some-fun-circular-plots/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/11/28/make-some-fun-circular-plots/</loc>
     <lastmod>2020-11-28T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/11/27/visualize-relations-between-genes-and-pathways/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/11/27/visualize-relations-between-genes-and-pathways/</loc>
     <lastmod>2020-11-27T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/11/23/arrange-links-evenly-along-the-sectors/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/11/23/arrange-links-evenly-along-the-sectors/</loc>
     <lastmod>2020-11-23T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/11/22/helper-functions-for-genome-scale-heatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/11/22/helper-functions-for-genome-scale-heatmap/</loc>
     <lastmod>2020-11-22T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/10/29/make-genome-scale-heatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/10/29/make-genome-scale-heatmap/</loc>
     <lastmod>2020-10-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/10/29/recent-improvements-on-legends/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/10/29/recent-improvements-on-legends/</loc>
     <lastmod>2020-10-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/10/16/concatenate-two-genomes-in-the-circular-plot/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/10/16/concatenate-two-genomes-in-the-circular-plot/</loc>
     <lastmod>2020-10-16T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/10/13/visualize-traffic-intersection-loads-with-chord-diagram/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/10/13/visualize-traffic-intersection-loads-with-chord-diagram/</loc>
     <lastmod>2020-10-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/07/14/integrate-complexheatmap-with-cowplot-package/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/07/14/integrate-complexheatmap-with-cowplot-package/</loc>
     <lastmod>2020-07-14T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/07/06/block-annotation-over-several-slices/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/07/06/block-annotation-over-several-slices/</loc>
     <lastmod>2020-07-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/06/30/rasterization-in-complexheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/06/30/rasterization-in-complexheatmap/</loc>
     <lastmod>2020-06-30T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/06/29/align-heatmap-legends/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/06/29/align-heatmap-legends/</loc>
     <lastmod>2020-06-29T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/06/19/which-heatmap-function-is-faster/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/06/19/which-heatmap-function-is-faster/</loc>
     <lastmod>2020-06-19T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/06/08/multiple-group-chord-diagram/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/06/08/multiple-group-chord-diagram/</loc>
     <lastmod>2020-06-08T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/06/06/parse-command-line-arguments/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/06/06/parse-command-line-arguments/</loc>
     <lastmod>2020-06-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/05/31/word-cloud-as-heatmap-annotation/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/05/31/word-cloud-as-heatmap-annotation/</loc>
     <lastmod>2020-05-31T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/05/21/make-circular-heatmaps/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/05/21/make-circular-heatmaps/</loc>
     <lastmod>2020-05-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/05/11/set-cell-width/height-in-the-heatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/05/11/set-cell-width/height-in-the-heatmap/</loc>
     <lastmod>2020-05-11T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2020/05/06/translate-from-pheatmap-to-complexheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2020/05/06/translate-from-pheatmap-to-complexheatmap/</loc>
     <lastmod>2020-05-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2019/10/06/substitute-with-an-evaluated-expression/</loc>
+    <loc>http://localhost:4321/lab-cn/2019/10/06/substitute-with-an-evaluated-expression/</loc>
     <lastmod>2019-10-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2017/03/17/put-chord-diagram-horizontally-or-vertically-symmetric/</loc>
+    <loc>http://localhost:4321/lab-cn/2017/03/17/put-chord-diagram-horizontally-or-vertically-symmetric/</loc>
     <lastmod>2017-03-17T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2016/11/21/reverse-x-axis-in-the-circular-layout/</loc>
+    <loc>http://localhost:4321/lab-cn/2016/11/21/reverse-x-axis-in-the-circular-layout/</loc>
     <lastmod>2016-11-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/2016/11/21/visualize-positive-and-negative-signals-in-the-enriched-heatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/2016/11/21/visualize-positive-and-negative-signals-in-the-enriched-heatmap/</loc>
     <lastmod>2016-11-21T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/lab-cn/1/01/01/</loc>
+    <loc>http://localhost:4321/lab-cn/1/01/01/</loc>
   </url><url>
-    <loc>/lab-cn/software/biocartaimage/</loc>
+    <loc>http://localhost:4321/lab-cn/software/biocartaimage/</loc>
   </url><url>
-    <loc>/lab-cn/software/biomartgogenesets/</loc>
+    <loc>http://localhost:4321/lab-cn/software/biomartgogenesets/</loc>
   </url><url>
-    <loc>/lab-cn/software/bsub/</loc>
+    <loc>http://localhost:4321/lab-cn/software/bsub/</loc>
   </url><url>
-    <loc>/lab-cn/categories/</loc>
+    <loc>http://localhost:4321/lab-cn/categories/</loc>
   </url><url>
-    <loc>/lab-cn/software/cepa/</loc>
+    <loc>http://localhost:4321/lab-cn/software/cepa/</loc>
   </url><url>
-    <loc>/lab-cn/software/circlize/</loc>
+    <loc>http://localhost:4321/lab-cn/software/circlize/</loc>
   </url><url>
-    <loc>/lab-cn/software/cola/</loc>
+    <loc>http://localhost:4321/lab-cn/software/cola/</loc>
   </url><url>
-    <loc>/lab-cn/software/complexheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/software/complexheatmap/</loc>
   </url><url>
-    <loc>/lab-cn/software/enrichedheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/software/enrichedheatmap/</loc>
   </url><url>
-    <loc>/lab-cn/software/genesummary/</loc>
+    <loc>http://localhost:4321/lab-cn/software/genesummary/</loc>
   </url><url>
-    <loc>/lab-cn/software/getoptlong/</loc>
+    <loc>http://localhost:4321/lab-cn/software/getoptlong/</loc>
   </url><url>
-    <loc>/lab-cn/software/globaloptions/</loc>
+    <loc>http://localhost:4321/lab-cn/software/globaloptions/</loc>
   </url><url>
-    <loc>/lab-cn/software/gseatopics/</loc>
+    <loc>http://localhost:4321/lab-cn/software/gseatopics/</loc>
   </url><url>
-    <loc>/lab-cn/software/gtrellis/</loc>
+    <loc>http://localhost:4321/lab-cn/software/gtrellis/</loc>
   </url><url>
-    <loc>/lab-cn/software/hilbertcurve/</loc>
+    <loc>http://localhost:4321/lab-cn/software/hilbertcurve/</loc>
   </url><url>
-    <loc>/lab-cn/software/illuminahumanmethylationepicv2anno.20a1.hg38/</loc>
+    <loc>http://localhost:4321/lab-cn/software/illuminahumanmethylationepicv2anno.20a1.hg38/</loc>
   </url><url>
-    <loc>/lab-cn/software/illuminahumanmethylationepicv2manifest/</loc>
+    <loc>http://localhost:4321/lab-cn/software/illuminahumanmethylationepicv2manifest/</loc>
   </url><url>
-    <loc>/lab-cn/software/interactivecomplexheatmap/</loc>
+    <loc>http://localhost:4321/lab-cn/software/interactivecomplexheatmap/</loc>
   </url><url>
-    <loc>/lab-cn/software/pkgndep/</loc>
+    <loc>http://localhost:4321/lab-cn/software/pkgndep/</loc>
   </url><url>
-    <loc>/lab-cn/software/rgreat/</loc>
+    <loc>http://localhost:4321/lab-cn/software/rgreat/</loc>
   </url><url>
-    <loc>/lab-cn/software/sfcurve/</loc>
+    <loc>http://localhost:4321/lab-cn/software/sfcurve/</loc>
   </url><url>
-    <loc>/lab-cn/software/simona/</loc>
+    <loc>http://localhost:4321/lab-cn/software/simona/</loc>
   </url><url>
-    <loc>/lab-cn/software/simplifyenrichment/</loc>
+    <loc>http://localhost:4321/lab-cn/software/simplifyenrichment/</loc>
   </url><url>
-    <loc>/lab-cn/software/spiralize/</loc>
+    <loc>http://localhost:4321/lab-cn/software/spiralize/</loc>
   </url><url>
-    <loc>/lab-cn/tags/</loc>
+    <loc>http://localhost:4321/lab-cn/tags/</loc>
   </url><url>
-    <loc>/lab-cn/software/uniprotkeywords/</loc>
+    <loc>http://localhost:4321/lab-cn/software/uniprotkeywords/</loc>
   </url><url>
-    <loc>/lab-cn/members/</loc>
+    <loc>http://localhost:4321/lab-cn/members/</loc>
   </url><url>
-    <loc>/lab-cn/research/</loc>
+    <loc>http://localhost:4321/lab-cn/research/</loc>
   </url><url>
-    <loc>/lab-cn/opening/</loc>
+    <loc>http://localhost:4321/lab-cn/opening/</loc>
   </url><url>
-    <loc>/lab-cn/publication/</loc>
+    <loc>http://localhost:4321/lab-cn/publication/</loc>
   </url><url>
-    <loc>/lab-cn/software/</loc>
+    <loc>http://localhost:4321/lab-cn/software/</loc>
   </url><url>
-    <loc>/lab-cn/members/zuguang_gu/</loc>
+    <loc>http://localhost:4321/lab-cn/members/zuguang_gu/</loc>
   </url>
 </urlset>

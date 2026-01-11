@@ -12,7 +12,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-
 ```{r, echo = FALSE}
 library(rvest)
 library(jsonlite)

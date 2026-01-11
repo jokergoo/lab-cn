@@ -51,13 +51,13 @@ title: "成员"
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Oliver)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Destiny)<!-- -->
 
 <div class="intro">
 
 - 姓名
 - 博士后
-- 邮箱：something@suat-sz.edu.cn
+- 邮箱：someone@suat-sz.edu.cn
 
 </div>
 
@@ -71,14 +71,14 @@ title: "成员"
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Vivian)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sara)<!-- -->
 
 <div class="intro">
 
 - 姓名
 - 博士研究生
 - 深圳理工大学 / ..大学 联合培养
-- 邮箱：something@suat-sz.edu.cn
+- 邮箱：someone@suat-sz.edu.cn
 
 </div>
 
@@ -92,13 +92,13 @@ title: "成员"
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Alexander)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Liam)<!-- -->
 
 <div class="intro">
 
 - 姓名
 - 硕士研究生
-- 邮箱：something@suat-sz.edu.cn
+- 邮箱：someone@suat-sz.edu.cn
 
 </div>
 
