@@ -47,14 +47,39 @@ title: "成员"
 
 </div>
 
+```{r, echo = FALSE}
+all_names = c("Vivian", "Sophia", "Mason", "Amaya", "Oliver", "Christopher", "Destiny", "Liam",
+	          "Alexander", "Easton", "Sara", "Andrea", "Caleb", "Emery", "Sawyer", "Jocelyn",
+	          "Nolan", "Jade", "Maria", "Ryan")
+```
+
+### 科研助理教授
+
+<div class="people">
+
+```{r, fig.width = 5, fig.height = 5, echo = FALSE}
+knitr::include_graphics(paste0("https://api.dicebear.com/9.x/adventurer/svg?seed=", sample(all_names, 1)))
+```
+
+<div class="intro">
+
+- 姓名
+- 科研助理教授
+- 邮箱：someone@suat-sz.edu.cn
+
+</div>
+
+<div style="clear:both;"></div>
+
+</div>
+
+
+
 ### 博士后
 
 <div class="people">
 
 ```{r, fig.width = 5, fig.height = 5, echo = FALSE}
-all_names = c("Vivian", "Sophia", "Mason", "Amaya", "Oliver", "Christopher", "Destiny", "Liam",
-	          "Alexander", "Easton", "Sara", "Andrea", "Caleb", "Emery", "Sawyer", "Jocelyn",
-	          "Nolan", "Jade", "Maria", "Ryan")
 knitr::include_graphics(paste0("https://api.dicebear.com/9.x/adventurer/svg?seed=", sample(all_names, 1)))
 ```
 

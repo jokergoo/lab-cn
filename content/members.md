@@ -47,11 +47,33 @@ title: "成员"
 
 </div>
 
+
+
+### 科研助理教授
+
+<div class="people">
+
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Liam)<!-- -->
+
+<div class="intro">
+
+- 姓名
+- 科研助理教授
+- 邮箱：someone@suat-sz.edu.cn
+
+</div>
+
+<div style="clear:both;"></div>
+
+</div>
+
+
+
 ### 博士后
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Destiny)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sawyer)<!-- -->
 
 <div class="intro">
 
@@ -71,7 +93,7 @@ title: "成员"
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sara)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Christopher)<!-- -->
 
 <div class="intro">
 
@@ -92,7 +114,7 @@ title: "成员"
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Liam)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sophia)<!-- -->
 
 <div class="intro">
 

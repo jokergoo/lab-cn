@@ -2,7 +2,7 @@
 title: "顾祖光"
 ---
 
-Placeholder
+教授，课题组负责人
 
 <style>
 ul {
