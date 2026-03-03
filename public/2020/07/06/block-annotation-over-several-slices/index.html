@@ -31,7 +31,7 @@
          Block annotation over several slices 
       
     </title>
-    <link rel="canonical" href="lab-cn/2020/07/06/block-annotation-over-several-slices/">
+    <link rel="canonical" href="/lab-cn/2020/07/06/block-annotation-over-several-slices/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="lab-cn/research/">研究</a></li>
+          <li><a href="/lab-cn/research/">研究</a></li>
         
-          <li><a href="lab-cn/publication/">论文</a></li>
+          <li><a href="/lab-cn/publication/">论文</a></li>
         
-          <li><a href="lab-cn/software/">软件</a></li>
+          <li><a href="/lab-cn/software/">软件</a></li>
         
-          <li><a href="lab-cn/post">博客</a></li>
+          <li><a href="/lab-cn/post">博客</a></li>
         
-          <li><a href="lab-cn/members/">成员</a></li>
+          <li><a href="/lab-cn/members/">成员</a></li>
         
-          <li><a href="lab-cn/opening/">职位</a></li>
+          <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -500,7 +500,7 @@ split = rep(1:5, each = 10)
 Heatmap(mat, name = &quot;mat&quot;, column_split = split, top_annotation = ha, 
 	column_title = NULL)
 </code></pre>
-<img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Currently, it is difficult to directly support it in <code>anno_block()</code>, however,
 there is workaround for it. Actually, to draw rectangles across several
 slices, we need to know two things: 1. the positions of the slices in the
@@ -515,7 +515,7 @@ allocated by <code>anno_empty()</code> function.</p>
 Heatmap(mat, name = &quot;mat&quot;, column_split = split, top_annotation = ha, 
 	column_title = NULL)
 </code></pre>
-<img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Let&rsquo;s say, we want to put the first three column slices as a group and the last two
 slices as the second group.</p>
 <p>The positions of the first and the third slicesm for annotation <code>&quot;empty&quot;</code> can be obtained by:</p>
@@ -546,7 +546,7 @@ grid.rect(loc1$x, loc1$y, width = loc2$x - loc1$x, height = loc2$y - loc1$y,
 	just = c(&quot;left&quot;, &quot;bottom&quot;), gp = gpar(fill = &quot;red&quot;))
 grid.text(&quot;group 1&quot;, x = (loc1$x + loc2$x)*0.5, y = (loc1$y + loc2$y)*0.5)
 </code></pre>
-<img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>The viewport names for the annotations are in a fixed format, which is
 <code>annotation_{annotation_name}_{slice_index}</code>. The full set of viewport names
 can be obtained by <code>list_components()</code> function.</p>
@@ -596,7 +596,7 @@ group_block_anno = function(group, empty_anno, gp = gpar(),
 group_block_anno(1:3, &quot;empty&quot;, gp = gpar(fill = &quot;red&quot;), label = &quot;group 1&quot;)
 group_block_anno(4:5, &quot;empty&quot;, gp = gpar(fill = &quot;blue&quot;), label = &quot;group 2&quot;)
 </code></pre>
-<img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-07-06-block-annotation-over-several-slices_files/figure-html/unnamed-chunk-10-1.png" width="480" style="display: block; margin: auto;" /></p>
 
   </div>
 
@@ -643,7 +643,7 @@ group_block_anno(4:5, &quot;empty&quot;, gp = gpar(fill = &quot;blue&quot;), lab
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

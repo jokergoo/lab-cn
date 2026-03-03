@@ -31,7 +31,7 @@
          Integrate ComplexHeatmap with cowplot package 
       
     </title>
-    <link rel="canonical" href="lab-cn/2020/07/14/integrate-complexheatmap-with-cowplot-package/">
+    <link rel="canonical" href="/lab-cn/2020/07/14/integrate-complexheatmap-with-cowplot-package/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="lab-cn/research/">研究</a></li>
+          <li><a href="/lab-cn/research/">研究</a></li>
         
-          <li><a href="lab-cn/publication/">论文</a></li>
+          <li><a href="/lab-cn/publication/">论文</a></li>
         
-          <li><a href="lab-cn/software/">软件</a></li>
+          <li><a href="/lab-cn/software/">软件</a></li>
         
-          <li><a href="lab-cn/post">博客</a></li>
+          <li><a href="/lab-cn/post">博客</a></li>
         
-          <li><a href="lab-cn/members/">成员</a></li>
+          <li><a href="/lab-cn/members/">成员</a></li>
         
-          <li><a href="lab-cn/opening/">职位</a></li>
+          <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -521,7 +521,7 @@ mat = GO_similarity(go_id)
 cl = binary_cut(mat)
 ht_clusters(mat, cl)
 </code></pre>
-<img src="/lab-cn/post/2020-07-14-integrate-complex-heatmap-with-cowplot-package_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-07-14-integrate-complex-heatmap-with-cowplot-package_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Next we put this heatmap as a sub-figure with <strong>cowplot</strong>. To integrate with
 <strong>cowplot</strong>, the heatmap should be captured by <code>grid::grid.grabExpr()</code> as a complex
 <code>grob</code> object. Note here you need to use <code>draw()</code> function to draw the heatmap
@@ -537,7 +537,7 @@ plot_grid(p1,
 	nrow = 1, rel_widths = c(1, 9)
 )
 </code></pre>
-<img src="/lab-cn/post/2020-07-14-integrate-complex-heatmap-with-cowplot-package_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-07-14-integrate-complex-heatmap-with-cowplot-package_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Woooo! The word cloud annotation is badly aligned.</p>
 <p>There are some details that should be noted for <code>grid.grabExpr()</code> function. It actually
 opens an invisible graphics device (by <code>pdf(NULL)</code>) with a default size 7x7 inches. Thus,
@@ -572,7 +572,7 @@ plot_grid(p1,
 	nrow = 1, rel_widths = c(1, 9)
 )
 </code></pre>
-<img src="/lab-cn/post/2020-07-14-integrate-complex-heatmap-with-cowplot-package_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-07-14-integrate-complex-heatmap-with-cowplot-package_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Now everthing is back to normal!</p>
 
   </div>

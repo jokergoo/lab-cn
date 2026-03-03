@@ -31,7 +31,7 @@
          Make genome-scale heatmap 
       
     </title>
-    <link rel="canonical" href="lab-cn/2020/10/29/make-genome-scale-heatmap/">
+    <link rel="canonical" href="/lab-cn/2020/10/29/make-genome-scale-heatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="lab-cn/research/">研究</a></li>
+          <li><a href="/lab-cn/research/">研究</a></li>
         
-          <li><a href="lab-cn/publication/">论文</a></li>
+          <li><a href="/lab-cn/publication/">论文</a></li>
         
-          <li><a href="lab-cn/software/">软件</a></li>
+          <li><a href="/lab-cn/software/">软件</a></li>
         
-          <li><a href="lab-cn/post">博客</a></li>
+          <li><a href="/lab-cn/post">博客</a></li>
         
-          <li><a href="lab-cn/members/">成员</a></li>
+          <li><a href="/lab-cn/members/">成员</a></li>
         
-          <li><a href="lab-cn/opening/">职位</a></li>
+          <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -650,7 +650,7 @@ it can be a vector or a matrix, and if <code>v</code> is character, it can only 
 the bottom represents a certain genomic window. Black lines on the top are the regions
 for genomic signals that overlap with the window. The thick lines indicate the
 intersected part between the signal regions and the window.</p>
-<img src="/lab-cn/post/2020-10-29-make-genome-scale-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-10-29-make-genome-scale-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>For a given window, <code>\(n\)</code> is the number of signal regions which overlap with the
 window (it is 5 in the above plot), <code>\(w_i\)</code> is the width of the intersected
 segments (black thick lines), and <code>\(x_i\)</code> is the signal value associated with
@@ -671,7 +671,7 @@ methylation in a small window, non-CpG background should be ignored, because
 methylation is only associated with CpG sites and not with other positions.</p>
 <p>The <strong>&ldquo;w0&rdquo;</strong> method is the weighted mean between the intersected parts and
 un-intersected parts.</p>
-<p>$$ v_{w0} = \frac{v_wW}{W+W&rsquo;} $$</p>
+<p>$$ v_{w0} = \frac{v_wW}{W+W'} $$</p>
 <p><code>\(W\)</code> is sum of width of the intersected parts (<code>\(\sum_i^n{w_i}\)</code>) and <code>\(W'\)</code> is the
 sum of width for the non-intersected parts.</p>
 </li>
@@ -798,7 +798,7 @@ rowAnnotation(bar = anno_barplot(v[, 1], gp = gpar(col = ifelse(v[ ,1] &gt; 0, 2
 	width = unit(2, &quot;cm&quot;))
 draw(ht_list, merge_legend = TRUE)
 </code></pre>
-<img src="/lab-cn/post/2020-10-29-make-genome-scale-heatmap_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-10-29-make-genome-scale-heatmap_files/figure-html/unnamed-chunk-11-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>It is easy to make the arrangement of heatmaps vertical (use <code>%v%</code> to concatenate
 heatmaps!). Just carefully switch the row-related parameters and
 column-related parameters. Here I additinally adjust the legends to make them
@@ -827,7 +827,7 @@ HeatmapAnnotation(bar = anno_barplot(v[, 1], gp = gpar(col = ifelse(v[ ,1] &gt; 
 	annotation_name_side = &quot;left&quot;, height = unit(2, &quot;cm&quot;))
 draw(ht_list, heatmap_legend_side = &quot;bottom&quot;, merge_legend = TRUE)
 </code></pre>
-<img src="/lab-cn/post/2020-10-29-make-genome-scale-heatmap_files/figure-html/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-10-29-make-genome-scale-heatmap_files/figure-html/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>This is a new feature of <strong>ComplexHeatmap</strong>. If you have any comment on <code>average_in_window()</code> function
 or on this post, I am very happy to listen!</p>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -883,7 +883,7 @@ or on this post, I am very happy to listen!</p>
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

@@ -31,7 +31,7 @@
          Edit grobs in ggplot2 plots 
       
     </title>
-    <link rel="canonical" href="lab-cn/2024/05/16/edit-grobs-in-ggplot2-plots/">
+    <link rel="canonical" href="/lab-cn/2024/05/16/edit-grobs-in-ggplot2-plots/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="lab-cn/research/">研究</a></li>
+          <li><a href="/lab-cn/research/">研究</a></li>
         
-          <li><a href="lab-cn/publication/">论文</a></li>
+          <li><a href="/lab-cn/publication/">论文</a></li>
         
-          <li><a href="lab-cn/software/">软件</a></li>
+          <li><a href="/lab-cn/software/">软件</a></li>
         
-          <li><a href="lab-cn/post">博客</a></li>
+          <li><a href="/lab-cn/post">博客</a></li>
         
-          <li><a href="lab-cn/members/">成员</a></li>
+          <li><a href="/lab-cn/members/">成员</a></li>
         
-          <li><a href="lab-cn/opening/">职位</a></li>
+          <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -503,7 +503,7 @@ df = data.frame(
 <pre><code class="language-r">ggplot(df, aes(x, y)) +
     geom_tile(aes(fill = z), color = NA)
 </code></pre>
-<img src="/lab-cn/post/2024-05-16-edit-grobs-in-ggplot2-plots_files/figure-html/unnamed-chunk-3-1.svg" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2024-05-16-edit-grobs-in-ggplot2-plots_files/figure-html/unnamed-chunk-3-1.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>Depends on the &ldquo;graphics device&rdquo; you use, you might see white vertical and horizontal lines between cells in the plot. Here in
 this example I use &ldquo;svg&rdquo;, but there is no such problem with other devices such as &ldquo;png&rdquo; or &ldquo;jpeg&rdquo;.</p>
 <p>Of course you can remove <code>color = NA</code> to add borders for these cells. But you might see</p>
@@ -531,7 +531,7 @@ grect$height = grect$height + unit(2, &quot;pt&quot;)
 # update the plot
 grid.set(vpath, grect)
 </code></pre>
-<img src="/lab-cn/post/2024-05-16-edit-grobs-in-ggplot2-plots_files/figure-html/unnamed-chunk-4-1.svg" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2024-05-16-edit-grobs-in-ggplot2-plots_files/figure-html/unnamed-chunk-4-1.svg" width="672" style="display: block; margin: auto;" /></p>
 
   </div>
 
@@ -578,7 +578,7 @@ grid.set(vpath, grect)
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

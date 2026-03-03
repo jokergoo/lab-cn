@@ -31,7 +31,7 @@
          Visualize relations between genes and pathways 
       
     </title>
-    <link rel="canonical" href="lab-cn/2020/11/27/visualize-relations-between-genes-and-pathways/">
+    <link rel="canonical" href="/lab-cn/2020/11/27/visualize-relations-between-genes-and-pathways/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="lab-cn/research/">研究</a></li>
+          <li><a href="/lab-cn/research/">研究</a></li>
         
-          <li><a href="lab-cn/publication/">论文</a></li>
+          <li><a href="/lab-cn/publication/">论文</a></li>
         
-          <li><a href="lab-cn/software/">软件</a></li>
+          <li><a href="/lab-cn/software/">软件</a></li>
         
-          <li><a href="lab-cn/post">博客</a></li>
+          <li><a href="/lab-cn/post">博客</a></li>
         
-          <li><a href="lab-cn/members/">成员</a></li>
+          <li><a href="/lab-cn/members/">成员</a></li>
         
-          <li><a href="lab-cn/opening/">职位</a></li>
+          <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -492,8 +492,8 @@ $( function() {
     <p>@<a href="https://github.com/venkan">venkan</a> provides <a href="https://github.com/jokergoo/circlize/issues/236">an interesting use
 case</a> for <strong>circlize</strong>
 which is to visualize the relations bewteen genes and pathways with
-integrating genes&rsquo; genomic positions. An example plot looks like:</p>
-<img src="https://i.stack.imgur.com/8mQv4.jpg" width="500" />
+integrating genes' genomic positions. An example plot looks like:</p>
+<p><img src="https://i.stack.imgur.com/8mQv4.jpg" width="500" /></p>
 <p>In that plot, the &ldquo;pathway&rdquo; is in the same track as the ideograms. Thus, to
 use <strong>circlize</strong> to implement it, we need to make &ldquo;pathway&rdquo; as a fake
 chromosome and concatenate it to the normal chromosomes. In this blog post, I
@@ -567,7 +567,7 @@ with genomic links:</p>
 <pre><code class="language-r">circos.initializeWithIdeogram(cytoband)
 circos.genomicLink(df[, 1:3], df[, 6:8])
 </code></pre>
-<img src="/lab-cn/post/2020-11-27-visualize-relations-between-genes-and-pathways_files/figure-html/unnamed-chunk-5-1.png" width="768" />
+<p><img src="/lab-cn/post/2020-11-27-visualize-relations-between-genes-and-pathways_files/figure-html/unnamed-chunk-5-1.png" width="768" /></p>
 <p>That is basically the idea. Next I customize the plot to make it look nicer, <em>e.g.</em>, to
 adjust font size, set colors, add labels, &hellip;</p>
 <pre><code class="language-r">circos.par(gap.after = c(rep(1, 23), 5, 5))
@@ -597,7 +597,7 @@ circos.points(x = pathway_mid[names(tb)], y = CELL_META$ycenter, pch = 16,
 # genomic links
 circos.genomicLink(df[, 1:3], df[, 6:8], col = pathway_col[df[, 5]])
 </code></pre>
-<img src="/lab-cn/post/2020-11-27-visualize-relations-between-genes-and-pathways_files/figure-html/unnamed-chunk-7-1.png" width="768" />
+<p><img src="/lab-cn/post/2020-11-27-visualize-relations-between-genes-and-pathways_files/figure-html/unnamed-chunk-7-1.png" width="768" /></p>
 <pre><code class="language-r">circos.clear()
 </code></pre>
 
@@ -646,7 +646,7 @@ circos.genomicLink(df[, 1:3], df[, 6:8], col = pathway_col[df[, 5]])
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

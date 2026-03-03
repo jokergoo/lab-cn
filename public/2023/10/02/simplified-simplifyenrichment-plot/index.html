@@ -31,7 +31,7 @@
          Simplified simplifyEnrichment plot 
       
     </title>
-    <link rel="canonical" href="lab-cn/2023/10/02/simplified-simplifyenrichment-plot/">
+    <link rel="canonical" href="/lab-cn/2023/10/02/simplified-simplifyenrichment-plot/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="lab-cn/research/">研究</a></li>
+          <li><a href="/lab-cn/research/">研究</a></li>
         
-          <li><a href="lab-cn/publication/">论文</a></li>
+          <li><a href="/lab-cn/publication/">论文</a></li>
         
-          <li><a href="lab-cn/software/">软件</a></li>
+          <li><a href="/lab-cn/software/">软件</a></li>
         
-          <li><a href="lab-cn/post">博客</a></li>
+          <li><a href="/lab-cn/post">博客</a></li>
         
-          <li><a href="lab-cn/members/">成员</a></li>
+          <li><a href="/lab-cn/members/">成员</a></li>
         
-          <li><a href="lab-cn/opening/">职位</a></li>
+          <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -518,7 +518,7 @@ df = lt[[1]]
 go_id = df$ID[df$p.adjust &lt; 0.01]
 simplifyGO(go_id)
 </code></pre>
-<img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-4-1.png" width="806.4" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-4-1.png" width="806.4" style="display: block; margin: auto;" /></p>
 <p>The plot looks good, but it still contains too many graphic contents. For example, the GO similarity heatmap
 is useful, but it takes too much space on the final plot. Here I developed a new function <code>summarizeGO()</code> which
 simplifies the enrichment results even more. The idea is that since we already have the GO clusters, with a certain
@@ -529,7 +529,7 @@ efficiently show the general functions in each GO cluster.</p>
 <pre><code class="language-r">l = df$p.adjust &lt; 0.01
 summarizeGO(df$ID[l], -log10(df$p.adjust)[l], axis_label = &quot;average -log10(p.adjust)&quot;)
 </code></pre>
-<img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-5-1.png" width="691.2" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-5-1.png" width="691.2" style="display: block; margin: auto;" /></p>
 <p>GO IDs can be attached to the numeric value vector, but this time, the <code>value</code> argument
 should be explicitely specified when calling <code>summarizeGO()</code>.</p>
 <pre><code class="language-r">v = -log10(df$p.adjust)
@@ -550,7 +550,7 @@ log2_fold_enrichment = log2(k*n/m1/m2)
 
 summarizeGO(df$ID[l], log2_fold_enrichment[l], axis_label = &quot;average log2(fold_enrichment)&quot;)
 </code></pre>
-<img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-7-1.png" width="691.2" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-7-1.png" width="691.2" style="display: block; margin: auto;" /></p>
 <p>Of course, you can construct a named <code>log2_fold_enrichment</code> vector which only contains significant GO terms.</p>
 <pre><code class="language-r">names(log2_fold_enrichment) = df$ID
 summarizeGO(value = log2_fold_enrichment[l], axis_label = &quot;average log2(fold_enrichment)&quot;)
@@ -558,7 +558,7 @@ summarizeGO(value = log2_fold_enrichment[l], axis_label = &quot;average log2(fol
 <p>For multiple GO enrichment results, <code>simplifyGOFromMultipleLists()</code> can be used to visualize and compare GO clusters.</p>
 <pre><code class="language-r">simplifyGOFromMultipleLists(lt, padj_cutoff = 0.001)
 </code></pre>
-<img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <p><code>summarizeGO()</code> can also be used to simplify such plot. Now the value of <code>value</code> is a list of numeric named vectors which contains
 significant GO terms in each enrichment table:</p>
 <pre><code class="language-r">value = lapply(lt, function(df) {
@@ -568,7 +568,7 @@ significant GO terms in each enrichment table:</p>
 })
 summarizeGO(value = value, axis_label = &quot;average -log10(p.adjust)&quot;, legend_title = &quot;-log10(p.adjust)&quot;)
 </code></pre>
-<img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-10-1.png" width="691.2" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-10-02-simplified-simplify-enrichment-plot_files/figure-html/unnamed-chunk-10-1.png" width="691.2" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">sessionInfo()
 </code></pre>
 <pre><code>## R version 4.4.2 (2024-10-31)
@@ -695,7 +695,7 @@ summarizeGO(value = value, axis_label = &quot;average -log10(p.adjust)&quot;, le
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

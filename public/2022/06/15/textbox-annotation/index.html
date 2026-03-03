@@ -31,7 +31,7 @@
          Textbox annotation 
       
     </title>
-    <link rel="canonical" href="lab-cn/2022/06/15/textbox-annotation/">
+    <link rel="canonical" href="/lab-cn/2022/06/15/textbox-annotation/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="lab-cn/research/">研究</a></li>
+          <li><a href="/lab-cn/research/">研究</a></li>
         
-          <li><a href="lab-cn/publication/">论文</a></li>
+          <li><a href="/lab-cn/publication/">论文</a></li>
         
-          <li><a href="lab-cn/software/">软件</a></li>
+          <li><a href="/lab-cn/software/">软件</a></li>
         
-          <li><a href="lab-cn/post">博客</a></li>
+          <li><a href="/lab-cn/post">博客</a></li>
         
-          <li><a href="lab-cn/members/">成员</a></li>
+          <li><a href="/lab-cn/members/">成员</a></li>
         
-          <li><a href="lab-cn/opening/">职位</a></li>
+          <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -505,19 +505,19 @@ words = sapply(1:30, function(x) strrep(sample(letters, 1), sample(3:10, 1)))
 grid.newpage()
 grid.textbox(words, gp = gpar(fontsize = runif(30, min = 5, max = 30)))
 </code></pre>
-<img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-2-1.png" width="432" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-2-1.png" width="432" style="display: block; margin: auto;" /></p>
 <p><code>max_width</code> controls the maximal width of the textbox.</p>
 <pre><code class="language-r">grid.newpage()
 grid.textbox(words, gp = gpar(col = &quot;red&quot;, fontsize = 1:30+5), max_width = unit(9, &quot;in&quot;))
 </code></pre>
-<img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" /></p>
 <p>Set <code>round_corners</code> to <code>TRUE</code>, also set background graphics parameters:</p>
 <pre><code class="language-r">grid.newpage()
 grid.textbox(words, gp = gpar(fontsize = runif(30, min = 5, max = 30)),
     background_gp = gpar(fill = &quot;#FFEEEE&quot;, lty = 2, col = &quot;grey&quot;), round_corners = TRUE,
     padding = unit(c(10, 20, 10, 20), &quot;pt&quot;))
 </code></pre>
-<img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>One feature of <code>grid.textbox()</code> is it can properly handle long phrases or sentences which are composed
 by multiple words. By default, long phrases are treated as single words, which means, if there is no
 enough space in a line, the whole phrase is moved to the next line.</p>
@@ -525,17 +525,17 @@ enough space in a line, the whole phrase is moved to the next line.</p>
 grid.newpage()
 grid.textbox(sentenses)
 </code></pre>
-<img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Set <code>word_wrap = TRUE</code> so that long phrases are wrapped if they are too long:</p>
 <pre><code class="language-r">grid.newpage()
 grid.textbox(sentenses, word_wrap = TRUE)
 </code></pre>
-<img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>If <code>add_new_line</code> is set to <code>TRUE</code>, each phrase is put in a separated line.</p>
 <pre><code class="language-r">grid.newpage()
 grid.textbox(sentenses, word_wrap = TRUE, add_new_line = TRUE)
 </code></pre>
-<img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>Now we can implement the corresponding annotation function for heatmaps. In <strong>ComplexHeatmap</strong>,
 there is a new annotation function <code>anno_textbox()</code>. The two major arguments for <code>anno_textbox()</code> are:</p>
 <ul>
@@ -604,7 +604,7 @@ split
     right_annotation = rowAnnotation(wc = anno_textbox(split, text))
 )
 </code></pre>
-<img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-06-15-textbox-annotation_files/figure-html/unnamed-chunk-8-1.png" width="672" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">sessionInfo()
 </code></pre>
 <pre><code>## R version 4.4.2 (2024-10-31)
@@ -692,7 +692,7 @@ split
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

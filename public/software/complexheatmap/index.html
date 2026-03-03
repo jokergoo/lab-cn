@@ -31,7 +31,7 @@
          ComplexHeatmap 
       
     </title>
-    <link rel="canonical" href="lab-cn/software/complexheatmap/">
+    <link rel="canonical" href="/lab-cn/software/complexheatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="lab-cn/research/">研究</a></li>
+          <li><a href="/lab-cn/research/">研究</a></li>
         
-          <li><a href="lab-cn/publication/">论文</a></li>
+          <li><a href="/lab-cn/publication/">论文</a></li>
         
-          <li><a href="lab-cn/software/">软件</a></li>
+          <li><a href="/lab-cn/software/">软件</a></li>
         
-          <li><a href="lab-cn/post">博客</a></li>
+          <li><a href="/lab-cn/post">博客</a></li>
         
-          <li><a href="lab-cn/members/">成员</a></li>
+          <li><a href="/lab-cn/members/">成员</a></li>
         
-          <li><a href="lab-cn/opening/">职位</a></li>
+          <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -489,34 +489,34 @@ $( function() {
 <h3 id="基本信息">基本信息</h3>
 <div id="soft-info">
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">软件包</th>
-          <th style="text-align: left">链接</th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left">编程语言</td>
-          <td style="text-align: left">R</td>
-      </tr>
-      <tr>
-          <td style="text-align: left">Bioconductor</td>
-          <td style="text-align: left"><a href="https://bioconductor.org/packages/ComplexHeatmap/">https://bioconductor.org/packages/ComplexHeatmap/</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">GitHub</td>
-          <td style="text-align: left"><a href="https://github.com/jokergoo/ComplexHeatmap">https://github.com/jokergoo/ComplexHeatmap</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">文档</td>
-          <td style="text-align: left"><a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/">https://jokergoo.github.io/ComplexHeatmap-reference/book/</a></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">论文</td>
-          <td style="text-align: left">Zuguang Gu, <a href="https://doi.org/10.1002/imt2.43">Complex heatmap visualization</a>. <em>iMeta</em> 2022. <br>Zuguang Gu, et al., <a href="https://doi.org/10.1093/bioinformatics/btw313">Complex heatmaps reveal patterns and correlations in multidimensional genomic data</a>. <em>Bioinformatics</em> 2016.</td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th style="text-align:left">软件包</th>
+<th style="text-align:left">链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">编程语言</td>
+<td style="text-align:left">R</td>
+</tr>
+<tr>
+<td style="text-align:left">Bioconductor</td>
+<td style="text-align:left"><a href="https://bioconductor.org/packages/ComplexHeatmap/">https://bioconductor.org/packages/ComplexHeatmap/</a></td>
+</tr>
+<tr>
+<td style="text-align:left">GitHub</td>
+<td style="text-align:left"><a href="https://github.com/jokergoo/ComplexHeatmap">https://github.com/jokergoo/ComplexHeatmap</a></td>
+</tr>
+<tr>
+<td style="text-align:left">文档</td>
+<td style="text-align:left"><a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/">https://jokergoo.github.io/ComplexHeatmap-reference/book/</a></td>
+</tr>
+<tr>
+<td style="text-align:left">论文</td>
+<td style="text-align:left">Zuguang Gu, <a href="https://doi.org/10.1002/imt2.43">Complex heatmap visualization</a>. <em>iMeta</em> 2022. <br>Zuguang Gu, et al., <a href="https://doi.org/10.1093/bioinformatics/btw313">Complex heatmaps reveal patterns and correlations in multidimensional genomic data</a>. <em>Bioinformatics</em> 2016.</td>
+</tr>
+</tbody>
 </table>
 </div>
 <h3 id="例子">例子</h3>
@@ -542,12 +542,12 @@ colnames(mat) = paste0(&quot;column&quot;, seq_len(nc))
 <pre><code class="language-r">library(ComplexHeatmap)
 Heatmap(mat)
 </code></pre>
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-3-1.png" width="768" />
+<p><img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-3-1.png" width="768" /></p>
 <p>对行和列进行切分：</p>
 <pre><code class="language-r">Heatmap(mat, name = &quot;mat&quot;, 
     row_split = rep(c(&quot;A&quot;, &quot;B&quot;), 9), column_split = rep(c(&quot;C&quot;, &quot;D&quot;), 12))
 </code></pre>
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-4-1.png" width="768" />
+<p><img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-4-1.png" width="768" /></p>
 <p>加入热图注释：</p>
 <pre><code class="language-r">set.seed(123)
 mat = matrix(rnorm(100), 10)
@@ -557,7 +557,7 @@ column_ha = HeatmapAnnotation(foo1 = runif(10), bar1 = anno_barplot(runif(10)))
 row_ha = rowAnnotation(foo2 = runif(10), bar2 = anno_barplot(runif(10)))
 Heatmap(mat, name = &quot;mat&quot;, top_annotation = column_ha, right_annotation = row_ha)
 </code></pre>
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-5-1.png" width="768" />
+<p><img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-5-1.png" width="768" /></p>
 <p>拼接多个热图：</p>
 <pre><code class="language-r">set.seed(123)
 mat1 = matrix(rnorm(80, 2), 8, 10)
@@ -584,7 +584,7 @@ ht3 = Heatmap(le, name = &quot;letters&quot;)
 
 ht1 + ht2 + ht3
 </code></pre>
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-6-1.png" width="768" />
+<p><img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-6-1.png" width="768" /></p>
 <script>
 $( function() {
 	$("table thead").css("display", "none");
@@ -634,7 +634,7 @@ $( function() {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
