@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Get gene-region associations for a group of GO terms 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2024/02/05/get-gene-region-associations-for-a-group-of-go-terms/">
+    <link rel="canonical" href="/lab-cn/2024/02/05/get-gene-region-associations-for-a-group-of-go-terms/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -527,7 +527,7 @@ head(tb)
 sig_go_ids = tb$id[tb$p_adjust &lt; 0.001]
 cl = simplifyGO(sig_go_ids)
 </code></pre>
-<img src="/lab-cn/post/2024-02-05-get-gene-region-associations-for-a-group-of-go-terms_files/figure-html/unnamed-chunk-2-1.png" width="864" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2024-02-05-get-gene-region-associations-for-a-group-of-go-terms_files/figure-html/unnamed-chunk-2-1.png" width="864" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">head(cl)
 </code></pre>
 <pre><code>##           id cluster
@@ -714,7 +714,7 @@ need of obtaining the associations from single GO terms to a group of GO terms w
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

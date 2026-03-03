@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Make triangle heatmap 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2021/07/22/make-triangle-heatmap/">
+    <link rel="canonical" href="/lab-cn/2021/07/22/make-triangle-heatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -494,7 +494,7 @@ $( function() {
 m = cor(matrix(rnorm(100), 10))
 Heatmap(m)
 </code></pre>
-<img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>By observing the heatmap, the simplest way is to compare the row index and column index of the heatmap. Note
 here since the heatmap rows and columns are already reordered by clusering, we need to reorder the matrix
 before sending to heatmap, and in the heatmap, no reordering should be applied.</p>
@@ -509,7 +509,7 @@ Heatmap(m2, rect_gp = gpar(type = &quot;none&quot;),
         }
     })
 </code></pre>
-<img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>This looks good, but where are the dendrograms? How can we add the dendrograms back? In previous example, the matrix
 is already reordered, so the original dendrograms are lost.</p>
 <p>Instead of the row and column indicies, we can also compare the positions of cells in the heatmap, of which the information
@@ -523,7 +523,7 @@ They need to be converted to numbers by <code>as.numeric()</code> for comparison
         }
     })
 </code></pre>
-<img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Now the dendrograms are back, but wait, the cell in the 5th row and 5th column is not drawn.
 This is because we are comparing two floating numbers. The solution is to add a small positive
 offset on the right side of the comparison:</p>
@@ -534,7 +534,7 @@ offset on the right side of the comparison:</p>
         }
     })
 </code></pre>
-<img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>The next question is how to combine a upper triangle heatmap and a lower triangle heatmap? @<a href="https://github.com/jokergoo/ComplexHeatmap/discussions/773#discussioncomment-1037145">ekaterinaesenkova</a> suggested a smart way which combines two triangle heatmaps but setting <code>ht_gap</code> to a negative unit. Check the following example:</p>
 <pre><code class="language-r">library(circlize)
 col1 = colorRamp2(c(-1, 0, 1), c(&quot;green&quot;, &quot;black&quot;, &quot;red&quot;))
@@ -561,7 +561,7 @@ ht2 = Heatmap(m2, rect_gp = gpar(type = &quot;none&quot;), col = col2,
 
 draw(ht1 + ht2, ht_gap = unit(-70, &quot;mm&quot;))
 </code></pre>
-<img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2021-07-22-make-triangle-heatmap_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
 
   </div>
 
@@ -608,7 +608,7 @@ draw(ht1 + ht2, ht_gap = unit(-70, &quot;mm&quot;))
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

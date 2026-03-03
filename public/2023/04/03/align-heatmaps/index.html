@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Align heatmaps 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2023/04/03/align-heatmaps/">
+    <link rel="canonical" href="/lab-cn/2023/04/03/align-heatmaps/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -518,7 +518,7 @@ p2 = grid.grabExpr(draw(ht2))
 library(cowplot)
 plot_grid(p1, p2, nrow = 2)
 </code></pre>
-<img src="/lab-cn/post/2023-04-03-align-heatmaps_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-04-03-align-heatmaps_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>As can be seen in the plot above, due to the different numbers of columns, different dendrogram widths and different
 widths for row names, the two heatmaps are not aligned by the heatmap bodies, which makes the plot looking ugly.</p>
 <p>To perfectly align heatmaps by their bodies, the key thing is to calculate the total width of all its left heatmap components
@@ -567,7 +567,7 @@ grid.draw(p2)
 popViewport()
 popViewport()
 </code></pre>
-<img src="/lab-cn/post/2023-04-03-align-heatmaps_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-04-03-align-heatmaps_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
 
   </div>
 

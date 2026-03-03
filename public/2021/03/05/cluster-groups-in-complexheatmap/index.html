@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Cluster groups in ComplexHeatmap 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2021/03/05/cluster-groups-in-complexheatmap/">
+    <link rel="canonical" href="/lab-cn/2021/03/05/cluster-groups-in-complexheatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -513,7 +513,7 @@ Heatmap(m, cluster_columns = dend1, column_split = 3,
 	row_title = &quot;cluster_between_groups&quot;,
 	top_annotation = HeatmapAnnotation(foo = fa, col = list(foo = fa_col)))
 </code></pre>
-<img src="/lab-cn/post/2021-03-05-cluster-groups-in-complex-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2021-03-05-cluster-groups-in-complex-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>In the second plot, <code>cluster_within_group()</code> was applied. As you can see, columns
 are also reordered inside each group.</p>
 <pre><code class="language-r">dend2 = cluster_within_group(m, fa)
@@ -521,7 +521,7 @@ Heatmap(m, cluster_columns = dend2, column_split = 3,
 	row_title = &quot;cluster_within_group&quot;,
 	top_annotation = HeatmapAnnotation(foo = fa, col = list(foo = fa_col)))
 </code></pre>
-<img src="/lab-cn/post/2021-03-05-cluster-groups-in-complex-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2021-03-05-cluster-groups-in-complex-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>Note, they also work on heatmap rows. Please update to the current GitHub version to use these two functions.</p>
 <p>Finally, thanks @<a href="https://github.com/jokergoo/ComplexHeatmap/issues/694">crazyhottommy</a> for providing
 this interesting use case.</p>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Arrange links evenly along the sectors 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/11/23/arrange-links-evenly-along-the-sectors/">
+    <link rel="canonical" href="/lab-cn/2020/11/23/arrange-links-evenly-along-the-sectors/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -556,7 +556,7 @@ for(i in seq_len(nrow(df))) {
     circos.link(s1, 0.5, s2, 0.5, directional = 1)
 }
 </code></pre>
-<img src="/lab-cn/post/2020-11-23-arrange-links-evenly-along-the-sectors_files/figure-html/unnamed-chunk-3-1.png" width="768" />
+<p><img src="/lab-cn/post/2020-11-23-arrange-links-evenly-along-the-sectors_files/figure-html/unnamed-chunk-3-1.png" width="768" /></p>
 <p>It looks nice, but since all the links, <em>e.g.</em> which start from or end in one
 sector, are in a same position, it is rather difficult to tell which sector
 has more links than the others.</p>
@@ -574,7 +574,7 @@ for(i in seq_len(nrow(df))) {
     circos.link(s1, runif(1), s2, runif(1), directional = 1)
 }
 </code></pre>
-<img src="/lab-cn/post/2020-11-23-arrange-links-evenly-along-the-sectors_files/figure-html/unnamed-chunk-4-1.png" width="768" />
+<p><img src="/lab-cn/post/2020-11-23-arrange-links-evenly-along-the-sectors_files/figure-html/unnamed-chunk-4-1.png" width="768" /></p>
 <p>It already looks much nicer, however, since the positions are random, it is
 still not easy to tell which sector has more links because we need effort to
 carefully count the links if they are very close to each other (<em>e.g.</em>, for sector c,
@@ -600,7 +600,7 @@ for(i in seq_len(nrow(df2))) {
                 directional = 1)
 }
 </code></pre>
-<img src="/lab-cn/post/2020-11-23-arrange-links-evenly-along-the-sectors_files/figure-html/unnamed-chunk-5-1.png" width="768" />
+<p><img src="/lab-cn/post/2020-11-23-arrange-links-evenly-along-the-sectors_files/figure-html/unnamed-chunk-5-1.png" width="768" /></p>
 <p>Session info:</p>
 <pre><code class="language-r">sessionInfo()
 </code></pre>
@@ -681,7 +681,7 @@ for(i in seq_len(nrow(df2))) {
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

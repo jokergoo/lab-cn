@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Translate from pheatmap to ComplexHeatmap 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/05/06/translate-from-pheatmap-to-complexheatmap/">
+    <link rel="canonical" href="/lab-cn/2020/05/06/translate-from-pheatmap-to-complexheatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -540,7 +540,7 @@ rownames(test) = paste(&quot;Gene&quot;, 1:20, sep = &quot;&quot;)
 a similar heatmap as by <code>pheatmap::pheatmap()</code>.</p>
 <pre><code class="language-r">pheatmap(test)  # this is ComplexHeatmap::pheatmap
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-5-1.png" width="384" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-5-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>Everything looks the same except the style of the heatmap legend. There are also
 some other visual difference which you can find in the &ldquo;Comparisons&rdquo; section in this post.</p>
 <p>The next one is an example for setting annotations (you should be familiar with
@@ -565,14 +565,14 @@ ann_colors = list(
 <pre><code class="language-r">pheatmap(test, annotation_col = annotation_col, annotation_row = annotation_row, 
 	annotation_colors = ann_colors)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p>You can split the heatmap by rows or by columns, which is a unique feature of <strong>ComplexHeatmap</strong>.</p>
 <pre><code class="language-r">pheatmap(test, annotation_col = annotation_col, annotation_row = annotation_row, 
 	annotation_colors = ann_colors, 
 	row_split = annotation_row$GeneClass,
 	column_split = annotation_col$CellType)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto;" /></p>
 <p><code>ComplexHeatmap::pheatmap()</code> returns a <code>Heatmap</code> object, so it can be added with
 other heatmaps and annotations. Or in other words, you can add multiple pheatmaps
 and annotations. Cool!</p>
@@ -584,7 +584,7 @@ p3 = pheatmap(test, name = &quot;mat2&quot;,
 # p3 = pheatmap(test, name = &quot;mat2&quot;, col = c(&quot;navy&quot;, &quot;white&quot;, &quot;firebrick3&quot;))
 p1 + p2 + p3
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-9-1.png" width="576" style="display: block; margin: auto;" /></p>
 <p>Nevertheless, if you really want to add multiple pheatmaps, I still suggest you
 to directly use the <code>Heatmap()</code> function. You can find how to migrate from
 <code>pheatmap::pheatmap()</code> to <code>ComplexHeatmap::Heatmap()</code> in the next section.</p>
@@ -599,210 +599,210 @@ inside a function or in a <code>for</code> loop, you need to explicitly use <cod
 <h2 id="translation">Translation</h2>
 <p>Following table lists how to map parameters in <code>pheatmap::pheatmap()</code> to <code>ComplexHeatmap::Heatmap()</code>.</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left">Arguments in <code>pheatmap::pheatmap()</code></th>
-          <th style="text-align: left">Identical settings/arguments in <code>ComplexHeatmap::Heatmap()</code></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"><code>mat</code></td>
-          <td style="text-align: left"><code>matrix</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>color</code></td>
-          <td style="text-align: left">Users can specify a color mapping function by <code>circlize::colorRamp2()</code>, or provide a vector of colors on which colors for individual values are linearly interpolated.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>kmeans_k</code></td>
-          <td style="text-align: left">No corresponding parameter because it changes the matrix for heatmap.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>breaks</code></td>
-          <td style="text-align: left">It should be specified in the color mapping function.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>border_color</code></td>
-          <td style="text-align: left"><code>rect_gp = gpar(col = border_color)</code>. In the annotations, it is <code>HeatmapAnnotation(..., gp = gpar(col = border_color))</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>cellwidth</code></td>
-          <td style="text-align: left"><code>width = ncol(mat)*unit(cellwidth, &quot;pt&quot;)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>cellheight</code></td>
-          <td style="text-align: left"><code>height = nrow(mat)*unit(cellheight, &quot;pt&quot;)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>scale</code></td>
-          <td style="text-align: left">Users should simply apply <code>scale()</code> on the matrix before sending to <code>Heatmap()</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>cluster_rows</code></td>
-          <td style="text-align: left"><code>cluster_rows</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>cluster_cols</code></td>
-          <td style="text-align: left"><code>cluster_columns</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>clustering_distance_rows</code></td>
-          <td style="text-align: left"><code>clustering_distance_rows</code>. The value <code>correlation</code> should be changed to <code>pearson</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>clustering_distance_cols</code></td>
-          <td style="text-align: left"><code>clustering_distance_columns</code>, The value <code>correlation</code> should be changed to <code>pearson</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>clustering_method</code></td>
-          <td style="text-align: left"><code>clustering_method_rows</code>/<code>clustering_method_columns</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>clustering_callback</code></td>
-          <td style="text-align: left">The processing on the dendrogram should be applied before sending to <code>Heatmap()</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>cutree_rows</code></td>
-          <td style="text-align: left"><code>row_split</code> and row clustering should be applied.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>cutree_cols</code></td>
-          <td style="text-align: left"><code>column_split</code> and column clustering should be applied.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>treeheight_row</code></td>
-          <td style="text-align: left"><code>row_dend_width = unit(treeheight_row, &quot;pt&quot;)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>treeheight_col</code></td>
-          <td style="text-align: left"><code>column_dend_height = unit(treeheight_col, &quot;pt&quot;)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>legend</code></td>
-          <td style="text-align: left"><code>show_heatmap_legend</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>legend_breaks</code></td>
-          <td style="text-align: left"><code>heatmap_legend_param = list(at = legend_breaks)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>legend_labels</code></td>
-          <td style="text-align: left"><code>heatmap_legend_param = list(labels = legend_labels)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>annotation_row</code></td>
-          <td style="text-align: left"><code>left_annotatioin = rowAnnotation(df = annotation_row)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>annotation_col</code></td>
-          <td style="text-align: left"><code>top_annotation = HeatmapAnnotation(df = annotation_col)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>annotation</code></td>
-          <td style="text-align: left">Not supported.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>annotation_colors</code></td>
-          <td style="text-align: left"><code>col</code> argument in <code>HeatmapAnnotation()</code>/<code>rowAnnotation()</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>annotation_legend</code></td>
-          <td style="text-align: left"><code>show_legend</code> argument in <code>HeatmapAnnotation()</code>/<code>rowAnnotation()</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>annotation_names_row</code></td>
-          <td style="text-align: left"><code>show_annotation_name</code> in <code>rowAnnotation()</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>annotation_names_col</code></td>
-          <td style="text-align: left"><code>show_annotation_name</code> in <code>HeatmaoAnnotation()</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>drop_levels</code></td>
-          <td style="text-align: left">Unused levels are all dropped.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>show_rownames</code></td>
-          <td style="text-align: left"><code>show_row_names</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>show_colnames</code></td>
-          <td style="text-align: left"><code>show_column_names</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>main</code></td>
-          <td style="text-align: left"><code>column_title</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>fontsize</code></td>
-          <td style="text-align: left"><code>gpar(fontsize = fontsize)</code> in corresponding heatmap components.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>fontsize_row</code></td>
-          <td style="text-align: left"><code>row_names_gp = gpar(fontsize = fontsize_row)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>fontsize_col</code></td>
-          <td style="text-align: left"><code>column_names_gp = gpar(fontsize = fontsize_col)</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>angle_col</code></td>
-          <td style="text-align: left"><code>column_names_rot</code>. The rotation of row annotation names are not supported.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>display_numbers</code></td>
-          <td style="text-align: left">Users should set a proper <code>cell_fun</code> or <code>layer_fun</code> (vectorized and faster version of <code>cell_fun</code>). E.g. if <code>display_numbers</code> is <code>TRUE</code>, <code>layer_fun</code> can be set as <code>function(j, i, x, y, w, h, fill) { grid.text(sprintf(number_format, pindex(mat, i, j)), x = x, y = y, gp = gpar(col = number_color, fontsize = fontsize_number)) }</code>. If <code>display_numbers</code> is a matrix, replace <code>mat</code> to <code>display_numbers</code> in the <code>layer_fun</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>number_format</code></td>
-          <td style="text-align: left">See above.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>number_color</code></td>
-          <td style="text-align: left">See above.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>fontsize_number</code></td>
-          <td style="text-align: left">See above.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>gaps_row</code></td>
-          <td style="text-align: left">Users should construct a &ldquo;splitting variable&rdquo; and send to <code>row_split</code>. E.g. <code>slices = diff(c(0, gaps_row, nrow(mat))); rep(seq_along(slices), times = slices)</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>gaps_col</code></td>
-          <td style="text-align: left">Users should construct a &ldquo;splitting variable&rdquo; and send to <code>column_split</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>labels_row</code></td>
-          <td style="text-align: left"><code>row_labels</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>labels_col</code></td>
-          <td style="text-align: left"><code>column_labels</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>filename</code></td>
-          <td style="text-align: left">No corresponding setting in <code>Heatmap()</code>. Users need to explicitly use e.g. <code>pdf</code>().</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>width</code></td>
-          <td style="text-align: left">No corresponding setting in <code>Heatmap()</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>height</code></td>
-          <td style="text-align: left">No corresponding setting in <code>Heatmap()</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>silent</code></td>
-          <td style="text-align: left">No corresponding setting in <code>Heatmap()</code>.</td>
-      </tr>
-      <tr>
-          <td style="text-align: left"><code>na_col</code></td>
-          <td style="text-align: left"><code>na_col</code></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th style="text-align:left">Arguments in <code>pheatmap::pheatmap()</code></th>
+<th style="text-align:left">Identical settings/arguments in <code>ComplexHeatmap::Heatmap()</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>mat</code></td>
+<td style="text-align:left"><code>matrix</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>color</code></td>
+<td style="text-align:left">Users can specify a color mapping function by <code>circlize::colorRamp2()</code>, or provide a vector of colors on which colors for individual values are linearly interpolated.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>kmeans_k</code></td>
+<td style="text-align:left">No corresponding parameter because it changes the matrix for heatmap.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>breaks</code></td>
+<td style="text-align:left">It should be specified in the color mapping function.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>border_color</code></td>
+<td style="text-align:left"><code>rect_gp = gpar(col = border_color)</code>. In the annotations, it is <code>HeatmapAnnotation(..., gp = gpar(col = border_color))</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cellwidth</code></td>
+<td style="text-align:left"><code>width = ncol(mat)*unit(cellwidth, &quot;pt&quot;)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cellheight</code></td>
+<td style="text-align:left"><code>height = nrow(mat)*unit(cellheight, &quot;pt&quot;)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>scale</code></td>
+<td style="text-align:left">Users should simply apply <code>scale()</code> on the matrix before sending to <code>Heatmap()</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cluster_rows</code></td>
+<td style="text-align:left"><code>cluster_rows</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cluster_cols</code></td>
+<td style="text-align:left"><code>cluster_columns</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>clustering_distance_rows</code></td>
+<td style="text-align:left"><code>clustering_distance_rows</code>. The value <code>correlation</code> should be changed to <code>pearson</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>clustering_distance_cols</code></td>
+<td style="text-align:left"><code>clustering_distance_columns</code>, The value <code>correlation</code> should be changed to <code>pearson</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>clustering_method</code></td>
+<td style="text-align:left"><code>clustering_method_rows</code>/<code>clustering_method_columns</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>clustering_callback</code></td>
+<td style="text-align:left">The processing on the dendrogram should be applied before sending to <code>Heatmap()</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cutree_rows</code></td>
+<td style="text-align:left"><code>row_split</code> and row clustering should be applied.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>cutree_cols</code></td>
+<td style="text-align:left"><code>column_split</code> and column clustering should be applied.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>treeheight_row</code></td>
+<td style="text-align:left"><code>row_dend_width = unit(treeheight_row, &quot;pt&quot;)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>treeheight_col</code></td>
+<td style="text-align:left"><code>column_dend_height = unit(treeheight_col, &quot;pt&quot;)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>legend</code></td>
+<td style="text-align:left"><code>show_heatmap_legend</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>legend_breaks</code></td>
+<td style="text-align:left"><code>heatmap_legend_param = list(at = legend_breaks)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>legend_labels</code></td>
+<td style="text-align:left"><code>heatmap_legend_param = list(labels = legend_labels)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>annotation_row</code></td>
+<td style="text-align:left"><code>left_annotatioin = rowAnnotation(df = annotation_row)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>annotation_col</code></td>
+<td style="text-align:left"><code>top_annotation = HeatmapAnnotation(df = annotation_col)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>annotation</code></td>
+<td style="text-align:left">Not supported.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>annotation_colors</code></td>
+<td style="text-align:left"><code>col</code> argument in <code>HeatmapAnnotation()</code>/<code>rowAnnotation()</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>annotation_legend</code></td>
+<td style="text-align:left"><code>show_legend</code> argument in <code>HeatmapAnnotation()</code>/<code>rowAnnotation()</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>annotation_names_row</code></td>
+<td style="text-align:left"><code>show_annotation_name</code> in <code>rowAnnotation()</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>annotation_names_col</code></td>
+<td style="text-align:left"><code>show_annotation_name</code> in <code>HeatmaoAnnotation()</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>drop_levels</code></td>
+<td style="text-align:left">Unused levels are all dropped.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>show_rownames</code></td>
+<td style="text-align:left"><code>show_row_names</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>show_colnames</code></td>
+<td style="text-align:left"><code>show_column_names</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>main</code></td>
+<td style="text-align:left"><code>column_title</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fontsize</code></td>
+<td style="text-align:left"><code>gpar(fontsize = fontsize)</code> in corresponding heatmap components.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fontsize_row</code></td>
+<td style="text-align:left"><code>row_names_gp = gpar(fontsize = fontsize_row)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fontsize_col</code></td>
+<td style="text-align:left"><code>column_names_gp = gpar(fontsize = fontsize_col)</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>angle_col</code></td>
+<td style="text-align:left"><code>column_names_rot</code>. The rotation of row annotation names are not supported.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>display_numbers</code></td>
+<td style="text-align:left">Users should set a proper <code>cell_fun</code> or <code>layer_fun</code> (vectorized and faster version of <code>cell_fun</code>). E.g. if <code>display_numbers</code> is <code>TRUE</code>, <code>layer_fun</code> can be set as <code>function(j, i, x, y, w, h, fill) { grid.text(sprintf(number_format, pindex(mat, i, j)), x = x, y = y, gp = gpar(col = number_color, fontsize = fontsize_number)) }</code>. If <code>display_numbers</code> is a matrix, replace <code>mat</code> to <code>display_numbers</code> in the <code>layer_fun</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>number_format</code></td>
+<td style="text-align:left">See above.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>number_color</code></td>
+<td style="text-align:left">See above.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>fontsize_number</code></td>
+<td style="text-align:left">See above.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gaps_row</code></td>
+<td style="text-align:left">Users should construct a &ldquo;splitting variable&rdquo; and send to <code>row_split</code>. E.g. <code>slices = diff(c(0, gaps_row, nrow(mat))); rep(seq_along(slices), times = slices)</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>gaps_col</code></td>
+<td style="text-align:left">Users should construct a &ldquo;splitting variable&rdquo; and send to <code>column_split</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>labels_row</code></td>
+<td style="text-align:left"><code>row_labels</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>labels_col</code></td>
+<td style="text-align:left"><code>column_labels</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>filename</code></td>
+<td style="text-align:left">No corresponding setting in <code>Heatmap()</code>. Users need to explicitly use e.g. <code>pdf</code>().</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>width</code></td>
+<td style="text-align:left">No corresponding setting in <code>Heatmap()</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>height</code></td>
+<td style="text-align:left">No corresponding setting in <code>Heatmap()</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>silent</code></td>
+<td style="text-align:left">No corresponding setting in <code>Heatmap()</code>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>na_col</code></td>
+<td style="text-align:left"><code>na_col</code></td>
+</tr>
+</tbody>
 </table>
 <h2 id="comparisons">Comparisons</h2>
 <p>I ran all the example code in <a href="https://rdrr.io/cran/pheatmap/man/pheatmap.html#heading-6">the &ldquo;Examples&rdquo; section of the documentation of
@@ -813,37 +813,37 @@ draws two heatmaps, so that you can directly see the similarity and difference
 of the two heatmap implementations.</p>
 <pre><code class="language-r">compare_pheatmap(test)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-12-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-12-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, scale = &quot;row&quot;, clustering_distance_rows = &quot;correlation&quot;)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-13-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-13-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, 
 	color = colorRampPalette(c(&quot;navy&quot;, &quot;white&quot;, &quot;firebrick3&quot;))(50))
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-14-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-14-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, cluster_row = FALSE)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, legend = FALSE)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-16-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, display_numbers = TRUE)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, display_numbers = TRUE, number_format = &quot;%.1e&quot;)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, 
 	display_numbers = matrix(ifelse(test &gt; 5, &quot;*&quot;, &quot;&quot;), nrow(test)))
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, cluster_row = FALSE, legend_breaks = -1:4, 
 	legend_labels = c(&quot;0&quot;, &quot;1e-4&quot;, &quot;1e-3&quot;, &quot;1e-2&quot;, &quot;1e-1&quot;, &quot;1&quot;))
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, cellwidth = 15, cellheight = 12, main = &quot;Example heatmap&quot;)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-21-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-21-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">annotation_col = data.frame(
     CellType = factor(rep(c(&quot;CT1&quot;, &quot;CT2&quot;), 5)), 
     Time = 1:5
@@ -857,21 +857,21 @@ rownames(annotation_row) = paste(&quot;Gene&quot;, 1:20, sep = &quot;&quot;)
 
 compare_pheatmap(test, annotation_col = annotation_col)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, annotation_legend = FALSE)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, 
 	annotation_row = annotation_row)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-24-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-24-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, 
 	annotation_row = annotation_row, angle_col = &quot;45&quot;)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, angle_col = &quot;0&quot;)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-26-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-26-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">ann_colors = list(
     Time = c(&quot;white&quot;, &quot;firebrick&quot;),
     CellType = c(CT1 = &quot;#1B9E77&quot;, CT2 = &quot;#D95F02&quot;),
@@ -881,39 +881,39 @@ compare_pheatmap(test, annotation_col = annotation_col)
 compare_pheatmap(test, annotation_col = annotation_col, 
 	annotation_colors = ann_colors, main = &quot;Title&quot;)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-27-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-27-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, 
 	annotation_row = annotation_row, annotation_colors = ann_colors)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-28-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-28-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, 
 	annotation_colors = ann_colors[2]) 
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-29-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-29-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, cluster_rows = FALSE, 
 	gaps_row = c(10, 14))
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-30-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-30-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">compare_pheatmap(test, annotation_col = annotation_col, cluster_rows = FALSE, 
 	gaps_row = c(10, 14), cutree_col = 2)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-31-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-31-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">labels_row = c(&quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, &quot;&quot;, 
 	&quot;&quot;, &quot;&quot;, &quot;Il10&quot;, &quot;Il15&quot;, &quot;Il1b&quot;)
 compare_pheatmap(test, annotation_col = annotation_col, labels_row = labels_row)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-32-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-32-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">drows = dist(test, method = &quot;minkowski&quot;)
 dcols = dist(t(test), method = &quot;minkowski&quot;)
 compare_pheatmap(test, clustering_distance_rows = drows, 
 	clustering_distance_cols = dcols)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-33-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-33-1.png" width="768" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">library(dendsort)
 callback = function(hc, ...){dendsort(hc)}
 compare_pheatmap(test, clustering_callback = callback)
 </code></pre>
-<img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-34-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-34-1.png" width="768" style="display: block; margin: auto;" /></p>
 
   </div>
 
@@ -960,7 +960,7 @@ compare_pheatmap(test, clustering_callback = callback)
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

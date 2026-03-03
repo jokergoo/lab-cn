@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Visualize lift over between two assemblies 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2022/09/13/visualize-lift-over-between-two-assemblies/">
+    <link rel="canonical" href="/lab-cn/2022/09/13/visualize-lift-over-between-two-assemblies/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -666,7 +666,7 @@ circos.clear()
 text(0.9, -0.9, &quot;hg19&quot;)
 text(0.9, 0.9, &quot;hg38&quot;)
 </code></pre>
-<img src="/lab-cn/post/2022-09-13-visualize-lift-over-between-two-assemblies_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-09-13-visualize-lift-over-between-two-assemblies_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>It looks nice, but there is one limit in the plot. I reversed the chromosome order for hg38 which are on the top half
 of the circle. The chromosomes for hg38 are reverse clockwise, but the x-axes on the hg38 chromosomes are still
 clockwise, which makes the links twisted. To improve the visualization, I manually reverse the x-axes of hg38 chromosomes
@@ -679,7 +679,7 @@ df_to[, 2:3] = df_to[, 3:2]
 </code></pre>
 <p>I make the plot with the same code, and I explicitely add two arrows to represent the directions of x-axes. Now
 it looks better!</p>
-<img src="/lab-cn/post/2022-09-13-visualize-lift-over-between-two-assemblies_files/figure-html/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-09-13-visualize-lift-over-between-two-assemblies_files/figure-html/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Finally I have wrapped the code into a function which can be found at <a href="https://gist.github.com/jokergoo/4161997c2a60ac90ae57017b19aea81e">https://gist.github.com/jokergoo/4161997c2a60ac90ae57017b19aea81e</a>.
 In the function <code>viz_lift_over()</code> you just specifiy two genome IDs, e.g.,</p>
 <pre><code class="language-r">viz_lift_over(&quot;mm9&quot;, &quot;mm10&quot;)
@@ -790,7 +790,7 @@ In the function <code>viz_lift_over()</code> you just specifiy two genome IDs, e
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

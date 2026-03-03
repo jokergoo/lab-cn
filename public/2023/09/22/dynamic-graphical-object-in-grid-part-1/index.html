@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Dynamic graphical object in grid, part 1 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2023/09/22/dynamic-graphical-object-in-grid-part-1/">
+    <link rel="canonical" href="/lab-cn/2023/09/22/dynamic-graphical-object-in-grid-part-1/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -505,7 +505,7 @@ pushViewport(viewport(xscale = c(-2, 2), yscale = c(-1, 1)))
 grid.lines(x1, y1, default.units = &quot;native&quot;)
 grid.lines(x2, y2, default.units = &quot;native&quot;)
 </code></pre>
-<img src="/lab-cn/post/2023-09-22-dynamic-graphical-object-in-grid-part-1_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-09-22-dynamic-graphical-object-in-grid-part-1_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>Unfortunately it only works when the width of the image is twice of the height.</p>
 <p>To enforce the aspect ratio to 2:1, we may think of using the <code>snpc</code> unit. Taking
 the height of the viewport to <code>1snpc</code> and the width of the viewport to <code>2snpc</code>.</p>
@@ -516,10 +516,10 @@ pushViewport(viewport(xscale = c(-2, 2), yscale = c(-1, 1),
 grid.lines(x1, y1, default.units = &quot;native&quot;)
 grid.lines(x2, y2, default.units = &quot;native&quot;)
 </code></pre>
-<img src="/lab-cn/post/2023-09-22-dynamic-graphical-object-in-grid-part-1_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-09-22-dynamic-graphical-object-in-grid-part-1_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>But when the height of the image is larger than width/2 but smaller than
 1width, circles will exceed the image area.</p>
-<img src="/lab-cn/post/2023-09-22-dynamic-graphical-object-in-grid-part-1_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2023-09-22-dynamic-graphical-object-in-grid-part-1_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
 <p>You may set <code>width = unit(1, &quot;snpc&quot;), height = unit(0.5, &quot;snpc&quot;)</code>, but it has the same problem.</p>
 <p>Here the core problem is the viewport is dynamically changed. We want the size
 of the two circles to be automatically adjusted to maximally fill the image.
@@ -681,7 +681,7 @@ grid.draw(grob)
 
 
 
-<script src="/js/math-code.js"></script>
+<script src="/lab-cn/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

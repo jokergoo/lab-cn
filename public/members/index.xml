@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Members on 深圳理工大学生物信息学课题组</title>
+    <link>/lab-cn/members/</link>
+    <description>Recent content in Members on 深圳理工大学生物信息学课题组</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language><atom:link href="/lab-cn/members/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>顾祖光</title>
+      <link>/lab-cn/members/zuguang_gu/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/members/zuguang_gu/</guid>
+      <description>教授，课题组负责人
+ ul { list-style-type: decimal; } li { display: list-item; text-align: -webkit-match-parent; unicode-bidi: isolate; } table td { padding-bottom: 2px; padding-top: 2px; padding-left: 0px; padding-right: 40px; }  基本信息          ORCiD https://orcid.org/0000-0002-7395-8709   Google Scholar https://scholar.google.de/citations?user=zheH1qkAAAAJ   GitHub https://github.com/jokergoo/   微信公众号 方圆之处    学术组织成员 Bioconductor Community Advisory Board 成员
+工作经历           德国癌症研究中心，德国国家肿瘤中心 永久科学家 2022-2025   德国癌症研究中心，德国国家肿瘤中心 高级科学家 2018-2021   德国癌症研究中心 博士后 2013-2018    学习经历            南京大学 生物化学与分子生物学 博士 2009-2012   南京大学 生物化学与分子生物学 硕士 2005-2008   南京大学 生物化学与分子生物学 本科 2001-2005    开源书籍  Circular Visualization in R.</description>
+    </item>
+    
+  </channel>
+</rss>

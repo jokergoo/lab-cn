@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Reverse x-axis in the circular layout 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2016/11/21/reverse-x-axis-in-the-circular-layout/">
+    <link rel="canonical" href="/lab-cn/2016/11/21/reverse-x-axis-in-the-circular-layout/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -501,7 +501,7 @@ circos.trackPlotRegion(ylim = c(0, 1), panel.fun = function(x, y) {
 circos.rect(0.2, 0.2, 0.4, 0.4, col = &quot;red&quot;, sector.index = &quot;a&quot;)
 circos.link(&quot;a&quot;, 0.3, &quot;b&quot;, 0.7)
 </code></pre>
-<img src="/lab-cn/post/2016-11-21-reverse-xaxis-in-the-circular-layout_files/figure-html/unnamed-chunk-2-1.png" width="768" />
+<p><img src="/lab-cn/post/2016-11-21-reverse-xaxis-in-the-circular-layout_files/figure-html/unnamed-chunk-2-1.png" width="768" /></p>
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>In the bottom sector, the order of x-axis seems not very convinient to read.
@@ -535,7 +535,7 @@ circos.trackPlotRegion(ylim = c(0, 1), panel.fun = function(x, y) {
 xlim = get.cell.meta.data(&quot;xlim&quot;, sector.index = &quot;a&quot;)
 circos.link(&quot;a&quot;, reverse_xaxis(0.3, xlim), &quot;b&quot;, 0.7)
 </code></pre>
-<img src="/lab-cn/post/2016-11-21-reverse-xaxis-in-the-circular-layout_files/figure-html/unnamed-chunk-4-1.png" width="768" />
+<p><img src="/lab-cn/post/2016-11-21-reverse-xaxis-in-the-circular-layout_files/figure-html/unnamed-chunk-4-1.png" width="768" /></p>
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>In the end, I want to say that users should be very careful with reversing the x-axes. The default

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Support HCL colormaps in ComplexHeatmap 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2022/03/08/support-hcl-colormaps-in-complexheatmap/">
+    <link rel="canonical" href="/lab-cn/2022/03/08/support-hcl-colormaps-in-complexheatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -513,7 +513,7 @@ col_fun = colorRamp2(c(-2, 0, 2), c(&quot;blue&quot;, &quot;white&quot;, &quot;r
 Heatmap(mat, name = &quot;mat&quot;, col = col_fun,
     show_row_dend = FALSE, show_column_dend = FALSE)
 </code></pre>
-<img src="/lab-cn/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="384" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="384" style="display: block; margin: auto;" /></p>
 <p>In the example, the color mapping function <code>col_fun</code> defines three colors (blue/white/red) for the three breaks values (-2/0/2), and
 other values are linearly interpolated in <a href="https://en.wikipedia.org/wiki/CIELAB_color_space">the LAB color space (by default)</a>.</p>
 <p>In the paper <a href="https://www.jstatsoft.org/article/view/v096i01">&ldquo;colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes&rdquo;</a>, it
@@ -576,7 +576,7 @@ for(palette in sort(hcl.pals(&quot;diverging&quot;))) {
 library(cowplot)
 plot_grid(plotlist = pl, ncol = 5)
 </code></pre>
-<img src="/lab-cn/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">pl = list()
 for(palette in sort(hcl.pals(&quot;divergingx&quot;))) {
     col_fun = colorRamp2(c(-2, 0, 2), hcl_palette = palette)
@@ -588,7 +588,7 @@ for(palette in sort(hcl.pals(&quot;divergingx&quot;))) {
 }
 plot_grid(plotlist = pl, ncol = 5)
 </code></pre>
-<img src="/lab-cn/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-9-1.png" width="100%" style="display: block; margin: auto;" /></p>
 <pre><code class="language-r">pl = list()
 for(palette in sort(hcl.pals(&quot;sequential&quot;))) {
     col_fun = colorRamp2(range(mat), hcl_palette = palette, reverse = TRUE)
@@ -600,7 +600,7 @@ for(palette in sort(hcl.pals(&quot;sequential&quot;))) {
 }
 plot_grid(plotlist = pl, ncol = 5)
 </code></pre>
-<img src="/lab-cn/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="100%" style="display: block; margin: auto;" /></p>
 
   </div>
 

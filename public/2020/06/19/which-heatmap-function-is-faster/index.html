@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          Which heatmap function is faster? 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/2020/06/19/which-heatmap-function-is-faster/">
+    <link rel="canonical" href="/lab-cn/2020/06/19/which-heatmap-function-is-faster/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
+window.root_dir = "\/lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -472,7 +472,7 @@ $( function() {
         
           <li><a href="/lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-en/">EN</a></li>
+          <li><a href="/lab-cn/lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -613,48 +613,48 @@ print(t3, unit = &quot;s&quot;)
 </code></pre>
 <p>Finally I put the mean running time into a table for easy comparison:</p>
 <table>
-  <thead>
-      <tr>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-          <th style="text-align: left"></th>
-      </tr>
-  </thead>
-  <tbody>
-      <tr>
-          <td style="text-align: left"></td>
-          <td style="text-align: left"><code>heatmap()</code></td>
-          <td style="text-align: left"><code>heatmap.2()</code></td>
-          <td style="text-align: left"><code>Heatmap()</code></td>
-          <td style="text-align: left"><code>pheatmap()</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">do clustering, draw dendrograms</td>
-          <td style="text-align: left"><code>1.12s</code></td>
-          <td style="text-align: left"><code>1.23s</code></td>
-          <td style="text-align: left"><strong><code>2.24s</code></strong></td>
-          <td style="text-align: left"><code>1.25s</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">no clusteirng, no dendrogram</td>
-          <td style="text-align: left"><code>0.07s</code></td>
-          <td style="text-align: left"><strong><code>1.02s</code></strong></td>
-          <td style="text-align: left"><code>0.71s</code></td>
-          <td style="text-align: left"><code>0.50s</code></td>
-      </tr>
-      <tr>
-          <td style="text-align: left">only draw dendrograms</td>
-          <td style="text-align: left"><code>0.27s</code></td>
-          <td style="text-align: left"><code>1.10s</code></td>
-          <td style="text-align: left"><strong><code>1.21s</code></strong></td>
-          <td style="text-align: left"><code>0.53s</code></td>
-      </tr>
-  </tbody>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+<th style="text-align:left"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"></td>
+<td style="text-align:left"><code>heatmap()</code></td>
+<td style="text-align:left"><code>heatmap.2()</code></td>
+<td style="text-align:left"><code>Heatmap()</code></td>
+<td style="text-align:left"><code>pheatmap()</code></td>
+</tr>
+<tr>
+<td style="text-align:left">do clustering, draw dendrograms</td>
+<td style="text-align:left"><code>1.12s</code></td>
+<td style="text-align:left"><code>1.23s</code></td>
+<td style="text-align:left"><strong><code>2.24s</code></strong></td>
+<td style="text-align:left"><code>1.25s</code></td>
+</tr>
+<tr>
+<td style="text-align:left">no clusteirng, no dendrogram</td>
+<td style="text-align:left"><code>0.07s</code></td>
+<td style="text-align:left"><strong><code>1.02s</code></strong></td>
+<td style="text-align:left"><code>0.71s</code></td>
+<td style="text-align:left"><code>0.50s</code></td>
+</tr>
+<tr>
+<td style="text-align:left">only draw dendrograms</td>
+<td style="text-align:left"><code>0.27s</code></td>
+<td style="text-align:left"><code>1.10s</code></td>
+<td style="text-align:left"><strong><code>1.21s</code></strong></td>
+<td style="text-align:left"><code>0.53s</code></td>
+</tr>
+</tbody>
 </table>
 <p>The following plots illustrate the mean running time for the four matrices with different dimensions.</p>
-<img src="/lab-cn/post/2020-06-19-which-heatmap-function-is-faster_files/figure-html/unnamed-chunk-10-1.png" width="700px" style="display: block; margin: auto;" />
+<p><img src="/lab-cn/post/2020-06-19-which-heatmap-function-is-faster_files/figure-html/unnamed-chunk-10-1.png" width="700px" style="display: block; margin: auto;" /></p>
 <p>Session info:</p>
 <pre><code class="language-r">sessionInfo()
 </code></pre>

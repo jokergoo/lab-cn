@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Softwares on 深圳理工大学生物信息学课题组</title>
+    <link>/lab-cn/software/</link>
+    <description>Recent content in Softwares on 深圳理工大学生物信息学课题组</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language><atom:link href="/lab-cn/software/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>BioCartaImage</title>
+      <link>/lab-cn/software/biocartaimage/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/biocartaimage/</guid>
+      <description>BioCarta的生物途径通路图。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/BioCartaImage/   GitHub https://github.com/jokergoo/BioCartaImage   文档 https://jokergoo.github.io/BioCartaImage/     例子 library(BioCartaImage) library(grid) grid.newpage() grid.biocarta(&amp;quot;h_RELAPathway&amp;quot;)   $( function() { $(&#34;table thead&#34;).css(&#34;display&#34;, &#34;none&#34;); } );  </description>
+    </item>
+    
+    <item>
+      <title>BioMartGOGeneSets</title>
+      <link>/lab-cn/software/biomartgogenesets/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/biomartgogenesets/</guid>
+      <description>BioMart 上的 GO 与基因数据。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/BioMartGOGeneSets/   GitHub https://github.com/jokergoo/BioMartGOGeneSets   文档 https://jokergoo.github.io/BioMartGOGeneSets/      $( function() { $(&#34;table thead&#34;).css(&#34;display&#34;, &#34;none&#34;); } );  </description>
+    </item>
+    
+    <item>
+      <title>bsub</title>
+      <link>/lab-cn/software/bsub/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/bsub/</guid>
+      <description>发送 R 代码至 LSF 集群。
+基本信息    软件包 链接     编程语言 R   CRAN https://CRAN.R-project.org/package=bsub   GitHub https://github.com/jokergoo/bsub   文档 https://jokergoo.github.io/bsub/     例子 发送一段 R 代码至 LSF 集群：
+library(bsub) # R code bsub_chunk(name = &amp;quot;example&amp;quot;, memory = 10, hours = 10, cores = 4, { fit = NMF::nmf(...) saveRDS(fit, file = &amp;quot;/path/of/fit.rds&amp;quot;) })   $( function() { $(&#34;table thead&#34;</description>
+    </item>
+    
+    <item>
+      <title>CePa</title>
+      <link>/lab-cn/software/cepa/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/cepa/</guid>
+      <description>基于网络中心性的生物途径富集分析。
+基本信息    软件包 链接     编程语言 R   CRAN https://cran.r-project.org/package=CePa   GitHub https://github.com/jokergoo/CePa   文档 https://cran.r-project.org/package=CePa   论文 Zuguang Gu, et al., CePa: an R package for finding significant pathways weighted by multiple network centralities. Bioinformatics 2013.
+Zuguang Gu, et al., Centrality-based pathway enrichment: a systematic approach for finding significant pathways dominated by key genes. BMC Systems Biology 2012.      $( function() { $(&#34;</description>
+    </item>
+    
+    <item>
+      <title>circlize</title>
+      <link>/lab-cn/software/circlize/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/circlize/</guid>
+      <description>circlize 提供了圈形布局的通用可视化方法。
+基本信息    软件包 链接     编程语言 R   CRAN https://CRAN.R-project.org/package=circlize   GitHub https://github.com/jokergoo/circlize   文档 https://jokergoo.github.io/circlize_book/book/   论文 Zuguang Gu, et al., circlize Implements and enhances circular visualization in R. Bioinformatics 2014.     例子 绘制简单的 xy 坐标图：
+library(circlize) factors = letters[1:7] circos.initialize(factors, xlim = c(0, 1)) circos.trackPlotRegion(ylim = c(0, 1), track.height = 0.4, panel.fun = function(x, y) { circos.</description>
+    </item>
+    
+    <item>
+      <title>cola</title>
+      <link>/lab-cn/software/cola/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/cola/</guid>
+      <description>一致性聚类（consensus clustering）统一框架。
+基本信息    软件包 链接     编程语言 R, C++, JavaScript   Bioconductor https://bioconductor.org/packages/cola/   GitHub https://github.com/jokergoo/cola   文档 https://jokergoo.github.io/cola/   论文 Zuguang Gu, et al., Improve consensus partitioning via a hierarchical procedure. Briefings in Bioinformatics 2022.
+Zuguang Gu, et al., cola: an R/Bioconductor package for consensus partitioning through a general framework. Nucleic Acids Research 2021.     例子 标准一致性聚类：</description>
+    </item>
+    
+    <item>
+      <title>ComplexHeatmap</title>
+      <link>/lab-cn/software/complexheatmap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/complexheatmap/</guid>
+      <description>ComplexHeatmap 提供了复杂热图可视化的通用方法。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/ComplexHeatmap/   GitHub https://github.com/jokergoo/ComplexHeatmap   文档 https://jokergoo.github.io/ComplexHeatmap-reference/book/   论文 Zuguang Gu, Complex heatmap visualization. iMeta 2022. Zuguang Gu, et al., Complex heatmaps reveal patterns and correlations in multidimensional genomic data. Bioinformatics 2016.     例子 首先简单生成一个随机矩阵。
+set.seed(123) nr1 = 4; nr2 = 8; nr3 = 6; nr = nr1 + nr2 + nr3 nc1 = 6; nc2 = 8; nc3 = 10; nc = nc1 + nc2 + nc3 mat = cbind(rbind(matrix(rnorm(nr1*nc1, mean = 1, sd = 0.</description>
+    </item>
+    
+    <item>
+      <title>EnrichedHeatmap</title>
+      <link>/lab-cn/software/enrichedheatmap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/enrichedheatmap/</guid>
+      <description>可视化基因组水平的信号在某种基因组区间上的富集模式。
+基本信息    软件包 链接     编程语言 R, C++   Bioconductor https://bioconductor.org/packages/EnrichedHeatmap/   GitHub https://github.com/jokergoo/EnrichedHeatmap   文档 https://jokergoo.github.io/EnrichedHeatmap/   论文 Zuguang Gu, et al., EnrichedHeatmap: an R/Bioconductor package for comprehensive visualization of genomic signal associations. BMC Genomics 2018.     例子 可视化H3K4me3和DNA甲基化在TSS附近的富集模式。
+library(EnrichedHeatmap) load(system.file(&amp;quot;extdata&amp;quot;, &amp;quot;chr21_test_data.RData&amp;quot;, package = &amp;quot;EnrichedHeatmap&amp;quot;)) tss = promoters(genes, upstream = 0, downstream = 1) mat1 = normalizeToMatrix(H3K4me3, tss, value_column = &amp;quot;coverage&amp;quot;, extend = 5000, mean_mode = &amp;quot;w0&amp;quot;, w = 50, keep = c(0, 0.</description>
+    </item>
+    
+    <item>
+      <title>GeneSummary</title>
+      <link>/lab-cn/software/genesummary/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/genesummary/</guid>
+      <description>包含了NCBI RefSeq数据库中对基因功能的文字描述。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/GeneSummary/   GitHub https://github.com/jokergoo/GeneSummary   文档 https://jokergoo.github.io/GeneSummary/     例子 library(GeneSummary) tb = loadGeneSummary(organism = 9606) head(tb)  ## RefSeq_accession Organism Taxon_ID Gene_ID Review_status ## 1 NR_030309.1 Homo sapiens 9606 693168 PROVISIONAL REFSEQ ## 2 NM_001353788.2 Homo sapiens 9606 321 REVIEWED REFSEQ ## 3 NM_001004748.1 Homo sapiens 9606 401667 PROVISIONAL REFSEQ ## 4 NM_001370511.</description>
+    </item>
+    
+    <item>
+      <title>GetoptLong</title>
+      <link>/lab-cn/software/getoptlong/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/getoptlong/</guid>
+      <description>命令行参数解析与变量插值。
+基本信息    软件包 链接     编程语言 R, Perl   CRAN https://cran.r-project.org/package=GetoptLong   GitHub https://github.com/jokergoo/GetoptLong   文档 https://jokergoo.github.io/GetoptLong/     例子 如果在R脚本中添加：
+library(GetoptLong) cutoff = 0.05 GetoptLong( &amp;quot;number=i&amp;quot;, &amp;quot;Number of items.&amp;quot;, &amp;quot;cutoff=f&amp;quot;, &amp;quot;Cutoff for filtering results.&amp;quot;, &amp;quot;verbose!&amp;quot;, &amp;quot;Print message.&amp;quot; )  那么可以在命令行模式下输入如下格式的参数：
+~\&amp;gt; Rscript foo.R --number 4 --cutoff 0.01 --verbose ~\&amp;gt; Rscript foo.R --number=4 --cutoff=0.01 --no-verbose ~\&amp;gt; Rscript foo.R -n 4 -c 0.</description>
+    </item>
+    
+    <item>
+      <title>GlobalOptions</title>
+      <link>/lab-cn/software/globaloptions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/globaloptions/</guid>
+      <description>设置全局变量。
+基本信息    软件包 链接     编程语言 R   CRAN https://cran.r-project.org/package=GlobalOptions   GitHub https://github.com/jokergoo/GlobalOptions   文档 https://jokergoo.github.io/GlobalOptions/     例子 library(GlobalOptions) opt = set_opt( &amp;quot;a&amp;quot; = 1, &amp;quot;b&amp;quot; = &amp;quot;text&amp;quot; )  然后可以通过下面方式设置或者获取参数值。
+opt() opt(&amp;quot;a&amp;quot;) opt$a opt[[&amp;quot;a&amp;quot;]] opt(c(&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;)) opt(&amp;quot;a&amp;quot;, &amp;quot;b&amp;quot;) opt(&amp;quot;a&amp;quot; = 2) opt$a = 2 opt(&amp;quot;a&amp;quot; = 2, &amp;quot;b&amp;quot; = &amp;quot;new_text&amp;quot;)   $( function() { $(&#34;table thead&#34;).css(&#34;display&#34;, &#34;</description>
+    </item>
+    
+    <item>
+      <title>GSEAtopics</title>
+      <link>/lab-cn/software/gseatopics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/gseatopics/</guid>
+      <description>基因集合富集分析教学与学习材料。
+基本信息    软件包 链接     GitHub https://github.com/jokergoo/GSEAtopics   文档 https://jokergoo.github.io/GSEAtopics/     主题 Topic 1: gene set resources
+ Topic 1-00: Representation of gene sets in R Topic 1-01: GO gene sets Topic 1-02: Get pathways from KEGG Topic 1-03: Get pathways from MSigDB Topic 1-04: Get pathways from Reactome Topic 1-05: Get gene sets from UniProt Keywords Topic 1-06: Get GO/KEGG gene sets for other organisms Topic 1-07: Generate gene sets for other organisms by mapping to orthologues Topic 1-08: Gene ID conversion  Topic 2: ORA and GSEA</description>
+    </item>
+    
+    <item>
+      <title>gtrellis</title>
+      <link>/lab-cn/software/gtrellis/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/gtrellis/</guid>
+      <description>基因组trellis布局。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/gtrellis/   GitHub https://github.com/jokergoo/gtrellis   文档 https://jokergoo.github.io/gtrellis/   论文 Zuguang Gu, et al., gtrellis: an R/Bioconductor package for making genome-level Trellis graphics. BMC Bioinformatics 2016.     例子 library(gtrellis) load(system.file(&amp;quot;extdata&amp;quot;, &amp;quot;DMR.RData&amp;quot;, package = &amp;quot;circlize&amp;quot;)) DMR_hyper_density = circlize::genomicDensity(DMR_hyper, window.size = 1e7) DMR_hyper_rainfall = circlize::rainfallTransform(DMR_hyper) DMR_hypo_density = circlize::genomicDensity(DMR_hypo, window.size = 1e7) DMR_hypo_rainfall = circlize::rainfallTransform(DMR_hypo) add_graphics = function() { add_points_track(DMR_hyper_rainfall, log10(DMR_hyper_rainfall[[4]]), pch = 16, size = unit(1, &amp;quot;mm&amp;quot;), gp = gpar(col = &amp;quot;#FF000080&amp;quot;)) add_points_track(DMR_hypo_rainfall, log10(DMR_hypo_rainfall[[4]]), track = current_track(), pch = 16, size = unit(1, &amp;quot;mm&amp;quot;), gp = gpar(col = &amp;quot;#0000FF80&amp;quot;)) # track for genomic density add_lines_track(DMR_hyper_density, DMR_hyper_density[[4]], area = TRUE, gp = gpar(fill = &amp;quot;#FF000080&amp;quot;)) add_lines_track(DMR_hypo_density, DMR_hypo_density[[4]], area = TRUE, track = current_track(), gp = gpar(fill = &amp;quot;#0000FF80&amp;quot;)) } gtrellis_layout(n_track = 2, nrow = 4, compact = TRUE, track_axis = TRUE, track_height = unit.</description>
+    </item>
+    
+    <item>
+      <title>HilbertCurve</title>
+      <link>/lab-cn/software/hilbertcurve/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/hilbertcurve/</guid>
+      <description>使用希尔伯特曲线（Hilbert Curve）可视化基因组数据。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/HilbertCurve/   GitHub https://github.com/jokergoo/HilbertCurve   文档 https://jokergoo.github.io/HilbertCurve/   论文 Zuguang Gu, et al., HilbertCurve: an R/Bioconductor package for high-resolution visualization of genomic data. Bioinformatics 2016.     例子 人类染色体1上的基因分布。
+library(GenomicRanges) library(HilbertCurve) library(circlize) load(system.file(&amp;quot;extdata&amp;quot;, &amp;quot;refseq_chr1.RData&amp;quot;, package = &amp;quot;HilbertCurve&amp;quot;)) hc = GenomicHilbertCurve(chr = &amp;quot;chr1&amp;quot;, level = 5, reference = TRUE, reference_gp = gpar(lty = 1, col = &amp;quot;grey&amp;quot;), arrow = FALSE) hc_segments(hc, g, gp = gpar(lwd = 6, col = rand_color(length(g))))   $( function() { $(&#34;</description>
+    </item>
+    
+    <item>
+      <title>IlluminaHumanMethylationEPICv2anno.20a1.hg38</title>
+      <link>/lab-cn/software/illuminahumanmethylationepicv2anno.20a1.hg38/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/illuminahumanmethylationepicv2anno.20a1.hg38/</guid>
+      <description>Illumina Epic 甲基化芯片v2的探针注释。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/IlluminaHumanMethylationEPICv2anno.20a1.hg38/   GitHub https://github.com/jokergoo/IlluminaHumanMethylationEPICv2anno.20a1.hg38   文档 https://jokergoo.github.io/IlluminaHumanMethylationEPICv2anno.20a1.hg38/      $( function() { $(&#34;table thead&#34;).css(&#34;display&#34;, &#34;none&#34;); } );  </description>
+    </item>
+    
+    <item>
+      <title>IlluminaHumanMethylationEPICv2manifest</title>
+      <link>/lab-cn/software/illuminahumanmethylationepicv2manifest/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/illuminahumanmethylationepicv2manifest/</guid>
+      <description>Illumina Epic 甲基化芯片v2的探针注释。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/IlluminaHumanMethylationEPICv2manifest/   GitHub https://github.com/jokergoo/IlluminaHumanMethylationEPICv2manifest   文档 https://jokergoo.github.io/IlluminaHumanMethylationEPICv2manifest/      $( function() { $(&#34;table thead&#34;).css(&#34;display&#34;, &#34;none&#34;); } );  </description>
+    </item>
+    
+    <item>
+      <title>InteractiveComplexHeatmap</title>
+      <link>/lab-cn/software/interactivecomplexheatmap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/interactivecomplexheatmap/</guid>
+      <description>互动复杂热图
+基本信息    软件包 链接     编程语言 R, JavaScript   Bioconductor https://bioconductor.org/packages/InteractiveComplexHeatmap/   GitHub https://github.com/jokergoo/InteractiveComplexHeatmap   文档 https://jokergoo.github.io/InteractiveComplexHeatmap/   论文 Zuguang Gu, et al., Make Interactive Complex Heatmaps in R. Bioinformatics 2022.     例子 在使用 ComplexHeatmap 生成静态热图后，直接运行下面函数
+htShiny()  即可生成对应的互动热图。
+ $( function() { $(&#34;table thead&#34;).css(&#34;display&#34;, &#34;none&#34;); } );  </description>
+    </item>
+    
+    <item>
+      <title>pkgndep</title>
+      <link>/lab-cn/software/pkgndep/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/pkgndep/</guid>
+      <description>R 包依赖重量（dependency heaviness）分析。
+基本信息    软件包 链接     编程语言 R   CRAN https://cran.r-project.org/package=pkgndep   GitHub https://github.com/jokergoo/pkgndep   文档 https://jokergoo.github.io/pkgndep/   论文 Zuguang Gu, On the dependency heaviness of CRAN/Bioconductor ecosystem. JSS 2023. Zuguang Gu, et al., Pkgndep: a tool for analyzing dependency heaviness of R packages. Bioinformatics 2022.     例子 library(pkgndep) x = pkgndep(&amp;quot;circlize&amp;quot;)  ## retrieve package database from CRAN/Bioconductor (3.</description>
+    </item>
+    
+    <item>
+      <title>rGREAT</title>
+      <link>/lab-cn/software/rgreat/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/rgreat/</guid>
+      <description>基于基因组区间的功能富集分析。
+基本信息    软件包 链接     编程语言 R, C++   Bioconductor https://bioconductor.org/packages/rGREAT/   GitHub https://github.com/jokergoo/rGREAT   文档 https://jokergoo.github.io/rGREAT/   论文 Zuguang Gu, et al., rGREAT: an R/bioconductor package for functional enrichment on genomic regions. Bioinformatics 2023.     例子 library(rGREAT) gr = randomRegions(nr = 1000, genome = &amp;quot;hg19&amp;quot;) res = great(gr, &amp;quot;MSigDB:H&amp;quot;, &amp;quot;TxDb.Hsapiens.UCSC.hg19.knownGene&amp;quot;) tb = getEnrichmentTable(res) head(tb)  ## id genome_fraction observed_region_hits ## 1 HALLMARK_PROTEIN_SECRETION 0.</description>
+    </item>
+    
+    <item>
+      <title>sfcurve</title>
+      <link>/lab-cn/software/sfcurve/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/sfcurve/</guid>
+      <description>\(n \times n\) 空间填充曲线
+基本信息    软件包 链接     编程语言 R, C++   CRAN https://cran.r-project.org/package=sfcurve   GitHub https://github.com/jokergoo/sfcurve   文档 https://jokergoo.github.io/sfcurve/   论文 Zuguang Gu, Construction, Transformation and Structures of 2x2 Space-Filling Curves. arXiv 2024.     例子 2x2曲线
+library(sfcurve) p = sfc_2x2(&amp;quot;I&amp;quot;, &amp;quot;2222&amp;quot;, rot = 270) p  ## An sfc_2x2 object. ## Increase mode: 2 x 2 ## Level: 4 ## Expansion rule: 2x2 ## ## A sequence of 256 base patterns.</description>
+    </item>
+    
+    <item>
+      <title>simona</title>
+      <link>/lab-cn/software/simona/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/simona/</guid>
+      <description>生物本体论分析工具箱。
+基本信息    软件包 链接     编程语言 R, C++   Bioconductor https://bioconductor.org/packages/simona/   GitHub https://github.com/jokergoo/simona   文档 https://jokergoo.github.io/simona/   论文 Zuguang Gu, simona: a comprehensive R package for semantic similarity analysis on bio-ontologies. BMC genomics 2024.     例子 library(simona) dag = create_ontology_DAG_from_GO_db(&amp;quot;BP&amp;quot;, org_db = &amp;quot;org.Hs.eg.db&amp;quot;) dag  ## An ontology_DAG object: ## Source: GO BP / GO.db package 3.</description>
+    </item>
+    
+    <item>
+      <title>simplifyEnrichment</title>
+      <link>/lab-cn/software/simplifyenrichment/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/simplifyenrichment/</guid>
+      <description>Gene Ontology富集结果的简化。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/simplifyEnrichment/   GitHub https://github.com/jokergoo/simplifyEnrichment   文档 https://jokergoo.github.io/simplifyEnrichment/   论文 Zuguang Gu, et al., simplifyEnrichment: A Bioconductor Package for Clustering and Visualizing Functional Enrichment Results. Genomics, Proteomics &amp;amp; Bioinformatics 2023.     例子 library(simplifyEnrichment) set.seed(888) go_id = random_GO(500) simplifyGO(go_id)   $( function() { $(&#34;table thead&#34;).css(&#34;display&#34;, &#34;none&#34;); } );  </description>
+    </item>
+    
+    <item>
+      <title>spiralize</title>
+      <link>/lab-cn/software/spiralize/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/spiralize/</guid>
+      <description>阿基米德螺线（Archimedean spiral）可视化。
+基本信息    软件包 链接     编程语言 R   CRAN https://cran.r-project.org/package=spiralize   GitHub https://github.com/jokergoo/spiralize   文档 https://jokergoo.github.io/spiralize/   论文 Zuguang Gu, et al., spiralize: an R package for visualizing data on spirals. Bioinformatics 2022.     例子 全球气温在近20年间的变化
+library(spiralize) df = readRDS(system.file(&amp;quot;extdata&amp;quot;, &amp;quot;global_temperature.rds&amp;quot;, package = &amp;quot;spiralize&amp;quot;)) df = df[df$Source == &amp;quot;GCAG&amp;quot;, ] spiral_initialize_by_time(xlim = range(df$Date), unit_on_axis = &amp;quot;months&amp;quot;, period = &amp;quot;year&amp;quot;, period_per_loop = 20, polar_lines_by = 360/20, vp_param = list(x = unit(0, &amp;quot;npc&amp;quot;), just = &amp;quot;left&amp;quot;)) spiral_track() lt = spiral_horizon(df$Date, df$Mean, use_bar = TRUE) spiral_text(&amp;quot;1880-01-01&amp;quot;, 0.</description>
+    </item>
+    
+    <item>
+      <title>UniProtKeywords</title>
+      <link>/lab-cn/software/uniprotkeywords/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>/lab-cn/software/uniprotkeywords/</guid>
+      <description>UniProt 数据库关键词数据。
+基本信息    软件包 链接     编程语言 R   Bioconductor https://bioconductor.org/packages/UniProtKeywords/   GitHub https://github.com/jokergoo/UniProtKeywords   文档 https://jokergoo.github.io/UniProtKeywords/     例子 library(UniProtKeywords) data(kw_terms) kw_terms[[&amp;quot;Cell cycle&amp;quot;]]  ## $Identifier ## [1] &amp;quot;Cell cycle&amp;quot; ## ## $Accession ## [1] &amp;quot;KW-0131&amp;quot; ## ## $Description ## [1] &amp;quot;Protein involved in the complex series of events by which the cell duplicates its contents and divides into two.</description>
+    </item>
+    
+  </channel>
+</rss>
