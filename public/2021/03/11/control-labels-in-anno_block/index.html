@@ -31,7 +31,7 @@
          Control labels in anno_block() 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2021/03/11/control-labels-in-anno_block/">
+    <link rel="canonical" href="lab-cn/2021/03/11/control-labels-in-anno_block/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -506,17 +506,17 @@ split = c(rep(&quot;A&quot;, 12), rep(&quot;B&quot;, 6), rep(&quot;C&quot;, 2))
 Heatmap(m, row_split = split, cluster_rows = FALSE,
 	right_annotation = rowAnnotation(foo = anno_block(labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;))))
 </code></pre>
-<p><img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-2-1.png" width="480" style="display: block; margin: auto;" />
 <p>But if row clustering is applied, the labels in <code>anno_block()</code> correspond wrongly to the heatmap slices.</p>
 <pre><code class="language-r">Heatmap(m, row_split = split, cluster_rows = TRUE,
 	right_annotation = rowAnnotation(foo = anno_block(labels = c(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;))))
 </code></pre>
-<p><img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-3-1.png" width="480" style="display: block; margin: auto;" />
 <p>We need to manually change the value for <code>labels</code> to correctly correspond to heatmap slices.</p>
 <pre><code class="language-r">Heatmap(m, row_split = split, cluster_rows = TRUE,
 	right_annotation = rowAnnotation(foo = anno_block(labels = c(&quot;B&quot;, &quot;A&quot;, &quot;C&quot;))))
 </code></pre>
-<p><img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-4-1.png" width="480" style="display: block; margin: auto;" />
 <p>This would be a problem if we want to programmatically set <code>anno_block()</code>. To
 solve this problem, in the new version of <strong>ComplexHeatmap</strong>, I added a new
 argument <code>panel_fun</code> in <code>anno_block()</code>. The value for <code>panel_fun</code> should be a
@@ -532,7 +532,7 @@ function will be executed to every slice.</p>
 		}))
 )
 </code></pre>
-<p><img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-5-1.png" width="480" style="display: block; margin: auto;" />
 <p>As you can see, the labels in <code>anno_block()</code> now always correspond to the
 correct heatmap slice if clustering is appled.</p>
 <p>We can create more split variables. In the following example, the heatmap
@@ -550,7 +550,7 @@ rowAnnotation(foo = anno_block(
 	}
 ))
 </code></pre>
-<p><img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-6-1.png" width="480" style="display: block; margin: auto;" />
 <p>We can define a mapping variable, then the original labels of the splitting levels can be changed:</p>
 <pre><code class="language-r">labels = c(&quot;1&quot; = &quot;one&quot;, &quot;2&quot; = &quot;two&quot;, &quot;A&quot; = &quot;Group_A&quot;, &quot;B&quot; = &quot;Group_B&quot;, &quot;C&quot; = &quot;Group_C&quot;)
 Heatmap(m, row_km = 2, row_split = split) + 
@@ -562,7 +562,7 @@ rowAnnotation(foo = anno_block(
 	}
 ))
 </code></pre>
-<p><img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-7-1.png" width="480" style="display: block; margin: auto;" />
 <p>We can also construct more complex labels:</p>
 <pre><code class="language-r">Heatmap(m, row_km = 2, row_split = split) + 
 rowAnnotation(foo = anno_block(
@@ -576,7 +576,7 @@ rowAnnotation(foo = anno_block(
 	width = unit(4, &quot;cm&quot;)
 ))
 </code></pre>
-<p><img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-03-11-control-labels-in-anno-block_files/figure-html/unnamed-chunk-8-1.png" width="480" style="display: block; margin: auto;" />
 <p>One drawback of setting <code>panel_fun</code> is now <code>anno_block()</code> does not know what
 graphics are going to be drawn, so it won&rsquo;t automatically calculate the space for
 the graphics, which means, if the graphics are too large, you need to manually
@@ -627,7 +627,7 @@ set <code>width</code> or <code>height</code> argument.</p>
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

@@ -31,7 +31,7 @@
          使用 Hilbert 曲线可视化 CPAN 上 Perl 模块分布 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2023/01/09/visualize-cpan-modules-with-hilbert-curve/">
+    <link rel="canonical" href="lab-cn/2023/01/09/visualize-cpan-modules-with-hilbert-curve/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -490,7 +490,7 @@ $( function() {
 
   <div class="entry-content">
     <p>在网站 <a href="http://mapofcpan.org/">http://mapofcpan.org/</a> 上有一个非常好看的对CPAN Perl模块可视化的例子，如下图：</p>
-<p><img src="https://mmbiz.qpic.cn/mmbiz_png/8yoFdJolUibdJN06UTIicSaVyvzkzZOmaSBs7YkJzBQ1g3p2P6eHYKeic2oQT48hDJwAVqhnwhl0r3jCoavUNzb7A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1#imgIndex=0" /></p>
+<img src="https://mmbiz.qpic.cn/mmbiz_png/8yoFdJolUibdJN06UTIicSaVyvzkzZOmaSBs7YkJzBQ1g3p2P6eHYKeic2oQT48hDJwAVqhnwhl0r3jCoavUNzb7A/640?wx_fmt=png&tp=webp&wxfrom=5&wx_lazy=1#imgIndex=0" />
 <p>在这篇文章中，我将展示如何使用R包<strong>HilbertCurve</strong>来绘制这样的图。</p>
 <p>我们首先读入CPAN上所有模块的名字，这个可以在 <a href="https://www.cpan.org/modules/02packages.details.txt">https://www.cpan.org/modules/02packages.details.txt</a> 中找到。下面我们直接将这个文件读入：</p>
 <pre><code class="language-r">df = read.table(&quot;https://www.cpan.org/modules/02packages.details.txt&quot;, skip = 9)
@@ -533,7 +533,7 @@ hc_layer(hc, x1 = s, x2 = e,
 hc_text(hc, x1 = s[ind], x2 = e[ind], labels = labels[ind], 
 	gp = gpar(fontsize = 9))
 </code></pre>
-<p><img src="/lab-cn/post/2023-01-09-visualize-cpan-modules-with-hilbert-curve_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2023-01-09-visualize-cpan-modules-with-hilbert-curve_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" />
 <p>注意，部分文字的位置不是非常好，这以后可以改进。</p>
 <p>可能会有人会说，这个其实就是可视化不同类别中软件包的数目，本质上和barplot一样。其实只说对了一半。的确，可视化的信息和barplot是一样的，
 但是barplot本质上只是一维上的可视化，而Hilbert曲线是一种”二维“上的可视化技术。如果非要找一种类似的可视化技术，那么应该和Bubble chart比较类似
@@ -623,7 +623,7 @@ hc_text(hc, x1 = s[ind], x2 = e[ind], labels = labels[ind],
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

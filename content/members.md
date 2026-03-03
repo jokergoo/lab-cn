@@ -53,7 +53,7 @@ title: "成员"
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Liam)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sophia)<!-- -->
 
 <div class="intro">
 
@@ -73,7 +73,7 @@ title: "成员"
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sawyer)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Mason)<!-- -->
 
 <div class="intro">
 
@@ -93,7 +93,7 @@ title: "成员"
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Christopher)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Easton)<!-- -->
 
 <div class="intro">
 
@@ -109,12 +109,28 @@ title: "成员"
 </div>
 
 
+### 科研助理
+
+<div class="people">
+
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sara)<!-- -->
+
+<div class="intro">
+
+- 姓名
+- 科研助理
+- 邮箱：someone@suat-sz.edu.cn
+
+</div>
+<div style="clear:both;"></div>
+
+
 
 ### 硕士研究生
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sophia)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Maria)<!-- -->
 
 <div class="intro">
 

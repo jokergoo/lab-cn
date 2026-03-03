@@ -31,7 +31,7 @@
          Multiple color themes in a single heatmap 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2021/05/11/multiple-color-themes-in-a-single-heatmap/">
+    <link rel="canonical" href="lab-cn/2021/05/11/multiple-color-themes-in-a-single-heatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -519,7 +519,7 @@ ht1 = Heatmap(mat[, group == &quot;A&quot;], col = col1, name = &quot;Group_A&qu
 ht2 = Heatmap(mat[, group == &quot;B&quot;], col = col2, name = &quot;Group_B&quot;)
 ht1 + ht2
 </code></pre>
-<p><img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="576" style="display: block; margin: auto;" />
 <p>The problem here is row clustering is only calculated from the &ldquo;main heatmap&rdquo; which corresponds to
 the submatrix in group A.</p>
 <p>This problem can be solved by calculating the row clustering from the complete matrix in advance, later
@@ -528,7 +528,7 @@ the main heatmap).</p>
 <pre><code class="language-r">row_hlust = hclust(dist(mat))
 draw(ht1 + ht2, cluster_rows = row_hlust)
 </code></pre>
-<p><img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="576" style="display: block; margin: auto;" />
 <p>Now people want to say, no, I want to mix the two groups in a single heatmap while not separating them.
 This time the single heatmap really contains two color themes and we need to draw the heatmap grids manually
 with the argument <code>cell_fun</code> or <code>layer_fun</code>.</p>
@@ -550,7 +550,7 @@ the heatmap grids are added by self-defining a <code>cell_fun</code>. See the co
 	Legend(title = &quot;Group_B&quot;, col_fun = col2)
 ))
 </code></pre>
-<p><img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
 <p><code>cell_fun</code> draws heatmap cells on after the other. It might be slow when there are large number
 of cells to draw. <code>layer_fun</code> is a vectorized version of <code>cell_fun</code>, which improves the speed quite a lot.
 For explanation of <code>layer_fun</code> as well as the usage of function <code>pindex()</code>, please refer to <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/a-single-heatmap.html#layer-fun">https://jokergoo.github.io/ComplexHeatmap-reference/book/a-single-heatmap.html#layer-fun</a>.</p>
@@ -568,7 +568,7 @@ draw(ht, heatmap_legend_list = list(
 	Legend(title = &quot;Group_B&quot;, col_fun = col2)
 ))
 </code></pre>
-<p><img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" />
 <p>The method is the same if you want to use two color themes for a symmetric matrix:</p>
 <pre><code class="language-r">corm = cor(mat)
 col1 = colorRamp2(c(-1, 0, 1), c(&quot;green&quot;, &quot;black&quot;, &quot;red&quot;))
@@ -593,7 +593,7 @@ draw(ht, heatmap_legend_list = list(
 	Legend(title = &quot;Group_B&quot;, col_fun = col2)
 ))
 </code></pre>
-<p><img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-05-11-multiple-color-themes-in-a-single-heatmap_files/figure-html/unnamed-chunk-7-1.png" width="576" style="display: block; margin: auto;" />
 
   </div>
 
@@ -640,7 +640,7 @@ draw(ht, heatmap_legend_list = list(
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

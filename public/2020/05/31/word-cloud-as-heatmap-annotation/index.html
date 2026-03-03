@@ -31,7 +31,7 @@
          Word cloud as heatmap annotation 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2020/05/31/word-cloud-as-heatmap-annotation/">
+    <link rel="canonical" href="lab-cn/2020/05/31/word-cloud-as-heatmap-annotation/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -535,7 +535,7 @@ grid.newpage()
 grid.draw(gb)
 grid.rect(width = grobWidth(gb), height = grobHeight(gb), gp = gpar(fill = NA))
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-5-1.png" width="384.971320222828" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-5-1.png" width="384.971320222828" style="display: block; margin: auto;" />
 <p>The word cloud is very basic. The words are ordered by the font sizes and are
 placed from the bottom to top. Words are assigned with random colors. There is
 a box that contains the word cloud. Here <code>max_width</code> argument controls the
@@ -552,7 +552,7 @@ grid.newpage()
 grid.draw(gb)
 grid.rect(width = grobWidth(gb), height = grobHeight(gb), gp = gpar(fill = NA))
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-7-1.png" width="253.009844719874" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-7-1.png" width="253.009844719874" style="display: block; margin: auto;" />
 <p>The colors of words help to distinguish between the words. The <code>col</code> argument can
 be set as a vector with the same length as the words.</p>
 <pre><code class="language-r"># color as a vector
@@ -560,7 +560,7 @@ gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, &quot;mm&
 grid.newpage(); grid.draw(gb)
 grid.rect(width = grobWidth(gb), height = grobHeight(gb), gp = gpar(fill = NA))
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-9-1.png" width="384.971320222828" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-9-1.png" width="384.971320222828" style="display: block; margin: auto;" />
 <p><code>col</code> can also be set as a color mapping function that maps from font sizes
 to colors. The color mapping function takes the fontsize vector as input and
 returns the corresponding colors.</p>
@@ -572,7 +572,7 @@ gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, &quot;mm&
 grid.newpage(); grid.draw(gb)
 grid.rect(width = grobWidth(gb), height = grobHeight(gb), gp = gpar(fill = NA))
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-11-1.png" width="384.971320222828" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-11-1.png" width="384.971320222828" style="display: block; margin: auto;" />
 <p>Other arguments in <code>word_cloud_grob</code> are <code>line_space</code> that controls the space
 between lines and <code>word_space</code> that controls the space between words.</p>
 <h3 id="as-a-heatmap-annotation">As a heatmap annotation</h3>
@@ -607,7 +607,7 @@ draw the background of the word cloud in light grey.</p>
 		link_gp = gpar(fill = &quot;#EEEEEE&quot;, col = NA)
 	))
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" />
 <p>Ok, this is the simplest implementation of the word cloud annotation. To make
 it look nicer, you need to do a lot of manual adjustment. In the next section, I
 demonstrate how to make a nicer plot.</p>
@@ -933,7 +933,7 @@ right and top border of the viewport.</p>
 	internal_line = FALSE)) # you can set it to TRUE to see what happens
 draw(ht, ht_gap = unit(2, &quot;pt&quot;))
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-31-word-cloud-as-heatmap-annotation_files/figure-html/unnamed-chunk-23-1.png" width="100%" style="display: block; margin: auto;" />
 
   </div>
 
@@ -980,7 +980,7 @@ draw(ht, ht_gap = unit(2, &quot;pt&quot;))
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

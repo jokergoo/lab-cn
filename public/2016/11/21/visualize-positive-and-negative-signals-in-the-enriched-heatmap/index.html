@@ -31,7 +31,7 @@
          Visualize positive and negative signals in the enriched heatmap 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2016/11/21/visualize-positive-and-negative-signals-in-the-enriched-heatmap/">
+    <link rel="canonical" href="lab-cn/2016/11/21/visualize-positive-and-negative-signals-in-the-enriched-heatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -523,7 +523,7 @@ EnrichedHeatmap(mat_neg, col = cor_col_fun, name = &quot;neg_corr&quot;,
 		ylim = ylim, value = &quot;abs_mean&quot;), height = unit(2, &quot;cm&quot;)),
 	column_title = &quot;neg_corr&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2016-11-21-visualize-positive-and-negative-signals-in-the-enriched-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="480" /></p>
+<img src="/lab-cn/post/2016-11-21-visualize-positive-and-negative-signals-in-the-enriched-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="480" />
 <p>From version 1.5.1 of <strong>EnrichedHeatmap</strong> package, in <code>anno_enriched()</code>, there are two non-standard
 parameters <code>neg_col</code> and <code>pos_col</code> for <code>gp</code>. If these two are set, the enrichment lines are drawn
 for the positive and negative signals separatedly, and you don&rsquo;t need to separate the matrix into
@@ -533,7 +533,7 @@ two matrix.</p>
     	height = unit(2, &quot;cm&quot;)),
     column_title = &quot;correlation&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2016-11-21-visualize-positive-and-negative-signals-in-the-enriched-heatmap_files/figure-html/unnamed-chunk-4-1.png" width="480" /></p>
+<img src="/lab-cn/post/2016-11-21-visualize-positive-and-negative-signals-in-the-enriched-heatmap_files/figure-html/unnamed-chunk-4-1.png" width="480" />
 <p>If you split the rows in the heatmap, graphic parameters can still be set as a vector. After observing
 the above heatmap, we make a kmeans clustering to a sub-matrix which contains signals in (0, 2kb) of TSS.</p>
 <pre><code class="language-r">split = kmeans(mat_H3K4me1[, 101:140], centers = 2)$cluster
@@ -544,7 +544,7 @@ ht = EnrichedHeatmap(mat_H3K4me1, col = cor_col_fun, name = &quot;corr_H3K4me1&q
 lgd = Legend(at = c(&quot;1&quot;, &quot;2&quot;), type = &quot;lines&quot;, legend_gp = gpar(lty = c(1, 3)), title = &quot;cluster&quot;)
 draw(ht, annotation_legend_list = list(lgd))
 </code></pre>
-<p><img src="/lab-cn/post/2016-11-21-visualize-positive-and-negative-signals-in-the-enriched-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="480" /></p>
+<img src="/lab-cn/post/2016-11-21-visualize-positive-and-negative-signals-in-the-enriched-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="480" />
 
   </div>
 
@@ -591,7 +591,7 @@ draw(ht, annotation_legend_list = list(lgd))
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

@@ -31,7 +31,7 @@
          Easily convert static heatmaps to interactive heatmaps in Shiny apps 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2022/03/01/easily-convert-static-heatmaps-to-interactive-heatmaps-in-shiny-apps/">
+    <link rel="canonical" href="lab-cn/2022/03/01/easily-convert-static-heatmaps-to-interactive-heatmaps-in-shiny-apps/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -551,7 +551,7 @@ server = function(input, output, session) {
 
 shinyApp(ui = ui, server = server)
 </code></pre>
-<p><img src="https://jokergoo.github.io/images/heatmap1.gif" width="100%" /></p>
+<img src="https://jokergoo.github.io/images/heatmap1.gif" width="100%" />
 <p>In the Shiny app above, it is &ldquo;interactive&rdquo; from the perspective of the app,
 which is, it allows users to interactively adjust the parameters and heatmaps
 are generated accordingly and automatically. But, the heatmap itself is
@@ -616,7 +616,7 @@ server = function(input, output, session) {
 
 shinyApp(ui = ui, server = server)
 </code></pre>
-<p><img src="https://jokergoo.github.io/images/heatmap2.gif" width="100%" /></p>
+<img src="https://jokergoo.github.io/images/heatmap2.gif" width="100%" />
 <p>In the previous &ldquo;interactive heatmap&rdquo; example, since the number of rows and columns are not too many that
 individual cell can actually be easily identified from the heatmap, thus, maybe it is not necessary to support
 the &ldquo;brush&rdquo; response which allows to select an area from the heatmap. Here we set two arguments <code>compact = TRUE, response = &quot;click&quot;</code>
@@ -669,7 +669,7 @@ server = function(input, output, session) {
 
 shinyApp(ui = ui, server = server)
 </code></pre>
-<p><img src="https://jokergoo.github.io/images/heatmap3.gif" width="100%" /></p>
+<img src="https://jokergoo.github.io/images/heatmap3.gif" width="100%" />
 <p>The response of the click event can be self-defined.
 Note, the matrix <code>m</code> for heatmap visualization is column-scaled on the original <code>mtcars</code>.
 In the next example, when a cell is click, the response will include a point chart of the distribution
@@ -740,7 +740,7 @@ server = function(input, output, session) {
 
 shinyApp(ui = ui, server = server)
 </code></pre>
-<p><img src="https://jokergoo.github.io/images/heatmap4.gif" width="100%" /></p>
+<img src="https://jokergoo.github.io/images/heatmap4.gif" width="100%" />
 <h2 id="session-info">Session info</h2>
 <pre><code class="language-r">sessionInfo()
 </code></pre>
@@ -817,7 +817,7 @@ shinyApp(ui = ui, server = server)
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

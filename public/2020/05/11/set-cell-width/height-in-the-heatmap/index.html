@@ -31,7 +31,7 @@
          Set cell width/height in the heatmap 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2020/05/11/set-cell-width/height-in-the-heatmap/">
+    <link rel="canonical" href="lab-cn/2020/05/11/set-cell-width/height-in-the-heatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -498,7 +498,7 @@ set.seed(123)
 mat = matrix(rnorm(100), 10)
 Heatmap(mat, name = &quot;mat&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" />
 <p>When the matrix is small, there are scenarios where you might want to manually
 set the width and height of cells to fixed values, so that you can, <em>e.g.</em>,
 put proper row/column labels or to make it easy to compare to other heatmaps
@@ -523,7 +523,7 @@ img {
 	width = ncol(mat)*unit(5, &quot;mm&quot;), 
 	height = nrow(mat)*unit(5, &quot;mm&quot;))
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" />
 <p>In <strong>ComplexHeatmap</strong>, the size of the heatmap (including dendrograms, titles
 and legends, &hellip;) can be retrieved by <code>ComplexHeatmap:::width()</code> and
 <code>ComplexHeatmap:::height()</code> functions. Note these two functions currently are
@@ -555,7 +555,7 @@ Heatmap(mat, name = &quot;mat&quot;,
 	width = ncol(mat)*unit(5, &quot;mm&quot;), 
 	height = nrow(mat)*unit(5, &quot;mm&quot;))
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="284.929982382339" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="284.929982382339" style="display: block; margin: auto;" />
 <pre><code class="language-r"># dev.off()
 </code></pre>
 <p>The calculation of heatmap size actually can be wrapped as a function, which
@@ -587,7 +587,7 @@ size
 <pre><code class="language-r"># pdf(..., width = size[1], height = size[2])
 ht
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="284.929982382339" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="284.929982382339" style="display: block; margin: auto;" />
 <pre><code class="language-r"># dev.off()
 </code></pre>
 <p>Similar for a smaller matrix:</p>
@@ -603,7 +603,7 @@ size2
 <pre><code class="language-r"># pdf(..., width = size2[1], height = size2[2])
 ht2 # or draw(ht2)
 </code></pre>
-<p><img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="190.441793405961" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="190.441793405961" style="display: block; margin: auto;" />
 <pre><code class="language-r"># dev.off()
 </code></pre>
 

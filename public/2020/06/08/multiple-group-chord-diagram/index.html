@@ -31,7 +31,7 @@
          Multiple-group Chord diagram 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2020/06/08/multiple-group-chord-diagram/">
+    <link rel="canonical" href="lab-cn/2020/06/08/multiple-group-chord-diagram/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -541,7 +541,7 @@ group
                 names = c(paste0(&quot;A&quot;, 1:5), paste0(&quot;B&quot;, 1:5), paste0(&quot;C&quot;, 1:5)))
 chordDiagram(mat, group = group, grid.col = grid.col)
 </code></pre>
-<p><img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>We can try another grouping:</p>
@@ -553,7 +553,7 @@ group
 </code></pre>
 <pre><code class="language-r">chordDiagram(mat, group = group, grid.col = grid.col)
 </code></pre>
-<p><img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>The order of <code>group</code> controls the sector orders and if <code>group</code> is set as a factor,
@@ -568,7 +568,7 @@ group
 </code></pre>
 <pre><code class="language-r">chordDiagram(mat, group = group, grid.col = grid.col)
 </code></pre>
-<p><img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>The gap between groups is controlled by <code>big.gap</code> argument and the gap between
@@ -576,7 +576,7 @@ sectors is controlled by <code>small.gap</code> argument.</p>
 <pre><code class="language-r">group = structure(gsub(&quot;\\d&quot;, &quot;&quot;, nm), names = nm)
 chordDiagram(mat, group = group, grid.col = grid.col, big.gap = 20, small.gap = 5)
 </code></pre>
-<p><img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>As a normal Chord diagram, the labels and other tracks can be manually adjusted:</p>
@@ -601,7 +601,7 @@ highlight.sector(colnames(mat1), track.index = 1, col = &quot;green&quot;,
 highlight.sector(colnames(mat2), track.index = 1, col = &quot;blue&quot;, 
     text = &quot;C&quot;, cex = 0.8, text.col = &quot;white&quot;, niceFacing = TRUE)
 </code></pre>
-<p><img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 
@@ -650,7 +650,7 @@ highlight.sector(colnames(mat2), track.index = 1, col = &quot;blue&quot;,
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

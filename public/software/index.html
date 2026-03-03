@@ -23,10 +23,10 @@
     <title>
       
       
-         Softwares 
+         软件 
       
     </title>
-    <link rel="canonical" href="/lab-cn/software/">
+    <link rel="canonical" href="lab-cn/software/">
 
     <style>
   * {
@@ -411,7 +411,6 @@
 </style>
 
 
-    <link rel="alternate" type="application/rss+xml" href="/lab-cn/software/index.xml" title="深圳理工大学生物信息学课题组" />
     </head>
 <style>
 #nav-logo-text {
@@ -427,7 +426,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -456,238 +455,486 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
     </section>
 
 
+<section id=content>
+  <h1 style="margin-bottom: 40px"> 软件 </h1>
 
+  
+
+  <div class="entry-content">
+    <p>主要使用R语言编写。软件包总下载量约为<strong>10.5M</strong>，数据来自于<a href="https://cranlogs.r-pkg.org">CRAN</a> / <a href="https://bioconductor.org/packages/stats/index.html">Bioconductor</a> / <a href="https://anaconda.org/">Anaconda</a>，更新于2026-03-03。</p>
 <style>
-#content .archive-item {
-    padding-top:6px;
-    padding-bottom:6px;
+table tr td {
+	text-align: left;
+	padding-left: 0px;
+	padding-right: 4px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	vertical-align:top;
 }
-#content h2 {
-    margin-top:40px;
-    margin-bottom:20px;
+
+table tr td:first-child {
+	padding-left: 10px;
+	padding-right: 20px;
+	border-left: 5px solid #CCC;
 }
-#content .archive-item-date {
-    float:right;
-    color: #CCC;
+
+img {
+	display: inline;
+}
+
+table tr td img {
+	padding: 0px;
+	margin: 0px;
+	padding-top: 4px;
 }
 </style>
+<h3 id="可视化">可视化</h3>
+<div class="tb123" id="tb1">
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Package</th>
+          <th style="text-align: left">downloads</th>
+          <th style="text-align: left">github</th>
+          <th style="text-align: left">publication</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="circlize/">circlize</a>：圈形可视化</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/packages/circlize/index.html"><img src="https://img.shields.io/badge/downloads-2.9M-blue" alt="CRAN"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/circlize"><img src="https://img.shields.io/github/stars/jokergoo/circlize.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1093/bioinformatics/btu393"><img src="https://img.shields.io/badge/published%20on-Bioinformatics-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="complexheatmap/">ComplexHeatmap</a>：复杂热图可视化</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/ComplexHeatmap/"><img src="https://img.shields.io/badge/downloads-1.9M-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/ComplexHeatmap"><img src="https://img.shields.io/github/stars/jokergoo/ComplexHeatmap.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1093/bioinformatics/btw313"><img src="https://img.shields.io/badge/published%20on-Bioinformatics-9cf" alt=""></a><br><a href="https://doi.org/10.1002/imt2.43"><img src="https://img.shields.io/badge/published%20on-iMeta-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="interactivecomplexheatmap">InteractiveComplexHeatmap</a>：交互式复杂热图</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/InteractiveComplexHeatmap/"><img src="https://img.shields.io/badge/downloads-49.5K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/InteractiveComplexHeatmap"><img src="https://img.shields.io/github/stars/jokergoo/InteractiveComplexHeatmap.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1093/bioinformatics/btab806"><img src="https://img.shields.io/badge/published%20on-Bioinformatics-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="enrichedheatmap/">EnrichedHeatmap</a>：基因组信号特定类型区间上的富集</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/EnrichedHeatmap/"><img src="https://img.shields.io/badge/downloads-141.8K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/EnrichedHeatmap"><img src="https://img.shields.io/github/stars/jokergoo/EnrichedHeatmap.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-018-4625-x"><img src="https://img.shields.io/badge/published%20on-BMC%20Genomics-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="hilbertcurve/">HilbertCurve</a>：希尔伯特曲线布局</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/HilbertCurve/"><img src="https://img.shields.io/badge/downloads-48.6K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/HilbertCurve"><img src="https://img.shields.io/github/stars/jokergoo/HilbertCurve.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1093/bioinformatics/btw161"><img src="https://img.shields.io/badge/published%20on-Bioinformatics-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="spiralize/">spiralize</a>：阿基米德螺线布局</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/packages/spiralize/index.html"><img src="https://img.shields.io/badge/downloads-56.9K-blue" alt="CRAN"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/spiralize"><img src="https://img.shields.io/github/stars/jokergoo/spiralize.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1093/bioinformatics/btab778"><img src="https://img.shields.io/badge/published%20on-Bioinformatics-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="gtrellis/">gtrellis</a>：基因组Trellis布局</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/gtrellis/"><img src="https://img.shields.io/badge/downloads-71.1K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/gtrellis"><img src="https://img.shields.io/github/stars/jokergoo/gtrellis.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-1051-4"><img src="https://img.shields.io/badge/published%20on-BMC%20Bioinformatics-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="biocartaimage/">BioCartaImage</a>：BioCarta生物通路图像</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/BioCartaImage/"><img src="https://img.shields.io/badge/downloads-5.9K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/BioCartaImage"><img src="https://img.shields.io/github/stars/jokergoo/BioCartaImage.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="数据建模与分析">数据建模与分析</h3>
+<div class="tb123" id="tb2">
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Package</th>
+          <th style="text-align: left">downloads</th>
+          <th style="text-align: left">github</th>
+          <th style="text-align: left">publication</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="sfcurve/">sfcurve</a>：nxn 空间填充曲线</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/packages/sfcurve/index.html"><img src="https://img.shields.io/badge/downloads-2.7K-blue" alt="CRAN"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/sfcurve"><img src="https://img.shields.io/github/stars/jokergoo/sfcurve.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://arxiv.org/abs/2412.16962"><img src="https://img.shields.io/badge/published%20on-arXiv-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="simona/">simona</a>：生物本体论（Bio-ontology）语义相似性工具箱</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/simona/"><img src="https://img.shields.io/badge/downloads-21.1K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/simona"><img src="https://img.shields.io/github/stars/jokergoo/simona.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-024-10759-4"><img src="https://img.shields.io/badge/published%20on-BMC%20Genomics-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="simplifyenrichment/">simplifyEnrichment</a>：简化功能富集分析结果</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/simplifyEnrichment/"><img src="https://img.shields.io/badge/downloads-81.3K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/simplifyEnrichment"><img src="https://img.shields.io/github/stars/jokergoo/simplifyGO.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1016/j.gpb.2022.04.008"><img src="https://img.shields.io/badge/published%20on-GPB-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="cola/">cola</a>：一致性聚类通用框架</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/cola/"><img src="https://img.shields.io/badge/downloads-52.3K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/cola"><img src="https://img.shields.io/github/stars/jokergoo/cola.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1093/nar/gkaa1146"><img src="https://img.shields.io/badge/published%20on-NAR-9cf" alt=""></a> <a href="https://doi.org/10.1093/bib/bbac048"><img src="https://img.shields.io/badge/published%20on-BIB-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="rgreat/">rGREAT</a>：基于基因组区间的功能富集</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/rGREAT/"><img src="https://img.shields.io/badge/downloads-125.2K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/rGREAT"><img src="https://img.shields.io/github/stars/jokergoo/rGREAT.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1093/bioinformatics/btac745"><img src="https://img.shields.io/badge/published%20on-Bioinformatics-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="cepa/">CePa</a>：基于网络中心性的生物通路富集</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/packages/CePa/index.html"><img src="https://img.shields.io/badge/downloads-69.9K-blue" alt="CRAN"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/CePa"><img src="https://img.shields.io/github/stars/jokergoo/CePa.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1093/bioinformatics/btt008"><img src="https://img.shields.io/badge/published%20on-Bioinformatics-9cf" alt=""></a></td>
+      </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="数据注释">数据注释</h3>
+<div class="tb123" id="tb3">
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Package</th>
+          <th style="text-align: left">downloads</th>
+          <th style="text-align: left">github</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="genesummary/">GeneSummary</a>：RefSeq数据库的基因概要数据</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/GeneSummary/"><img src="https://img.shields.io/badge/downloads-9.3K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/GeneSummary"><img src="https://img.shields.io/github/stars/jokergoo/GeneSummary.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="uniprotkeywords/">UniProtKeywords</a>：UniProt数据库的关键字数据</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/UniProtKeywords/"><img src="https://img.shields.io/badge/downloads-3.8K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/UniProtKeywords"><img src="https://img.shields.io/github/stars/jokergoo/UniProtKeywords.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="bioMartgogenesets/">BioMartGOGeneSets</a>：来自BioMart的GO基因集合数据</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/BioMartGOGeneSets/"><img src="https://img.shields.io/badge/downloads-3.4K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/BioMartGOGeneSets"><img src="https://img.shields.io/github/stars/jokergoo/BioMartGOGeneSets.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="illuminahumanmethylationepicv2anno.20a1.hg38/">IlluminaHumanMethylationEPICv2anno.20a1.hg38</a>：Epic甲基化芯片v2注释数据</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/IlluminaHumanMethylationEPICv2anno.20a1.hg38/"><img src="https://img.shields.io/badge/downloads-23.4K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/IlluminaHumanMethylationEPICv2anno.20a1.hg38"><img src="https://img.shields.io/github/stars/jokergoo/IlluminaHumanMethylationEPICv2anno.20a1.hg38.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="illuminahumanmethylationepicv2manifest/">IlluminaHumanMethylationEPICv2manifest</a>：Epic甲基化芯片v2注释数据</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/packages/stats/bioc/IlluminaHumanMethylationEPICv2manifest/"><img src="https://img.shields.io/badge/downloads-20K-blue" alt="Bioc"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/IlluminaHumanMethylationEPICv2manifest"><img src="https://img.shields.io/github/stars/jokergoo/IlluminaHumanMethylationEPICv2manifest.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+      </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="实用工具">实用工具</h3>
+<div class="tb123" id="tb4">
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Package</th>
+          <th style="text-align: left">downloads</th>
+          <th style="text-align: left">github</th>
+          <th style="text-align: left">publication</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="pkgndep/">pkgndep</a>：依赖重量分析</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/packages/pkgndep/index.html"><img src="https://img.shields.io/badge/downloads-27.6K-blue" alt="CRAN"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/pkgndep"><img src="https://img.shields.io/github/stars/jokergoo/pkgndep.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td style="text-align: left"><a href="https://doi.org/10.1093/bioinformatics/btac449"><img src="https://img.shields.io/badge/published%20on-Bioinformatics-9cf" alt=""></a> <a href="https://doi.org/10.1016/j.jss.2023.111610"><img src="https://img.shields.io/badge/published%20on-JSS-9cf" alt=""></a></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="bsub/">bsub</a>：发送R代码至LSF计算集群</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/packages/bsub/index.html"><img src="https://img.shields.io/badge/downloads-21.9K-blue" alt="CRAN"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/bsub"><img src="https://img.shields.io/github/stars/jokergoo/bsub.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="getoptlong/">GetoptLong</a>：命令行参数解析</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/packages/GetoptLong/index.html"><img src="https://img.shields.io/badge/downloads-2.6M-blue" alt="CRAN"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/GetoptLong"><img src="https://img.shields.io/github/stars/jokergoo/GetoptLong.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td></td>
+      </tr>
+      <tr>
+          <td style="text-align: left"><a href="globaloptions/">GlobalOptions</a>：设定全局参数</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/packages/GlobalOptions/index.html"><img src="https://img.shields.io/badge/downloads-2.2M-blue" alt="CRAN"></a></td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/GlobalOptions"><img src="https://img.shields.io/github/stars/jokergoo/GlobalOptions.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+          <td></td>
+      </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="教学">教学</h3>
+<div class="tb123" id="tb5">
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">Package</th>
+          <th style="text-align: left">github</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left"><a href="gseatopics/">GSEAtopics</a>：基因集合富集分析若干主题</td>
+          <td style="text-align: left"><a href="https://github.com/jokergoo/GSEAtraining"><img src="https://img.shields.io/github/stars/jokergoo/GSEAtraining.svg?style=social&amp;label=Star" alt="GitHub stars"></a></td>
+      </tr>
+  </tbody>
+</table>
+</div>
+<h3 id="在线书籍">在线书籍</h3>
+<p><a href="https://jokergoo.github.io/circlize_book/book/"><img src="https://jokergoo.github.io/circlize_book/book/images/circlize_cover.jpg" style="border:1px solid black; width:300px; display:inline;"/></a> <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/"><img src="https://jokergoo.github.io/ComplexHeatmap-reference/book/complexheatmap-cover.jpg" style="border:1px solid black; width:300px; display:inline;"/></a></p>
+<style>
+#package-status table tr.header {
+	display:contents;
+}
+</style>
+<h3 id="软件包状态">软件包状态</h3>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">软件包</th>
+          <th style="text-align: left">CRAN check</th>
+          <th style="text-align: left">bioc-devel</th>
+          <th style="text-align: left">bioc-release</th>
+          <th style="text-align: left">GitHub issues (opened)</th>
+          <th style="text-align: left">GitHub issues (closed)</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">circlize</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/checks/check_results_circlize.html"><img src="https://img.shields.io/badge/check-OK-green" alt=""></a></td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/circlize/issues/"><img src="https://img.shields.io/github/issues/jokergoo/circlize.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/circlize.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">spiralize</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/checks/check_results_spiralize.html"><img src="https://img.shields.io/badge/check-OK-green" alt=""></a></td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/spiralize/issues/"><img src="https://img.shields.io/github/issues/jokergoo/spiralize.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/spiralize.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">GetoptLong</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/checks/check_results_GetoptLong.html"><img src="https://img.shields.io/badge/check-OK-green" alt=""></a></td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/GetoptLong/issues/"><img src="https://img.shields.io/github/issues/jokergoo/GetoptLong.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/GetoptLong.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">GlobalOptions</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/checks/check_results_GlobalOptions.html"><img src="https://img.shields.io/badge/check-OK-green" alt=""></a></td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/GlobalOptions/issues/"><img src="https://img.shields.io/github/issues/jokergoo/GlobalOptions.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/GlobalOptions.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">bsub</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/checks/check_results_bsub.html"><img src="https://img.shields.io/badge/check-OK-green" alt=""></a></td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/bsub/issues/"><img src="https://img.shields.io/github/issues/jokergoo/bsub.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/bsub.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">pkgndep</td>
+          <td style="text-align: left"><a href="https://cran.r-project.org/web/checks/check_results_pkgndep.html"><img src="https://img.shields.io/badge/check-NOTE-F7A845" alt=""></a></td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/pkgndep/issues/"><img src="https://img.shields.io/github/issues/jokergoo/pkgndep.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/pkgndep.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">simona</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/simona/"><img src="http://bioconductor.org/shields/build/devel/bioc/simona.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/release/bioc-LATEST/simona/"><img src="http://bioconductor.org/shields/build/release/bioc/simona.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/simona/issues/"><img src="https://img.shields.io/github/issues/jokergoo/simona.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/simona.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">simplifyEnrichment</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/simplifyEnrichment/"><img src="http://bioconductor.org/shields/build/devel/bioc/simplifyEnrichment.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/release/bioc-LATEST/simplifyEnrichment/"><img src="http://bioconductor.org/shields/build/release/bioc/simplifyEnrichment.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/simplifyEnrichment/issues/"><img src="https://img.shields.io/github/issues/jokergoo/simplifyEnrichment.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/simplifyEnrichment.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">ComplexHeatmap</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/ComplexHeatmap/"><img src="http://bioconductor.org/shields/build/devel/bioc/ComplexHeatmap.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/release/bioc-LATEST/ComplexHeatmap/"><img src="http://bioconductor.org/shields/build/release/bioc/ComplexHeatmap.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/ComplexHeatmap/issues/"><img src="https://img.shields.io/github/issues/jokergoo/ComplexHeatmap.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/ComplexHeatmap.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">InteractiveComplexHeatmap</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/InteractiveComplexHeatmap/"><img src="http://bioconductor.org/shields/build/devel/bioc/InteractiveComplexHeatmap.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/release/bioc-LATEST/InteractiveComplexHeatmap/"><img src="http://bioconductor.org/shields/build/release/bioc/InteractiveComplexHeatmap.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/InteractiveComplexHeatmap/issues/"><img src="https://img.shields.io/github/issues/jokergoo/InteractiveComplexHeatmap.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/InteractiveComplexHeatmap.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">EnrichedHeatmap</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/EnrichedHeatmap/"><img src="http://bioconductor.org/shields/build/devel/bioc/EnrichedHeatmap.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/release/bioc-LATEST/EnrichedHeatmap/"><img src="http://bioconductor.org/shields/build/release/bioc/EnrichedHeatmap.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/EnrichedHeatmap/issues/"><img src="https://img.shields.io/github/issues/jokergoo/EnrichedHeatmap.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/EnrichedHeatmap.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">HilbertCurve</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/HilbertCurve/"><img src="http://bioconductor.org/shields/build/devel/bioc/HilbertCurve.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/release/bioc-LATEST/HilbertCurve/"><img src="http://bioconductor.org/shields/build/release/bioc/HilbertCurve.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/HilbertCurve/issues/"><img src="https://img.shields.io/github/issues/jokergoo/HilbertCurve.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/HilbertCurve.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">gtrellis</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/gtrellis/"><img src="http://bioconductor.org/shields/build/devel/bioc/gtrellis.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/release/bioc-LATEST/gtrellis/"><img src="http://bioconductor.org/shields/build/release/bioc/gtrellis.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/gtrellis/issues/"><img src="https://img.shields.io/github/issues/jokergoo/gtrellis.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/gtrellis.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">rGREAT</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/rGREAT/"><img src="http://bioconductor.org/shields/build/devel/bioc/rGREAT.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/release/bioc-LATEST/rGREAT/"><img src="http://bioconductor.org/shields/build/release/bioc/rGREAT.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/rGREAT/issues/"><img src="https://img.shields.io/github/issues/jokergoo/rGREAT.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/rGREAT.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">cola</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/devel/bioc-LATEST/cola/"><img src="http://bioconductor.org/shields/build/devel/bioc/cola.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="http://bioconductor.org/checkResults/release/bioc-LATEST/cola/"><img src="http://bioconductor.org/shields/build/release/bioc/cola.svg" alt=""></a></td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/cola/issues/"><img src="https://img.shields.io/github/issues/jokergoo/cola.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/cola.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">GeneSummary</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/GeneSummary/issues/"><img src="https://img.shields.io/github/issues/jokergoo/GeneSummary.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/GeneSummary.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">UniProtKeywords</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/UniProtKeywords/issues/"><img src="https://img.shields.io/github/issues/jokergoo/UniProtKeywords.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/UniProtKeywords.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">BioMartGOGeneSets</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/BioMartGOGeneSets/issues/"><img src="https://img.shields.io/github/issues/jokergoo/BioMartGOGeneSets.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/BioMartGOGeneSets.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">BioCartaImage</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/BioCartaImage/issues/"><img src="https://img.shields.io/github/issues/jokergoo/BioCartaImage.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/BioCartaImage.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">IlluminaHumanMethylationEPICv2anno.20a1.hg38</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/IlluminaHumanMethylationEPICv2anno.20a1.hg38/issues/"><img src="https://img.shields.io/github/issues/jokergoo/IlluminaHumanMethylationEPICv2anno.20a1.hg38.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/IlluminaHumanMethylationEPICv2anno.20a1.hg38.svg" alt="GitHub issues"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">IlluminaHumanMethylationEPICv2manifest</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left">-</td>
+          <td style="text-align: left"><a href="https://GitHub.com/jokergoo/IlluminaHumanMethylationEPICv2manifest/issues/"><img src="https://img.shields.io/github/issues/jokergoo/IlluminaHumanMethylationEPICv2manifest.svg" alt="GitHub issues"></a></td>
+          <td style="text-align: left"><img src="https://img.shields.io/github/issues-closed/jokergoo/IlluminaHumanMethylationEPICv2manifest.svg" alt="GitHub issues"></td>
+      </tr>
+  </tbody>
+</table>
+<script>
+$( function() {
+	$(".tb123 table thead").css("display", "none");
 
-<section id=content>
+	$("#tb1 table tr td:nth-child(2)").css("width", "135px");
+	$("#tb2 table tr td:nth-child(2)").css("width", "135px");
+	$("#tb3 table tr td:nth-child(2)").css("width", "135px");
+	$("#tb4 table tr td:nth-child(2)").css("width", "135px");
+	$("#tb5 table tr td:nth-child(2)").css("width", "135px");
 
-<h1 style="margin-bottom: 40px">文章列表</h1>
+	$("#tb1 table tr td:nth-child(3)").css("width", "100px");
+	$("#tb2 table tr td:nth-child(3)").css("width", "100px");
+	$("#tb3 table tr td:nth-child(3)").css("width", "100px");
+	$("#tb4 table tr td:nth-child(3)").css("width", "100px");
+	$("#tb5 table tr td:nth-child(3)").css("width", "100px");
 
-  <div class="archive">
-    
-    
-    
-    <h2 class="archive-title">0001</h2>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/uniprotkeywords/" class="archive-item-link">UniProtKeywords</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/spiralize/" class="archive-item-link">spiralize</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/simplifyenrichment/" class="archive-item-link">simplifyEnrichment</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/simona/" class="archive-item-link">simona</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/sfcurve/" class="archive-item-link">sfcurve</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/rgreat/" class="archive-item-link">rGREAT</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/pkgndep/" class="archive-item-link">pkgndep</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/interactivecomplexheatmap/" class="archive-item-link">InteractiveComplexHeatmap</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/illuminahumanmethylationepicv2manifest/" class="archive-item-link">IlluminaHumanMethylationEPICv2manifest</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/illuminahumanmethylationepicv2anno.20a1.hg38/" class="archive-item-link">IlluminaHumanMethylationEPICv2anno.20a1.hg38</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/hilbertcurve/" class="archive-item-link">HilbertCurve</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/gtrellis/" class="archive-item-link">gtrellis</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/gseatopics/" class="archive-item-link">GSEAtopics</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/globaloptions/" class="archive-item-link">GlobalOptions</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/getoptlong/" class="archive-item-link">GetoptLong</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/genesummary/" class="archive-item-link">GeneSummary</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/enrichedheatmap/" class="archive-item-link">EnrichedHeatmap</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/complexheatmap/" class="archive-item-link">ComplexHeatmap</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/cola/" class="archive-item-link">cola</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/circlize/" class="archive-item-link">circlize</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/cepa/" class="archive-item-link">CePa</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/bsub/" class="archive-item-link">bsub</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/biomartgogenesets/" class="archive-item-link">BioMartGOGeneSets</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    <article class="archive-item">
-      <a href="/lab-cn/software/biocartaimage/" class="archive-item-link">BioCartaImage</a>
-      <span class="archive-item-date">
-        0001-01-01
-      </span>
-    </article>
-    
-    
+	$("#tb1 table tr td:nth-child(4)").css("width", "170px");
+	$("#tb2 table tr td:nth-child(4)").css("width", "170px");
+	$("#tb3 table tr td:nth-child(4)").css("width", "170px");
+	$("#tb4 table tr td:nth-child(4)").css("width", "170px");
+	$("#tb5 table tr td:nth-child(4)").css("width", "170px");
+} );
+</script>
+
   </div>
 
-</section>
 
-<script>
-$(function() {
-    $(".archive-title").each(function(i) {
-        if($(this).text() == "0001") {
-            $(this).remove();
-        }
-    })
-    $(".archive-item").each(function(i) {
-        if($(this).find("a").text() == "") {
-            $(this).remove();
-        }
-    })
-})
-</script>
+
+</section>
 
 
 <style>
@@ -714,7 +961,12 @@ $(function() {
 
 
 
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
 
 </body>
 </html>
+
+
 

@@ -31,7 +31,7 @@
          Set heatmap cell width in circos.heatmap function 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2021/01/07/set-heatmap-cell-width-in-circos.heatmap-function/">
+    <link rel="canonical" href="lab-cn/2021/01/07/set-heatmap-cell-width-in-circos.heatmap-function/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,19 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-en/">EN</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -515,7 +515,7 @@ scaled in the function. In the following example, I repetitively set the
 heatmap cell width with <code>1, 4, 1, 4, ...</code>.</p>
 <pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1, cell_width = rep(c(1, 4), 50))
 </code></pre>
-<p><img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>Please note, the order of <code>cell_width</code> should correspond to the original row
@@ -526,14 +526,14 @@ the dendrograms are also automatically adjusted:</p>
 <pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1, dend.side = &quot;inside&quot;, 
 	cell_width = rep(c(1, 4), 50))
 </code></pre>
-<p><img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>The same for the row names of the matrix. Their positions are adjusted as well.</p>
 <pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1, rownames.side = &quot;inside&quot;, 
 	cell_width = rep(c(1, 4), 50))
 </code></pre>
-<p><img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>As you have seen, since the heatmap cells have different widths, some labels
@@ -544,7 +544,7 @@ function and it has special settings for circular heatmaps.</p>
 <pre><code class="language-r">circos.heatmap(mat1, split = split, col = col_fun1, cell_width = rep(c(1, 4), 50))
 circos.labels(labels = rownames(mat1), cex = 0.5)
 </code></pre>
-<p><img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>If there are multiple heatmap tracks, <code>cell_width</code> should only be set in the
@@ -557,7 +557,7 @@ col_fun2 = colorRamp2(c(-2, 0, 2), c(&quot;green&quot;, &quot;white&quot;, &quot
 circos.heatmap(mat1, split = split, col = col_fun1, cell_width = rep(c(1, 4), 50))
 circos.heatmap(mat2, col = col_fun2)
 </code></pre>
-<p><img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>When <code>cell_width</code> is set, the heatmap cells no longer locate at <code>0.5, 1.5, ...</code>. The positions of the heatmap cells as well as their widths can be
@@ -582,7 +582,7 @@ circos.track(ylim = range(mat1[, 1]), panel.fun = function(x, y) {
     	bar_width = CELL_META$cell_width*0.8)
 }, cell.padding = c(0.02, 0, 0.02, 0))
 </code></pre>
-<p><img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-01-07-set-heatmap-cell-width-in-circos-heatmap-function_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <h2 id="session-info">Session info</h2>
@@ -670,7 +670,7 @@ circos.track(ylim = range(mat1[, 1]), panel.fun = function(x, y) {
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 
