@@ -1,6 +1,6 @@
 baseurl: /lab-cn/
 languageCode: en-US
-title: 深圳理工大学生物信息学课题组
+title: Gu.Z@SUAT-SZ
 theme: hugo-black-and-light-theme
 ignoreFiles:
   - \.Rmd$

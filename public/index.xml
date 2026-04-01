@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>深圳理工大学生物信息学课题组</title>
+    <title>Gu.Z@SUAT-SZ</title>
     <link>/lab-cn/</link>
-    <description>Recent content on 深圳理工大学生物信息学课题组</description>
+    <description>Recent content on Gu.Z@SUAT-SZ</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
     <lastBuildDate>Tue, 16 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="/lab-cn/index.xml" rel="self" type="application/rss+xml" />
@@ -892,7 +892,7 @@ library(spiralize) df = readRDS(system.file(&amp;quot;extdata&amp;quot;, &amp;qu
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/lab-cn/publication/</guid>
-      <description>更新于2026-03-03，论文列表按研究方向和时间排序。#通讯作者，*共同第一作者。
+      <description>更新于2026-04-01，论文列表按研究方向和时间排序。#通讯作者，*共同第一作者。
  ul { list-style-type: decimal; } li { display: list-item; text-align: -webkit-match-parent; unicode-bidi: isolate; }  生物软件  Zuguang Gu#, simona: a comprehensive R package for semantic similarity analysis on bio-ontologies. BMC genomics 2024. Noriaki Sato, Yao-Zhong Zhang, Zuguang Gu, Seiya Imoto, biotextgraph: graphical summarization of functional similarities from textual information. Bioinformatics 2024. Zuguang Gu#, Daniel Hübschmann, rGREAT: an R/bioconductor package for functional enrichment on genomic regions. Bioinformatics 2023. Zuguang Gu#, Daniel Hübschmann, simplifyEnrichment: A Bioconductor Package for Clustering and Visualizing Functional Enrichment Results.</description>
     </item>
     
@@ -902,7 +902,7 @@ library(spiralize) df = readRDS(system.file(&amp;quot;extdata&amp;quot;, &amp;qu
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
       <guid>/lab-cn/software/</guid>
-      <description>主要使用R语言编写。软件包总下载量约为10.5M，数据来自于CRAN / Bioconductor / Anaconda，更新于2026-03-03。
+      <description>主要使用R语言编写。软件包总下载量约为10.8M，数据来自于CRAN / Bioconductor / Anaconda，更新于2026-04-01。
  table tr td { text-align: left; padding-left: 0px; padding-right: 4px; padding-top: 4px; padding-bottom: 4px; vertical-align:top; } table tr td:first-child { padding-left: 10px; padding-right: 20px; border-left: 5px solid #CCC; } img { display: inline; } table tr td img { padding: 0px; margin: 0px; padding-top: 4px; }  可视化    Package downloads github publication     circlize：圈形可视化      ComplexHeatmap：复杂热图可视化</description>
     </item>
     
