@@ -8,7 +8,7 @@
 <p style="font-size: 1.8em;padding-bottom: 8px;padding-left:10px;">Explore the joy of science ...</p>
 <img id="logo" style='max-height:600px' src='image/image1.jpg' />
 <script type="text/javascript">
-    var src = "/image/";
+    var src = "image/";
     Math.random() < 0.5 ? $("#logo").attr("src", src + 'image1.jpg') : $("#logo").attr("src", src + '/image2.jpg');
 </script>
 </div>

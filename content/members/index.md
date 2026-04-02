@@ -35,7 +35,7 @@ output:
 
 <div class="people">
 
-<img src="image/zuguang_gu.jpeg" />
+<img src="../image/zuguang_gu.jpeg" />
 
 <div class="intro">
 
@@ -56,7 +56,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Destiny)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Mason)<!-- -->
 
 <div class="intro">
 
@@ -76,7 +76,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Maria)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Liam)<!-- -->
 
 <div class="intro">
 
@@ -96,7 +96,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sara)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Jade)<!-- -->
 
 <div class="intro">
 
@@ -116,7 +116,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Liam)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sawyer)<!-- -->
 
 <div class="intro">
 
