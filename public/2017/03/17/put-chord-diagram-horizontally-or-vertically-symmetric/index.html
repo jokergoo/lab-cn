@@ -31,7 +31,7 @@
          Put Chord diagram horizontally or vertically symmetric 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2017/03/17/put-chord-diagram-horizontally-or-vertically-symmetric/">
+    <link rel="canonical" href="lab-cn/2017/03/17/put-chord-diagram-horizontally-or-vertically-symmetric/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,17 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
-        
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -529,7 +527,7 @@ chordDiagram(mat, grid.col = grid_col)
 circos.clear()
 abline(v = 0, lty = 2, col = &quot;#00000080&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2017-03-17-put-chord-diagram-horizontally-or-vertically-symmetric_files/figure-html/unnamed-chunk-8-1.png" width="768" /></p>
+<img src="/lab-cn/post/2017-03-17-put-chord-diagram-horizontally-or-vertically-symmetric_files/figure-html/unnamed-chunk-8-1.png" width="768" />
 <p>Similar we can adjust the &ldquo;start degree&rdquo; to let the circle looks horizonal.</p>
 <pre><code class="language-r">start_degree = 0 - (180 - row_sector_degree)/2
 gaps = c(rep(small_gap, nrow(mat) - 1), big_gap, rep(small_gap, ncol(mat) - 1), big_gap)
@@ -538,7 +536,7 @@ chordDiagram(mat, grid.col = grid_col)
 circos.clear()
 abline(h = 0, lty = 2, col = &quot;#00000080&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2017-03-17-put-chord-diagram-horizontally-or-vertically-symmetric_files/figure-html/unnamed-chunk-9-1.png" width="768" /></p>
+<img src="/lab-cn/post/2017-03-17-put-chord-diagram-horizontally-or-vertically-symmetric_files/figure-html/unnamed-chunk-9-1.png" width="768" />
 
   </div>
 

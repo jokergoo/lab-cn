@@ -31,7 +31,7 @@
          Visualize the &#39;real&#39; circular genome 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2021/09/18/visualize-the-real-circular-genome/">
+    <link rel="canonical" href="lab-cn/2021/09/18/visualize-the-real-circular-genome/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,17 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
-        
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -494,7 +492,7 @@ the circle is segmented and each segment (or called sector) corresponds to one s
 <pre><code class="language-r">library(circlize)
 circos.initializeWithIdeogram()
 </code></pre>
-<p><img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-2-1.png" width="768" style="display: block; margin: auto;" />
 <p>Now the question is how to visualize a &ldquo;real&rdquo; circular genome where the complete circle corresponds to the genome and the &ldquo;end&rdquo; of the genome
 goes smoothly over the &ldquo;start&rdquo; of the genome.</p>
 <p>Maybe we can create a single sector and set <code>gap.degree</code> to 0. In the following, I tried to draw a line from <code>x = 9</code> to <code>x = 1</code>. In
@@ -505,7 +503,7 @@ circos.track(ylim = c(0, 1))
 circos.lines(c(9, 1), c(0.2, 0.2), col = &quot;blue&quot;)
 circos.arrow(9, 1, y = 0.7, width = 0.2)
 </code></pre>
-<p><img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>Unfortunately it is not what we expected. If a line is drawn from <code>x = 9</code> to <code>x = 1</code> in the normal mode, it only goes reverse close wisely
@@ -518,7 +516,7 @@ circos.track(ylim = c(0, 1))
 circos.lines(c(9, 1), c(0.2, 0.2), col = &quot;blue&quot;)
 circos.arrow(9, 1, y = 0.7, width = 0.2)
 </code></pre>
-<p><img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
 <pre><code class="language-r">circos.clear()
 </code></pre>
 <p>In the next example, I visualize genome of
@@ -557,7 +555,7 @@ circos.genomicTrack(df, ylim = c(0, 1), panel.fun = function(region, value, ...)
 })
 circos.genomicLink(df[1, ], df[60, ], col = &quot;#00FF0080&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
 
   </div>
 
@@ -604,7 +602,7 @@ circos.genomicLink(df[1, ], df[60, ], col = &quot;#00FF0080&quot;)
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

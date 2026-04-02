@@ -31,7 +31,7 @@
          Translate from other heatmap functions to ComplexHeatmap 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2020/12/14/translate-from-other-heatmap-functions-to-complexheatmap/">
+    <link rel="canonical" href="lab-cn/2020/12/14/translate-from-other-heatmap-functions-to-complexheatmap/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,17 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
-        
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -533,27 +531,27 @@ compare_heatmap(x, col = cm.colors(256), scale = &quot;column&quot;,
               xlab = &quot;specification variables&quot;, ylab =  &quot;Car Models&quot;,
               main = &quot;heatmap(&lt;Mtcars data&gt;, ..., scale = \&quot;column\&quot;)&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-3-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap(x, Colv = NA, col = cm.colors(256), scale = &quot;column&quot;,
         RowSideColors = rc, margins = c(5,10),
         xlab = &quot;specification variables&quot;, ylab =  &quot;Car Models&quot;,
         main = &quot;heatmap(&lt;Mtcars data&gt;, ..., scale = \&quot;column\&quot;)&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-4-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap(x, Rowv = NA, Colv = NA, scale = &quot;column&quot;,
         main = &quot;heatmap(*, NA, NA) ~= image(t(x))&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-5-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-5-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">Ca = cor(attitude)
 cc = rainbow(nrow(Ca))
 compare_heatmap(Ca, Rowv = FALSE, RowSideColors = cc, ColSideColors = cc)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-6-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">cU = cor(USJudgeRatings)
 compare_heatmap(cU, Rowv = FALSE, col = topo.colors(16),
              distfun = function(c) as.dist(1 - c), keep.dendro = TRUE)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-7-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-7-1.png" width="960" style="display: block; margin: auto;" />
 <h2 id="translate-from-gplotsheatmap2">Translate from <code>gplots::heatmap.2()</code></h2>
 <p>Similarly, in the following examples, <code>compare_heatmap.2()</code> basically sends
 all the arguments to <code>gplots::heatmap.2()</code> and <code>ComplexHeatmap::heatmap.2()</code>
@@ -564,38 +562,38 @@ rc = rainbow(nrow(x), start = 0, end = .3)
 cc = rainbow(ncol(x), start = 0, end = .3)
 compare_heatmap.2(x)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-8-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-8-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, dendrogram = &quot;none&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-9-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-9-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, dendrogram = &quot;row&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-10-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-10-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, dendrogram = &quot;col&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-11-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-11-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, Rowv = FALSE, dendrogram = &quot;both&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, Rowv = NULL, dendrogram = &quot;both&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-13-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-13-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, Colv = FALSE, dendrogram = &quot;both&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-14-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-14-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, reorderfun = function(d, w) reorder(d, w, agglo.FUN = mean))
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-15-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-15-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, col = gplots::bluered, scale = &quot;column&quot;, tracecol = &quot;#303030&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-16-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-16-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, col = cm.colors(255), scale = &quot;column&quot;,
          RowSideColors = rc, ColSideColors = cc, margin = c(5, 10),
          xlab = &quot;specification variables&quot;, ylab = &quot;Car Models&quot;,
          main = &quot;heatmap(&lt;Mtcars data&gt;, ..., scale=\&quot;column\&quot;)&quot;,
          tracecol = &quot;green&quot;, density = &quot;density&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-17-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-17-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(x, col = cm.colors(255), scale = &quot;column&quot;,
          RowSideColors = rc, ColSideColors = cc, margin = c(5, 10),
          xlab = &quot;specification variables&quot;, ylab = &quot;Car Models&quot;,
@@ -603,29 +601,29 @@ compare_heatmap.2(x)
          tracecol = &quot;green&quot;, density = &quot;density&quot;, colRow = rc, colCol = cc,
          srtCol = 45, adjCol = c(0.5,1))
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-18-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-18-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">data(attitude)
 Ca = cor(attitude)
 
 compare_heatmap.2(Ca, symm = TRUE, margin = c(6, 6), trace = &quot;none&quot; )
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-19-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-19-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">compare_heatmap.2(Ca, Rowv = FALSE, symm = TRUE, margin = c(6, 6), trace = &quot;none&quot; )
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-20-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-20-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">data(USJudgeRatings)
 cU = cor(USJudgeRatings)
 
 compare_heatmap.2(cU, Rowv = FALSE, symm = TRUE, col = topo.colors(16),
               distfun = function(c) as.dist(1 - c), trace = &quot;none&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-21-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-21-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">hM = format(round(cU, 2))
 compare_heatmap.2(cU, Rowv = FALSE, symm = TRUE, col = rev(heat.colors(16)),
              distfun = function(c) as.dist(1 - c), trace = &quot;none&quot;,
              cellnote = hM)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-22-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-22-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">library(affy)
 data(SpikeIn)
 pms = SpikeIn@pm
@@ -634,14 +632,14 @@ compare_heatmap.2(pms, col = rev(heat.colors(16)), main = &quot;SpikeIn@pm&quot;
               xlab = &quot;Relative Concentration&quot;, ylab = &quot;Probeset&quot;,
               scale = &quot;row&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-23-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-23-1.png" width="960" style="display: block; margin: auto;" />
 <pre><code class="language-r">data = pms / pms[, &quot;12.50&quot;]
 data = ifelse(data &gt; 1, data, -1 / data)
 compare_heatmap.2(data, breaks = 16, col = gplots::redgreen, tracecol = &quot;blue&quot;,
                main = &quot;SpikeIn@pm Fold Changes\nrelative to 12.50 sample&quot;,
                xlab = &quot;Relative Concentration&quot;, ylab = &quot;Probeset&quot;)
 </code></pre>
-<p><img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-24-1.png" width="960" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2020-12-14-translate-from-other-heatmap-functions-to-complexheatmap_files/figure-html/unnamed-chunk-24-1.png" width="960" style="display: block; margin: auto;" />
 <h2 id="sessioninfo">SessionInfo</h2>
 <pre><code class="language-r">sessionInfo()
 </code></pre>
@@ -735,7 +733,7 @@ compare_heatmap.2(data, breaks = 16, col = gplots::redgreen, tracecol = &quot;bl
 
 
 
-<script src="/lab-cn/js/math-code.js"></script>
+<script src="/js/math-code.js"></script>
 <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
 
 

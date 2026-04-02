@@ -31,7 +31,7 @@
          A completely customized annotation 
       
     </title>
-    <link rel="canonical" href="/lab-cn/2021/10/17/a-completely-customized-annotation/">
+    <link rel="canonical" href="lab-cn/2021/10/17/a-completely-customized-annotation/">
 
     <style>
   * {
@@ -431,7 +431,7 @@
 }
 </style>
 <script>
-window.root_dir = "\/lab-cn\/";
+window.root_dir = "lab-cn\/";
 const regex = /^https?:\/\/[^/]+?\//;
 root_dir = root_dir.replace(regex, "/");
 $( function() {
@@ -460,19 +460,17 @@ $( function() {
       <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
-        
-          <li><a href="/lab-cn/lab-en/">EN</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -516,14 +514,14 @@ Heatmap(m,
     top_annotation = HeatmapAnnotation(foo = anno_customize(x, graphics = graphics)),
     right_annotation = rowAnnotation(bar = anno_customize(x, graphics = graphics)))
 </code></pre>
-<p><img src="/lab-cn/post/2021-10-17-a-completely-customized-annotation_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-10-17-a-completely-customized-annotation_files/figure-html/unnamed-chunk-4-1.png" width="576" style="display: block; margin: auto;" />
 <p>Reordering and splitting are automatically adjusted.</p>
 <pre><code class="language-r">Heatmap(m, 
     top_annotation = HeatmapAnnotation(foo = anno_customize(x, graphics = graphics)),
     right_annotation = rowAnnotation(bar = anno_customize(x, graphics = graphics)),
     column_split = x, row_split = x)
 </code></pre>
-<p><img src="/lab-cn/post/2021-10-17-a-completely-customized-annotation_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-10-17-a-completely-customized-annotation_files/figure-html/unnamed-chunk-5-1.png" width="576" style="display: block; margin: auto;" />
 <p><code>Legend()</code> function also accepts a <code>graphics</code> argument, so it is easy to add legends for the &ldquo;customized annotations&rdquo;.</p>
 <pre><code class="language-r">m = matrix(rnorm(100), 10)
 ht = Heatmap(m, 
@@ -531,7 +529,7 @@ ht = Heatmap(m,
 lgd = Legend(title = &quot;foo&quot;, at = names(graphics), graphics = graphics)
 draw(ht, annotation_legend_list = lgd)
 </code></pre>
-<p><img src="/lab-cn/post/2021-10-17-a-completely-customized-annotation_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" /></p>
+<img src="/lab-cn/post/2021-10-17-a-completely-customized-annotation_files/figure-html/unnamed-chunk-6-1.png" width="576" style="display: block; margin: auto;" />
 <h2 id="session-info">Session info</h2>
 <pre><code class="language-r">sessionInfo()
 </code></pre>
