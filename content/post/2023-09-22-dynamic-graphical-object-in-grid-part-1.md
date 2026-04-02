@@ -10,7 +10,7 @@ author: Zuguang Gu
 Consider the following task: drawing two circles at `(1, 0)` and `(-1, 0)` with both radius of 1.
 
 
-``` r
+```r
 theta = seq(0, 2*pi, length = 50)
 
 x1 = cos(theta) + 1
@@ -23,7 +23,7 @@ y2 = sin(theta)
 We might think of the following way:
 
 
-``` r
+```r
 library(grid)
 grid.newpage()
 pushViewport(viewport(xscale = c(-2, 2), yscale = c(-1, 1)))
@@ -41,7 +41,7 @@ the height of the viewport to `1snpc` and the width of the viewport to `2snpc`.
 It works when the height of the image is less than width/2 of the image (in this case, `1snpc` is the height of the image).
 
 
-``` r
+```r
 grid.newpage()
 pushViewport(viewport(xscale = c(-2, 2), yscale = c(-1, 1), 
     width = unit(2, "snpc"), height = unit(1, "snpc")))
@@ -68,7 +68,7 @@ line grobs.
 
 
 
-``` r
+```r
 vp = viewport(xscale = c(-2, 2), yscale = c(-1, 1))
 grob = grobTree(linesGrob(x1, y1, default.units = "native"), 
                 linesGrob(x2, y2, default.units = "native"),
@@ -83,7 +83,7 @@ is defined by a character string assigned to the `cl` argument.
 In `grob`, the viewport is in the `vp` slot which we will dynamically update later.
 
 
-``` r
+```r
 str(grob$vp)
 ```
 
@@ -143,7 +143,7 @@ the height is adjusted to half of the width of the viewport.
 
 
 
-``` r
+```r
 makeContext.double_circle = function(x) {
     vp_width = convertWidth(x$vp$width, "in", valueOnly = TRUE)
     vp_height = convertHeight(x$vp$height, "in", valueOnly = TRUE)
@@ -162,7 +162,7 @@ makeContext.double_circle = function(x) {
 Now we can use `grid.draw()` to draw the grob without worring the size of the image device.
 
 
-``` r
+```r
 grid.newpage()
 grid.draw(grob)
 ```
@@ -172,34 +172,35 @@ grid.draw(grob)
 
 
 
-``` r
+```r
 sessionInfo()
 ```
 
 ```
-## R version 4.4.2 (2024-10-31)
-## Platform: aarch64-apple-darwin20
-## Running under: macOS 26.0.1
+## R version 4.3.3 (2024-02-29)
+## Platform: x86_64-apple-darwin20 (64-bit)
+## Running under: macOS 26.3.1
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 ## 
 ## locale:
-## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
 ## 
-## time zone: Europe/Berlin
+## time zone: Asia/Shanghai
 ## tzcode source: internal
 ## 
 ## attached base packages:
 ## [1] grid      stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] knitr_1.50     colorout_1.3-2
+## [1] knitr_1.45
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] digest_0.6.37     R6_2.6.1          bookdown_0.44     fastmap_1.2.0     xfun_0.51        
-##  [6] blogdown_1.19     cachem_1.1.0      htmltools_0.5.8.1 rmarkdown_2.29    lifecycle_1.0.4  
-## [11] cli_3.6.4         sass_0.4.9        jquerylib_0.1.4   compiler_4.4.2    tools_4.4.2      
-## [16] evaluate_1.0.3    bslib_0.9.0       yaml_2.3.10       jsonlite_1.9.0    rlang_1.1.5
+##  [1] digest_0.6.35     R6_2.5.1          bookdown_0.39     fastmap_1.1.1     xfun_0.43        
+##  [6] blogdown_1.19     cachem_1.0.8      htmltools_0.5.8.1 rmarkdown_2.26    lifecycle_1.0.4  
+## [11] cli_3.6.2         sass_0.4.9        jquerylib_0.1.4   compiler_4.3.3    highr_0.10       
+## [16] tools_4.3.3       evaluate_0.23     bslib_0.7.0       yaml_2.3.8        jsonlite_1.8.8   
+## [21] rlang_1.1.3
 ```

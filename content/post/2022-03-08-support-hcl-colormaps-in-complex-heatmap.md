@@ -9,7 +9,7 @@ author: Zuguang Gu
 To demonstrate this new feature, I first generate a small random matrix.
 
 
-``` r
+```r
 set.seed(123)
 nr1 = 4; nr2 = 8; nr3 = 6; nr = nr1 + nr2 + nr3
 nc1 = 6; nc2 = 8; nc3 = 10; nc = nc1 + nc2 + nc3
@@ -30,7 +30,7 @@ thus we define a zero-centric color mapping function with `circlize::colorRamp2(
 The "blue-white-red" heatmap looks like as follows:
 
 
-``` r
+```r
 library(circlize)
 library(ComplexHeatmap)
 col_fun = colorRamp2(c(-2, 0, 2), c("blue", "white", "red"))
@@ -49,7 +49,7 @@ In the paper ["colorspace: A Toolbox for Manipulating and Assessing Colors and P
 described color maps in [the HCL color space](https://en.wikipedia.org/wiki/HCL_color_space), which are more natural for human perception of colors. It also provides rich color palettes extracted in the HCL color space. The list of color palettes are listed in `grDevides::hcl.pals()`.
 
 
-``` r
+```r
 hcl.pals("diverging")
 ```
 
@@ -61,7 +61,7 @@ hcl.pals("diverging")
 ## [17] "Lisbon"        "Tofino"
 ```
 
-``` r
+```r
 hcl.pals("divergingx")
 ```
 
@@ -71,7 +71,7 @@ hcl.pals("divergingx")
 ## [13] "RdYlBu"   "RdYlGn"   "Spectral" "Zissou 1" "Cividis"  "Roma"
 ```
 
-``` r
+```r
 hcl.pals("sequential")
 ```
 
@@ -105,7 +105,7 @@ The valid values are those supported in `grDevides::hcl.pals()`.
 To set a color mapping function which extends colors in the HCL color space, simply set the `hcl_palette` argument. For example:
 
 
-``` r
+```r
 colorRamp2(c(-2, 0, 2), hcl_palette = "Blue-Red 2")
 ```
 
@@ -114,7 +114,7 @@ are still interpolated in the LAB color space.
 
 
 
-``` r
+```r
 colorRamp2(c(-2, 0, 2), hcl.colors(3, "Blue-Red 2"))  # this is wrong
 ```
 
@@ -122,7 +122,7 @@ colorRamp2(c(-2, 0, 2), hcl.colors(3, "Blue-Red 2"))  # this is wrong
 In the following, each heatmap uses a specific HCL color palette. You can see how the heatmap looks like under different HCL color palettes.
 
 
-``` r
+```r
 pl = list()
 for(palette in sort(hcl.pals("diverging"))) {
     col_fun = colorRamp2(c(-2, 0, 2), hcl_palette = palette)
@@ -139,7 +139,7 @@ plot_grid(plotlist = pl, ncol = 5)
 <img src="/lab-cn/post/2022-03-08-support-hcl-colormaps-in-complex-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="100%" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 pl = list()
 for(palette in sort(hcl.pals("divergingx"))) {
     col_fun = colorRamp2(c(-2, 0, 2), hcl_palette = palette)
@@ -156,7 +156,7 @@ plot_grid(plotlist = pl, ncol = 5)
 
 
 
-``` r
+```r
 pl = list()
 for(palette in sort(hcl.pals("sequential"))) {
     col_fun = colorRamp2(range(mat), hcl_palette = palette, reverse = TRUE)

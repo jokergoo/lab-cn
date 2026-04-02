@@ -217,7 +217,7 @@ genes = sample(pc_genes, 1000)</code></pre>
 <p>现在让我们运行<code>ora_v1()</code>：</p>
 <pre class="r"><code>system.time(p1 &lt;- ora_v1(genes, gs, pc_genes))</code></pre>
 <pre><code>##   用户   系统   流逝 
-## 12.391  4.242 16.656</code></pre>
+## 11.496  4.347 15.863</code></pre>
 </div>
 <div id="使用向量化的hyper" class="section level3">
 <h3>使用向量化的hyper()</h3>
@@ -242,7 +242,7 @@ ora_v2 = function(genes, gene_sets, universe) {
 <p>使用相同的<code>genes</code>，<code>gs</code>和<code>pc_genes</code>变量，运行<code>ora_v2()</code>。</p>
 <pre class="r"><code>system.time(p2 &lt;- ora_v2(genes, gs, pc_genes))</code></pre>
 <pre><code>##  用户  系统  流逝 
-## 5.286 1.181 6.473</code></pre>
+## 4.950 1.183 6.140</code></pre>
 <p>可见和<code>ora_v1()</code>相比，<code>ora_v2()</code>提速了一倍。</p>
 </div>
 <div id="再看intersect函数" class="section level3">
@@ -253,23 +253,22 @@ p2 = ora_v2(genes, gs, pc_genes)
 Rprof(NULL)
 summaryRprof()$by.self</code></pre>
 <pre><code>##                      self.time self.pct total.time total.pct
-## &quot;base::intersect&quot;         5.34    92.07       5.60     96.55
-## &quot;intersect&quot;               0.12     2.07       5.72     98.62
-## &quot;duplicated.default&quot;      0.12     2.07       0.14      2.41
-## &quot;lapply&quot;                  0.06     1.03       5.78     99.66
-## &quot;duplicated&quot;              0.06     1.03       0.20      3.45
-## &quot;c&quot;                       0.04     0.69       0.04      0.69
-## &quot;as.vector&quot;               0.02     0.34       0.02      0.34
-## &quot;is.factor&quot;               0.02     0.34       0.02      0.34
-## &quot;unlist&quot;                  0.02     0.34       0.02      0.34</code></pre>
+## &quot;base::intersect&quot;         5.08    95.85       5.22     98.49
+## &quot;c&quot;                       0.06     1.13       0.06      1.13
+## &quot;duplicated&quot;              0.04     0.75       0.08      1.51
+## &quot;duplicated.default&quot;      0.04     0.75       0.04      0.75
+## &quot;lapply&quot;                  0.02     0.38       5.28     99.62
+## &quot;FUN&quot;                     0.02     0.38       5.26     99.25
+## &quot;intersect&quot;               0.02     0.38       5.24     98.87
+## &quot;phyper&quot;                  0.02     0.38       0.02      0.38</code></pre>
 <p>可见<code>intersect()</code>是代码中最耗时的一步。</p>
 <p>数学中，<code>intersect(A, B)</code>和<code>intersect(B, A)</code>是等价的，但是在R中，<code>intersect()</code>内部是基于哈希表，其第一个参数是输入向量，而第二个参数会被视为“字典”用来内部构建一个哈希表。 让我们做如下实验：</p>
 <pre class="r"><code>system.time(lapply(gs, function(x) intersect(x, pc_genes)))</code></pre>
 <pre><code>##  用户  系统  流逝 
-## 5.199 1.233 6.466</code></pre>
+## 4.562 1.224 5.793</code></pre>
 <pre class="r"><code>system.time(lapply(gs, function(x) intersect(pc_genes, x)))</code></pre>
 <pre><code>##   用户   系统   流逝 
-## 13.011  2.938 15.991</code></pre>
+## 12.043  2.761 14.825</code></pre>
 <p>在上述代码的第一行中，因为<code>pc_genes</code>只需要在第一次运行<code>intersect()</code>时生成一份临时的哈希表，而在以后的运行时可以重复使用。而在第二行中，由于<code>intersect()</code>的第二个参数为<code>x</code>，在每次循环中都会发生变化，因此每次都会重新生成关于<code>x</code>的新的哈希表。</p>
 <p>那么到这里的讨论告诉我们，如果以后我们需要对一组向量对同一个向量做intersect，永远把那个单独的向量作为<code>intersect()</code>的第二个参数。</p>
 </div>
@@ -296,7 +295,7 @@ ora_v3 = function(genes, gene_sets, universe) {
 }
 system.time(p3 &lt;- ora_v3(genes, gs, pc_genes))</code></pre>
 <pre><code>##  用户  系统  流逝 
-## 0.136 0.002 0.139</code></pre>
+## 0.131 0.001 0.134</code></pre>
 <p>速度得到了超大幅度的提升！</p>
 <p>三个方法得到的<em>p</em>值是相同的。</p>
 <pre class="r"><code>identical(p1, p2)</code></pre>
@@ -316,13 +315,13 @@ microbenchmark(
 )</code></pre>
 <pre><code>## Unit: milliseconds
 ##            expr        min        lq       mean     median         uq        max neval
-##        loop(v1) 17376.8921 18015.186 18366.3708 18475.8996 18609.2292 19261.9879    10
-##  vectorized(v2)  7313.7217  7410.317  7690.0659  7626.0260  8027.8438  8173.6382    10
-##   fastmatch(v3)   110.2256   112.529   119.2375   116.9122   119.0655   149.3939    10</code></pre>
+##        loop(v1) 16779.0074 17919.464 27225.1301 22020.8232 25156.3524 64667.8896    10
+##  vectorized(v2)  7074.4824  7484.508  9395.0004  8892.5003 10335.9228 14472.9329    10
+##   fastmatch(v3)   112.5736   119.842   137.7641   126.4349   152.4137   208.8369    10</code></pre>
 <pre class="r"><code>sessionInfo()</code></pre>
 <pre><code>## R version 4.3.3 (2024-02-29)
 ## Platform: x86_64-apple-darwin20 (64-bit)
-## Running under: macOS 26.2
+## Running under: macOS 26.3.1
 ## 
 ## Matrix products: default
 ## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 

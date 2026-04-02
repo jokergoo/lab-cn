@@ -38,7 +38,7 @@ In `pheatmap::pheatmap()`, the `color` argument is specified with a long color v
 e.g. :
 
 
-``` r
+```r
 pheatmap::pheatmap(mat, 
 	color = colorRampPalette(rev(brewer.pal(n = 7, name = "RdYlBu")))(100)
 )
@@ -48,7 +48,7 @@ You can use the same setting of `color` in `ComplexHeatmap::pheatmap()`, but you
 can also simplify it as:
 
 
-``` r
+```r
 ComplexHeatmap::pheatmap(mat, 
 	color = rev(brewer.pal(n = 7, name = "RdYlBu"))
 )
@@ -62,7 +62,7 @@ First we load an example dataset which is from [the "Examples" section of
 the documentation of `pheatmap::pheatmap()` function](https://rdrr.io/cran/pheatmap/man/pheatmap.html#heading-6) .
 
 
-``` r
+```r
 library(ComplexHeatmap)
 test = matrix(rnorm(200), 20, 10)
 test[1:10, seq(1, 10, 2)] = test[1:10, seq(1, 10, 2)] + 3
@@ -76,7 +76,7 @@ Calling `pheatmap()` (which is now actually `ComplexHeatmap::pheatmap()`) genera
 a similar heatmap as by `pheatmap::pheatmap()`.
 
 
-``` r
+```r
 pheatmap(test)  # this is ComplexHeatmap::pheatmap
 ```
 
@@ -89,7 +89,7 @@ The next one is an example for setting annotations (you should be familiar with
 how to set these data frames and color list if you are a pheatmap user). 
 
 
-``` r
+```r
 annotation_col = data.frame(
     CellType = factor(rep(c("CT1", "CT2"), 5)), 
     Time = 1:5
@@ -109,7 +109,7 @@ ann_colors = list(
 ```
 
 
-``` r
+```r
 pheatmap(test, annotation_col = annotation_col, annotation_row = annotation_row, 
 	annotation_colors = ann_colors)
 ```
@@ -119,7 +119,7 @@ pheatmap(test, annotation_col = annotation_col, annotation_row = annotation_row,
 You can split the heatmap by rows or by columns, which is a unique feature of **ComplexHeatmap**.
 
 
-``` r
+```r
 pheatmap(test, annotation_col = annotation_col, annotation_row = annotation_row, 
 	annotation_colors = ann_colors, 
 	row_split = annotation_row$GeneClass,
@@ -133,7 +133,7 @@ other heatmaps and annotations. Or in other words, you can add multiple pheatmap
 and annotations. Cool!
 
 
-``` r
+```r
 p1 = pheatmap(test, name = "mat1")
 p2 = rowAnnotation(foo = anno_barplot(1:nrow(test)))
 p3 = pheatmap(test, name = "mat2", 
@@ -154,7 +154,7 @@ if `pheatmap()` is not called in an interactive environment, e.g. in an R script
 inside a function or in a `for` loop, you need to explicitly use `draw()` function:
 
 
-``` r
+```r
 for(...) {
 	p = pheatmap(...)
 	draw(p)
@@ -229,21 +229,21 @@ draws two heatmaps, so that you can directly see the similarity and difference
 of the two heatmap implementations.
 
 
-``` r
+```r
 compare_pheatmap(test)
 ```
 
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-12-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, scale = "row", clustering_distance_rows = "correlation")
 ```
 
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-13-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, 
 	color = colorRampPalette(c("navy", "white", "firebrick3"))(50))
 ```
@@ -251,14 +251,14 @@ compare_pheatmap(test,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-14-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, cluster_row = FALSE)
 ```
 
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-15-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, legend = FALSE)
 ```
 
@@ -266,21 +266,21 @@ compare_pheatmap(test, legend = FALSE)
 
 
 
-``` r
+```r
 compare_pheatmap(test, display_numbers = TRUE)
 ```
 
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-17-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, display_numbers = TRUE, number_format = "%.1e")
 ```
 
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-18-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, 
 	display_numbers = matrix(ifelse(test > 5, "*", ""), nrow(test)))
 ```
@@ -288,7 +288,7 @@ compare_pheatmap(test,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-19-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, cluster_row = FALSE, legend_breaks = -1:4, 
 	legend_labels = c("0", "1e-4", "1e-3", "1e-2", "1e-1", "1"))
 ```
@@ -296,7 +296,7 @@ compare_pheatmap(test, cluster_row = FALSE, legend_breaks = -1:4,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-20-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, cellwidth = 15, cellheight = 12, main = "Example heatmap")
 ```
 
@@ -304,7 +304,7 @@ compare_pheatmap(test, cellwidth = 15, cellheight = 12, main = "Example heatmap"
 
 
 
-``` r
+```r
 annotation_col = data.frame(
     CellType = factor(rep(c("CT1", "CT2"), 5)), 
     Time = 1:5
@@ -322,14 +322,14 @@ compare_pheatmap(test, annotation_col = annotation_col)
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, annotation_col = annotation_col, annotation_legend = FALSE)
 ```
 
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, annotation_col = annotation_col, 
 	annotation_row = annotation_row)
 ```
@@ -337,7 +337,7 @@ compare_pheatmap(test, annotation_col = annotation_col,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-24-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, annotation_col = annotation_col, 
 	annotation_row = annotation_row, angle_col = "45")
 ```
@@ -345,14 +345,14 @@ compare_pheatmap(test, annotation_col = annotation_col,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, annotation_col = annotation_col, angle_col = "0")
 ```
 
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-26-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 ann_colors = list(
     Time = c("white", "firebrick"),
     CellType = c(CT1 = "#1B9E77", CT2 = "#D95F02"),
@@ -366,7 +366,7 @@ compare_pheatmap(test, annotation_col = annotation_col,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-27-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, annotation_col = annotation_col, 
 	annotation_row = annotation_row, annotation_colors = ann_colors)
 ```
@@ -374,7 +374,7 @@ compare_pheatmap(test, annotation_col = annotation_col,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-28-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, annotation_col = annotation_col, 
 	annotation_colors = ann_colors[2]) 
 ```
@@ -382,7 +382,7 @@ compare_pheatmap(test, annotation_col = annotation_col,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-29-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, annotation_col = annotation_col, cluster_rows = FALSE, 
 	gaps_row = c(10, 14))
 ```
@@ -390,7 +390,7 @@ compare_pheatmap(test, annotation_col = annotation_col, cluster_rows = FALSE,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-30-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 compare_pheatmap(test, annotation_col = annotation_col, cluster_rows = FALSE, 
 	gaps_row = c(10, 14), cutree_col = 2)
 ```
@@ -399,7 +399,7 @@ compare_pheatmap(test, annotation_col = annotation_col, cluster_rows = FALSE,
 
 
 
-``` r
+```r
 labels_row = c("", "", "", "", "", "", "", "", "", "", "", "", "", "", "", 
 	"", "", "Il10", "Il15", "Il1b")
 compare_pheatmap(test, annotation_col = annotation_col, labels_row = labels_row)
@@ -409,7 +409,7 @@ compare_pheatmap(test, annotation_col = annotation_col, labels_row = labels_row)
 
 
 
-``` r
+```r
 drows = dist(test, method = "minkowski")
 dcols = dist(t(test), method = "minkowski")
 compare_pheatmap(test, clustering_distance_rows = drows, 
@@ -419,7 +419,7 @@ compare_pheatmap(test, clustering_distance_rows = drows,
 <img src="/lab-cn/post/2020-05-06-translate-from-pheatmap-to-complexheatmap_files/figure-html/unnamed-chunk-33-1.png" width="768" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 library(dendsort)
 callback = function(hc, ...){dendsort(hc)}
 compare_pheatmap(test, clustering_callback = callback)

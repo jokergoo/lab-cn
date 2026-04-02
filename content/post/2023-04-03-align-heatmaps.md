@@ -16,7 +16,7 @@ To illustrate the problem, I first create two heatmaps where one contains 20 row
 contains 30 rows/4 columns. Also they have different widths for row dendrograms, and they have different row names.
 
 
-``` r
+```r
 library(ComplexHeatmap)
 m1 = matrix(rnorm(20*5), nrow = 5)
 rownames(m1) = letters[1:5]
@@ -36,7 +36,7 @@ ht2 = Heatmap(m2, col = c("blue", "black", "yellow"),
 Next we use **cowplot** package to vertically combine the two heatmaps:
 
 
-``` r
+```r
 p1 = grid.grabExpr(draw(ht1))
 p2 = grid.grabExpr(draw(ht2))
 
@@ -57,7 +57,7 @@ First we need to process the heatmap object by the function `prepare()`. `prepar
 the layout of the heatmap and calculates the size of each heatmap component.
 
 
-``` r
+```r
 ht1 = prepare(ht1)
 ht2 = prepare(ht2)
 ```
@@ -69,7 +69,7 @@ right dendrogram and right title.
 The following code calculates the total width of the componets on the left, and on the right of the heatmap body.
 
 
-``` r
+```r
 left1 = sum(component_width(ht1, 1:4))
 left2 = sum(component_width(ht2, 1:4))
 max_left = max(left1, left2)
@@ -86,7 +86,7 @@ heamtap bodies.
 Similar as before, the heatmaps are captured as grid objects:
 
 
-``` r
+```r
 p1 = grid.grabExpr(draw(ht1))
 p2 = grid.grabExpr(draw(ht2))
 ```
@@ -96,7 +96,7 @@ for each heatmap, we calculate `offset_left` and `offset_right` based on `max_le
 then we can set a proper offset and width for each heatmap.
 
 
-``` r
+```r
 grid.newpage()
 
 pushViewport(viewport(y = 0, height = unit(0.5, "npc"), just = "bottom"))

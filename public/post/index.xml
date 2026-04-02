@@ -43,16 +43,6 @@ ggplot(df, aes(x, y)) + geom_tile(aes(fill = z), color = NA)  Depends on the &am
     </item>
     
     <item>
-      <title>Get gene-region associations for a group of GO terms</title>
-      <link>/lab-cn/2024/02/05/get-gene-region-associations-for-a-group-of-go-terms/</link>
-      <pubDate>Mon, 05 Feb 2024 00:00:00 +0000</pubDate>
-      
-      <guid>/lab-cn/2024/02/05/get-gene-region-associations-for-a-group-of-go-terms/</guid>
-      <description>Let&amp;rsquo;s first do a combination analysis with rGREAT and simplifyEnrichment. Let&amp;rsquo;s say, you have a list of genomic regions of interest (in the following example, we use a list of transcription factor binding sites). You do a GO enrichment analysis with rGREAT and visualize the enrichment results with simplifyEnrichment.
-library(rGREAT) df = read.table(url(&amp;quot;https://raw.githubusercontent.com/jokergoo/rGREAT_suppl/master/data/tb_encTfChipPkENCFF708LCH_A549_JUN_hg19.bed&amp;quot;)) # convert to a GRanges object gr = GRanges(seqnames = df[, 1], ranges = IRanges(df[, 2], df[, 3])) res = great(gr, &amp;quot;BP&amp;quot;, &amp;quot;hg19&amp;quot;) tb = getEnrichmentTable(res) head(tb)  ## id description genome_fraction observed_region_hits ## 1 GO:0042981 regulation of apoptotic process 0.</description>
-    </item>
-    
-    <item>
       <title>R session 中软件包依赖关系网络</title>
       <link>/lab-cn/2023/11/16/package-dependencies-in-your-session/</link>
       <pubDate>Thu, 16 Nov 2023 00:00:00 +0000</pubDate>
@@ -63,16 +53,6 @@ library(rGREAT) df = read.table(url(&amp;quot;https://raw.githubusercontent.com/
 library(ggplot2)  接下来我们运行sessionInfo()：
 x1 = sessionInfo()  打印x1：
 x1  ## R version 4.3.1 (2023-06-16) ## Platform: x86_64-apple-darwin20 (64-bit) ## Running under: macOS Ventura 13.2.1 ## ## Matrix products: default ## BLAS: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib ## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib; LAPACK version 3.11.0 ## ## locale: ## [1] C/UTF-8/C/C/C/C ## ## time zone: Europe/Berlin ## tzcode source: internal ## ## attached base packages: ## [1] stats graphics grDevices utils datasets methods base ## ## other attached packages: ## [1] ggplot2_3.</description>
-    </item>
-    
-    <item>
-      <title>Simplified simplifyEnrichment plot</title>
-      <link>/lab-cn/2023/10/02/simplified-simplifyenrichment-plot/</link>
-      <pubDate>Mon, 02 Oct 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/lab-cn/2023/10/02/simplified-simplifyenrichment-plot/</guid>
-      <description>The lt object contains a list of GO enrichment tables.
-names(lt)  ## [1] &amp;quot;BP_km1&amp;quot; &amp;quot;BP_km2&amp;quot; &amp;quot;BP_km3&amp;quot; &amp;quot;BP_km4&amp;quot;  head(lt[[1]][, 1:7])  ## ID Description GeneRatio BgRatio RichFactor ## GO:0006974 GO:0006974 DNA damage response 84/471 924/18986 0.09090909 ## GO:0006281 GO:0006281 DNA repair 65/471 625/18986 0.10400000 ## GO:1903047 GO:1903047 mitotic cell cycle process 71/471 784/18986 0.09056122 ## GO:0000278 GO:0000278 mitotic cell cycle 76/471 929/18986 0.08180840 ## GO:0051052 GO:0051052 regulation of DNA metabolic process 52/471 505/18986 0.</description>
     </item>
     
     <item>
@@ -94,21 +74,6 @@ Again, the plotting task: drawing two circles at (1, 0) and (-1, 0) with both ra
       <description>Consider the following task: drawing two circles at (1, 0) and (-1, 0) with both radius of 1.
 theta = seq(0, 2*pi, length = 50) x1 = cos(theta) + 1 y1 = sin(theta) x2 = cos(theta) - 1 y2 = sin(theta)  We might think of the following way:
 library(grid) grid.newpage() pushViewport(viewport(xscale = c(-2, 2), yscale = c(-1, 1))) grid.lines(x1, y1, default.units = &amp;quot;native&amp;quot;) grid.lines(x2, y2, default.units = &amp;quot;native&amp;quot;)  Unfortunately it only works when the width of the image is twice of the height.</description>
-    </item>
-    
-    <item>
-      <title>学术期刊 top 作者</title>
-      <link>/lab-cn/2023/07/25/journals-top-authors/</link>
-      <pubDate>Tue, 25 Jul 2023 00:00:00 +0000</pubDate>
-      
-      <guid>/lab-cn/2023/07/25/journals-top-authors/</guid>
-      <description>NCBI 提供的 E-utilities API 可以很方便的从 NCBI 的数据库中提取信息。对于其 PubMed 数据库， pubmedR 封装了 E-utilities API（内部基于底层 rentrez 包），用户可以更为直接的从 PubMed 数据库提取相应的数据。
-本文将展示如何获取来自某一学术期刊的所有论文，通过分析作者，获取在此学术期刊上发表论文最高的作者。
-批量从 PubMed 上获取数据需要提供 NCBI 的 API key。可以免费获得，具体步骤为：登录 NCBI -&amp;gt; Account Settings -&amp;gt; API Key Management。
-library(pubmedR) api_key =  对 PubMed 数据库进行查询时，我们需要提供格式化的查询字串，详见 https://pubmed.ncbi.nlm.nih.gov/help/#using-search-field-tags 。如果不知道如何编写查询字串，可先在网页版上输入查询内容，PubMed 的搜索功能会自动将其格式化成标准查询字串，然后再 按照自己的需求略加修改即可。
-注意通过 NCBI API 最多一次只能获取一万条记录，如果超过一万条，需要分次获取。在下面的例子中，我们将所有2014年至2025年 Bioinformatics 期刊上的所有论文分两次获取。
-期刊的标准名字可以在 https://ftp.ncbi.nlm.nih.gov/pubmed/J_Medline.txt 查询获得。
-query = &#39;(&amp;quot;Bioinformatics (Oxford, England)&amp;quot;[Journal]) AND ((&amp;quot;1998&amp;quot;[Date - Publication] : &amp;quot;2014&amp;quot;[Date - Publication]))&#39; res = pmQueryTotalCount(query = query, api_key = api_key) D1 = pmApiRequest(query = query, limit = res$total_count, api_key = NULL) query = &#39;(&amp;quot;Bioinformatics (Oxford, England)&amp;quot;[Journal]) AND ((&amp;quot;2015&amp;quot;[Date - Publication] : &amp;quot;2025&amp;quot;[Date - Publication]))&#39; res = pmQueryTotalCount(query = query, api_key = api_key) D2 = pmApiRequest(query = query, limit = res$total_count, api_key = NULL) D1 = pmApi2df(D1) D2 = pmApi2df(D2) df = rbind(D1, D2) df = df[df$DT == &amp;quot;JOURNAL ARTICLE&amp;quot;, ]  现在所有的论文信息均存储在df数据框中，其中作者列表在AF列中。</description>
     </item>
     
     <item>
@@ -142,11 +107,10 @@ str(hc)  ## List of 7 ## $ merge : int [1:4, 1:2] -3 -1 1 -5 -4 -2 2 3 ## $ heig
       <guid>/lab-cn/2023/01/09/visualize-cpan-modules-with-hilbert-curve/</guid>
       <description>在网站 http://mapofcpan.org/ 上有一个非常好看的对CPAN Perl模块可视化的例子，如下图：
 在这篇文章中，我将展示如何使用R包HilbertCurve来绘制这样的图。
-我们首先读入CPAN上所有模块的名字，这个可以在 https://www.cpan.org/modules/02packages.details.txt 中找到。下面我们直接将这个文件读入：
-df = read.table(&amp;quot;https://www.cpan.org/modules/02packages.details.txt&amp;quot;, skip = 9) head(df)  ## V1 V2 V3 ## 1 A1z::Html 0.04 C/CE/CEEJAY/A1z-Html-0.04.tar.gz ## 2 A1z::HTML5::Template 0.22 C/CE/CEEJAY/A1z-HTML5-Template-0.22.tar.gz ## 3 A_Third_Package undef C/CL/CLEMBURG/Test-Unit-0.13.tar.gz ## 4 AAA::Demo undef J/JW/JWACH/Apache-FastForward-1.1.tar.gz ## 5 AAA::eBay undef J/JW/JWACH/Apache-FastForward-1.1.tar.gz ## 6 AAAA undef P/PR/PRBRENAN/Data-Table-Text-20210818.tar.gz  模块的名字在第一列中，我们首先将其排序。
+我们首先读入CPAN上所有模块的名字，这个可以在 https://www.cpan.org/modules/02packages.details.txt.gz 中找到。下面我们直接将这个文件读入：
+download.file(&amp;quot;https://www.cpan.org/modules/02packages.details.txt.gz&amp;quot;, destfile = &amp;quot;02packages.details.txt.gz&amp;quot;) df = read.table(&amp;quot;02packages.details.txt.gz&amp;quot;, skip = 9) file.remove(&amp;quot;02packages.details.txt.gz&amp;quot;)  ## [1] TRUE  head(df)  ## V1 V2 V3 ## 1 A1z::Html 0.04 C/CE/CEEJAY/A1z-Html-0.04.tar.gz ## 2 A1z::HTML5::Template 0.22 C/CE/CEEJAY/A1z-HTML5-Template-0.22.tar.gz ## 3 A_Third_Package undef C/CL/CLEMBURG/Test-Unit-0.13.tar.gz ## 4 AAA::Demo undef J/JW/JWACH/Apache-FastForward-1.1.tar.gz ## 5 AAA::eBay undef J/JW/JWACH/Apache-FastForward-1.1.tar.gz ## 6 AAAA undef P/PR/PRBRENAN/Data-Table-Text-20210818.tar.gz  模块的名字在第一列中，我们首先将其排序。
 all_modules = sort(df[, 1])  我们取每个模块的“命名空间”。命名空间是第一个::前面的字符串。注意，在Perl中，这可能不叫做命名空间，在这篇文章，为方便起见，我们称之为命名空间。
-ns = gsub(&amp;quot;::.*$&amp;quot;, &amp;quot;&amp;quot;, all_modules)  现在ns是一个字符串向量，下面我们将其中的每一个值对应到一条Hilbert曲线上。我们首次将其转换为一个Rle对象。
-library(IRanges) r = Rle(ns)  Rle是一个很简单的类，定义在IRanges包中。在变量r中，每一个元素对应着ns中一个单独的命名空间，在向量ns中，每一个命名空间的位置和长度也被计算出。在下面的代码中，我们提取出这些信息：</description>
+ns = gsub(&amp;quot;::.</description>
     </item>
     
     <item>
@@ -444,18 +408,6 @@ library(circlize) human_cytoband = read.cytoband(species = &amp;quot;hg19&amp;qu
       <description>In this blog post, the author demonstrated how to visualize the traffic loads with Sankey diagram. It looks very nice and here I implemente it with Chord diagram.
 Following data frame contains data for the traffic loads, which is basically the number of vehicles that travel through every two directions.
 df = read.table(textConnection( &amp;quot;B A 1000 C A 5000 D A 690 A B 2200 C B 1240 D B 5000 A C 5000 B C 2400 D C 2000 A D 2000 B D 3000 C D 3000 &amp;quot;))  The colors for the four directions:</description>
-    </item>
-    
-    <item>
-      <title>Integrate ComplexHeatmap with cowplot package</title>
-      <link>/lab-cn/2020/07/14/integrate-complexheatmap-with-cowplot-package/</link>
-      <pubDate>Tue, 14 Jul 2020 00:00:00 +0000</pubDate>
-      
-      <guid>/lab-cn/2020/07/14/integrate-complexheatmap-with-cowplot-package/</guid>
-      <description>The cowplot package is used to combine multiple plots into a single figure. In most cases, ComplexHeatmap works perfectly with cowplot, but there are some cases that need special attention.
-Also there are some other packages that combine multiple plots, such as multipanelfigure, but I think the mechanism behind is the same.
-Following functionalities in ComplexHeatmap cause problems with using cowplot.
- anno_zoom()/anno_link(). The adjusted positions by these two functions rely on the size of the graphics device.</description>
     </item>
     
     <item>

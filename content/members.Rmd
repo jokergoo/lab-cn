@@ -1,5 +1,8 @@
 ---
 title: "成员"
+output:
+  html_document:
+    self_contained: no
 ---
 
 <style>

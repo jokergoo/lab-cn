@@ -672,7 +672,7 @@ methylation is only associated with CpG sites and not with other positions.</p>
 <p>The <strong>&ldquo;w0&rdquo;</strong> method is the weighted mean between the intersected parts and
 un-intersected parts.</p>
 <p>$$ v_{w0} = \frac{v_wW}{W+W'} $$</p>
-<p><code>\(W\)</code> is sum of width of the intersected parts (<code>\(\sum_i^n{w_i}\)</code>) and <code>\(W'\)</code> is the
+<p><code>\(W\)</code> is sum of width of the intersected parts ($\sum_i^n{w_i}$) and <code>\(W'\)</code> is the
 sum of width for the non-intersected parts.</p>
 </li>
 <li>
@@ -710,20 +710,20 @@ dim(num_mat)
 </code></pre>
 <pre><code class="language-r">head(num_mat)
 </code></pre>
-<pre><code>##          [,1]    [,2]   [,3]     [,4]    [,5]    [,6]    [,7]    [,8]   [,9]
-## [1,] -0.09896 -0.4766 0.3475  0.42086  0.1057 0.09644 -0.4471 -0.3294 0.6612
-## [2,] -0.09896 -0.4766 0.3475  0.42086  0.1057 0.09644 -0.4471 -0.3294 0.6612
-## [3,] -0.09896 -0.4766 0.3475  0.42086  0.1057 0.09644 -0.4471 -0.3294 0.6612
-## [4,]       NA      NA     NA       NA      NA      NA      NA      NA     NA
-## [5,]  0.98833 -1.1885 0.4948 -0.02239 -0.8126 0.08107  0.1432 -0.7425 0.4184
-## [6,]  0.98833 -1.1885 0.4948 -0.02239 -0.8126 0.08107  0.1432 -0.7425 0.4184
-##         [,10]
-## [1,]  0.00805
-## [2,]  0.00805
-## [3,]  0.00805
-## [4,]       NA
-## [5,] -1.14188
-## [6,] -1.14188
+<pre><code>##         [,1]   [,2]     [,3]    [,4]    [,5]    [,6]    [,7]   [,8]    [,9]
+## [1,]      NA     NA       NA      NA      NA      NA      NA     NA      NA
+## [2,]      NA     NA       NA      NA      NA      NA      NA     NA      NA
+## [3,] -0.3657 -0.258 -0.01891 -0.4764 -0.4511 -0.1334 -0.0736 0.5657 -0.1757
+## [4,] -0.3657 -0.258 -0.01891 -0.4764 -0.4511 -0.1334 -0.0736 0.5657 -0.1757
+## [5,]      NA     NA       NA      NA      NA      NA      NA     NA      NA
+## [6,]      NA     NA       NA      NA      NA      NA      NA     NA      NA
+##        [,10]
+## [1,]      NA
+## [2,]      NA
+## [3,] -0.5606
+## [4,] -0.5606
+## [5,]      NA
+## [6,]      NA
 </code></pre>
 <p>The first five genomic windows have no value associated because no region in
 <code>gr1</code> overlaps to them, thus, they take the value from <code>empty_v</code> which is by

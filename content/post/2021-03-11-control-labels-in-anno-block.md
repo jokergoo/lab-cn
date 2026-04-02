@@ -19,7 +19,7 @@ of `"A", "B", "C"`, so when the row clustering is not applied, it is safe to als
 `labels = c("A", "B", "C")` in `anno_block()`.
 
 
-``` r
+```r
 library(ComplexHeatmap)
 set.seed(123)
 m = matrix(rnorm(200), nrow = 20)
@@ -33,7 +33,7 @@ Heatmap(m, row_split = split, cluster_rows = FALSE,
 But if row clustering is applied, the labels in `anno_block()` correspond wrongly to the heatmap slices.
 
 
-``` r
+```r
 Heatmap(m, row_split = split, cluster_rows = TRUE,
 	right_annotation = rowAnnotation(foo = anno_block(labels = c("A", "B", "C"))))
 ```
@@ -43,7 +43,7 @@ Heatmap(m, row_split = split, cluster_rows = TRUE,
 We need to manually change the value for `labels` to correctly correspond to heatmap slices.
 
 
-``` r
+```r
 Heatmap(m, row_split = split, cluster_rows = TRUE,
 	right_annotation = rowAnnotation(foo = anno_block(labels = c("B", "A", "C"))))
 ```
@@ -60,7 +60,7 @@ function will be executed to every slice.
 Let's implement the previous example with `panel_fun`:
 
 
-``` r
+```r
 Heatmap(m, row_split = split, cluster_rows = TRUE,
 	right_annotation = rowAnnotation(foo = anno_block(
 		panel_fun = function(index, levels) {
@@ -82,7 +82,7 @@ levels in the two split variables. Now it is also possible to customize accordin
 levels:
 
 
-``` r
+```r
 col = c("1" = "red", "2" = "blue", "A" = "green", "B" = "orange", "C" = "purple")
 Heatmap(m, row_km = 2, row_split = split) + 
 rowAnnotation(foo = anno_block(
@@ -99,7 +99,7 @@ rowAnnotation(foo = anno_block(
 We can define a mapping variable, then the original labels of the splitting levels can be changed:
 
 
-``` r
+```r
 labels = c("1" = "one", "2" = "two", "A" = "Group_A", "B" = "Group_B", "C" = "Group_C")
 Heatmap(m, row_km = 2, row_split = split) + 
 rowAnnotation(foo = anno_block(
@@ -116,7 +116,7 @@ rowAnnotation(foo = anno_block(
 We can also construct more complex labels:
 
 
-``` r
+```r
 Heatmap(m, row_km = 2, row_split = split) + 
 rowAnnotation(foo = anno_block(
 	panel_fun = function(index, levels) {

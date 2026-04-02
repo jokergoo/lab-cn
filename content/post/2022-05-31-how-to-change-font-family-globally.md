@@ -13,7 +13,7 @@ a "global viewport" where we can set a specific font family (also other graphics
 
 
 
-``` r
+```r
 library(ComplexHeatmap)
 m = matrix(rnorm(100), 10)
 

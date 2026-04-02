@@ -10,7 +10,7 @@ author: Zuguang Gu
 Load the packages and generate test dataset.
 
 
-``` r
+```r
 library(ggplot2)
 library(grid)
 df = data.frame(
@@ -25,7 +25,7 @@ We make a "heatmap" with the **ggplot2** package.
 
 
 
-``` r
+```r
 ggplot(df, aes(x, y)) +
     geom_tile(aes(fill = z), color = NA)
 ```
@@ -44,7 +44,7 @@ One solution to remove such white lines
 
 
 
-``` r
+```r
 ggplot(df, aes(x, y)) +
     geom_tile(aes(fill = z), color = NA)
 

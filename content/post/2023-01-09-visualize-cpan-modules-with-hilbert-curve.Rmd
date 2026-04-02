@@ -24,10 +24,12 @@ knitr::opts_chunk$set(
 
 在这篇文章中，我将展示如何使用R包**HilbertCurve**来绘制这样的图。
 
-我们首先读入CPAN上所有模块的名字，这个可以在 https://www.cpan.org/modules/02packages.details.txt 中找到。下面我们直接将这个文件读入：
+我们首先读入CPAN上所有模块的名字，这个可以在 https://www.cpan.org/modules/02packages.details.txt.gz 中找到。下面我们直接将这个文件读入：
 
 ```{r}
-df = read.table("https://www.cpan.org/modules/02packages.details.txt", skip = 9)
+download.file("https://www.cpan.org/modules/02packages.details.txt.gz", destfile = "02packages.details.txt.gz")
+df = read.table("02packages.details.txt.gz", skip = 9)
+file.remove("02packages.details.txt.gz")
 head(df)
 ```
 

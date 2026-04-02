@@ -58,7 +58,7 @@ the earlier versions (of course, better than the earlier versions).
    controlled by setting the `use_raster` argument:
 
 
-``` r
+```r
 Heatmap(..., use_raster = TRUE)
 ```
 
@@ -66,7 +66,7 @@ Heatmap(..., use_raster = TRUE)
    than 1 generates files with larger size.
 
 
-``` r
+```r
 Heatmap(..., use_raster = TRUE, raster_quality = 5)
 ```
 
@@ -77,7 +77,7 @@ Heatmap(..., use_raster = TRUE, raster_quality = 5)
    This can be set by `raster_resize_mat` argument:
 
 
-``` r
+```r
 # the default summary function is mean()
 Heatmap(..., use_raster = TRUE, raster_resize_mat = TRUE)
 # use max() as the summary function
@@ -99,7 +99,7 @@ Heatmap(..., use_raster = TRUE, raster_resize_mat = function(x) sample(x, 1))
    and choosing a proper `raster_magick_filter`.
 
 
-``` r
+```r
 Heatmap(..., use_raster = TRUE, raster_by_magick = TRUE)
 Heatmap(..., use_raster = TRUE, raster_by_magick = TRUE, raster_magick_filter = ...)
 ```
@@ -116,7 +116,7 @@ data](https://gdevailly.netlify.app/post/plotting-big-matrices-in-r/) but with
 small adaptation. This example shows an enrichment pattern to the top center of the plot.
 
 
-``` r
+```r
 mat = matrix(nrow = 5000, ncol = 50)
 for(i in 1:5000) {
     mat[i, ] = runif(50) + c(sort(abs(rnorm(50)))[1:25], rev(sort(abs(rnorm(50)))[1:25]))  * i/1000
@@ -153,7 +153,7 @@ linearly intepolation colors between 0 and 1 in the sRGB color space.
 
 
 
-``` r
+```r
 set.seed(123)
 mat = matrix(runif(2000*100), nrow = 2000)
 col_fun = colorRamp2(c(0, 1), c("white", "black"), space = "sRGB")
@@ -171,7 +171,7 @@ This example shows heatmaps with more local patterns. These heatmaps visualize t
 in a [2D Hilbert curve](https://www.bioconductor.org/packages/release/bioc/html/HilbertCurve.html).
 
 
-``` r
+```r
 pos = HilbertVis::hilbertCurve(5)
 mat = as.matrix(dist(pos))
 dimnames(mat) = NULL

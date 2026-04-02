@@ -13,11 +13,20 @@ author: 顾祖光
 
 在这篇文章中，我将展示如何使用R包**HilbertCurve**来绘制这样的图。
 
-我们首先读入CPAN上所有模块的名字，这个可以在 https://www.cpan.org/modules/02packages.details.txt 中找到。下面我们直接将这个文件读入：
+我们首先读入CPAN上所有模块的名字，这个可以在 https://www.cpan.org/modules/02packages.details.txt.gz 中找到。下面我们直接将这个文件读入：
 
 
-``` r
-df = read.table("https://www.cpan.org/modules/02packages.details.txt", skip = 9)
+```r
+download.file("https://www.cpan.org/modules/02packages.details.txt.gz", destfile = "02packages.details.txt.gz")
+df = read.table("02packages.details.txt.gz", skip = 9)
+file.remove("02packages.details.txt.gz")
+```
+
+```
+## [1] TRUE
+```
+
+```r
 head(df)
 ```
 
@@ -35,14 +44,14 @@ head(df)
 
 
 
-``` r
+```r
 all_modules = sort(df[, 1])
 ```
 
 我们取每个模块的“命名空间”。命名空间是第一个`::`前面的字符串。注意，在Perl中，这可能不叫做命名空间，在这篇文章，为方便起见，我们称之为命名空间。
 
 
-``` r
+```r
 ns = gsub("::.*$", "", all_modules)
 ```
 
@@ -50,7 +59,7 @@ ns = gsub("::.*$", "", all_modules)
 
 
 
-``` r
+```r
 library(IRanges)
 r = Rle(ns)
 ```
@@ -58,7 +67,7 @@ r = Rle(ns)
 `Rle`是一个很简单的类，定义在**IRanges**包中。在变量`r`中，每一个元素对应着`ns`中一个单独的命名空间，在向量`ns`中，每一个命名空间的位置和长度也被计算出。在下面的代码中，我们提取出这些信息：
 
 
-``` r
+```r
 s = start(r)          # start position of each ns in r
 e = end(r)            # end position of each ns in r
 w = width(r)          # width of each ns in r
@@ -69,7 +78,7 @@ labels = runValue(r)  # corresponding labels
 
 
 
-``` r
+```r
 library(HilbertCurve)
 
 ind = order(w, decreasing = TRUE)[1:30]
@@ -93,23 +102,23 @@ hc_text(hc, x1 = s[ind], x2 = e[ind], labels = labels[ind],
 https://r-graph-gallery.com/circle-packing.html 。
 
 
-``` r
+```r
 sessionInfo()
 ```
 
 ```
-## R version 4.4.2 (2024-10-31)
-## Platform: aarch64-apple-darwin20
-## Running under: macOS 26.1
+## R version 4.3.3 (2024-02-29)
+## Platform: x86_64-apple-darwin20 (64-bit)
+## Running under: macOS 26.3.1
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 ## 
 ## locale:
-## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
 ## 
-## time zone: Europe/Berlin
+## time zone: Asia/Shanghai
 ## tzcode source: internal
 ## 
 ## attached base packages:
@@ -117,22 +126,22 @@ sessionInfo()
 ## [8] methods   base     
 ## 
 ## other attached packages:
-## [1] HilbertCurve_2.5.1  IRanges_2.40.1      S4Vectors_0.44.0   
-## [4] BiocGenerics_0.52.0 knitr_1.50          colorout_1.3-2     
+## [1] HilbertCurve_1.99.0 IRanges_2.36.0      S4Vectors_0.40.2   
+## [4] BiocGenerics_0.48.1 knitr_1.45         
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] httr_1.4.7              cli_3.6.4               rlang_1.1.5            
-##  [4] xfun_0.51               png_0.1-8               circlize_0.4.16        
-##  [7] UCSC.utils_1.2.0        jsonlite_1.9.0          colorspace_2.1-1       
-## [10] htmltools_0.5.8.1       GlobalOptions_0.1.4     sass_0.4.9             
-## [13] rmarkdown_2.29          evaluate_1.0.3          jquerylib_0.1.4        
-## [16] fastmap_1.2.0           GenomeInfoDb_1.42.3     yaml_2.3.10            
-## [19] lifecycle_1.0.4         bookdown_0.44           compiler_4.4.2         
-## [22] Rcpp_1.0.14             XVector_0.46.0          blogdown_1.19          
-## [25] digest_0.6.37           R6_2.6.1                shape_1.4.6.1          
-## [28] polylabelr_0.3.0        GenomeInfoDbData_1.2.13 GenomicRanges_1.58.0   
-## [31] bslib_0.9.0             tools_4.4.2             zlibbioc_1.52.0        
-## [34] cachem_1.1.0
+##  [1] cli_3.6.2               rlang_1.1.3             xfun_0.43              
+##  [4] highr_0.10              png_0.1-8               circlize_0.4.16        
+##  [7] jsonlite_1.8.8          colorspace_2.1-0        RCurl_1.98-1.14        
+## [10] htmltools_0.5.8.1       GlobalOptions_0.1.2     sass_0.4.9             
+## [13] rmarkdown_2.26          evaluate_0.23           jquerylib_0.1.4        
+## [16] bitops_1.0-7            fastmap_1.1.1           yaml_2.3.8             
+## [19] lifecycle_1.0.4         GenomeInfoDb_1.36.4     bookdown_0.39          
+## [22] compiler_4.3.3          Rcpp_1.0.12             XVector_0.40.0         
+## [25] blogdown_1.19           digest_0.6.35           R6_2.5.1               
+## [28] shape_1.4.6.1           polylabelr_0.2.0        GenomeInfoDbData_1.2.10
+## [31] GenomicRanges_1.52.1    bslib_0.7.0             tools_4.3.3            
+## [34] zlibbioc_1.46.0         cachem_1.0.8
 ```
 
 <p id="license">本文使用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans'>CC BY-NC-SA 4.0</a> 协议发布。</p>

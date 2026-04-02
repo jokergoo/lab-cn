@@ -33,7 +33,7 @@ phyper(x - 1, m, n, k, lower.tail = FALSE)
 在下面的例子中，我们假设所有的基因向量中的基因都具有相同类型的ID类型。
 
 
-``` r
+```r
 ora_single = function(genes, gene_set, universe) {
     n_universe = length(universe)
 
@@ -53,7 +53,7 @@ ora_single = function(genes, gene_set, universe) {
 然后，对于一组基因集合，我们只需要使用`sapply()`或者`for`循环将`ora_single()`应用到每一个基因集合上。在`ora_v1()`中，我们假设基因集合的格式是一个list，其中每一个成员向量表示一个基因集合。`ora_v1()`返回一个*p*值向量。
 
 
-``` r
+```r
 # version 1
 ora_v1 = function(genes, gene_sets, universe) {
     sapply(gene_sets, function(x) ora_single(genes, x, universe))
@@ -63,7 +63,7 @@ ora_v1 = function(genes, gene_sets, universe) {
 可见在R中编写一个支持ORA分析的函数非常简单。为了执行`ora_v1()`，我们使用GO基因集合，使用蛋白编码基因作为背景基因，从其中随机抽取1000个基因作为DE基因。
 
 
-``` r
+```r
 library(org.Hs.eg.db)
 gs = as.list(org.Hs.egGO2ALLEGS)
 gs = lapply(gs, unique)  # 基因有可能重复
@@ -81,13 +81,13 @@ genes = sample(pc_genes, 1000)
 现在让我们运行`ora_v1()`：
 
 
-``` r
+```r
 system.time(p1 <- ora_v1(genes, gs, pc_genes))
 ```
 
 ```
-##    user  system elapsed 
-##   4.385   0.697   5.083
+##   用户   系统   流逝 
+## 10.993  2.717 13.727
 ```
 
 ### 使用向量化的hyper()
@@ -95,7 +95,7 @@ system.time(p1 <- ora_v1(genes, gs, pc_genes))
 在版本1中，我们使用循环的方式进行代码编写。在R中，我们往往推荐向量化计算。注意`phyper()`同样也支持以向量作为参数，同时计算多个*p*值。在版本2中，在运行`phyper()`之前，我们直接生成参数`x`，`m`和`n`向量。
 
 
-``` r
+```r
 # version 2
 ora_v2 = function(genes, gene_sets, universe) {
     
@@ -118,13 +118,13 @@ ora_v2 = function(genes, gene_sets, universe) {
 使用相同的`genes`，`gs`和`pc_genes`变量，运行`ora_v2()`。
 
 
-``` r
+```r
 system.time(p2 <- ora_v2(genes, gs, pc_genes))
 ```
 
 ```
-##    user  system elapsed 
-##   2.034   0.276   2.311
+##  用户  系统  流逝 
+## 5.059 1.097 6.186
 ```
 
 可见和`ora_v1()`相比，`ora_v2()`提速了一倍。
@@ -134,7 +134,7 @@ system.time(p2 <- ora_v2(genes, gs, pc_genes))
 下面我们对`ora_v2()`进行代码profiling，看看其中最耗时的是哪一部分。
 
 
-``` r
+```r
 Rprof()
 p2 = ora_v2(genes, gs, pc_genes)
 Rprof(NULL)
@@ -142,8 +142,16 @@ summaryRprof()$by.self
 ```
 
 ```
-##                   self.time self.pct total.time total.pct
-## "base::intersect"      2.16      100       2.16       100
+##                      self.time self.pct total.time total.pct
+## "base::intersect"         4.90    93.16       5.14     97.72
+## "duplicated.default"      0.14     2.66       0.14      2.66
+## "intersect"               0.08     1.52       5.22     99.24
+## "duplicated"              0.04     0.76       0.20      3.80
+## "lapply"                  0.02     0.38       5.26    100.00
+## "FUN"                     0.02     0.38       5.24     99.62
+## "as.vector"               0.02     0.38       0.02      0.38
+## "numeric"                 0.02     0.38       0.02      0.38
+## "unclass"                 0.02     0.38       0.02      0.38
 ```
 
 可见`intersect()`是代码中最耗时的一步。
@@ -154,22 +162,22 @@ summaryRprof()$by.self
 
 
 
-``` r
+```r
 system.time(lapply(gs, function(x) intersect(x, pc_genes)))
 ```
 
 ```
-##    user  system elapsed 
-##   1.845   0.310   2.158
+##  用户  系统  流逝 
+## 4.767 0.871 5.672
 ```
 
-``` r
+```r
 system.time(lapply(gs, function(x) intersect(pc_genes, x)))
 ```
 
 ```
-##    user  system elapsed 
-##   4.897   0.683   5.581
+##   用户   系统   流逝 
+## 13.589  2.074 16.106
 ```
 
 在上述代码的第一行中，因为`pc_genes`只需要在第一次运行`intersect()`时生成一份临时的哈希表，而在以后的运行时可以重复使用。而在第二行中，由于`intersect()`的第二个参数为`x`，在每次循环中都会发生变化，因此每次都会重新生成关于`x`的新的哈希表。
@@ -183,7 +191,7 @@ system.time(lapply(gs, function(x) intersect(pc_genes, x)))
 
 
 
-``` r
+```r
 # version 3
 library(fastmatch)
 ora_v3 = function(genes, gene_sets, universe) {
@@ -206,8 +214,8 @@ system.time(p3 <- ora_v3(genes, gs, pc_genes))
 ```
 
 ```
-##    user  system elapsed 
-##   0.045   0.001   0.046
+##  用户  系统  流逝 
+## 0.130 0.001 0.131
 ```
 
 速度得到了超大幅度的提升！
@@ -215,7 +223,7 @@ system.time(p3 <- ora_v3(genes, gs, pc_genes))
 三个方法得到的*p*值是相同的。
 
 
-``` r
+```r
 identical(p1, p2)
 ```
 
@@ -223,7 +231,7 @@ identical(p1, p2)
 ## [1] TRUE
 ```
 
-``` r
+```r
 identical(p1, p3)
 ```
 
@@ -236,7 +244,7 @@ identical(p1, p3)
 下面综合比较一下：
 
 
-``` r
+```r
 library(microbenchmark)
 microbenchmark(
     "loop(v1)"       = ora_v1(genes, gs, pc_genes),
@@ -248,50 +256,50 @@ microbenchmark(
 
 ```
 ## Unit: milliseconds
-##            expr       min        lq       mean     median         uq        max neval
-##        loop(v1) 5318.1961 5383.5570 5828.39005 5880.66780 6045.01761 6804.51104    10
-##  vectorized(v2) 2308.4575 2318.3023 2439.03654 2373.14585 2584.79236 2665.35383    10
-##   fastmatch(v3)   40.7178   42.7744   44.96102   43.88181   45.23243   52.91075    10
+##            expr        min         lq       mean     median         uq        max neval
+##        loop(v1) 14879.2240 15040.6832 15597.9501 15665.4375 16069.8918 16227.2474    10
+##  vectorized(v2)  6215.2074  6330.8748  6721.0648  6701.4403  6998.4835  7658.0589    10
+##   fastmatch(v3)   110.7032   111.6344   126.9131   123.7863   132.0456   167.7295    10
 ```
 
 
 
-``` r
+```r
 sessionInfo()
 ```
 
 ```
-## R version 4.4.2 (2024-10-31)
-## Platform: aarch64-apple-darwin20
-## Running under: macOS 26.1
+## R version 4.3.3 (2024-02-29)
+## Platform: x86_64-apple-darwin20 (64-bit)
+## Running under: macOS 26.3.1
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 ## 
 ## locale:
-## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
 ## 
-## time zone: Europe/Berlin
+## time zone: Asia/Shanghai
 ## tzcode source: internal
 ## 
 ## attached base packages:
 ## [1] stats4    stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-##  [1] microbenchmark_1.5.0 fastmatch_1.1-6      GO.db_3.20.0         org.Hs.eg.db_3.20.0 
-##  [5] AnnotationDbi_1.68.0 IRanges_2.40.1       S4Vectors_0.44.0     Biobase_2.66.0      
-##  [9] BiocGenerics_0.52.0  knitr_1.50           colorout_1.3-2      
+##  [1] microbenchmark_1.5.0 fastmatch_1.1-4      GO.db_3.17.0         org.Hs.eg.db_3.17.0 
+##  [5] AnnotationDbi_1.62.2 IRanges_2.36.0       S4Vectors_0.40.2     Biobase_2.60.0      
+##  [9] BiocGenerics_0.48.1  knitr_1.45          
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] bit_4.5.0.1             jsonlite_1.9.0          compiler_4.4.2          crayon_1.5.3           
-##  [5] blob_1.2.4              Biostrings_2.74.1       jquerylib_0.1.4         png_0.1-8              
-##  [9] yaml_2.3.10             fastmap_1.2.0           R6_2.6.1                XVector_0.46.0         
-## [13] GenomeInfoDb_1.42.3     bookdown_0.44           GenomeInfoDbData_1.2.13 DBI_1.2.3              
-## [17] bslib_0.9.0             rlang_1.1.5             KEGGREST_1.46.0         cachem_1.1.0           
-## [21] xfun_0.51               sass_0.4.9              bit64_4.6.0-1           RSQLite_2.3.9          
-## [25] memoise_2.0.1           cli_3.6.4               zlibbioc_1.52.0         digest_0.6.37          
-## [29] lifecycle_1.0.4         vctrs_0.6.5             evaluate_1.0.3          blogdown_1.19          
-## [33] rmarkdown_2.29          httr_1.4.7              pkgconfig_2.0.3         tools_4.4.2            
-## [37] htmltools_0.5.8.1       UCSC.utils_1.2.0
+##  [1] bit_4.0.5               jsonlite_1.8.8          compiler_4.3.3          crayon_1.5.2           
+##  [5] blob_1.2.4              bitops_1.0-7            Biostrings_2.68.1       jquerylib_0.1.4        
+##  [9] png_0.1-8               yaml_2.3.8              fastmap_1.1.1           R6_2.5.1               
+## [13] XVector_0.40.0          GenomeInfoDb_1.36.4     bookdown_0.39           GenomeInfoDbData_1.2.10
+## [17] DBI_1.2.2               bslib_0.7.0             rlang_1.1.3             KEGGREST_1.40.1        
+## [21] cachem_1.0.8            xfun_0.43               sass_0.4.9              bit64_4.0.5            
+## [25] RSQLite_2.3.6           memoise_2.0.1           cli_3.6.2               zlibbioc_1.46.0        
+## [29] digest_0.6.35           lifecycle_1.0.4         vctrs_0.6.5             evaluate_0.23          
+## [33] blogdown_1.19           RCurl_1.98-1.14         rmarkdown_2.26          httr_1.4.7             
+## [37] pkgconfig_2.0.3         tools_4.3.3             htmltools_0.5.8.1
 ```

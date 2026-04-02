@@ -23,7 +23,7 @@ click) instead of `click`, but double click is not user-friendly.
 I demonstrate this problem with the following app:
 
 
-``` r
+```r
 library(shiny)
 library(grid)
 library(glue)
@@ -105,7 +105,7 @@ observe `input$action`. By comparing the positions of mouse, we can choose
 whether to update click output or brush output.
 
 
-``` r
+```r
 library(shiny)
 library(grid)
 library(glue)
@@ -188,7 +188,7 @@ We can only observe `input$action` and respond to click only when the mouse
 positions are unchanged (see how `observeEvent(input$action, ...)` is defined in following code).
 
 
-``` r
+```r
 ui = fluidPage(
 	plotOutput("plot", width = 600, height = 400,
 		click = "click", brush = "brush"),

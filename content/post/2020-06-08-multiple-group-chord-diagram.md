@@ -14,7 +14,7 @@ I first generate a random matrix where there are three groups (`A`, `B`, and `C`
 Note this new functionality works the same for the input as a data frame.
 
 
-``` r
+```r
 library(circlize)
 mat1 = matrix(rnorm(25), nrow = 5)
 rownames(mat1) = paste0("A", 1:5)
@@ -38,17 +38,17 @@ mat
 ```
 
 ```
-##        B1     B2     B3    B4    B5     C1     C2     C3    C4       C5
-## A1 -0.085  0.016  0.091 -0.50 -1.27  0.051 -1.679  0.088 -0.76  0.01749
-## A2  0.945 -0.107  1.274 -0.20  0.11  0.140 -0.711  1.380 -0.41 -0.99425
-## A3 -0.414 -0.444  0.938 -0.36  0.55  1.389 -0.477 -1.159  0.80  0.25352
-## A4 -0.898 -0.434  2.179 -0.16  1.58  1.377 -1.152 -2.465 -0.89 -0.40290
-## A5  1.695 -0.799 -0.276  0.38  1.36 -0.141  0.234  1.819 -0.37 -0.00056
-## B1  0.000  0.000  0.000  0.00  0.00  0.927  0.790 -1.152 -0.87  0.49555
-## B2  0.000  0.000  0.000  0.00  0.00  0.602 -0.938  0.484  0.45  0.34223
-## B3  0.000  0.000  0.000  0.00  0.00 -0.147 -0.763  0.149 -0.90  0.06670
-## B4  0.000  0.000  0.000  0.00  0.00  0.208 -0.365  1.239 -1.23  0.82139
-## B5  0.000  0.000  0.000  0.00  0.00 -0.622  0.022  0.262  1.45  0.23556
+##        B1    B2    B3    B4    B5      C1     C2    C3    C4    C5
+## A1 -0.983  0.96 -1.23 -0.29  0.33  0.8005  1.165  0.16  1.18 -1.51
+## A2  0.027 -0.50  1.72  0.22 -0.68  0.7703  0.404 -0.91  1.45  0.07
+## A3  1.351 -0.79  0.56 -0.44 -0.73  1.2659 -0.422  0.94 -0.55 -0.87
+## A4 -0.387  0.14 -1.08 -0.89 -0.70  0.1082  0.709 -1.39 -0.81 -1.09
+## A5  0.195 -1.42 -0.97  0.78 -0.77 -0.0082 -0.720 -0.28 -0.89  1.31
+## B1  0.000  0.00  0.00  0.00  0.00  0.2846 -0.018  0.35  0.28 -1.80
+## B2  0.000  0.00  0.00  0.00  0.00  0.9008 -0.148 -0.36 -0.42  0.75
+## B3  0.000  0.00  0.00  0.00  0.00  0.7906  0.781  0.52  0.12  0.28
+## B4  0.000  0.00  0.00  0.00  0.00  0.1782  1.093  0.24 -0.17  0.81
+## B5  0.000  0.00  0.00  0.00  0.00  0.3083  0.591 -0.60  0.47  0.53
 ```
 
 The main thing is to create "a grouping variable". The variable contains
@@ -56,7 +56,7 @@ the group labels and the sector names are used as the names in the vector.
 
 
 
-``` r
+```r
 nm = unique(unlist(dimnames(mat)))
 group = structure(gsub("\\d", "", nm), names = nm)
 group
@@ -70,7 +70,7 @@ group
 Assign `group` variable to the `group` argument:
 
 
-``` r
+```r
 grid.col = structure(c(rep(2, 5), rep(3, 5), rep(4, 5)),
                 names = c(paste0("A", 1:5), paste0("B", 1:5), paste0("C", 1:5)))
 chordDiagram(mat, group = group, grid.col = grid.col)
@@ -78,14 +78,14 @@ chordDiagram(mat, group = group, grid.col = grid.col)
 
 <img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
 We can try another grouping:
 
 
-``` r
+```r
 group = structure(gsub("^\\w", "", nm), names = nm)
 group
 ```
@@ -95,13 +95,13 @@ group
 ## "1" "2" "3" "4" "5" "1" "2" "3" "4" "5" "1" "2" "3" "4" "5"
 ```
 
-``` r
+```r
 chordDiagram(mat, group = group, grid.col = grid.col)
 ```
 
 <img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -109,25 +109,25 @@ The order of `group` controls the sector orders and if `group` is set as a facto
 the order of levels controls the order of groups.
 
 
-``` r
+```r
 group = structure(gsub("\\d", "", nm), names = nm)
 group = factor(group[sample(length(group), length(group))], levels = c("C", "A", "B"))
 group
 ```
 
 ```
-## C2 C4 A4 A3 B3 B2 A5 A1 C1 C5 A2 B5 B1 B4 C3 
-##  C  C  A  A  B  B  A  A  C  C  A  B  B  B  C 
+## C2 B3 B1 A2 A1 C5 B5 A3 B4 A5 C3 C4 A4 B2 C1 
+##  C  B  B  A  A  C  B  A  B  A  C  C  A  B  C 
 ## Levels: C A B
 ```
 
-``` r
+```r
 chordDiagram(mat, group = group, grid.col = grid.col)
 ```
 
 <img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -135,21 +135,21 @@ The gap between groups is controlled by `big.gap` argument and the gap between
 sectors is controlled by `small.gap` argument.
 
 
-``` r
+```r
 group = structure(gsub("\\d", "", nm), names = nm)
 chordDiagram(mat, group = group, grid.col = grid.col, big.gap = 20, small.gap = 5)
 ```
 
 <img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
 As a normal Chord diagram, the labels and other tracks can be manually adjusted:
 
 
-``` r
+```r
 group = structure(gsub("\\d", "", nm), names = nm)
 chordDiagram(mat, group = group, grid.col = grid.col,
 	annotationTrack = c("grid", "axis"),
@@ -174,6 +174,6 @@ highlight.sector(colnames(mat2), track.index = 1, col = "blue",
 
 <img src="/lab-cn/post/2020-06-08-multiple-group-chord-diagram_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```

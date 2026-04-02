@@ -15,7 +15,7 @@ Following data frame contains data for the traffic loads, which is basically
 the number of vehicles that travel through every two directions.
 
 
-``` r
+```r
 df = read.table(textConnection(
 "B A 1000
 C A 5000
@@ -35,7 +35,7 @@ C D 3000
 The colors for the four directions:
 
 
-``` r
+```r
 grid_col = c(
 	A = "#FFD701",
 	B = "#4169E1",
@@ -47,7 +47,7 @@ grid_col = c(
 The order of sectors that will be drawn in the Chord diagram:
 
 
-``` r
+```r
 sector_order = c("A", "B", "C", "D")
 ```
 
@@ -59,7 +59,7 @@ circular layout.
 Basically just do a little bit of simple math :), calculatd as follows:
 
 
-``` r
+```r
 # size of sectors, measured by the data
 size = sapply(sector_order, function(x) sum(df[df[, 1] == x | df[, 2] == x, 3]))
 names(size) = sector_order
@@ -83,7 +83,7 @@ gap.after = c(
 Now we put `start.degree` and `gap.after` in `circos.par()` and run `chordDiagram()`:
 
 
-``` r
+```r
 library(circlize)
 circos.par(start.degree = start.degree, gap.after = gap.after)
 chordDiagram(df, order = sector_order,
@@ -96,14 +96,14 @@ chordDiagram(df, order = sector_order,
 
 <img src="/lab-cn/post/2020-10-13-visualize-traffic-intersection-loads-with-chord-diagram_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
 And with some customizations:
 
 
-``` r
+```r
 circos.par(start.degree = start.degree, gap.after = gap.after)
 chordDiagram(df, order = sector_order,
 	transparency = 0, link.border = "white",
@@ -116,7 +116,7 @@ chordDiagram(df, order = sector_order,
 
 <img src="/lab-cn/post/2020-10-13-visualize-traffic-intersection-loads-with-chord-diagram_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 

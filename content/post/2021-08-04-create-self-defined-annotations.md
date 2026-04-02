@@ -21,7 +21,7 @@ In the following example, I will create a new row annotation type which visualiz
 of the percent values added on top of bars. I first give the function definition of `anno_pct()` which generate such annotation:
 
 
-``` r
+```r
 library(ComplexHeatmap)
 anno_pct = function(x) {
     max_x = max(x)
@@ -50,7 +50,7 @@ to generate the new annotation.
 We can test this new annotation function:
 
 
-``` r
+```r
 set.seed(123)
 x = runif(10)
 ha = rowAnnotation(foo = anno_pct(x), annotation_name_rot = 0)
@@ -64,7 +64,7 @@ ha + Heatmap(m)
 And if we split the heatmap rows:
 
 
-``` r
+```r
 ha + Heatmap(m, row_km = 2)
 ```
 
@@ -73,7 +73,7 @@ ha + Heatmap(m, row_km = 2)
 We can make `anno_pct()` slightly more complex to allow more controls:
 
 
-``` r
+```r
 anno_pct = function(x, bg_gp = gpar(fill = "#8080FF", col = NA), labels_gp = gpar(), 
     align_to = "right", width = NULL) {
 
@@ -108,7 +108,7 @@ anno_pct = function(x, bg_gp = gpar(fill = "#8080FF", col = NA), labels_gp = gpa
 ```
 
 
-``` r
+```r
 ha1 = rowAnnotation(bar = anno_pct(runif(x), labels_gp = gpar(fontsize = 8)), 
     annotation_name_rot = 0)
 ha2 = rowAnnotation(foo = anno_pct(runif(x), bg_gp = gpar(fill = "orange"), 

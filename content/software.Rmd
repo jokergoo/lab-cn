@@ -1,5 +1,8 @@
 ---
 title: "软件"
+output:
+  html_document:
+    self_contained: no
 ---
 
 ```{r, echo = FALSE, message = FALSE}
@@ -10,16 +13,18 @@ knitr::opts_chunk$set(
     message = FALSE,
     warning = FALSE
 )
+options("timeout" = 9999)
 ```
 
 ```{r, echo = FALSE}
 library(rvest)
 library(jsonlite)
+library(httr)
 downloads_from_conda = function(pkg, where, channel) {
 	if(where == "cran") {
-		oe = try(x <- read_html(paste0("https://anaconda.org/", channel, "/r-", tolower(pkg), "/badges/downloads.svg")), silent = TRUE)
+		oe = try(x <- read_html(GET(paste0("https://anaconda.org/", channel, "/r-", tolower(pkg), "/badges/downloads.svg"), timeout(9999))), silent = TRUE)
 	} else {
-		oe = try(x <- read_html(paste0("https://anaconda.org/", channel, "/bioconductor-", tolower(pkg), "/badges/downloads.svg")), silent = TRUE)
+		oe = try(x <- read_html(GET(paste0("https://anaconda.org/", channel, "/bioconductor-", tolower(pkg), "/badges/downloads.svg"), timeout(9999))), silent = TRUE)
 	}
 	if(inherits(oe, "try-error")) {
 		return(0)
@@ -28,7 +33,7 @@ downloads_from_conda = function(pkg, where, channel) {
 	txt = gsub("^downloads: ", "", txt)
 	txt = gsub(" total", "", txt)
 	unit = tolower(substr(txt, nchar(txt), nchar(txt)))
-	num = as.numeric(gsub("\\w$", "", txt))
+	num = suppressWarnings(as.numeric(gsub("\\w$", "", txt)))
 	if(is.na(num)) {
 		return(0)
 	}
@@ -242,7 +247,7 @@ Package |  github
 
 ```{r, echo = FALSE}
 cran_status = function(pkg) {
-	html = read_html(paste0("https://cran.r-project.org/web/checks/check_results_", pkg, ".html"))
+	html = GET(paste0("https://cran.r-project.org/web/checks/check_results_", pkg, ".html"), timeout(9999)) |> read_html()
 	status = unique(html_table(html_element(html, "table"))$Status)
 	if("ERROR" %in% status) {
 		return("ERROR")

@@ -12,7 +12,7 @@ The question: for the following heatmap with a top barplot annotation, how to ma
 
 
 
-``` r
+```r
 library(ComplexHeatmap)
 
 set.seed(666)
@@ -35,7 +35,7 @@ Also note, when there is column reordering, we need to capture the new order. Th
 information will be used for redrawing the bars.
 
 
-``` r
+```r
 ht = Heatmap(m, top_annotation = HeatmapAnnotation(foo = anno_barplot(x), height = unit(8, "cm")))
 ht = draw(ht)
 column_order = column_order(ht)
@@ -89,11 +89,11 @@ and use `name` to match the segments of y-axis.
 
 
 
-``` r
+```r
 Heatmap(m, top_annotation = HeatmapAnnotation(foo = anno_barplot(x), height = unit(8, "cm")))
 ```
 
-``` r
+```r
 # grid.ls() returns a lists of all viewports and grobs, from the ROOT (the global) level
 global_gl = grid.ls(viewport = TRUE, print = FALSE)
 str(global_gl)
@@ -163,7 +163,7 @@ Note, to redraw the bars, we don't need the column reordering any more. `gb_bar`
 
 
 
-``` r
+```r
 Heatmap(m, top_annotation = HeatmapAnnotation(foo = anno_barplot(x), height = unit(8, "cm")))
 
 decorate_annotation("foo", {
@@ -209,7 +209,7 @@ Let's wrap the code into a function and test it:
 
 
 
-``` r
+```r
 add_background_to_column_barplot_annotation = function(anno_name) {
     decorate_annotation(anno_name, {
 
@@ -254,7 +254,7 @@ add_background_to_column_barplot_annotation("num")
 
 <img src="/lab-cn/post/2025-04-01-add-background-grid-lines-to-heatmap-annotations_files/figure-html/unnamed-chunk-6-1.png" width="672" style="display: block; margin: auto;" />
 
-``` r
+```r
 Heatmap(m, top_annotation = HeatmapAnnotation(num = anno_barplot(1:10, axis_param = list(at = seq(0, 10, by = 2))), 
                                               height = unit(8, "cm")))
 add_background_to_column_barplot_annotation("num")

@@ -42,7 +42,7 @@ Mclust = function (..., control = emControl(), ...) {
 There is a `emControl()` function which takes care of the default values.
 
 
-``` r
+```r
 library(mclust)
 emControl()
 ```
@@ -64,7 +64,7 @@ emControl()
 And if only change one parameter, default values for other parameters are still used:
 
 
-``` r
+```r
 emControl(eps = 1e-10)
 ```
 
@@ -141,7 +141,7 @@ Next we want to make this functionality more general. The following utility func
 inside any function which "marks" arguments to automatically reuse the default parameters.
 
 
-``` r
+```r
 mark_default = function(arg) {
     e = parent.frame()
     new = get(arg, envir = e)
@@ -165,7 +165,7 @@ In the first experiment, there are two default parameters for `gp` which are `co
 As you can see, if only `col` is set, `lty` is lost.
 
 
-``` r
+```r
 library(grid)
 draw_sth = function(gp = gpar(col = "red", lty = 2)) {
     print(gp)
@@ -183,7 +183,7 @@ Next, we simply add `mark_default()` inside `draw_sth()` and mark the argument `
 can be reused.
 
 
-``` r
+```r
 draw_sth = function(gp = gpar(col = "red", lty = 2)) {
     mark_default("gp")
     print(gp)
@@ -199,7 +199,7 @@ draw_sth(gp = gpar(col = "black"))
 ## [1] 2
 ```
 
-``` r
+```r
 draw_sth(gp = gpar(lwd = 3))
 ```
 

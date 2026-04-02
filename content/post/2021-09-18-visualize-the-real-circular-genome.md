@@ -10,7 +10,7 @@ author: Zuguang Gu
 the circle is segmented and each segment (or called sector) corresponds to one single chromosome. The following code visualizes 24 chromosomes of human genome.
 
 
-``` r
+```r
 library(circlize)
 circos.initializeWithIdeogram()
 ```
@@ -24,7 +24,7 @@ Maybe we can create a single sector and set `gap.degree` to 0. In the following,
 the circular genome, we expect the line goes through `x = 0`.
 
 
-``` r
+```r
 circos.par(gap.degree = 0, cell.padding = c(0.02, 0, 0.02, 0))
 circos.initialize("foo", xlim = c(0, 10))
 circos.track(ylim = c(0, 1))
@@ -34,7 +34,7 @@ circos.arrow(9, 1, y = 0.7, width = 0.2)
 
 <img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-3-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -46,7 +46,7 @@ To support the "real" visualization on circular genomes, in **circlize**, now I 
 Simply add `ring = TRUE` in `circos.initialize()`.
 
 
-``` r
+```r
 circos.initialize("foo", xlim = c(0, 10), ring = TRUE)
 circos.track(ylim = c(0, 1))
 circos.lines(c(9, 1), c(0.2, 0.2), col = "blue")
@@ -55,7 +55,7 @@ circos.arrow(9, 1, y = 0.7, width = 0.2)
 
 <img src="/lab-cn/post/2021-09-18-visualize-the-real-circular-genome_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -64,7 +64,7 @@ the Human gammaherpesvirus 4. The genomic coordinates of genes are from https://
 As you can see here, start position in the first row in larger than the end position.
 
 
-``` r
+```r
 download.file("https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/002/402/265/GCF_002402265.1_ASM240226v1/GCF_002402265.1_ASM240226v1_genomic.gtf.gz", dest = "GCF_002402265.1_ASM240226v1_genomic.gtf.gz")
 df = read.csv("GCF_002402265.1_ASM240226v1_genomic.gtf.gz", skip = 3, header = FALSE, sep = "\t")
 head(df)
@@ -87,7 +87,7 @@ head(df)
 ## 6                                                          gene_id unassigned_gene_1; transcript_id unassigned_transcript_2; product EBER-1 (pol III transcript); transcript_biotype transcript; exon_number 1;
 ```
 
-``` r
+```r
 df = df[df[, 3] == "gene", c(1, 4, 5, 7)]
 file.remove("GCF_002402265.1_ASM240226v1_genomic.gtf.gz")
 ```
@@ -100,7 +100,7 @@ I wrote a helper function `circos.initializeCircularGenome()` especially for cir
 In other parts of the code, just use **circlize** in the normal way.
 
 
-``` r
+```r
 circos.initializeCircularGenome("NC_007605.1", genome_size = 171823)
 circos.genomicTrack(df, ylim = c(0, 1), panel.fun = function(region, value, ...) {
     circos.genomicLines(region, value = runif(nrow(region)), type = "segment", 

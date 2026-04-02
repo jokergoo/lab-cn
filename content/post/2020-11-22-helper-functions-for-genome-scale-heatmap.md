@@ -21,7 +21,7 @@ The usage of `bin_genome()` is very straightforward. You just select the
 genome and bin size, and optional, a subset of chromosomes.
 
 
-``` r
+```r
 library(ComplexHeatmap)
 chr_window = bin_genome("hg19")
 chr_window
@@ -109,7 +109,7 @@ rewrite it with the use of `bin_genome()` and `normalize_genomic_signals_to_bins
 
 
 
-``` r
+```r
 library(ComplexHeatmap)
 library(circlize)
 library(GenomicRanges)
@@ -183,23 +183,23 @@ draw(ht_list, merge_legend = TRUE)
 Session Info:
 
 
-``` r
+```r
 sessionInfo()
 ```
 
 ```
-## R version 4.4.2 (2024-10-31)
-## Platform: aarch64-apple-darwin20
-## Running under: macOS 26.0.1
+## R version 4.3.3 (2024-02-29)
+## Platform: x86_64-apple-darwin20 (64-bit)
+## Running under: macOS 26.3.1
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 ## 
 ## locale:
-## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
 ## 
-## time zone: Europe/Berlin
+## time zone: Asia/Shanghai
 ## tzcode source: internal
 ## 
 ## attached base packages:
@@ -207,28 +207,27 @@ sessionInfo()
 ## [8] methods   base     
 ## 
 ## other attached packages:
-##  [1] GenomicRanges_1.58.0  GenomeInfoDb_1.42.3   IRanges_2.40.1       
-##  [4] S4Vectors_0.44.0      BiocGenerics_0.52.0   circlize_0.4.16      
-##  [7] ComplexHeatmap_2.25.2 GetoptLong_1.0.5      knitr_1.50           
-## [10] colorout_1.3-2       
+## [1] GenomicRanges_1.52.1  GenomeInfoDb_1.36.4   IRanges_2.36.0       
+## [4] S4Vectors_0.40.2      BiocGenerics_0.48.1   circlize_0.4.16      
+## [7] ComplexHeatmap_2.23.1 GetoptLong_1.0.5      knitr_1.45           
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] sass_0.4.9              shape_1.4.6.1           lattice_0.22-6         
-##  [4] blogdown_1.19           magrittr_2.0.3          digest_0.6.37          
-##  [7] evaluate_1.0.3          RColorBrewer_1.1-3      EnrichedHeatmap_1.36.0 
-## [10] bookdown_0.44           iterators_1.0.14        fastmap_1.2.0          
-## [13] foreach_1.5.2           doParallel_1.0.17       jsonlite_1.9.0         
-## [16] GlobalOptions_0.1.2     httr_1.4.7              UCSC.utils_1.2.0       
-## [19] codetools_0.2-20        jquerylib_0.1.4         cli_3.6.4              
-## [22] rlang_1.1.5             crayon_1.5.3            XVector_0.46.0         
-## [25] cachem_1.1.0            yaml_2.3.10             tools_4.4.2            
-## [28] parallel_4.4.2          colorspace_2.1-1        locfit_1.5-9.12        
-## [31] GenomeInfoDbData_1.2.13 R6_2.6.1                png_0.1-8              
-## [34] magick_2.8.5            matrixStats_1.5.0       lifecycle_1.0.4        
-## [37] zlibbioc_1.52.0         clue_0.3-66             cluster_2.1.6          
-## [40] bslib_0.9.0             Rcpp_1.0.14             xfun_0.51              
-## [43] rjson_0.2.23            htmltools_0.5.8.1       rmarkdown_2.29         
-## [46] Cairo_1.6-2             compiler_4.4.2
+##  [1] sass_0.4.9              bitops_1.0-7            shape_1.4.6.1          
+##  [4] blogdown_1.19           lattice_0.22-5          magrittr_2.0.3         
+##  [7] digest_0.6.35           evaluate_0.23           RColorBrewer_1.1-3     
+## [10] EnrichedHeatmap_1.30.0  bookdown_0.39           iterators_1.0.14       
+## [13] fastmap_1.1.1           foreach_1.5.2           doParallel_1.0.17      
+## [16] jsonlite_1.8.8          GlobalOptions_0.1.2     codetools_0.2-19       
+## [19] jquerylib_0.1.4         cli_3.6.2               rlang_1.1.3            
+## [22] crayon_1.5.2            XVector_0.40.0          cachem_1.0.8           
+## [25] yaml_2.3.8              tools_4.3.3             parallel_4.3.3         
+## [28] colorspace_2.1-0        locfit_1.5-9.9          GenomeInfoDbData_1.2.10
+## [31] R6_2.5.1                png_0.1-8               magick_2.8.3           
+## [34] matrixStats_1.3.0       lifecycle_1.0.4         zlibbioc_1.46.0        
+## [37] clue_0.3-65             cluster_2.1.6           bslib_0.7.0            
+## [40] Rcpp_1.0.12             highr_0.10              xfun_0.43              
+## [43] rjson_0.2.21            htmltools_0.5.8.1       rmarkdown_2.26         
+## [46] Cairo_1.6-2             compiler_4.3.3          RCurl_1.98-1.14
 ```
 
 

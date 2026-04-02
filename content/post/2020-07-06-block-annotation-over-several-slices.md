@@ -12,7 +12,7 @@ rectangles over several slices to show they belong to certain groups?
 
 
 
-``` r
+```r
 set.seed(123)
 mat = matrix(rnorm(50*50), nrow = 50)
 library(ComplexHeatmap)
@@ -34,7 +34,7 @@ allocated by `anno_empty()` function.
 In the following code, we use `anno_empty()` to create an empty annotation:
 
 
-``` r
+```r
 ha = HeatmapAnnotation(
 	empty = anno_empty(border = FALSE),
 	foo = anno_block(gp = gpar(fill = 2:6), labels = LETTERS[1:5])
@@ -51,7 +51,7 @@ slices as the second group.
 The positions of the first and the third slicesm for annotation `"empty"` can be obtained by:
 
 
-``` r
+```r
 seekViewport("annotation_empty_1")
 loc1 = deviceLoc(x = unit(0, "npc"), y = unit(0, "npc"))
 seekViewport("annotation_empty_3")
@@ -83,7 +83,7 @@ viewport is the size of the graphics device, and draw the rectangle and add
 label.
 
 
-``` r
+```r
 seekViewport("global")
 grid.rect(loc1$x, loc1$y, width = loc2$x - loc1$x, height = loc2$y - loc1$y, 
 	just = c("left", "bottom"), gp = gpar(fill = "red"))
@@ -97,7 +97,7 @@ The viewport names for the annotations are in a fixed format, which is
 can be obtained by `list_components()` function.
 
 
-``` r
+```r
 list_components()
 ```
 
@@ -124,7 +124,7 @@ If more than one group-level rectangles are to be added, we can wrap the code
 into a simple function `group_block_anno()`:
 
 
-``` r
+```r
 ha = HeatmapAnnotation(
 	empty = anno_empty(border = FALSE, height = unit(8, "mm")),
 	foo = anno_block(gp = gpar(fill = 2:6), labels = LETTERS[1:5])

@@ -22,7 +22,7 @@ In following example, variable `mat_H3K4me1` contains correlation between H3K4me
 expression of corresponding genes in (-5kb, 10kb)of the gene TSS.
 
 
-``` r
+```r
 library(EnrichedHeatmap)
 library(circlize)
 load(paste0(system.file("extdata", "H3K4me1_corr_normalize_to_tss.RData", package = "EnrichedHeatmap")))
@@ -38,7 +38,7 @@ To visualize the pattern of positive correlation and negative correlation, one w
 two matrix and visualize them separately:
 
 
-``` r
+```r
 mat_pos = mat_H3K4me1
 mat_pos[mat_pos < 0] = 0
 mat_neg = mat_H3K4me1
@@ -63,7 +63,7 @@ for the positive and negative signals separatedly, and you don't need to separat
 two matrix.
 
 
-``` r
+```r
 EnrichedHeatmap(mat_H3K4me1, col = cor_col_fun, name = "corr_H3K4me1",
     top_annotation = HeatmapAnnotation(line = anno_enriched(gp = gpar(neg_col = "darkgreen", pos_col = "red")),
     	height = unit(2, "cm")),
@@ -76,7 +76,7 @@ If you split the rows in the heatmap, graphic parameters can still be set as a v
 the above heatmap, we make a kmeans clustering to a sub-matrix which contains signals in (0, 2kb) of TSS.
 
 
-``` r
+```r
 split = kmeans(mat_H3K4me1[, 101:140], centers = 2)$cluster
 ht = EnrichedHeatmap(mat_H3K4me1, col = cor_col_fun, name = "corr_H3K4me1",
     top_annotation = HeatmapAnnotation(line = anno_enriched(gp = gpar(neg_col = "darkgreen", pos_col = "red", 

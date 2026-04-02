@@ -13,7 +13,7 @@ following example, I combine both human and mouse genomes.
 
 
 
-``` r
+```r
 library(circlize)
 human_cytoband = read.cytoband(species = "hg19")$df
 mouse_cytoband = read.cytoband(species = "mm10")$df
@@ -24,7 +24,7 @@ names for each genome need to be adjusted. Here I simply add `human_`/`mouse_`
 prefix.
 
 
-``` r
+```r
 human_cytoband[ ,1] = paste0("human_", human_cytoband[, 1])
 mouse_cytoband[ ,1] = paste0("mouse_", mouse_cytoband[, 1])
 ```
@@ -32,7 +32,7 @@ mouse_cytoband[ ,1] = paste0("mouse_", mouse_cytoband[, 1])
 Now I can combine the two cytoband data frames into one.
 
 
-``` r
+```r
 cytoband = rbind(human_cytoband, mouse_cytoband)
 head(cytoband)
 ```
@@ -52,7 +52,7 @@ can be drawn for the combined genome. Also when I construct the variable `chromo
 I let human chromosome 1 to be close to mouse chromosome 1.
 
 
-``` r
+```r
 chromosome.index = c(paste0("human_chr", c(1:22, "X", "Y")), 
 	                 rev(paste0("mouse_chr", c(1:19, "X", "Y"))))
 circos.initializeWithIdeogram(cytoband, chromosome.index = chromosome.index)
@@ -60,7 +60,7 @@ circos.initializeWithIdeogram(cytoband, chromosome.index = chromosome.index)
 
 <img src="/lab-cn/post/2020-10-16-concatenate-two-genomes-in-the-circular-plot_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -75,7 +75,7 @@ degrees is set between human and mouse chromosomes (by
 `circos.par("gap.after")`).
 
 
-``` r
+```r
 circos.par(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
 circos.initializeWithIdeogram(cytoband, plotType = NULL, 
 	chromosome.index = chromosome.index)
@@ -93,7 +93,7 @@ circos.genomicIdeogram(cytoband)
 
 <img src="/lab-cn/post/2020-10-16-concatenate-two-genomes-in-the-circular-plot_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -104,7 +104,7 @@ following code, `read.chromInfo()` can fetch the chromosome range for a
 specific genome.
 
 
-``` r
+```r
 human_chromInfo = read.chromInfo(species = "hg19")$df
 mouse_chromInfo = read.chromInfo(species = "mm10")$df
 human_chromInfo[ ,1] = paste0("human_", human_chromInfo[, 1])
@@ -129,7 +129,7 @@ With the specified chromosome ranges, `circos.genomicInitialize()` is used to in
 layout.
 
 
-``` r
+```r
 circos.par(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
 circos.genomicInitialize(chromInfo, plotType = NULL)
 circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
@@ -146,7 +146,7 @@ circos.track(ylim = c(0, 1))
 
 <img src="/lab-cn/post/2020-10-16-concatenate-two-genomes-in-the-circular-plot_files/figure-html/unnamed-chunk-8-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -155,7 +155,7 @@ to note is the chromosome names should be properly formatted. In the following
 code, I create a track of points and add links between human and mouse genomes.
 
 
-``` r
+```r
 circos.par(gap.after = c(rep(1, 23), 5, rep(1, 20), 5))
 circos.genomicInitialize(chromInfo, plotType = NULL)
 circos.track(ylim = c(0, 1), panel.fun = function(x, y) {

@@ -13,7 +13,7 @@ is on the top of the circle or at the bottom. However, you can manually reverse
 the original positions on x-axis to pretend you have a reversed x-axis. Take following example:
 
 
-``` r
+```r
 library(circlize)
 circos.par(gap.degree = c(10, 10), start.degree = -5)
 circos.initialize(factors = c("a", "b"), xlim = c(0, 1))
@@ -26,7 +26,7 @@ circos.link("a", 0.3, "b", 0.7)
 
 <img src="/lab-cn/post/2016-11-21-reverse-xaxis-in-the-circular-layout_files/figure-html/unnamed-chunk-2-1.png" width="768" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -35,7 +35,7 @@ Actually we can make some transformation on the original coordinates on x-axis.
 In following we defined `reverse_xaxis()` which flips the x-axis.
 
 
-``` r
+```r
 reverse_xaxis = function(x, xlim = get.cell.meta.data("xlim")) {
 	(xlim[2] - xlim[1]) - (x - xlim[1]) + xlim[1]
 }
@@ -54,7 +54,7 @@ Now we apply `reverse_xaxis()` to all the coordinates in the sectors we want to
 flip.
 
 
-``` r
+```r
 circos.par(gap.degree = c(10, 10), start.degree = -5)
 circos.initialize(factors = c("a", "b"), xlim = c(0, 1))
 circos.trackPlotRegion(ylim = c(0, 1), panel.fun = function(x, y) {
@@ -74,7 +74,7 @@ circos.link("a", reverse_xaxis(0.3, xlim), "b", 0.7)
 
 <img src="/lab-cn/post/2016-11-21-reverse-xaxis-in-the-circular-layout_files/figure-html/unnamed-chunk-4-1.png" width="768" />
 
-``` r
+```r
 circos.clear()
 ```
 

@@ -12,7 +12,7 @@ author: 顾祖光
 首先生成一个随机的5x5矩阵，我们对矩阵的行进行聚类。
 
 
-``` r
+```r
 set.seed(123456)
 m = matrix(rnorm(25), 5)
 rownames(m) = letters[1:5]
@@ -22,7 +22,7 @@ hc = hclust(dist(m))
 `hc`属于一个`hclust`的类。输入`hc`变量名打印出这个变量的一些基本信息。
 
 
-``` r
+```r
 hc
 ```
 
@@ -40,7 +40,7 @@ hc
 
 
 
-``` r
+```r
 plot(hc)
 ```
 
@@ -50,7 +50,7 @@ plot(hc)
 本文就来揭示这个`hc`变量的内部结构。在遇到任何一个未知格式的对象时，一般我们使用`str()`来展示其内部结构：
 
 
-``` r
+```r
 str(hc)
 ```
 
@@ -71,7 +71,7 @@ str(hc)
 为了正确理解`hc`的格式，我们要对其中成员向量或者矩阵的顺序额外注意。我们首先介绍`labels`和`order`成员。
 
 
-``` r
+```r
 hc$labels
 ```
 
@@ -79,7 +79,7 @@ hc$labels
 ## [1] "a" "b" "c" "d" "e"
 ```
 
-``` r
+```r
 hc$order
 ```
 
@@ -92,7 +92,7 @@ hc$order
 `order`的顺序和`labels`不一样。等级聚类会对变量进行重排序，那么`order`中记录了排完序之后变量的下标。
 
 
-``` r
+```r
 hc$order
 ```
 
@@ -103,7 +103,7 @@ hc$order
 第一个元素表示聚完类后，变量5在第一个位置上，变量3在第二个位置上，以此类推。如果我们使用原始矩阵的行名的话，聚类之后的顺序为：
 
 
-``` r
+```r
 hc$labels[hc$order]
 ```
 
@@ -116,7 +116,7 @@ hc$labels[hc$order]
 现在让我们来看看`merge`和`height`成员。
 
 
-``` r
+```r
 hc$merge
 ```
 
@@ -128,7 +128,7 @@ hc$merge
 ## [4,]   -5    3
 ```
 
-``` r
+```r
 hc$height
 ```
 
@@ -147,7 +147,7 @@ hc$height
 现在`merge`可以读作：
 
 
-``` r
+```r
 hc$merge
 ```
 
@@ -177,7 +177,7 @@ hc$merge
 
 
 
-``` r
+```r
 hc$labels[hc$order]
 ```
 
@@ -190,7 +190,7 @@ hc$labels[hc$order]
 我们可以首先创建一个有名字的向量，其中聚类之后的位置为值，名字为变量的标签。
 
 
-``` r
+```r
 # 1:5 是在x轴上的位置
 map = structure(1:5, names = hc$labels[hc$order])
 # 然后我们用这个有名字的向量获得对应原始顺序的变量
@@ -207,7 +207,7 @@ x
 
 
 
-``` r
+```r
 x = order(hc$order)
 x
 ```
@@ -233,7 +233,7 @@ OK，现在我们有了所有的信息，可以一步一步的绘制聚类图了
 
 
 
-``` r
+```r
 plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
 axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
 axis(side = 2)
@@ -248,7 +248,7 @@ segments(x[3], hc$height[1], x[4], hc$height[1])
 
 
 
-``` r
+```r
 plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
 axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
 axis(side = 2)
@@ -267,7 +267,7 @@ segments(x[1], hc$height[2], x[2], hc$height[2])
 
 
 
-``` r
+```r
 plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
 axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
 axis(side = 2)
@@ -288,7 +288,7 @@ segments(midpoint[1], hc$height[3], midpoint[2], hc$height[3])
 第四步/对应着`hc$merge`中的第四行。这一步合并5号变量和3号子树，同样我们需要先获得3号子树的中点（3号子树的中点是其两个子节点中点`midpoint[1]`和`midpoint[2]`的中点，看代码一目了然）。
 
 
-``` r
+```r
 plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
 axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
 axis(side = 2)
@@ -313,7 +313,7 @@ segments(x[5], hc$height[4], midpoint[3], hc$height[4])
 
 
 
-``` r
+```r
 plot(NULL, xlim = c(0.5, 5.5), ylim = c(0, max(hc$height)*1.1), axes = FALSE, ann = FALSE)
 axis(side = 1, at = 1:5, labels = hc$labels[hc$order])
 axis(side = 2)
@@ -350,7 +350,7 @@ segments(x[5], 0, x[5], hc$height[4])
 4. 两个子节点都是子树
 
 
-``` r
+```r
 plot_hc = function(hc) {
     x = order(hc$order)
     nobs = length(x)
@@ -413,7 +413,7 @@ plot_hc = function(hc) {
 
 
 
-``` r
+```r
 plot_hc(hc)
 ```
 
@@ -423,7 +423,7 @@ plot_hc(hc)
 或者试一个更大的聚类结果：
 
 
-``` r
+```r
 m2 = matrix(rnorm(1000), nrow = 100)
 hc2 = hclust(dist(m2))
 plot_hc(hc2)
@@ -445,7 +445,7 @@ y-coordinates: left_y, top_y, top_y, right_y
 在`plot_hc()`中，让我们将绘制父节点和子节点的代码抽象化。我们引入一个函数`parent_children_connections()`，其中我们可以自定义如何绘制连接方式。
 
 
-``` r
+```r
 plot_hc = function(hc) {
     x = order(hc$order)
     nobs = length(x)
@@ -505,7 +505,7 @@ plot_hc = function(hc) {
 
 
 
-``` r
+```r
 parent_children_connections = function(left_x, left_y, top_x, top_y, right_x, right_y) {
     lines(c(left_x, left_x, right_x, right_x),
           c(left_y, top_y, top_y, right_y))
@@ -524,7 +524,7 @@ y-coordinates: left_y, top_y, right_y
 ``` 
 
 
-``` r
+```r
 parent_children_connections = function(left_x, left_y, top_x, top_y, right_x, right_y) {
     lines(c(left_x, top_x, right_x),
           c(left_y, top_y, right_y))

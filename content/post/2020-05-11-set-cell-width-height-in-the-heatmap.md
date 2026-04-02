@@ -15,7 +15,7 @@ the cells change accordingly.
 
 
 
-``` r
+```r
 library(ComplexHeatmap)
 set.seed(123)
 mat = matrix(rnorm(100), 10)
@@ -52,7 +52,7 @@ img {
 
 
 
-``` r
+```r
 Heatmap(mat, name = "mat", 
 	width = ncol(mat)*unit(5, "mm"), 
 	height = nrow(mat)*unit(5, "mm"))
@@ -74,14 +74,14 @@ width and height as `grid::unit` objects in mm. You can convert to any other
 units by `grid::convertX()` and `grid::convertY()` functions.
 
 
-``` r
+```r
 ht = Heatmap(mat, , name = "mat", 
 	width = ncol(mat)*unit(5, "mm"), 
 	height = nrow(mat)*unit(5, "mm"))
 ht = draw(ht) # it generates a plot, but we don't show here
 ```
 
-``` r
+```r
 w = ComplexHeatmap:::width(ht)
 w = convertX(w, "inch", valueOnly = TRUE)
 h = ComplexHeatmap:::height(ht)
@@ -98,7 +98,7 @@ set in `pdf()` function. If you save the plot as a PNG plot, then you need to
 convert `w` and `h` to a unit of `pt` (see the help page of `grid::unit`).
 
 
-``` r
+```r
 # pdf(..., width = w, height = h)
 Heatmap(mat, name = "mat", 
 	width = ncol(mat)*unit(5, "mm"), 
@@ -107,7 +107,7 @@ Heatmap(mat, name = "mat",
 
 <img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-5-1.png" width="284.929982382339" style="display: block; margin: auto;" />
 
-``` r
+```r
 # dev.off()
 ```
 
@@ -119,7 +119,7 @@ In the following `calc_ht_size()` function, since we don't need the first
 heatmap, we put it into a null device defined by `pdf(NULL)`.
 
 
-``` r
+```r
 calc_ht_size = function(ht, unit = "inch") {
 	pdf(NULL)
 	ht = draw(ht)
@@ -136,7 +136,7 @@ calc_ht_size = function(ht, unit = "inch") {
 Now we can try to use `calc_ht_size()`.
 
 
-``` r
+```r
 ht = Heatmap(mat, name = "mat", 
 		width = ncol(mat)*unit(5, "mm"), 
 		height = nrow(mat)*unit(5, "mm"))
@@ -150,21 +150,21 @@ size
 
 
 
-``` r
+```r
 # pdf(..., width = size[1], height = size[2])
 ht
 ```
 
 <img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-8-1.png" width="284.929982382339" style="display: block; margin: auto;" />
 
-``` r
+```r
 # dev.off()
 ```
 
 Similar for a smaller matrix:
 
 
-``` r
+```r
 mat2 = mat[1:5, 1:5]
 ht2 = Heatmap(mat2, name = "mat2", 
 		width = ncol(mat2)*unit(5, "mm"), 
@@ -179,14 +179,14 @@ size2
 
 
 
-``` r
+```r
 # pdf(..., width = size2[1], height = size2[2])
 ht2 # or draw(ht2)
 ```
 
 <img src="/lab-cn/post/2020-05-11-set-cell-width-height-in-the-heatmap_files/figure-html/unnamed-chunk-10-1.png" width="190.441793405961" style="display: block; margin: auto;" />
 
-``` r
+```r
 # dev.off()
 ```
 

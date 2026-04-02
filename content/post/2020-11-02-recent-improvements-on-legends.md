@@ -14,7 +14,7 @@ In this post, I will demonstrate several improvements on the legends in
 First I load the **ComplexHeatmap** package.
 
 
-``` r
+```r
 library(ComplexHeatmap)
 ```
 
@@ -23,7 +23,7 @@ library(ComplexHeatmap)
 Now it works with multi-line labels:
 
 
-``` r
+```r
 lgd = Legend(labels = c("aaaaa\naaaaa", "bbbbb\nbbbbb", "c", "d"),
     legend_gp = gpar(fill = 1:4))
 ```
@@ -35,7 +35,7 @@ When the multi-line legend labels are in different rows:
 
 
 
-``` r
+```r
 lgd = Legend(labels = c("aaaaa\naaaaa", "c", "d", "bbbbb\nbbbbb"),
     legend_gp = gpar(fill = 1:4), nrow = 2)
 ```
@@ -47,7 +47,7 @@ drawn in the legend. Check the following example:
 
 
 
-``` r
+```r
 lgd = Legend(labels = letters[1:4],
     graphics = list(
         function(x, y, w, h) grid.rect(x, y, w*0.33, h, gp = gpar(fill = "red")),
@@ -68,7 +68,7 @@ oncoPrint](https://jokergoo.github.io/ComplexHeatmap-reference/book/oncoprint.ht
 I first define a color mapping function by `circlize::colorRamp2()` function.
 
 
-``` r
+```r
 library(circlize)
 col_fun = colorRamp2(c(-2, 0, 2), c("green", "white", "red"))
 ```
@@ -76,7 +76,7 @@ col_fun = colorRamp2(c(-2, 0, 2), c("green", "white", "red"))
 By default the legend looks like:
 
 
-``` r
+```r
 lgd = Legend(col_fun = col_fun, title = "foo")
 ```
 
@@ -86,7 +86,7 @@ If `at` is set in the decreasing order, the legend is reversed, _i.e._ the small
 is on the top of the legend.
 
 
-``` r
+```r
 lgd = Legend(col_fun = col_fun, title = "foo", at = c(2, 1, 0, -1, -2))
 ```
 
@@ -106,7 +106,7 @@ Following is the default style of the legend where the breaks are selected from 
 with equal distance.
 
 
-``` r
+```r
 col_fun_prop = colorRamp2(c(0, 0.05, 0.1, 0.5, 1), 
 	c("green", "white", "red", "black", "blue"))
 lgd = Legend(col_fun = col_fun_prop, title = "Prop")
@@ -124,7 +124,7 @@ in the color bar is still proportional to the real difference in the break value
 the distance between 0.5 and 1 is five times longer than 0 and 0.1.
 
 
-``` r
+```r
 col_fun_prop = colorRamp2(c(0, 0.05, 0.1, 0.5, 1), 
 	c("green", "white", "red", "black", "blue"))
 lgd = Legend(col_fun = col_fun_prop, title = "Prop",
@@ -142,7 +142,7 @@ The value of `break_dist` should have length either one which means all break
 values have equal distance in the legend, or `length(at) - 1`.
 
 
-``` r
+```r
 lgd = Legend(col_fun = col_fun_prop, title = "Prop", break_dist = 1)
 ```
 
@@ -152,7 +152,7 @@ And in the following example, the top two break intervals are three times longer
 the bottom two intervals.
 
 
-``` r
+```r
 lgd = Legend(col_fun = col_fun_prop, title = "Prop", break_dist = c(1, 1, 3, 3))
 ```
 
@@ -162,7 +162,7 @@ If we increase the legend height by `legend_height` argument, there will be enou
 for the labels and their positions are not adjusted any more.
 
 
-``` r
+```r
 lgd = Legend(col_fun = col_fun_prop, title = "Prop", break_dist = c(1, 1, 3, 3),
 	legend_height = unit(4, "cm"))
 ```
@@ -177,7 +177,7 @@ the reason that we want to emphasize the two intervals are very different. The
 color mapping can be defined as:
 
 
-``` r
+```r
 col_fun2 = colorRamp2(c(0, 0.1, 0.1+1e-6, 1), c("white", "red", "yellow", "blue"))
 ```
 
@@ -185,7 +185,7 @@ So here I just added a tiny shift (`1e-6`) to 0.1 and set it as the lower bound 
 second color scheme. The legend looks like:
 
 
-``` r
+```r
 lgd = Legend(col_fun = col_fun2, title = "Prop", at = c(0, 0.05, 0.1, 0.5, 1),
 	break_dist = c(1, 1, 3, 3), legend_height = unit(4, "cm"))
 ```
@@ -209,7 +209,7 @@ Here I made a simplified version of [the measles vaccine heatmap](https://jokerg
 Check how I set the `heatmap_legend_param` argument.
 
 
-``` r
+```r
 mat = readRDS(system.file("extdata", "measles.rds", package = "ComplexHeatmap"))
 col_fun = colorRamp2(c(0, 800, 1000, 127000), c("white", "cornflowerblue", "yellow", "red"))
 Heatmap(mat, name = "cases", col = col_fun, rect_gp = gpar(col= "white"),
@@ -230,7 +230,7 @@ Heatmap(mat, name = "cases", col = col_fun, rect_gp = gpar(col= "white"),
 I can also adjust the legend to put it at the bottom of the heatmap.
 
 
-``` r
+```r
 ht = Heatmap(mat, name = "cases", col = col_fun, rect_gp = gpar(col= "white"),
     cluster_columns = FALSE, show_row_dend = FALSE, show_column_names = FALSE,
     row_names_side = "left", row_names_gp = gpar(fontsize = 8),

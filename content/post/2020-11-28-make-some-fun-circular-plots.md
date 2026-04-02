@@ -12,7 +12,7 @@ and the other is in the circular-transformed coordinate system.
 
 
 
-``` r
+```r
 library(circlize)
 
 par(mar = c(1, 1, 1, 1))
@@ -41,7 +41,7 @@ circos.track(ylim = c(0, 1), track.height = 0.7, bg.border = NA,
 
 
 
-``` r
+```r
 par(mar = c(1, 1, 1, 1))
 layout(cbind(1:2), heights = c(1, 2))
 
@@ -71,7 +71,7 @@ circos.track(ylim = c(0, 1), track.height = 0.7, bg.border = NA,
 
 
 
-``` r
+```r
 par(mar = c(1, 1, 1, 1))
 layout(cbind(1:2), heights = c(1, 2))
 
@@ -105,7 +105,7 @@ circos.track(ylim = c(0, 1), track.height = 0.7, bg.border = NA,
 
 
 
-``` r
+```r
 par(mar = c(1, 1, 1, 1))
 layout(cbind(1:2), heights = c(1, 2))
 

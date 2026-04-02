@@ -24,7 +24,7 @@ In the following example code, since `mousestop` does not support a function wit
 
 
 
-``` r
+```r
 library(circlize)
 library(GetoptLong)
 library(grid)

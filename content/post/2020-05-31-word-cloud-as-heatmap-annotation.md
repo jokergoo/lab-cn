@@ -27,7 +27,7 @@ the following command:
 
 
 
-``` r
+```r
 source("https://gist.githubusercontent.com/jokergoo/bfb115200df256eeacb7af302d4e508e/raw/14f315c7418f3458d932ad749850fd515dec413b/word_cloud_grob.R")
 ```
 
@@ -53,7 +53,7 @@ To demonstrate `word_cloud_grob()` function, I randomly generate a vector of
 words and their font sizes.
 
 
-``` r
+```r
 set.seed(123)
 words = sapply(1:30, function(x) strrep(sample(letters, 1), sample(3:10, 1)))
 fontsize = runif(30, min = 5, max = 30)
@@ -64,7 +64,7 @@ The words and the corresponding font sizes should be specified as in following c
 
 
 
-``` r
+```r
 library(grid)
 gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"))
 grid.newpage()
@@ -90,7 +90,7 @@ gets higher.
 
 
 
-``` r
+```r
 gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(60, "mm"))
 grid.newpage()
 grid.draw(gb)
@@ -105,7 +105,7 @@ be set as a vector with the same length as the words.
 
 
 
-``` r
+```r
 # color as a vector
 gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"), col = 1:30)
 grid.newpage(); grid.draw(gb)
@@ -122,7 +122,7 @@ returns the corresponding colors.
 
 
 
-``` r
+```r
 # color as a function
 library(circlize)
 col_fun = colorRamp2(c(5, 17, 30), c("blue", "black", "red"))
@@ -147,7 +147,7 @@ grob and calcualte their height and width.
 
 
 
-``` r
+```r
 gb = word_cloud_grob(words, fontsize = fontsize, max_width = unit(100, "mm"))
 gb_h = grobHeight(gb)
 gb_w = grobWidth(gb)
@@ -157,7 +157,7 @@ I generate a random heatmap with 10 rows and 10 columns without row clustering,
 so that I can correspond the word cloud to the first three rows in the heatmap.
 
 
-``` r
+```r
 library(ComplexHeatmap)
 m = matrix(rnorm(100), 10)
 ht = Heatmap(m, cluster_rows = FALSE)
@@ -168,7 +168,7 @@ case here, I simply draw the word cloud by `grid.draw(gb)`. I additionally
 draw the background of the word cloud in light grey.
 
 
-``` r
+```r
 panel_fun = function(index, nm) {
 	grid.rect(gp = gpar(fill = "#EEEEEE", col = NA))
 	grid.draw(gb)
@@ -179,7 +179,7 @@ panel_fun = function(index, nm) {
 "linking line" same as the background of the word cloud.
 
 
-``` r
+```r
 ht + rowAnnotation(word_cloud = anno_link(align_to = 1:3, which = "row", 
 		panel_fun = panel_fun, size = gb_h, 
 		width = gb_w + unit(5, "mm"), # the link is 5mm
@@ -199,7 +199,7 @@ In this section, I reproduce the plot generated from **simplifyEnrichment** pack
 First I load some data objects:
 
 
-``` r
+```r
 tmp_file = tempfile()
 download.file("https://jokergoo.github.io/word_cloud_annotation_example.RData", 
 	destfile = tmp_file, quiet = TRUE)
@@ -217,7 +217,7 @@ There are following three objects:
 The data structure or the values of the three objects are as follows:
 
 
-``` r
+```r
 mat[1:6, 1:6]
 ```
 
@@ -231,7 +231,7 @@ mat[1:6, 1:6]
 ## GO:0045060 0.01450020  0.0000000 0.01349981 0.00000000 0.01262854 1.00000000
 ```
 
-``` r
+```r
 cl
 ```
 
@@ -259,7 +259,7 @@ cl
 ## Levels: 1 3 5 2 6 4 13 15 16 11 0
 ```
 
-``` r
+```r
 keywords
 ```
 
@@ -389,7 +389,7 @@ I first define the similarity heatmap. The settings can be very
 straightforwardly understood from the argument names.
 
 
-``` r
+```r
 ht = Heatmap(mat, col = colorRamp2(c(0, 1), c("white", "red")),
 	name = "Similarity",
 	show_row_names = FALSE, show_column_names = FALSE,
@@ -404,7 +404,7 @@ split by `cl`, the "alignment variable" is defined as follows. The GO cluster
 with label "0" is removed.
 
 
-``` r
+```r
 align_to = split(seq_len(nrow(mat)), cl)
 align_to = align_to[names(align_to) != "0"]
 align_to = align_to[names(align_to) %in% names(keywords)]
@@ -467,7 +467,7 @@ Next I construct a list of word cloud grob. Note I use `scale_fontsize()` to
 map word frequency to font size.
 
 
-``` r
+```r
 fontsize_range = c(4, 16)
 gbl = lapply(names(align_to), function(nm) {
 	kw = keywords[[nm]][, 1]
@@ -518,7 +518,7 @@ added with 8pt as margins.
 
 
 
-``` r
+```r
 margin = unit(8, "pt")
 gbl_h = lapply(gbl, function(x) convertHeight(grobHeight(x), "cm") + margin)
 gbl_h = do.call(unit.c, gbl_h)
@@ -535,7 +535,7 @@ right and top border of the viewport.
 
 
 
-``` r
+```r
 panel_fun = function(index, nm) {
 	# background
 	grid.rect(gp = gpar(fill = "#DDDDDD", col = NA))
@@ -555,7 +555,7 @@ panel_fun = function(index, nm) {
 And the final heatmap with the word cloud annotations are as follows. 
 
 
-``` r
+```r
 ht = ht + rowAnnotation(keywords = anno_link(align_to = align_to, 
 	which = "row", panel_fun = panel_fun, 
 	size = gbl_h, gap = unit(2, "mm"), 

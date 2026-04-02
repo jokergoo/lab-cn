@@ -13,7 +13,7 @@ In the following heatmaps, I use a random 10x10 matrix generated as
 follows:
 
 
-``` r
+```r
 library(ComplexHeatmap)
 set.seed(123)
 m = matrix(rnorm(100), 10)
@@ -33,7 +33,7 @@ will make the plot look very strange. In the next code, I add long column
 names to the matrix.
 
 
-``` r
+```r
 colnames(m) = strrep(letters[1:10], 20)
 ```
 
@@ -54,7 +54,7 @@ the `draw()` function. There are three possible values:
 An example code of setting e.g. `align_heatmap_legend` is:
 
 
-``` r
+```r
 ht = Heatmap(m, ...)
 draw(ht, align_heatmap_legend = "heatmap_center", ...)
 ```
@@ -80,7 +80,7 @@ two legends is still smaller than the height of the heatmap body, thus, as we ca
 from the plot, the legends are centered to the center of the heatmap body.
 
 
-``` r
+```r
 Heatmap(m, name = "mat1") + 
 	Heatmap(m, name = "mat2")
 ```
@@ -91,7 +91,7 @@ Next we add a third heatmap. Now the legends are higher than the
 heatmap body. Thus they are aligned to the top of the heatmap body.
 
 
-``` r
+```r
 Heatmap(m, name = "mat1") + 
 	Heatmap(m, name = "mat2") + 
 	Heatmap(m, name = "mat3")
@@ -103,7 +103,7 @@ When there are four legends, their height is larger than the height of the heatm
 and plus column names, so the mode is set to `"global_center"`.
 
 
-``` r
+```r
 Heatmap(m, name = "mat1") + 
 	Heatmap(m, name = "mat2") + 
 	Heatmap(m, name = "mat3") + 
@@ -116,7 +116,7 @@ When there are five legends, since the height of the legends now exceeds the hei
 now they are wrapped into two columns.
 
 
-``` r
+```r
 Heatmap(m, name = "mat1") + 
 	Heatmap(m, name = "mat2") + 
 	Heatmap(m, name = "mat3") + 
@@ -130,7 +130,7 @@ Similarly, for ten legends, they are wrapped into three columns, so all the lege
 and visible in the plot.
 
 
-``` r
+```r
 Heatmap(m, name = "mat1") + Heatmap(m, name = "mat2") + 
 	Heatmap(m, name = "mat3") + Heatmap(m, name = "mat4") + 
 	Heatmap(m, name = "mat5") + Heatmap(m, name = "mat6") + 
@@ -143,7 +143,7 @@ Heatmap(m, name = "mat1") + Heatmap(m, name = "mat2") +
 Let's try also with the annotation legends.
 
 
-``` r
+```r
 ha = HeatmapAnnotation(foo1 = 1:10)
 Heatmap(m, name = "mat", top_annotation = ha)
 ```
@@ -151,7 +151,7 @@ Heatmap(m, name = "mat", top_annotation = ha)
 <img src="/lab-cn/post/2020-06-29-align-heatmap-legends_files/figure-html/unnamed-chunk-13-1.png" width="288" style="display: block; margin: auto;" />
 
 
-``` r
+```r
 ha = HeatmapAnnotation(foo1 = 1:10, foo2 = 1:10)
 Heatmap(m, name = "mat", top_annotation = ha)
 ```
@@ -162,7 +162,7 @@ Currently, there is a limit for this new functionality that the legends might
 overlap to the annotaiton labels if they are on the same side of the heatmap.
 
 
-``` r
+```r
 ha = HeatmapAnnotation(foo1 = 1:10, foo2 = 1:10, foo3 = 1:10)
 Heatmap(m, name = "mat", top_annotation = ha)
 ```
@@ -172,7 +172,7 @@ Heatmap(m, name = "mat", top_annotation = ha)
 One solution is to move the annotation labels to the other side.
 
 
-``` r
+```r
 ha = HeatmapAnnotation(foo1 = 1:10, foo2 = 1:10, foo3 = 1:10, 
 	annotation_name_side = "left")
 Heatmap(m, name = "mat", top_annotation = ha)

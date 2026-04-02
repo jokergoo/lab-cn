@@ -19,7 +19,7 @@ are many ways to obtain this information. In following, I use
 `circlize::read.chromInfo()` function.
 
 
-``` r
+```r
 library(circlize)
 library(GenomicRanges)
 chr_df = read.chromInfo()$df
@@ -54,7 +54,7 @@ window, thus we need to split the genome with equal-width windows. Here I use
 (The two meta-columns in `chr_window` can be ignored here).
 
 
-``` r
+```r
 library(EnrichedHeatmap)
 chr_window = makeWindows(chr_gr, w = 1e6)
 chr_window
@@ -87,7 +87,7 @@ package](https://bioconductor.org/packages/HilbertCurve/) since there is
 similar task there. 
 
 
-``` r
+```r
 average_in_window = function(window, gr, v, method = "weighted", empty_v = NA) {
 
 	if(missing(v)) v = rep(1, length(gr))
@@ -219,7 +219,7 @@ the original regions.
 
    $$ v_{w0} = \frac{v_wW}{W+W'} $$
 
-   `\(W\)` is sum of width of the intersected parts (`\(\sum_i^n{w_i}\)`) and `\(W'\)` is the
+   `\(W\)` is sum of width of the intersected parts ($\sum_i^n{w_i}$) and `\(W'\)` is the
    sum of width for the non-intersected parts.
 
 2. **If the signals are as a character vector,** denote all levels encoded in `\(x_i\)`
@@ -249,7 +249,7 @@ approximately 1000 random genomic regions with 10 columns of random values (to
 simulate 10 samples).
 
 
-``` r
+```r
 bed1 = generateRandomBed(nr = 1000, nc = 10) # generateRandomBed() is from circlize package
 # convert to a GRanes object
 gr1 = GRanges(seqnames = bed1[, 1], ranges = IRanges(bed1[, 2], bed1[, 3]))
@@ -262,25 +262,25 @@ dim(num_mat)
 ## [1] 2875   10
 ```
 
-``` r
+```r
 head(num_mat)
 ```
 
 ```
-##          [,1]    [,2]   [,3]     [,4]    [,5]    [,6]    [,7]    [,8]   [,9]
-## [1,] -0.09896 -0.4766 0.3475  0.42086  0.1057 0.09644 -0.4471 -0.3294 0.6612
-## [2,] -0.09896 -0.4766 0.3475  0.42086  0.1057 0.09644 -0.4471 -0.3294 0.6612
-## [3,] -0.09896 -0.4766 0.3475  0.42086  0.1057 0.09644 -0.4471 -0.3294 0.6612
-## [4,]       NA      NA     NA       NA      NA      NA      NA      NA     NA
-## [5,]  0.98833 -1.1885 0.4948 -0.02239 -0.8126 0.08107  0.1432 -0.7425 0.4184
-## [6,]  0.98833 -1.1885 0.4948 -0.02239 -0.8126 0.08107  0.1432 -0.7425 0.4184
-##         [,10]
-## [1,]  0.00805
-## [2,]  0.00805
-## [3,]  0.00805
-## [4,]       NA
-## [5,] -1.14188
-## [6,] -1.14188
+##         [,1]   [,2]     [,3]    [,4]    [,5]    [,6]    [,7]   [,8]    [,9]
+## [1,]      NA     NA       NA      NA      NA      NA      NA     NA      NA
+## [2,]      NA     NA       NA      NA      NA      NA      NA     NA      NA
+## [3,] -0.3657 -0.258 -0.01891 -0.4764 -0.4511 -0.1334 -0.0736 0.5657 -0.1757
+## [4,] -0.3657 -0.258 -0.01891 -0.4764 -0.4511 -0.1334 -0.0736 0.5657 -0.1757
+## [5,]      NA     NA       NA      NA      NA      NA      NA     NA      NA
+## [6,]      NA     NA       NA      NA      NA      NA      NA     NA      NA
+##        [,10]
+## [1,]      NA
+## [2,]      NA
+## [3,] -0.5606
+## [4,] -0.5606
+## [5,]      NA
+## [6,]      NA
 ```
 
 The first five genomic windows have no value associated because no region in
@@ -294,7 +294,7 @@ In each random regions, I additionally sample 20 from them, just to make them
 sparse in the genome.
 
 
-``` r
+```r
 bed_list = lapply(1:10, function(i) {
 	generateRandomBed(nr = 1000, nc = 1, 
 		fun = function(n) sample(c("gain", "loss"), n, replace = TRUE))
@@ -313,7 +313,7 @@ The third data to visualize is simply genomic regions with two numeric columns w
 will be visualized as a point track and the first column will be visualized as a barplot track.
 
 
-``` r
+```r
 bed2 = generateRandomBed(nr = 100, nc = 2)
 gr2 = GRanges(seqnames = bed2[, 1], ranges = IRanges(bed2[, 2], bed2[, 3]))
 
@@ -328,7 +328,7 @@ following code, I simply use `findOverlaps()` to associate gene regions to
 genomic windows.
 
 
-``` r
+```r
 bed3 = generateRandomBed(nr = 40, nc = 0)
 gr3 = GRanges(seqnames = bed3[, 1], ranges = IRanges(bed3[, 2], bed3[, 2]))
 gr3$gene = paste0("gene_", 1:length(gr3))
@@ -344,7 +344,7 @@ in the final plot and I create a variable `subgroup` to simulate the 10 columns 
 for two subgroups.
 
 
-``` r
+```r
 chr = as.vector(seqnames(chr_window))
 chr_level = paste0("chr", 1:22)
 chr = factor(chr, levels = chr_level)
@@ -358,7 +358,7 @@ of arguments. If you have been using **ComplexHeatmap** for more than a week, I 
 you've already get used to it :).
 
 
-``` r
+```r
 library(ComplexHeatmap)
 ht_opt$TITLE_PADDING = unit(c(4, 4), "points")
 ht_list = Heatmap(num_mat, name = "mat", col = colorRamp2(c(-1, 0, 1), c("green", "white", "red")),
@@ -390,7 +390,7 @@ overlap for small chromosomes, I simply add `\n` before or after for the neighbo
 (see how I set `column_title` argument in the first heatmap).
 
 
-``` r
+```r
 ht_list = Heatmap(t(num_mat), name = "mat", col = colorRamp2(c(-1, 0, 1), c("green", "white", "red")),
 	column_split = chr, cluster_columns = FALSE, show_row_dend = FALSE,
 	row_split = subgroup, cluster_row_slices = FALSE,

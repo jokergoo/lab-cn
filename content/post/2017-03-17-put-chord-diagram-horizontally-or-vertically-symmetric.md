@@ -20,7 +20,7 @@ I will show how to calculate such kind of "rotated degree value".
 First let's  create some random data.
 
 
-``` r
+```r
 set.seed(123)
 mat = matrix(rnorm(30), nrow = 10, dimnames = list(letters[1:10], LETTERS[1:3]))
 nr = nrow(mat)
@@ -32,7 +32,7 @@ In the Chord diagram, the total width of row sectors corresponds to the sum of r
 with absolute values and so is for the column sectors.
 
 
-``` r
+```r
 row_sum = sum(rowSums(abs(mat)))
 col_sum = sum(colSums(abs(mat)))
 ```
@@ -40,7 +40,7 @@ col_sum = sum(colSums(abs(mat)))
 Small gaps between sectors are set to 1 degree and big gaps between row and column sectors are set to 20 degree.
 
 
-``` r
+```r
 small_gap = 1
 big_gap = 20
 ```
@@ -50,7 +50,7 @@ sectors are proportional to the row sums and/or column sums of the matrix, it is
 degrees are hold by the row sectors:
 
 
-``` r
+```r
 row_sector_degree = (360 - small_gap*(n_sector - 2) - big_gap*2) * (row_sum/(row_sum + col_sum)) + 
                     small_gap*(nr-1)
 ```
@@ -59,7 +59,7 @@ If the row sectors are put in the right of the circle, we can calculate the "sta
 Note `chordDiagram()` always draw row sectors first and by default the circle goes clockwisely.
 
 
-``` r
+```r
 start_degree = 90 - (180 - row_sector_degree)/2
 ```
 
@@ -67,7 +67,7 @@ Note there are small gaps and big gaps between sectors, the `gap.degree` in `cir
 as a vector. I also added a vertical line which assists to see the symmetry.
 
 
-``` r
+```r
 gaps = c(rep(small_gap, nrow(mat) - 1), big_gap, rep(small_gap, ncol(mat) - 1), big_gap)
 circos.par(gap.degree = gaps, start.degree = start_degree)
 grid_col = structure(rand_color(n_sector), names = c(rownames(mat), colnames(mat)))
@@ -81,7 +81,7 @@ abline(v = 0, lty = 2, col = "#00000080")
 Similar we can adjust the "start degree" to let the circle looks horizonal.
 
 
-``` r
+```r
 start_degree = 0 - (180 - row_sector_degree)/2
 gaps = c(rep(small_gap, nrow(mat) - 1), big_gap, rep(small_gap, ncol(mat) - 1), big_gap)
 circos.par(gap.degree = gaps, start.degree = start_degree)

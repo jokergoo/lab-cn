@@ -9,7 +9,7 @@ author: Zuguang Gu
 For the following heatmap symmetric to the diagonal, users might only want to draw the lower or upper triangle heatmap.
 
 
-``` r
+```r
 library(ComplexHeatmap)
 m = cor(matrix(rnorm(100), 10))
 Heatmap(m)
@@ -22,7 +22,7 @@ here since the heatmap rows and columns are already reordered by clusering, we n
 before sending to heatmap, and in the heatmap, no reordering should be applied.
 
 
-``` r
+```r
 od =  hclust(dist(m))$order
 m2 = m[od, od]
 
@@ -47,7 +47,7 @@ They need to be converted to numbers by `as.numeric()` for comparisons.
 
 
 
-``` r
+```r
 Heatmap(m, rect_gp = gpar(type = "none"), column_dend_side = "bottom",
     cell_fun = function(j, i, x, y, w, h, fill) {
         if(as.numeric(x) <= 1 - as.numeric(y)) {
@@ -63,7 +63,7 @@ This is because we are comparing two floating numbers. The solution is to add a 
 offset on the right side of the comparison:
 
 
-``` r
+```r
 Heatmap(m, rect_gp = gpar(type = "none"), column_dend_side = "bottom",
     cell_fun = function(j, i, x, y, w, h, fill) {
         if(as.numeric(x) <= 1 - as.numeric(y) + 1e-6) {
@@ -78,7 +78,7 @@ The next question is how to combine a upper triangle heatmap and a lower triangl
 
 
 
-``` r
+```r
 library(circlize)
 col1 = colorRamp2(c(-1, 0, 1), c("green", "black", "red"))
 col2 = colorRamp2(c(-1, 0, 1), c("purple", "white", "orange"))

@@ -18,7 +18,7 @@ the usage of the new `circos.heatmap()` function.
 First let's generate a random matrix and randomly split it into five groups.
 
 
-``` r
+```r
 set.seed(123)
 mat1 = rbind(cbind(matrix(rnorm(50*5, mean = 1), nr = 50), 
                    matrix(rnorm(50*5, mean = -1), nr = 50)),
@@ -35,7 +35,7 @@ split = factor(split, levels = letters[1:5])
 Following plot is the normal layout of the heatmap (by [the **ComplexHeatmap** package](https://bioconductor.org/packages/release/bioc/html/ComplexHeatmap.html)).
 
 
-``` r
+```r
 library(ComplexHeatmap)
 Heatmap(mat1, row_split = split)
 ```
@@ -65,7 +65,7 @@ distribute in the radical direction. In following plot, the circle is split
 into five sectors where each sector corresponds to one row group.
 
 
-``` r
+```r
 library(circlize) # >= 0.4.10
 col_fun1 = colorRamp2(c(-2, 0, 2), c("blue", "white", "red"))
 circos.heatmap(mat1, split = split, col = col_fun1)
@@ -73,7 +73,7 @@ circos.heatmap(mat1, split = split, col = col_fun1)
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -85,13 +85,13 @@ If `split` is not specified, there is only one big sector that contains
 the complete heatmap.
 
 
-``` r
+```r
 circos.heatmap(mat1, col = col_fun1)
 ```
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -109,7 +109,7 @@ In the following example, The labels for the sectors are added by setting the
 from `\(\theta = 90^{\circ}\)`.
 
 
-``` r
+```r
 circos.par(start.degree = 90, gap.degree = 10)
 circos.heatmap(mat1, split = split, col = col_fun1, track.height = 0.4, 
 	bg.border = "green", bg.lwd = 2, bg.lty = 2, show.sector.labels = TRUE)
@@ -117,7 +117,7 @@ circos.heatmap(mat1, split = split, col = col_fun1, track.height = 0.4,
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -126,7 +126,7 @@ controls the order of heatmaps. If `split` is a simple vector, the order of
 heatmaps is `unique(split)`.
 
 
-``` r
+```r
 # note since circos.clear() was called in the previous plot,
 # now the layout starts from theta = 0 (the first sector is 'e')
 circos.heatmap(mat1, split = factor(split, levels = c("e", "d", "c", "b", "a")), 
@@ -135,7 +135,7 @@ circos.heatmap(mat1, split = factor(split, levels = c("e", "d", "c", "b", "a")),
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-7-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -147,7 +147,7 @@ position of dendrograms relative to the heatmap track. Note, the dendrograms
 are on a separated track.
 
 
-``` r
+```r
 circos.heatmap(mat1, split = split, col = col_fun1, dend.side = "inside")
 circos.clear()
 circos.heatmap(mat1, split = split, col = col_fun1, dend.side = "outside")
@@ -162,7 +162,7 @@ Row names of the matrix can be drawn by setting `rownames.side` argument.
 Row names are also drawn in a separated track.
 
 
-``` r
+```r
 circos.heatmap(mat1, split = split, col = col_fun1, rownames.side = "inside")
 circos.clear()
 text(0, 0, 'rownames.side = "inside"')
@@ -177,7 +177,7 @@ Row names of the matrix and the dendrograms can be both drawn. Of course, they
 cannot be on the same side of the heatmap track.
 
 
-``` r
+```r
 circos.heatmap(mat1, split = split, col = col_fun1, dend.side = "inside", 
 	rownames.side = "outside")
 circos.clear()
@@ -192,7 +192,7 @@ Graphic parameters for row names can be set as a scalar or a vector with the
 length same as the number of rows in the matrix.
 
 
-``` r
+```r
 circos.heatmap(mat1, split = split, col = col_fun1, rownames.side = "outside",
 	rownames.col = 1:nrow(mat1) %% 10 + 1,
 	rownames.cex = runif(nrow(mat1), min = 0.3, max = 2),
@@ -201,7 +201,7 @@ circos.heatmap(mat1, split = split, col = col_fun1, rownames.side = "outside",
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-14-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -217,7 +217,7 @@ Of cource, when `cluster` is set to `FALSE`, no dendrogram is drawn even
 if `dend.side` is set.
 
 
-``` r
+```r
 circos.heatmap(mat1, split = split, cluster = FALSE, col = col_fun1)
 circos.clear()
 ```
@@ -232,7 +232,7 @@ matrix columns.** You should apply column reordering before send to
 `circos.heatmap()`, _e.g._,
 
 
-``` r
+```r
 column_od = hclust(dist(t(mat1)))$order
 circos.heatmap(mat1[, column_od])
 circos.clear()
@@ -244,7 +244,7 @@ the value for `split` argument can only be a single number.
 
 
 
-``` r
+```r
 par(mfrow = c(1, 2))
 hc = hclust(dist(mat1), method = "single")
 circos.heatmap(mat1, cluster = hc, col = col_fun1, dend.side = "inside")
@@ -255,7 +255,7 @@ circos.heatmap(mat1, cluster = hc, split = 2, col = col_fun1, dend.side = "insid
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 par(mfrow = c(1, 1))
 ```
@@ -280,14 +280,14 @@ The default callback function is defined as follows and it reorders the dendrogr
 by weighting the matrix row means.
 
 
-``` r
+```r
 function(dend, m, si) reorder(dend, rowMeans(m))
 ```
 
 Following example reorders the dendrograms in every sector by `dendsort::dendsort()`.
 
 
-``` r
+```r
 library(dendsort)
 circos.heatmap(mat1, split = split, col = col_fun1, dend.side = "inside",
 	dend.callback = function(dend, m, si) {
@@ -305,7 +305,7 @@ the five sectors. Here the height of the dendrogram track is increased
 by the `dend.track.height` argument.
 
 
-``` r
+```r
 library(dendextend)
 dend_col = structure(1:5, names = letters[1:5])
 circos.heatmap(mat1, split = split, col = col_fun1, dend.side = "inside",
@@ -319,7 +319,7 @@ circos.heatmap(mat1, split = split, col = col_fun1, dend.side = "inside",
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -327,7 +327,7 @@ Or if the matrix is not split, we can assign the sub-dendrograms with
 different colors.
 
 
-``` r
+```r
 circos.heatmap(mat1, col = col_fun1, dend.side = "inside",
 	dend.track.height = 0.2,
 	dend.callback = function(dend, m, si) {
@@ -338,7 +338,7 @@ circos.heatmap(mat1, col = col_fun1, dend.side = "inside",
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-23-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -366,7 +366,7 @@ If clustering is not applied in the first heatmap track, the natural ordering
 of rows (_i.e._, `c(1, 2, ..., n)`) is used.
 
 
-``` r
+```r
 mat2 = mat1[sample(100, 100), ] # randomly permute mat1 by rows
 col_fun2 = colorRamp2(c(-2, 0, 2), c("green", "white", "red"))
 
@@ -376,7 +376,7 @@ circos.heatmap(mat2, col = col_fun2)
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-24-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -384,14 +384,14 @@ If I switch the two tracks, you can see now the clustering is controlled by
 the first heatmap track which is the green-red heatmap track.
 
 
-``` r
+```r
 circos.heatmap(mat2, split = split, col = col_fun2, dend.side = "outside")
 circos.heatmap(mat1, col = col_fun1)
 ```
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-25-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -412,7 +412,7 @@ track and actually you can find the dendrograms are actually generatd based
 on the matrix in the second track.
 
 
-``` r
+```r
 circos.heatmap.initialize(mat1, split = split)
 circos.heatmap(mat2, col = col_fun2, dend.side = "outside")
 circos.heatmap(mat1, col = col_fun1)
@@ -420,7 +420,7 @@ circos.heatmap(mat1, col = col_fun1)
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-26-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -428,7 +428,7 @@ In the next example, the heatmap layout is generated from `mat1`, while
 the two heatmap tracks only contain five columns for each.
 
 
-``` r
+```r
 circos.heatmap.initialize(mat1, split = split)
 circos.heatmap(mat1[, 1:5], col = col_fun1)
 circos.heatmap(mat1[, 6:10], col = col_fun1)
@@ -436,7 +436,7 @@ circos.heatmap(mat1[, 6:10], col = col_fun1)
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-27-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -484,7 +484,7 @@ that the maximal and minimal points won't overlap with the top and bottom
 borders of the cells.
 
 
-``` r
+```r
 circos.heatmap(mat1, split = split, col = col_fun1)
 row_mean = rowMeans(mat1[, 1:5])
 circos.track(ylim = range(row_mean), panel.fun = function(x, y) {
@@ -497,7 +497,7 @@ circos.track(ylim = range(row_mean), panel.fun = function(x, y) {
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-28-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -505,7 +505,7 @@ Similarly, if the points track is put as the first track, the layout should be i
 in advance.
 
 
-``` r
+```r
 circos.heatmap.initialize(mat1, split = split)
 # This is the same as the previous example
 circos.track(ylim = range(row_mean), panel.fun = function(x, y) {
@@ -519,14 +519,14 @@ circos.heatmap(mat1, col = col_fun1) # no need to specify 'split' here
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-29-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
 Boxplots are very frequently used to correspond to the matrix rows.
 
 
-``` r
+```r
 circos.heatmap(mat1, split = split, col = col_fun1)
 circos.track(ylim = range(mat1), panel.fun = function(x, y) {
     m = mat1[CELL_META$subset, 1:5, drop = FALSE]
@@ -540,7 +540,7 @@ circos.track(ylim = range(mat1), panel.fun = function(x, y) {
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-30-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -557,7 +557,7 @@ Here I set `track.index = get.current.track.index()` to make sure the labels
 are always added in the correct track.
 
 
-``` r
+```r
 circos.heatmap(mat1, split = split, col = col_fun1)
 circos.track(track.index = get.current.track.index(), panel.fun = function(x, y) {
 	circos.text(CELL_META$xcenter, CELL_META$cell.ylim[2] + convert_y(2, "mm"), 
@@ -569,7 +569,7 @@ circos.track(track.index = get.current.track.index(), panel.fun = function(x, y)
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-31-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -583,7 +583,7 @@ the last sector in `panel.fun`.
 **Note the first column in the original matrix is put on the most outside circle of the circular heatmap.**
 
 
-``` r
+```r
 circos.par(gap.after = c(2, 2, 2, 2, 10))
 circos.heatmap(mat1, split = split, col = col_fun1, track.height = 0.4)
 circos.track(track.index = get.current.track.index(), panel.fun = function(x, y) {
@@ -599,7 +599,7 @@ circos.track(track.index = get.current.track.index(), panel.fun = function(x, y)
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-32-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -609,7 +609,7 @@ rectangles and texts. `convert_x()` converts a unit on the x-direction to a
 proper value measured in tbe circular coordinate system.
 
 
-``` r
+```r
 circos.par(gap.after = c(2, 2, 2, 2, 10))
 circos.heatmap(mat1, split = split, col = col_fun1, track.height = 0.4)
 circos.track(track.index = get.current.track.index(), panel.fun = function(x, y) {
@@ -631,7 +631,7 @@ circos.track(track.index = get.current.track.index(), panel.fun = function(x, y)
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-33-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -643,7 +643,7 @@ Following is a simple example of adding a legend. In the next section, you can
 find a more complex example of adding many legends.
 
 
-``` r
+```r
 circos.heatmap(mat1, split = split, col = col_fun1)
 circos.clear()
 
@@ -672,7 +672,7 @@ them is available at https://gist.github.com/jokergoo/0ea5639ee25a7edae3871ed825
 Here I just directly source the script from Gist.
 
 
-``` r
+```r
 source("https://gist.githubusercontent.com/jokergoo/0ea5639ee25a7edae3871ed8252924a1/raw/57ca9426c2ed0cebcffd79db27a024033e5b8d52/random_matrices.R")
 ```
 
@@ -681,7 +681,7 @@ by applying _k_-means clustering on rows of the methylation matrix
 (`mat_meth`).
 
 
-``` r
+```r
 set.seed(123)
 km = kmeans(mat_meth, centers = 5)$cluster
 ```
@@ -712,7 +712,7 @@ In the following code, I specify `split` in the first call of `circos.heatmap()`
 is the methylation heatmap. The track heights are manually adjusted.
 
 
-``` r
+```r
 col_meth = colorRamp2(c(0, 0.5, 1), c("blue", "white", "red"))
 circos.heatmap(mat_meth, split = km, col = col_meth, track.height = 0.12)
 
@@ -741,7 +741,7 @@ circos.heatmap(anno_enhancer, col = col_enhancer, track.height = 0.03)
 
 <img src="/lab-cn/post/2020-05-21-make-circular-heatmaps_files/figure-html/unnamed-chunk-37-1.png" width="576" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -756,7 +756,7 @@ to the j<sup>th</sup> DMR.
 
 
 
-``` r
+```r
 df_link = data.frame(
 	from_index = sample(nrow(mat_meth), 20),
 	to_index = sample(nrow(mat_meth), 20)
@@ -769,7 +769,7 @@ Check the comments in the following code. Note here the `subset` and
 by explicitly specifying the sector index.
 
 
-``` r
+```r
 for(i in seq_len(nrow(df_link))) {
 	# Let's call the DMR with index df_link$from_index[i] as DMR1,
 	# and the other one with index df_link$to_index[i] as DMR2.
@@ -803,7 +803,7 @@ wraps the code above. Now drawing links between matrix rows is simpler:
 
 
 
-``` r
+```r
 for(i in seq_len(nrow(df_link))) {
 	circos.heatmap.link(df_link$from_index[i],
 		                df_link$to_index[i],
@@ -827,7 +827,7 @@ The function that draws the circular plot is simply a wrapper of the previous
 code without any modification.
 
 
-``` r
+```r
 circlize_plot = function() {
 	circos.heatmap(mat_meth, split = km, col = col_meth, track.height = 0.12)
 	circos.heatmap(direction, col = col_direction, track.height = 0.01)
@@ -853,7 +853,7 @@ the labels on the legends (see how `lgd_pvalue`, `lgd_dist` and `lgd_enhancer` a
 defined).
 
 
-``` r
+```r
 lgd_meth = Legend(title = "Methylation", col_fun = col_meth)
 lgd_direction = Legend(title = "Direction", at = names(col_direction), 
 	legend_gp = gpar(fill = col_direction))
@@ -878,7 +878,7 @@ as a template for your plot if you want to try.
 And, BINGO! Wie schön!!
 
 
-``` r
+```r
 library(gridBase)
 plot.new()
 circle_size = unit(1, "snpc") # snpc unit gives you a square region
@@ -900,23 +900,23 @@ draw(lgd_list, x = circle_size, just = "left")
 ### Session info
 
 
-``` r
+```r
 sessionInfo()
 ```
 
 ```
-## R version 4.4.2 (2024-10-31)
-## Platform: aarch64-apple-darwin20
-## Running under: macOS 26.0.1
+## R version 4.3.3 (2024-02-29)
+## Platform: x86_64-apple-darwin20 (64-bit)
+## Running under: macOS 26.3.1
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 ## 
 ## locale:
-## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
 ## 
-## time zone: Europe/Berlin
+## time zone: Asia/Shanghai
 ## tzcode source: internal
 ## 
 ## attached base packages:
@@ -924,30 +924,31 @@ sessionInfo()
 ## [8] base     
 ## 
 ## other attached packages:
-## [1] gridBase_0.4-7        RColorBrewer_1.1-3    dendextend_1.19.0    
-## [4] dendsort_0.3.4        circlize_0.4.16       ComplexHeatmap_2.25.2
-## [7] knitr_1.50            colorout_1.3-2       
+## [1] gridBase_0.4-7        RColorBrewer_1.1-3    dendextend_1.17.1    
+## [4] dendsort_0.3.4        circlize_0.4.16       ComplexHeatmap_2.23.1
+## [7] knitr_1.45           
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] viridis_0.6.5       generics_0.1.3      sass_0.4.9         
-##  [4] shape_1.4.6.1       blogdown_1.19       digest_0.6.37      
-##  [7] magrittr_2.0.3      evaluate_1.0.3      bookdown_0.44      
-## [10] iterators_1.0.14    fastmap_1.2.0       foreach_1.5.2      
-## [13] doParallel_1.0.17   jsonlite_1.9.0      GlobalOptions_0.1.2
-## [16] gridExtra_2.3       viridisLite_0.4.2   scales_1.3.0       
-## [19] codetools_0.2-20    jquerylib_0.1.4     cli_3.6.4          
-## [22] rlang_1.1.5         crayon_1.5.3        munsell_0.5.1      
-## [25] cachem_1.1.0        yaml_2.3.10         tools_4.4.2        
-## [28] parallel_4.4.2      dplyr_1.1.4         colorspace_2.1-1   
-## [31] ggplot2_3.5.2       GetoptLong_1.0.5    BiocGenerics_0.52.0
-## [34] vctrs_0.6.5         R6_2.6.1            png_0.1-8          
-## [37] matrixStats_1.5.0   stats4_4.4.2        lifecycle_1.0.4    
-## [40] magick_2.8.5        S4Vectors_0.44.0    IRanges_2.40.1     
-## [43] clue_0.3-66         cluster_2.1.6       pkgconfig_2.0.3    
-## [46] pillar_1.10.1       bslib_0.9.0         gtable_0.3.6       
-## [49] glue_1.8.0          Rcpp_1.0.14         tidyselect_1.2.1   
-## [52] tibble_3.2.1        xfun_0.51           rjson_0.2.23       
-## [55] htmltools_0.5.8.1   rmarkdown_2.29      Cairo_1.6-2        
-## [58] compiler_4.4.2
+##  [1] viridis_0.6.5       generics_0.1.3      utf8_1.2.4         
+##  [4] sass_0.4.9          shape_1.4.6.1       blogdown_1.19      
+##  [7] digest_0.6.35       magrittr_2.0.3      evaluate_0.23      
+## [10] bookdown_0.39       iterators_1.0.14    fastmap_1.1.1      
+## [13] foreach_1.5.2       doParallel_1.0.17   jsonlite_1.8.8     
+## [16] GlobalOptions_0.1.2 gridExtra_2.3       fansi_1.0.6        
+## [19] viridisLite_0.4.2   scales_1.3.0        codetools_0.2-19   
+## [22] jquerylib_0.1.4     cli_3.6.2           rlang_1.1.3        
+## [25] crayon_1.5.2        munsell_0.5.1       cachem_1.0.8       
+## [28] yaml_2.3.8          tools_4.3.3         parallel_4.3.3     
+## [31] dplyr_1.1.4         colorspace_2.1-0    ggplot2_3.5.1      
+## [34] GetoptLong_1.0.5    BiocGenerics_0.48.1 vctrs_0.6.5        
+## [37] R6_2.5.1            png_0.1-8           matrixStats_1.3.0  
+## [40] stats4_4.3.3        lifecycle_1.0.4     magick_2.8.3       
+## [43] S4Vectors_0.40.2    IRanges_2.36.0      clue_0.3-65        
+## [46] cluster_2.1.6       pkgconfig_2.0.3     pillar_1.9.0       
+## [49] bslib_0.7.0         gtable_0.3.5        glue_1.7.0         
+## [52] Rcpp_1.0.12         tidyselect_1.2.1    tibble_3.2.1       
+## [55] xfun_0.43           highr_0.10          rjson_0.2.21       
+## [58] htmltools_0.5.8.1   rmarkdown_2.26      Cairo_1.6-2        
+## [61] compiler_4.3.3
 ```
 

@@ -55,7 +55,7 @@ The following example gives you some feels of using **GetoptLong** package. The 
 code is saved in to an R script named `foo.R`.
 
 
-``` r
+```r
 library(GetoptLong)
 
 cutoff = 0.05
@@ -91,7 +91,7 @@ two styles:
 The one-column style:
 
 
-``` terminal
+```{.terminal}
 Usage: Rscript foo.R [options]
 
 Options:
@@ -116,7 +116,7 @@ Options:
 Or the two-column style:
 
 
-``` terminal
+```{.terminal}
 Usage: Rscript foo.R [options]
 
 Options:
@@ -139,7 +139,7 @@ The specification can also be set as a template where the specifications are mar
 by `<>`.
 
 
-``` r
+```r
 library(GetoptLong)
 spec = "
 This is an example of using template to specify options.
@@ -163,7 +163,7 @@ The parameter `opt_width` controls the maximal width of the option description
 Calling `Rscript foo.R --help` generates the following message:
 
 
-``` terminal
+```{.terminal}
 This is an example of using template to specify options.
 
 Usage: Rscript foo.R [options]
@@ -279,7 +279,7 @@ Option usage is automatically generated and can be retrieved by setting
 specification that contains all types of options (with long descriptions):
 
 
-``` r
+```r
 library(GetoptLong)
 GetoptLong(
     "count=i",  paste("This is a count. This is a count. This is a count.",
@@ -300,7 +300,7 @@ The option usage is as follows. Here, for example, the single-letter option
 matches two options.
 
 
-``` terminal
+```{.terminal}
 Usage: Rscript foo.R [options]
 
 Options:
@@ -353,7 +353,7 @@ GetoptLong(
 
 
 
-``` terminal
+```{.terminal}
 Usage: Rscript foo.R [options]
 
 Options:
@@ -397,7 +397,7 @@ The global parameters `help_style` can be set to `two-column` to change
 to another style:
 
 
-``` r
+```r
 library(GetoptLong)
 GetoptLong.options(help_style = "two-column")
 # specifying the defaults
@@ -410,7 +410,7 @@ GetoptLong{
 
 
 
-``` terminal
+```{.terminal}
 Usage: Rscript foo.R [options]
 
 Options:
@@ -441,7 +441,7 @@ The separator line should contain two elements: the separator and the descriptio
 The separator can be any character in `-+=#%` with any length.
 
 
-``` r
+```r
 library(GetoptLong)
 count = 1
 array = c(0.1, 0.2)
@@ -468,7 +468,7 @@ GetoptLong(
 ```
 
 
-``` terminal
+```{.terminal}
 Usage: Rscript foo.R [options]
 
 Binary options:
@@ -512,7 +512,7 @@ Other options:
 And the two-column style for the grouped options.
 
 
-``` r
+```r
 library(GetoptLong)
 GetoptLong.options(help_style = "two-column")
 GetoptLong{
@@ -521,7 +521,7 @@ GetoptLong{
 ```
 
 
-``` terminal
+```{.terminal}
 Usage: Rscript foo.R [options]
 
 Binary options:
@@ -556,39 +556,39 @@ package](http://jokergoo.github.io/GetoptLong/).
 ## Session info
 
 
-``` r
+```r
 sessionInfo()
 ```
 
-``` NULL
-R version 4.4.2 (2024-10-31)
-Platform: aarch64-apple-darwin20
-Running under: macOS 26.0.1
+```{.NULL}
+R version 4.3.3 (2024-02-29)
+Platform: x86_64-apple-darwin20 (64-bit)
+Running under: macOS 26.3.1
 
 Matrix products: default
-BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 
 locale:
-[1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+[1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
 
-time zone: Europe/Berlin
+time zone: Asia/Shanghai
 tzcode source: internal
 
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
 other attached packages:
-[1] GetoptLong_1.0.5 knitr_1.50       colorout_1.3-2  
+[1] GetoptLong_1.0.5 knitr_1.45      
 
 loaded via a namespace (and not attached):
- [1] digest_0.6.37       R6_2.6.1            GlobalOptions_0.1.2
- [4] bookdown_0.44       fastmap_1.2.0       xfun_0.51          
- [7] blogdown_1.19       rjson_0.2.23        cachem_1.1.0       
-[10] htmltools_0.5.8.1   rmarkdown_2.29      lifecycle_1.0.4    
-[13] cli_3.6.4           sass_0.4.9          jquerylib_0.1.4    
-[16] compiler_4.4.2      tools_4.4.2         evaluate_1.0.3     
-[19] bslib_0.9.0         yaml_2.3.10         crayon_1.5.3       
-[22] jsonlite_1.9.0      rlang_1.1.5        
+ [1] digest_0.6.35       R6_2.5.1            GlobalOptions_0.1.2
+ [4] bookdown_0.39       fastmap_1.1.1       xfun_0.43          
+ [7] blogdown_1.19       rjson_0.2.21        cachem_1.0.8       
+[10] htmltools_0.5.8.1   rmarkdown_2.26      lifecycle_1.0.4    
+[13] cli_3.6.2           sass_0.4.9          jquerylib_0.1.4    
+[16] compiler_4.3.3      tools_4.3.3         evaluate_0.23      
+[19] bslib_0.7.0         yaml_2.3.8          crayon_1.5.2       
+[22] jsonlite_1.8.8      rlang_1.1.3        
 ```
 

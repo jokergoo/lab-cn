@@ -9,7 +9,7 @@ In Perl, if we want to substitute with an evaluated expression with regular
 expression, we can do as follows. 
 
 
-``` perl
+```perl
 %map = (
 	"a" => "one",
 	"b" => "two",
@@ -30,7 +30,7 @@ In R, we use `gsub()` to perform substitution, however, the second argument
 changed. In following example, `\\1` can be not changed.
 
 
-``` r
+```r
 map = c("a" = "one", "b" = "two", "c" = "three")
 txt = "a, b, c";
 gsub("([a|b|c])", "_\\1_", txt)  # "a" is still "a"
@@ -50,7 +50,7 @@ This scenario is similar as in the text substitution. Actually we can modify
 the previous example a little bit:
 
 
-``` perl
+```perl
 $txt =~s/([a|b|c])/_$map{$1}_/g;
 ```
 
@@ -66,7 +66,7 @@ For the text `"a, b, c"`, to convert to `"one, two, three"`, we can first use `g
 to replace `a/b/c` to a template:
 
 
-``` r
+```r
 library(GetoptLong)
 txt2 = gsub("([a|b|c])", "@{map['\\1']}", txt)
 txt2
@@ -79,7 +79,7 @@ txt2
 then evaluate the template by e.g. `GetoptLong:qq()`:
 
 
-``` r
+```r
 qq(txt2)
 ```
 
@@ -90,7 +90,7 @@ qq(txt2)
 In following, we defined a simple function `gsub_eval()` according to this thought:
 
 
-``` r
+```r
 gsub_eval = function(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
     fixed = FALSE, useBytes = FALSE, envir = parent.frame()) {
 	txt = gsub(
@@ -107,7 +107,7 @@ gsub_eval = function(pattern, replacement, x, ignore.case = FALSE, perl = FALSE,
 ```
 
 
-``` r
+```r
 gsub_eval("([a|b|c])", "@{map['\\1']}", txt)
 ```
 
@@ -119,7 +119,7 @@ You can use any type of code in the template. Following is another example
 using `gsub_eval()`:
 
 
-``` r
+```r
 gsub_eval("(\\d),(\\d)", "sum=@{\\1 + \\2}", c("number 1,2", "number 3,4"))
 ```
 

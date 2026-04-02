@@ -15,7 +15,7 @@ In the following example, we assume there are two groups on columns. Colors for 
 the theme "green-black-red" and colors for group B use "purple-white-orange".
 
 
-``` r
+```r
 set.seed(123)
 mat = cbind(rbind(matrix(rnorm(20*20, mean = 1, sd = 0.5), nr = 20),
               matrix(rnorm(20*20, mean = 0, sd = 0.5), nr = 20),
@@ -51,7 +51,7 @@ assign to `cluster_rows` in `draw()` function to change it globally (you can als
 the main heatmap).
 
 
-``` r
+```r
 row_hlust = hclust(dist(mat))
 draw(ht1 + ht2, cluster_rows = row_hlust)
 ```
@@ -67,7 +67,7 @@ be turned off by setting `show_heatmap_legend = FALSE` because later we will add
 the heatmap grids are added by self-defining a `cell_fun`. See the code below.
 
 
-``` r
+```r
 ht = Heatmap(mat, rect_gp = gpar(type = "none"), show_heatmap_legend = FALSE,
 	cell_fun = function(j, i, x, y, w, h, fill) {
 		if(group[j] == "A") {
@@ -81,7 +81,7 @@ ht = Heatmap(mat, rect_gp = gpar(type = "none"), show_heatmap_legend = FALSE,
 And we manually define two color legends and send to `heatmap_legend_list` argument.
 
 
-``` r
+```r
 draw(ht, heatmap_legend_list = list(
 	Legend(title = "Group_A", col_fun = col1),
 	Legend(title = "Group_B", col_fun = col2)
@@ -95,7 +95,7 @@ of cells to draw. `layer_fun` is a vectorized version of `cell_fun`, which impro
 For explanation of `layer_fun` as well as the usage of function `pindex()`, please refer to https://jokergoo.github.io/ComplexHeatmap-reference/book/a-single-heatmap.html#layer-fun.
 
 
-``` r
+```r
 ht = Heatmap(mat, rect_gp = gpar(type = "none"), show_heatmap_legend = FALSE,
 	layer_fun = function(j, i, x, y, w, h, fill) {
 		l = group[j] == "A"
@@ -116,7 +116,7 @@ draw(ht, heatmap_legend_list = list(
 The method is the same if you want to use two color themes for a symmetric matrix:
 
 
-``` r
+```r
 corm = cor(mat)
 col1 = colorRamp2(c(-1, 0, 1), c("green", "black", "red"))
 col2 = colorRamp2(c(-1, 0, 1), c("purple", "white", "orange"))

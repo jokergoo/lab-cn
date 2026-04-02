@@ -24,7 +24,7 @@ columns are reordered or not.
 
 
 
-``` r
+```r
 library(ComplexHeatmap)
 set.seed(372)
 m = matrix(rnorm(120), nc = 12)
@@ -43,7 +43,7 @@ In the second plot, `cluster_within_group()` was applied. As you can see, column
 are also reordered inside each group.
 
 
-``` r
+```r
 dend2 = cluster_within_group(m, fa)
 Heatmap(m, cluster_columns = dend2, column_split = 3,
 	row_title = "cluster_within_group",

@@ -20,7 +20,7 @@ return the information of rows and columns that were selected from heatmap.
 I demonstrate the usage in the next example where `ui` and `server` are defined as follows:
 
 
-``` r
+```r
 ui = fluidPage(
     ...,
     plotOutput("heatmap", click = "heatmap_click")

@@ -25,7 +25,7 @@ In the following example, I defined a `cell_fun` which draws cells as round rect
 the values in the matrix are added as text labels.
 
 
-``` r
+```r
 library(InteractiveComplexHeatmap)
 library(ComplexHeatmap)
 

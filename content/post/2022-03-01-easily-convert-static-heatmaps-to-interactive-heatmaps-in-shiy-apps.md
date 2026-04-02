@@ -18,7 +18,7 @@ users can control three types of parameters for heatmaps:
 The following code can be directly copied and pasted to an R session. It is runnable.
 
 
-``` r
+```r
 m = scale(as.matrix(mtcars))  # the matrix is scaled by columns
 
 library(shiny)
@@ -96,7 +96,7 @@ to the previous "static heatmap" Shiny app. Also, the following code is runnable
 be directly copied and pasted to an R session.
 
 
-``` r
+```r
 library(InteractiveComplexHeatmap)
 ui = fluidPage(
     sidebarLayout(
@@ -157,7 +157,7 @@ a box around the mouse click that contains detailed information of the clicked c
 
 
 
-``` r
+```r
 ui = fluidPage(
     sidebarLayout(
         sidebarPanel(
@@ -216,7 +216,7 @@ of the corresponding column in `mtcars`.
 
 
 
-``` r
+```r
 ui = fluidPage(
     sidebarLayout(
         sidebarPanel(
@@ -290,35 +290,35 @@ shinyApp(ui = ui, server = server)
 ## Session info
 
 
-``` r
+```r
 sessionInfo()
 ```
 
 ```
-## R version 4.4.2 (2024-10-31)
-## Platform: aarch64-apple-darwin20
-## Running under: macOS 26.0.1
+## R version 4.3.3 (2024-02-29)
+## Platform: x86_64-apple-darwin20 (64-bit)
+## Running under: macOS 26.3.1
 ## 
 ## Matrix products: default
-## BLAS:   /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRblas.0.dylib 
-## LAPACK: /Library/Frameworks/R.framework/Versions/4.4-arm64/Resources/lib/libRlapack.dylib;  LAPACK version 3.12.0
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
 ## 
 ## locale:
-## [1] C.UTF-8/UTF-8/C.UTF-8/C/C.UTF-8/C.UTF-8
+## [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
 ## 
-## time zone: Europe/Berlin
+## time zone: Asia/Shanghai
 ## tzcode source: internal
 ## 
 ## attached base packages:
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] knitr_1.50     colorout_1.3-2
+## [1] knitr_1.45
 ## 
 ## loaded via a namespace (and not attached):
-##  [1] digest_0.6.37     R6_2.6.1          bookdown_0.44     fastmap_1.2.0    
-##  [5] xfun_0.51         blogdown_1.19     cachem_1.1.0      htmltools_0.5.8.1
-##  [9] rmarkdown_2.29    lifecycle_1.0.4   cli_3.6.4         sass_0.4.9       
-## [13] jquerylib_0.1.4   compiler_4.4.2    tools_4.4.2       evaluate_1.0.3   
-## [17] bslib_0.9.0       yaml_2.3.10       jsonlite_1.9.0    rlang_1.1.5
+##  [1] digest_0.6.35     R6_2.5.1          bookdown_0.39     fastmap_1.1.1    
+##  [5] xfun_0.43         blogdown_1.19     cachem_1.0.8      htmltools_0.5.8.1
+##  [9] rmarkdown_2.26    lifecycle_1.0.4   cli_3.6.2         sass_0.4.9       
+## [13] jquerylib_0.1.4   compiler_4.3.3    tools_4.3.3       evaluate_0.23    
+## [17] bslib_0.7.0       yaml_2.3.8        jsonlite_1.8.8    rlang_1.1.3
 ```

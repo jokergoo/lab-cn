@@ -19,7 +19,7 @@ Note for simplicity, the positions are not really bases.
 
 
 
-``` r
+```r
 set.seed(123)
 x = sort(runif(20))
 df1 = data.frame(x1 = x[1:20 %% 2 == 0], x2 = x[1:20 %% 2 == 1])
@@ -76,7 +76,7 @@ There are intragenic translocations where the translocation happens in the same 
 and intergenic translocations where the translocation happens in different genes.
 
 
-``` r
+```r
 link = data.frame(
 	gene1 = sample(c("A", "B", "C"), nrow(df), replace = TRUE),
     x1 = 0,
@@ -142,7 +142,7 @@ layout and draw the gene models, and `link` is for drawing the translocations.
 
 
 
-``` r
+```r
 library(circlize)
 circos.initialize(c("A", "B", "C"), xlim = cbind(c(0, 0, 0), c(1, 0.5, 2)))
 
@@ -163,7 +163,7 @@ for(i in seq_len(nrow(link))) {
 
 <img src="/lab-cn/post/2022-12-09-draw-links-on-the-two-different-sides-of-a-track_files/figure-html/unnamed-chunk-4-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -173,7 +173,7 @@ to set argument `h` to a negative value, so that the link will be flipped onto t
 to set `rou` which is the position of the link end. Here we set `h` to 1 which is the top border of the gene model track.
 
 
-``` r
+```r
 circos.initialize(c("A", "B", "C"), xlim = cbind(c(0, 0, 0), c(1, 0.5, 2)))
 
 circos.track(ylim = c(0, 1), panel.fun = function(x, y) {
@@ -193,7 +193,7 @@ for(i in seq_len(nrow(link))) {
 
 <img src="/lab-cn/post/2022-12-09-draw-links-on-the-two-different-sides-of-a-track_files/figure-html/unnamed-chunk-5-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -205,7 +205,7 @@ I also set `w = 0.1` to make outside links "fat".
 
 
 
-``` r
+```r
 circos.par(circle.margin = 0.1, gap.degree = 10)
 circos.initialize(c("A", "B", "C"), xlim = cbind(c(0, 0, 0), c(1, 0.5, 2)))
 
@@ -226,7 +226,7 @@ for(i in seq_len(nrow(link))) {
 
 <img src="/lab-cn/post/2022-12-09-draw-links-on-the-two-different-sides-of-a-track_files/figure-html/unnamed-chunk-6-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 
@@ -242,7 +242,7 @@ and if the degree difference is smaller than 20 degrees, we let `h` take -0.05.
 
 
 
-``` r
+```r
 get_h = function(degree_difference) {
 	max_degree_difference = 120
 	min_degree_difference = 20
@@ -267,7 +267,7 @@ its two ends are in the same sector. In `get_degree_difference()`, `get.cell.met
 the data range on a specific sector, `get.cell.meta.data("xplot", ...)` is used to get the width of the sector measured by degree. Note since the data coordinates in sectors are always clockwise, `xplot[1]` is larger than `xplot[2]`.
 
 
-``` r
+```r
 get_degree_difference = function(sector, x1, x2) {
 	cell.xlim = get.cell.meta.data("cell.xlim", sector.index = sector, track.index = 1)
 	xplot = get.cell.meta.data("xplot", sector.index = sector, track.index = 1)
@@ -279,7 +279,7 @@ With `get_h()` and `get_degree_difference()`, we can dynamically get the value o
 
 
 
-``` r
+```r
 circos.par(circle.margin = 0.1, gap.degree = 10)
 circos.initialize(c("A", "B", "C"), xlim = cbind(c(0, 0, 0), c(1, 0.5, 2)))
 
@@ -302,7 +302,7 @@ for(i in seq_len(nrow(link))) {
 
 <img src="/lab-cn/post/2022-12-09-draw-links-on-the-two-different-sides-of-a-track_files/figure-html/unnamed-chunk-9-1.png" width="768" style="display: block; margin: auto;" />
 
-``` r
+```r
 circos.clear()
 ```
 

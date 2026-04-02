@@ -23,7 +23,7 @@ easier, I use single positions to represent genes (where what `df[, 3] = df[,
 2]` does in the following code). I also assign pathway names for each gene.
 
 
-``` r
+```r
 set.seed(123)
 library(circlize)
 df = generateRandomBed(30)[ , 1:3]
@@ -49,7 +49,7 @@ cytoband data frame. The newly added row corresponds to the fake-chromosome
 represented in the circular plot.
 
 
-``` r
+```r
 cytoband = read.cytoband()$df
 cytoband = rbind(cytoband,
 	data.frame(V1 = "pathway", V2 = 1,  V3 = 2e8, V4 = "", V5 = "")
@@ -73,7 +73,7 @@ these fake genes. I simply put the "pathway genes" evenly along the "pathway"
 chromosome.
 
 
-``` r
+```r
 foo = round(seq(1, 2e8, length = 11))
 pathway_mid = structure(as.integer((foo[1:10] + foo[2:11])/2), 
     names = paste0("pathway_", 1:10))
@@ -105,7 +105,7 @@ Everything is ready, and we can use the "normal" way to draw the genomic circula
 with genomic links:
 
 
-``` r
+```r
 circos.initializeWithIdeogram(cytoband)
 circos.genomicLink(df[, 1:3], df[, 6:8])
 ```
@@ -118,7 +118,7 @@ That is basically the idea. Next I customize the plot to make it look nicer, _e.
 adjust font size, set colors, add labels, ...
 
 
-``` r
+```r
 circos.par(gap.after = c(rep(1, 23), 5, 5))
 circos.genomicInitialize(cytoband, plotType = NULL)
 
@@ -149,6 +149,6 @@ circos.genomicLink(df[, 1:3], df[, 6:8], col = pathway_col[df[, 5]])
 
 <img src="/lab-cn/post/2020-11-27-visualize-relations-between-genes-and-pathways_files/figure-html/unnamed-chunk-7-1.png" width="768" />
 
-``` r
+```r
 circos.clear()
 ```
