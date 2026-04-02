@@ -56,7 +56,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Mason)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Ryan)<!-- -->
 
 <div class="intro">
 
@@ -96,7 +96,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Jade)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Christopher)<!-- -->
 
 <div class="intro">
 
@@ -116,7 +116,20 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sawyer)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Easton)<!-- -->
+
+<div class="intro">
+
+- 姓名
+- 科研助理
+- 邮箱：someone@suat-sz.edu.cn
+
+</div>
+<div style="clear:both;"></div>
+
+<div class="people">
+
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Jocelyn)<!-- -->
 
 <div class="intro">
 
