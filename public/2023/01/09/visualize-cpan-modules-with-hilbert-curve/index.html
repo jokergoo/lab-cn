@@ -430,6 +430,19 @@
   padding:0px 2px;
 }
 </style>
+<script type="text/javascript">
+$( function() {
+  $("#nav li a").each(function(i) {
+        var old_href = $(this).attr("href");
+        var pattern = new RegExp("^/");
+        if(!pattern.test(old_href)) {
+            
+          $(this).attr("href", "/" + old_href);
+            
+        }
+    });
+})
+</script>
   <body>
     <section id=nav>
       <h1><a class="h-card" href="/"></a></h1>
