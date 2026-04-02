@@ -429,13 +429,16 @@
 </style>
 <script type="text/javascript">
 $( function() {
-  $("#nav li a").each(function(i) {
+  $("#nav a").each(function(i) {
         var old_href = $(this).attr("href");
-        var pattern = new RegExp("^/");
-        if(!pattern.test(old_href)) {
-            
-          $(this).attr("href", "/" + old_href);
-            
+        var pattern1 = new RegExp("^http");
+        if(!pattern1.test(old_href)) {
+          var pattern = new RegExp("^/");
+          if(!pattern.test(old_href)) {
+              
+            $(this).attr("href", "/" + old_href);
+              
+          }
         }
     });
 })
