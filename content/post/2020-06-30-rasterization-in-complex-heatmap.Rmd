@@ -1,0 +1,286 @@
+---
+title: "Rasterization in ComplexHeatmap"
+date: 2020-06-30
+author: Zuguang Gu
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.align = "center",
+    echo = FALSE,
+    fig.width = 1.7,
+    fig.height = 1.7
+)
+options(digits = 4)
+```
+
+Guillaume Devailly recently wrote [an
+article](https://gdevailly.netlify.app/post/plotting-big-matrices-in-r/) on
+image rasterization to efficiently visualize huge matrices in R, as well as
+comparing several R functions that support image rasterization. In this post, I
+discusse the support for raster image in **ComplexHeatmap** in more details.
+
+When we produce so-called "high quality figures", normally we save the figures
+as [vector graphics](https://en.wikipedia.org/wiki/Vector_graphics) in the
+format of _e.g._ pdf or svg. The vector graphics basically store details of
+every single graphic elements, thus, if a heatmap made from a very huge matrix is
+saved as vector graphics, the final file size would be very big. On the other
+hand, when visualizing _e.g._ the pdf file on the screen, multiple grids from
+the heatmap actually only map to single pixels, due to the limited size of the
+screen. Thus, there need some ways to effectively reduce the original image and
+it is not necessary to store the complete matrix for the heatmap.
+
+Rasterization is a way to covnert the vector graphics into a matrix of colors.
+In this case, an image is represented as a matrix of RGB values, which is
+called a [raster image](https://en.wikipedia.org/wiki/Raster_graphics). If the
+heatmap is larger than the size of the screen or the pixels that current
+graphics devices can support, we can convert the heatmap and reduce it, by
+saving it in a form of a color matrix with the same dimension as the device.
+
+Let's assume a matrix has $n_r$ rows and $n_c$ columns. When it is drawn on a
+certain graphics device, _e.g._ an on-screen device, the corresponding heatmap
+body has $p_r$ and $p_c$ pixels (or points) for the rows and columns,
+respectively. When $n_r > p_r$ and/or $n_c > p_c$, multiple values in the
+matrix are mapped to single pixels. Here we need to reduce $n_r$ and/or $n_c$
+if they are larger than $p_r$ and/or $p_c$.
+
+To make it simple, I assume both $n_r > p_r$ and $n_c > p_c$. The
+principle is basically the same for the scenarios where only one dimension of
+the matrix is larger than the device.
+
+In **ComplexHeatmap** version 2.5.4, there are following implementations for
+image rasterization. Note the implementation is a little bit different from
+the earlier versions (of course, better than the earlier versions).
+
+1. First an image
+   (in a specific format, _e.g._ png or jpeg) with $(p_r \cdot a) \times (p_c
+   \cdot a)$ resolution is saved into a temporary file where $a$ is a zooming
+   factor, next it is read back as a `raster` object by _e.g._
+   `png::readPNG()` or `jpeg::readJPEG()`, and later the raster object is
+   filled into the heatmap body by `grid::grid.raster()`. So we can say, the 
+   rasterization is done by the raster image devices (`png()` or `jpeg()`).
+
+   This type of rasterization is automatically turned on (**if magick package is
+   not installed**) when the number of rows or columns exceeds 2000 (You will
+   see a message. It won't happen silently). It can also be manually
+   controlled by setting the `use_raster` argument:
+
+```{r, eval = FALSE, echo = TRUE}
+Heatmap(..., use_raster = TRUE)
+```
+
+   The zooming factor is controlled by `raster_quality` argument. A value larger
+   than 1 generates files with larger size.
+
+```{r, eval = FALSE, echo = TRUE}
+Heatmap(..., use_raster = TRUE, raster_quality = 5)
+```
+
+2. Simply reduce the original matrix to $p_r \times p_c$ where now each single values can
+   correspond to single pixels. In the reduction, a user-defined function is applied to summarize
+   the sub-matrices.
+
+   This can be set by `raster_resize_mat` argument:
+
+```{r, eval = FALSE, echo = TRUE}
+# the default summary function is mean()
+Heatmap(..., use_raster = TRUE, raster_resize_mat = TRUE)
+# use max() as the summary function
+Heatmap(..., use_raster = TRUE, raster_resize_mat = max)
+# randomly pick one
+Heatmap(..., use_raster = TRUE, raster_resize_mat = function(x) sample(x, 1))
+```
+
+3. A temporary image with resolution $n_r \times n_c$ is first generated, here
+   `magick::image_resize()` is used to reduce the image to size $p_r \times
+   p_c$. Finally the reduced image is read as a `raster` object and filled into
+   the heatmap body. **magick** provides a lot of methods for
+   "resizing"/"scaling" the image, which is called the "filtering methods"
+   under the term of **magick**. [All filtering
+   methods](https://www.imagemagick.org/Magick++/Enumerations.html#FilterTypes)
+   can be obtained by `magick::filter_types()`.
+
+   This type of rasterization can be truned on by setting `raster_by_magick = TRUE` 
+   and choosing a proper `raster_magick_filter`.
+
+```{r, eval = FALSE, echo = TRUE}
+Heatmap(..., use_raster = TRUE, raster_by_magick = TRUE)
+Heatmap(..., use_raster = TRUE, raster_by_magick = TRUE, raster_magick_filter = ...)
+```
+
+In the following parts of this post, I will compare the visual difference
+between different image rasterization methods.
+
+```{r}
+library(ComplexHeatmap)
+library(RColorBrewer)
+library(circlize)
+library(magick)
+library(GetoptLong)
+
+get_red_primary = function(raster) {
+    od = dim(raster)
+    image_rgb = col2rgb(raster, alpha = TRUE)/255
+    image_rgb[1, ]
+}
+
+make_many_heatmaps = function(mat, col_fun, category = 1) {
+    ht_opt("__export_image_size__" = TRUE)
+
+    random = function(x) sample(x, 1)
+    first = function(x) x[1]
+
+    if(category == 1) {
+      draw(Heatmap(mat, col = col_fun, cluster_rows = FALSE, cluster_columns = FALSE, show_heatmap_legend = FALSE,
+          use_raster = TRUE, raster_by_magick = FALSE, raster_quality = 1, raster_device = "png",
+          row_title = "by png()", row_title_gp = gpar(fontsize = 8)))
+    }
+
+    if(category == 2) {
+      draw(Heatmap(mat, col = col_fun, cluster_rows = FALSE, cluster_columns = FALSE, show_heatmap_legend = FALSE,
+          use_raster = TRUE, raster_by_magick = FALSE, raster_resize_mat = mean, 
+          row_title = "raster_resize_mat = mean", row_title_gp = gpar(fontsize = 8)))
+
+      draw(Heatmap(mat, col = col_fun, cluster_rows = FALSE, cluster_columns = FALSE, show_heatmap_legend = FALSE,
+          use_raster = TRUE, raster_by_magick = FALSE, raster_resize_mat = max, 
+          row_title = "raster_resize_mat = max", row_title_gp = gpar(fontsize = 8)))
+
+      draw(Heatmap(mat, col = col_fun, cluster_rows = FALSE, cluster_columns = FALSE, show_heatmap_legend = FALSE,
+          use_raster = TRUE, raster_by_magick = FALSE, raster_resize_mat = min, 
+          row_title = "raster_resize_mat = min", row_title_gp = gpar(fontsize = 8)))
+
+      draw(Heatmap(mat, col = col_fun, cluster_rows = FALSE, cluster_columns = FALSE, show_heatmap_legend = FALSE,
+          use_raster = TRUE, raster_by_magick = FALSE, raster_resize_mat = random, 
+          row_title = "raster_resize_mat = random", row_title_gp = gpar(fontsize = 8)))
+
+      draw(Heatmap(mat, col = col_fun, cluster_rows = FALSE, cluster_columns = FALSE, show_heatmap_legend = FALSE,
+          use_raster = TRUE, raster_by_magick = FALSE, raster_resize_mat = first, 
+          row_title = "raster_resize_mat = first", row_title_gp = gpar(fontsize = 8)))
+    }
+
+    if(category == 3) {
+      for(filter in filter_types()) {
+          ht = Heatmap(mat, col = col_fun, cluster_rows = FALSE, cluster_columns = FALSE, show_heatmap_legend = FALSE,
+             use_raster = TRUE, raster_by_magick = TRUE, raster_magick_filter = filter,
+             row_title = qq("filter = '@{filter}'"), row_title_gp = gpar(fontsize = 8))
+          draw(ht)
+      }
+    }
+}
+```
+
+## Example 1
+
+The first example is from [Guillaume Devailly's simulated
+data](https://gdevailly.netlify.app/post/plotting-big-matrices-in-r/) but with
+small adaptation. This example shows an enrichment pattern to the top center of the plot.
+
+```{r, echo = TRUE}
+mat = matrix(nrow = 5000, ncol = 50)
+for(i in 1:5000) {
+    mat[i, ] = runif(50) + c(sort(abs(rnorm(50)))[1:25], rev(sort(abs(rnorm(50)))[1:25]))  * i/1000
+}
+mat = mat[nrow(mat):1, ]
+col_fun = colorRamp2(seq(quantile(mat, 0.01), quantile(mat, 0.99), len = 11), rev(brewer.pal(11, "Spectral")))
+```
+
+In the folowing examples, I won't show the code for making heatmaps because there are too many heatmaps
+and the specific settings is already written as the row title of each heatmap.
+
+I set the same color mapping for all heatmaps, so that you can see how different rasterizations change
+the original patterns.
+
+For the comparison, I generated many heatmaps. They can be categoried into three groups, as corresponded to the 
+three rasterization methods I mentioned previously.
+
+- `by png()`: Rasterization method 1. 
+- `raster_resize_mat = *`: Rasterization method 2, with different summary methods.
+- `filter = *`: Rasterization method 3, with different filterring method. The string `filter`
+  should be `raster_magick_filter`. It is truncated so that the row title won't be cut by the plot regions.
+
+```{r, fig.show = "hold"}
+make_many_heatmaps(mat, col_fun, 1)
+```
+
+```{r, fig.show = "hold"}
+make_many_heatmaps(mat, col_fun, 2)
+```
+
+```{r, fig.show = "hold"}
+make_many_heatmaps(mat, col_fun, 3)
+```
+
+
+## Example 2
+
+Here we generate a random matrix from uniform distribution. The color mapping function
+linearly intepolation colors between 0 and 1 in the sRGB color space.
+
+
+```{r, echo = TRUE}
+set.seed(123)
+mat = matrix(runif(2000*100), nrow = 2000)
+col_fun = colorRamp2(c(0, 1), c("white", "black"), space = "sRGB")
+```
+
+```{r, fig.show = "hold"}
+make_many_heatmaps(mat, col_fun, 1)
+```
+
+```{r, fig.show = "hold"}
+make_many_heatmaps(mat, col_fun, 2)
+```
+
+```{r, fig.show = "hold"}
+make_many_heatmaps(mat, col_fun, 3)
+```
+
+## Example 3
+
+This example shows heatmaps with more local patterns. These heatmaps visualize the distance of points
+in a [2D Hilbert curve](https://www.bioconductor.org/packages/release/bioc/html/HilbertCurve.html).
+
+```{r, echo = TRUE}
+pos = HilbertVis::hilbertCurve(5)
+mat = as.matrix(dist(pos))
+dimnames(mat) = NULL
+col_fun = colorRamp2(c(min(mat), median(mat), max(mat)), c("blue", "white", "red"))
+```
+
+```{r, fig.show = "hold"}
+make_many_heatmaps(mat, col_fun, 1)
+```
+
+```{r, fig.show = "hold"}
+make_many_heatmaps(mat, col_fun, 2)
+```
+
+```{r, fig.show = "hold"}
+make_many_heatmaps(mat, col_fun, 3)
+```
+
+
+
+## Conclusion
+
+According to all these examples that have been shown, I would say
+rasterization by **magick** package performs better, thus, by default, in
+**ComplexHeatmap**, the rasterization is done by **magick** (with `"Lanczos"`
+as the default filter method) and if **magick** is not installed, it uses
+`png()` and a friendly message is printed to suggest users to install
+**magick**.
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+  $("img").css("display", "inline");
+  $("main.content").css("max-width", "1000px");
+});
+</script>
+

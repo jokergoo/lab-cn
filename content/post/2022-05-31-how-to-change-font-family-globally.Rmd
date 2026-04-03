@@ -1,0 +1,36 @@
+---
+title: "How to change font family globally in ComplexHeatmap"
+date: 2022-05-31
+author: Zuguang Gu
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.align = "center"
+)
+```
+
+
+In **grid**, every viewport is associated with its own graphics parameters and it by default inherits graphics parameters from
+its parent viewport. So, to globally change the font family in a ComplexHeatmap plot, we can simply put the heatmap into
+a "global viewport" where we can set a specific font family (also other graphics parameters) there:
+
+
+```{r}
+library(ComplexHeatmap)
+m = matrix(rnorm(100), 10)
+
+pushViewport(viewport(gp = gpar(fontfamily = "HersheyScript")))
+ht = Heatmap(m, top_annotation = HeatmapAnnotation(foo = 1:10),
+    right_annotation = rowAnnotation(bar = anno_text(month.name[1:10])),
+    column_title = "A small matrix")
+draw(ht, newpage = FALSE)
+popViewport()
+```
+
+Note in `draw()`, setting `newpage = FALSE` is important.

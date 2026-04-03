@@ -1,0 +1,117 @@
+---
+title: "Textbox annotation"
+date: 2022-06-15
+author: Zuguang Gu
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.align = "center"
+)
+```
+
+In [a previous post "Word cloud as heatmap
+annotation"](https://jokergoo.github.io/2020/05/31/word-cloud-as-heatmap-annotation/),
+I introduced how to make word clouds and attach them to heatmaps as
+annotations. Here I will introduce a more general solution for making
+textboxes.
+
+The following new functions are implemented in **ComplexHeatmap** from version
+2.13.1. Now you need to update **ComplexHeatmap** from GitHub.
+
+First I will demonstrate a low-level `grid.*` family function
+`grid.textbox()`. The function simply accepts a vector of texts. If the `col`
+parameter is not specified in `gpar()`, random colors are used.
+
+
+```{r, fig.width = 4.5, fig.height = 3.5}
+library(ComplexHeatmap)
+set.seed(888)
+words = sapply(1:30, function(x) strrep(sample(letters, 1), sample(3:10, 1)))
+grid.newpage()
+grid.textbox(words, gp = gpar(fontsize = runif(30, min = 5, max = 30)))
+```
+
+`max_width` controls the maximal width of the textbox.
+
+```{r, fig.height = 2, fig.width = 10}
+grid.newpage()
+grid.textbox(words, gp = gpar(col = "red", fontsize = 1:30+5), max_width = unit(9, "in"))
+```
+
+Set `round_corners` to `TRUE`, also set background graphics parameters:
+
+```{r, fig.width = 5, fig.height = 3.5}
+grid.newpage()
+grid.textbox(words, gp = gpar(fontsize = runif(30, min = 5, max = 30)),
+    background_gp = gpar(fill = "#FFEEEE", lty = 2, col = "grey"), round_corners = TRUE,
+    padding = unit(c(10, 20, 10, 20), "pt"))
+```
+
+One feature of `grid.textbox()` is it can properly handle long phrases or sentences which are composed
+by multiple words. By default, long phrases are treated as single words, which means, if there is no
+enough space in a line, the whole phrase is moved to the next line.
+
+```{r, fig.height = 1}
+sentenses = c("This is sentense 1", "This is a long long long long long long long sentense.")
+grid.newpage()
+grid.textbox(sentenses)
+```
+
+Set `word_wrap = TRUE` so that long phrases are wrapped if they are too long:
+
+```{r, fig.height = 1}
+grid.newpage()
+grid.textbox(sentenses, word_wrap = TRUE)
+```
+
+If `add_new_line` is set to `TRUE`, each phrase is put in a separated line.
+
+
+```{r, fig.height = 1}
+grid.newpage()
+grid.textbox(sentenses, word_wrap = TRUE, add_new_line = TRUE)
+```
+
+
+Now we can implement the corresponding annotation function for heatmaps. In **ComplexHeatmap**,
+there is a new annotation function `anno_textbox()`. The two major arguments for `anno_textbox()` are:
+
+- `align_to`: It controls how the text boxes are aligned to the heatmap rows.
+     The value can be a categorical vector which have the same length as
+     heatmap rows, or a list of row indices. It does not necessarily include
+     all row indices. 
+- `text`: The corresponding texts. The value should be a
+     list of texts. To control graphics parameters of texts in the boxes, The
+     value of `text` can also be set as a list of data frames where the
+     first column contains the text, from the second column contains graphics
+     parameters for each text. The column names should be "col", "fontsize",
+     "fontfamily" and "fontface".
+
+
+```{r}
+library(circlize)
+mat = matrix(rnorm(100*10), nrow = 100)
+
+split = sample(letters[1:10], 100, replace = TRUE)
+text = lapply(unique(split), function(x) {
+    data.frame(month.name, col = rand_color(12, friendly = TRUE), fontsize = runif(12, 6, 14))
+})
+names(text) = unique(split)
+
+split
+text[1:2]
+
+Heatmap(mat, cluster_rows = FALSE, row_split = split,
+    right_annotation = rowAnnotation(wc = anno_textbox(split, text))
+)
+```
+
+```{r}
+sessionInfo()
+```

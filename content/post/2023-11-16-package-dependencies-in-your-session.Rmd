@@ -1,0 +1,244 @@
+---
+title: "R session 中软件包依赖关系网络"
+slug: "Package dependencies in your session"
+date: 2023-11-16
+author: 顾祖光
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 5,
+    fig.height = 5,
+    fig.align = "center"
+)
+options("width" = 100)
+```
+
+在R markdown文档中将`sessionInfo()`放在末尾几乎已经成为一种标准。`sessionInfo()`能够打印出加载到R session中的包的列表。但这些包之间的依赖关系又如何呢？在这篇博文中，让我们来看看。
+
+让我们打开一个新的R session并仅加载**ggplot2**包：
+
+```{r, eval = FALSE}
+library(ggplot2)
+```
+
+接下来我们运行`sessionInfo()`：
+
+```{r, eval = FALSE}
+x1 = sessionInfo()
+```
+
+```{r, echo = FALSE}
+load("ggplot2_session.RData")
+```
+
+打印`x1`：
+
+```{r}
+x1
+```
+
+只有二十几个包被载入，看起来不是很多。返回变量`x1`是一个列表，其中包含了直接或间接加载的包列表。这些包可以分为三组：
+
+- 基础包：R附带的基础包，例如**grid**、**methods**。
+- 其他包：例如通过`library()`加载的包。它们在搜索路径上可见（通过`search()`函数可以看到完整的搜索路径）。
+- 加载包：通过“其他包”加载到R session中，但在搜索路径上不可见。
+
+```{r}
+base_pkgs = x1$basePkgs
+other_pkgs = sapply(x1$otherPkgs, function(x) x$Package)
+loaded_pkgs = sapply(x1$loadedOnly, function(x) x$Package)
+```
+
+对于session中的包，现在我们需要知道它们的依赖关系。这里我们使用**pkgndep**包。所有本地安装的包都作为“包数据库”用来来查询依赖关系。
+
+```{r}
+library(pkgndep)
+db = reformat_db(installed.packages())
+```
+
+`loaded_pkgs`均通过`other_packages`以直接或者间接的方式导入R session，所以
+我们遍历每个`other_packages`中的包，获取其直接和间接的上游依赖关系。这里我们只使用“强”依赖，即依赖关系为“Depends”、“Imports”和“LinkingTo”的依赖包。
+
+
+```{r}
+mat = matrix(nrow = 0, ncol = 3)
+
+for(pkg in other_pkgs) {
+    mat = rbind(mat, db$package_dependencies(pkg, recursive = TRUE, which = "strong"))
+}
+mat = unique(mat)
+```
+
+基础包直接随着R发布，我们不关心基于它们的依赖关系，因此我们删除与基础包的依赖关系。我们只将包限制为“其他包”和“加载包”。
+
+```{r}
+all_pkgs = c(other_pkgs, loaded_pkgs)
+mat = mat[mat[, 1] %in% all_pkgs & mat[, 2] %in% all_pkgs, , drop = FALSE]
+mat = mat[!mat[, 1] %in% pkgndep:::BASE_PKGS | mat[, 2] %in% pkgndep:::BASE_PKGS, , drop = FALSE]
+head(mat)
+```
+
+接下来我们使用**DiagrammeR**包来可视化依赖关系。我们首先生成DOT代码：
+
+```{r}
+all_nodes = unique(c(mat[, 1], mat[, 2], other_pkgs, loaded_pkgs))
+node_col = rep("black", length(all_nodes))
+node_col[all_nodes %in% other_pkgs] = "red"
+node_col[all_nodes %in% loaded_pkgs] = "blue"
+
+library(glue)
+nodes = glue("  \"{all_nodes}\" [color=\"{node_col}\"];", collapse = FALSE)
+
+dep_col = c(2, 4, 3, 5, 6)
+dep_col = rgb(t(col2rgb(dep_col)), max = 255)
+names(dep_col) = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")
+
+edges = glue("  \"{mat[, 1]}\" -> \"{mat[, 2]}\" [color=\"{dep_col[mat[, 3]]}\"];", collapse = FALSE)
+
+dot = paste(
+    c("digraph {",
+      "  nodesep=0.05",
+      "  rankdir=LR;", 
+      "  graph [overlap = true];",
+      "  node[shape = box];",
+      nodes,
+      edges,
+      "}"),
+    collapse = "\n"
+)
+cat(dot)
+```
+
+然后我们使用`grViz()`生成依赖关系网络图。
+
+
+```{r}
+DiagrammeR::grViz(dot)
+```
+
+看起来依赖关系网络比简单列出包要略微复杂一些。图中还有一些未连接到**ggplot2**的包，例如**dplyr**。它们由**ggplot2**或其上游包作为“弱依赖”间接加载到R session中。
+
+我们将代码包装为可以重复使用的函数`loaded_pkgs()`。在函数内部，我们使用**callr**包在一个新的R session中调用`library(pkg)`和获取session信息。
+
+
+```{r}
+loaded_pkgs = function(pkg) {
+    for(i in seq_along(pkg)) {
+        library(pkg[i], character.only=TRUE)
+    }
+    session_info = sessionInfo()
+
+    base_pkgs = session_info$basePkgs
+    other_pkgs = sapply(session_info$otherPkgs, function(x)x$Package)
+    loaded_pkgs = sapply(session_info$loadedOnly, function(x)x$Package)
+
+    lt = list(base_pkgs = base_pkgs,
+              other_pkgs = other_pkgs,
+              loaded_pkgs = loaded_pkgs)
+
+    jsonlite::toJSON(lt)
+}
+
+dep_in_session = function(pkg, db, dep_group = "strong", rankdir = "LR") {
+
+    session_info = jsonlite::fromJSON(callr::r(loaded_pkgs, args = list(pkg = pkg)))
+
+    base_pkgs = session_info$base_pkgs
+    other_pkgs = session_info$other_pkgs
+    loaded_pkgs = session_info$loaded_pkgs
+
+    mat = matrix(nrow = 0, ncol = 3)
+
+    for(pkg in other_pkgs) {
+        mat = rbind(mat, db$package_dependencies(pkg, recursive = TRUE, which = dep_group))
+    }
+    mat = unique(mat)
+    mat = mat[!mat[, 1] %in% pkgndep:::BASE_PKGS | mat[, 2] %in% pkgndep:::BASE_PKGS, , drop = FALSE]
+
+    all_pkgs = c(other_pkgs, loaded_pkgs)
+    mat = mat[mat[, 1] %in% all_pkgs & mat[, 2] %in% all_pkgs, , drop = FALSE]
+
+    all_nodes = unique(c(mat[, 1], mat[, 2], other_pkgs, loaded_pkgs))
+    node_col = rep("black", length(all_nodes))
+    node_col[all_nodes %in% other_pkgs] = "red"
+    node_col[all_nodes %in% loaded_pkgs] = "blue"
+
+    nodes = glue::glue("  \"{all_nodes}\" [color=\"{node_col}\"];", collapse = FALSE)
+
+    dep_col = c(2, 4, 3, 5, 6)
+    dep_col = rgb(t(col2rgb(dep_col)), max = 255)
+    names(dep_col) = c("Depends", "Imports", "LinkingTo", "Suggests", "Enhances")
+
+    edges = glue::glue("  \"{mat[, 1]}\" -> \"{mat[, 2]}\" [color=\"{dep_col[mat[, 3]]}\"];", collapse = FALSE)
+
+    dot = paste(
+        c("digraph {",
+          "  nodesep=0.05",
+          glue::glue("  rankdir={rankdir};"), 
+          "  graph [overlap = true];",
+          "  node[shape = box];",
+          nodes,
+          edges,
+          "}"),
+        collapse = "\n"
+    )
+
+    DiagrammeR::grViz(dot)
+}
+```
+
+在前面的示例中，我们只考虑了**ggplot2**上游的“强依赖关系”。如果我们包含所有依赖关系会怎样？
+
+
+
+```{r, fig.width = 12}
+dep_in_session("ggplot2", db = db, dep_group = "all")
+```
+
+它变得更加复杂！特别是我们可以看到存在许多双向依赖关系，例如， `A <-> B`，其中A是B的强依赖项，而B是A的弱依赖项。
+
+接下来让我们检查一个Bioconductor包**DESeq2**。
+
+我们首先只考虑**DESeq2**上游的强依赖性。
+
+
+```{r, fig.width = 10, fig.height = 8}
+dep_in_session("DESeq2", db = db, dep_group = "strong")
+```
+
+它已经非常复杂，但有趣的是，**DESeq2**的依赖项可以很好地分为两组。第一组与Bioconductor包相关，其中很多直接被附加到搜索路径（红色框：在搜索路径中可见；红色链接：“Depends”关系）；第二组主要与**ggplot2**及其上游包相关，它们都间接加载到R会话中（蓝色链接：“Imports”关系）。
+
+如果我们包含所有依赖类型会怎样？现在我们需要将布局更改为“TB”样式（top-bottom）。正如我们所看到的，一个简单的命令`library(DESeq2)`给你的 R session带来了一个dependency monster。
+
+```{r, fig.width = 8, fig.height = 16}
+dep_in_session("DESeq2", db = db, dep_group = "all", rankdir = "TB")
+```
+
+最后，让我们检查一下如果仅载入**Seurat**包。
+
+
+```{r, fig.width = 8, fig.height = 16}
+dep_in_session("Seurat", db = db, dep_group = "strong")
+```
+
+眼花缭乱！
+
+如果包含**Seurat**所有的依赖关系，会变得异常庞大和复杂。
+
+```{r, fig.width = 12, fig.height = 8}
+dep_in_session("Seurat", db = db, dep_group = "all")
+```
+
+
+```{r}
+sessionInfo()
+```
+
+
+

@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <meta name="description" content="A website built through Hugo and blogdown.">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+    
+      <link href="https://fonts.googleapis.com/css?family=Open+Sans:400|Old+Standard+TT:400&display=swap" rel="stylesheet" media="print" type="text/css" onload="this.media='all'">
+    
+
+    
+
+
+<link href='//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+
+    <title>
+      
+      
+         R session 中软件包依赖关系网络 
+      
+    </title>
+    <link rel="canonical" href="lab-cn/2023/11/16/package-dependencies-in-your-session/">
+
+    <style>
+  * {
+    border:0;
+    font:inherit;
+    vertical-align:baseline;
+    margin:0;
+    padding:0;
+    color: black;
+    text-decoration-skip: ink;
+    overflow-wrap: break-word;
+  }
+
+  body {
+    font-family: Georgia,serif;
+    line-height:160%;
+    color:#1d1313;
+    max-width:1000px;
+    margin:auto;
+    min-height: 600px;
+    font-size: 17px;
+  }
+
+  p {
+    margin: 20px 0;
+  }
+
+  a img {
+    border:none;
+  }
+
+  img {
+    margin: 10px auto 10px auto;
+    max-width: 100%;
+    display: block;
+  }
+
+  .left-justify { float: left; }
+  .right-justify { float:right; }
+
+  pre, code {
+    font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    background-color: #f7f7f7;
+  }
+
+  code {
+    padding: 4px;
+  }
+
+  pre {
+    margin-top: 0;
+    margin-bottom: 16px;
+    word-wrap: normal;
+    padding: 16px;
+    overflow: auto;
+    font-size: 85%;
+    line-height: 1.45;
+  }
+
+  pre>code {
+    padding: 0;
+    margin: 0;
+    font-size: 100%;
+    word-break: normal;
+    white-space: pre;
+    background: transparent;
+    border: 0;
+  }
+
+  pre code {
+    display: inline;
+    padding: 0;
+    margin: 0;
+    overflow: visible;
+    line-height: inherit;
+    word-wrap: normal;
+    background-color: transparent;
+    border: 0;
+  }
+
+  pre code::before,
+  pre code::after {
+    content: normal;
+  }
+
+  em,q,em,dfn {
+    font-style:italic;
+  }
+
+  .sans,html .gist .gist-file .gist-meta {
+    font-family:"Open Sans","Myriad Pro",Myriad,sans-serif;
+  }
+
+  .mono,pre,code,tt,p code,li code {
+    font-family:Menlo,Monaco,"Andale Mono","lucida console","Courier New",monospace;
+  }
+
+  strong {
+    font-weight:600;
+  }
+
+  q:before {
+    content:"\201C";
+  }
+
+  q:after {
+    content:"\201D";
+  }
+
+  del,s {
+    text-decoration:line-through;
+  }
+
+  blockquote {
+    font-family:"Old Standard TT",serif;
+    text-align:center;
+    padding:50px;
+  }
+
+  blockquote p {
+    display:inline-block;
+    font-style:italic;
+  }
+
+  blockquote:before,blockquote:after {
+    font-family:"Old Standard TT",serif;
+    content:'\201C';
+    color:#403c3b;
+  }
+
+  blockquote:after {
+    content:'\201D';
+  }
+
+  hr {
+    width:40%;
+    height: 1px;
+    background:#403c3b;
+    margin: 25px auto;
+  }
+
+
+  h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+
+  h1 a,h2 a,h3 a {
+    text-decoration:none;
+  }
+
+  h1,h2 {
+    margin-top:28px;
+  }
+
+  h1 {
+    font-size: 2em;
+  }
+
+  h2, h3 {
+    font-size: 1.5em;
+  }
+
+  #sub-header, .date {
+    color:#403c3b;
+  }
+
+  #sub-header {
+    margin: 0 4px;
+    font-style: italic;
+  }
+
+  #nav h1 a {
+    color:#1d1313;
+    line-height:120%;
+  }
+
+  .posts_listing a,#nav a {
+    text-decoration: none;
+  }
+
+  li {
+    margin-left: 20px;
+  }
+
+  ul li {
+    margin-left: 20px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+  }
+
+
+  #nav ul li:before, .posts_listing li:before {
+    content:'';
+    margin-right:0;
+  }
+
+  #content {
+    text-align:left;
+    width:100%;
+    padding:30px 0 80px;
+  }
+
+  #content h1,#content h2 {
+    margin-bottom:5px;
+  }
+
+  #content .entry-content {
+    margin-top:15px;
+  }
+
+  #content .date {
+    margin-left:3px;
+  }
+
+
+  .highlight {
+    margin: 10px 0;
+  }
+
+  .posts_listing {
+    margin:0 0 50px;
+  }
+
+  .posts_listing li {
+    margin:0 0 25px 15px;
+  }
+
+ 
+  #nav {
+    text-align:center;
+    position:static;
+    margin-top:60px;
+  }
+
+  a {
+    text-decoration: underline;
+    text-decoration-color: #CCC;
+    text-underline-offset: 5px;
+  }
+
+  a:hover {
+    text-decoration-color: black;
+  }
+
+  
+  #nav li {
+    list-style-type:none;
+    display:table-cell;
+    padding: 0 20px;
+  }
+
+  #links {
+    display: flex;
+    justify-content: space-between;
+    margin: 50px 0 0 0;
+  }
+
+  #links :nth-child(1) {
+    margin-right:0.5em;;
+  }
+
+  #links :nth-child(2) {
+    margin-left:0.5em;;
+  }
+
+  #not-found {
+    text-align: center;
+  }
+
+  #not-found a {
+    font-size: 3em;
+    text-decoration: none;
+    display: inline-block;
+    padding-top: 225px;
+    padding-bottom: 225px;
+  }
+
+
+#soft-info table td {
+  padding: 2px 10px 2px 0px;
+}
+
+#license {
+  font-style: italic;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color:#403c3b;
+}
+#license a {
+  color:#403c3b;
+}
+  @media (max-width: 750px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:28px;
+    }
+
+    #nav li {
+      font-size:13px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:50px;
+      font-size:14px;
+    }
+
+    #content h1 {
+      font-size:25px;
+    }
+
+    #content h2 {
+      font-size:22px;
+    }
+
+    .posts_listing li div {
+      font-size:12px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding-left:20px;
+      padding-right:20px;
+    }
+
+    #nav h1 a {
+      font-size:22px;
+    }
+
+    #nav li {
+      font-size:12px;
+      padding: 0 5px;
+    }
+
+    #content {
+      margin-top:0;
+      padding-top:20px;
+      font-size:12px;
+    }
+
+    #content h1 {
+      font-size:20px;
+    }
+
+    #content h2 {
+      font-size:18px;
+    }
+
+    .posts_listing li div{
+      font-size:12px;
+    }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    *, #nav h1 a {
+      color: #FDFDFD;
+    }
+
+    body {
+      background: #121212;
+    }
+
+    pre, code {
+      background-color: #262626;
+    }
+
+    #sub-header, .date {
+      color: #BABABA;
+    }
+
+    hr {
+      background: #EBEBEB;
+    }
+  }
+</style>
+
+
+    </head>
+<style>
+#nav-logo-text {
+    float: left;
+    margin-top: 0px;
+    margin-left: 0px;
+    font-size: 2em;
+    font-weight: 100;
+}
+#at {
+  font-size:24px;
+  padding:0px 2px;
+}
+</style>
+<script type="text/javascript">
+$( function() {
+  $("#nav a").each(function(i) {
+        var old_href = $(this).attr("href");
+        var pattern1 = new RegExp("^http");
+        if(!pattern1.test(old_href)) {
+          var pattern = new RegExp("^/");
+          if(!pattern.test(old_href)) {
+              
+            $(this).attr("href", "/" + old_href);
+              
+          }
+        }
+    });
+})
+</script>
+  <body>
+    <section id=nav>
+      <h1><a class="h-card" href="/"></a></h1>
+      <a href="lab-cn/" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <ul style="float:right">
+        
+          <li><a href="lab-cn/research/">研究</a></li>
+        
+          <li><a href="lab-cn/publication/">论文</a></li>
+        
+          <li><a href="lab-cn/software/">软件</a></li>
+        
+          <li><a href="lab-cn/post">博客</a></li>
+        
+          <li><a href="lab-cn/members/">成员</a></li>
+        
+          <li><a href="lab-cn/opening/">职位</a></li>
+        
+      </ul>
+      <div style="clear:both"></div>
+    </section>
+
+
+<section id=content>
+  <h1 style="margin-bottom: 40px"> R session 中软件包依赖关系网络 </h1>
+
+  
+    <div id=sub-header>
+      顾祖光 · November 2023 · <a href="#license">版权信息</a>
+    </div>
+  
+
+  <div class="entry-content">
+    <link href="/lab-cn/rmarkdown-libs/htmltools-fill/fill.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/lab-cn/rmarkdown-libs/viz/viz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/grViz-binding/grViz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/htmltools-fill/fill.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/lab-cn/rmarkdown-libs/viz/viz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/grViz-binding/grViz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/htmltools-fill/fill.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/lab-cn/rmarkdown-libs/viz/viz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/grViz-binding/grViz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/htmltools-fill/fill.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/lab-cn/rmarkdown-libs/viz/viz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/grViz-binding/grViz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/htmltools-fill/fill.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/lab-cn/rmarkdown-libs/viz/viz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/grViz-binding/grViz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/htmltools-fill/fill.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/lab-cn/rmarkdown-libs/viz/viz.js"></script>
+<link href="/lab-cn/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/lab-cn/rmarkdown-libs/grViz-binding/grViz.js"></script>
+<p>在R markdown文档中将<code>sessionInfo()</code>放在末尾几乎已经成为一种标准。<code>sessionInfo()</code>能够打印出加载到R session中的包的列表。但这些包之间的依赖关系又如何呢？在这篇博文中，让我们来看看。</p>
+<p>让我们打开一个新的R session并仅加载<strong>ggplot2</strong>包：</p>
+<pre><code class="language-r">library(ggplot2)
+</code></pre>
+<p>接下来我们运行<code>sessionInfo()</code>：</p>
+<pre><code class="language-r">x1 = sessionInfo()
+</code></pre>
+<p>打印<code>x1</code>：</p>
+<pre><code class="language-r">x1
+</code></pre>
+<pre><code>## R version 4.3.1 (2023-06-16)
+## Platform: x86_64-apple-darwin20 (64-bit)
+## Running under: macOS Ventura 13.2.1
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
+## 
+## locale:
+## [1] C/UTF-8/C/C/C/C
+## 
+## time zone: Europe/Berlin
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] ggplot2_3.4.4
+## 
+## loaded via a namespace (and not attached):
+##  [1] utf8_1.2.3       R6_2.5.1         tidyselect_1.2.0 magrittr_2.0.3   gtable_0.3.4    
+##  [6] glue_1.6.2       tibble_3.2.1     pkgconfig_2.0.3  generics_0.1.3   dplyr_1.1.3     
+## [11] lifecycle_1.0.3  cli_3.6.1        fansi_1.0.5      scales_1.2.1     grid_4.3.1      
+## [16] vctrs_0.6.4      withr_2.5.1      compiler_4.3.1   munsell_0.5.0    pillar_1.9.0    
+## [21] colorspace_2.1-0 rlang_1.1.1
+</code></pre>
+<p>只有二十几个包被载入，看起来不是很多。返回变量<code>x1</code>是一个列表，其中包含了直接或间接加载的包列表。这些包可以分为三组：</p>
+<ul>
+<li>基础包：R附带的基础包，例如<strong>grid</strong>、<strong>methods</strong>。</li>
+<li>其他包：例如通过<code>library()</code>加载的包。它们在搜索路径上可见（通过<code>search()</code>函数可以看到完整的搜索路径）。</li>
+<li>加载包：通过“其他包”加载到R session中，但在搜索路径上不可见。</li>
+</ul>
+<pre><code class="language-r">base_pkgs = x1$basePkgs
+other_pkgs = sapply(x1$otherPkgs, function(x) x$Package)
+loaded_pkgs = sapply(x1$loadedOnly, function(x) x$Package)
+</code></pre>
+<p>对于session中的包，现在我们需要知道它们的依赖关系。这里我们使用<strong>pkgndep</strong>包。所有本地安装的包都作为“包数据库”用来来查询依赖关系。</p>
+<pre><code class="language-r">library(pkgndep)
+db = reformat_db(installed.packages())
+</code></pre>
+<pre><code>## prepare dependency table...
+## prepare reverse dependency table...
+</code></pre>
+<p><code>loaded_pkgs</code>均通过<code>other_packages</code>以直接或者间接的方式导入R session，所以
+我们遍历每个<code>other_packages</code>中的包，获取其直接和间接的上游依赖关系。这里我们只使用“强”依赖，即依赖关系为“Depends”、“Imports”和“LinkingTo”的依赖包。</p>
+<pre><code class="language-r">mat = matrix(nrow = 0, ncol = 3)
+
+for(pkg in other_pkgs) {
+    mat = rbind(mat, db$package_dependencies(pkg, recursive = TRUE, which = &quot;strong&quot;))
+}
+mat = unique(mat)
+</code></pre>
+<p>基础包直接随着R发布，我们不关心基于它们的依赖关系，因此我们删除与基础包的依赖关系。我们只将包限制为“其他包”和“加载包”。</p>
+<pre><code class="language-r">all_pkgs = c(other_pkgs, loaded_pkgs)
+mat = mat[mat[, 1] %in% all_pkgs &amp; mat[, 2] %in% all_pkgs, , drop = FALSE]
+mat = mat[!mat[, 1] %in% pkgndep:::BASE_PKGS | mat[, 2] %in% pkgndep:::BASE_PKGS, , drop = FALSE]
+head(mat)
+</code></pre>
+<pre><code>##      package   dependency  dep_fields
+## [1,] &quot;ggplot2&quot; &quot;cli&quot;       &quot;Imports&quot; 
+## [2,] &quot;ggplot2&quot; &quot;glue&quot;      &quot;Imports&quot; 
+## [3,] &quot;ggplot2&quot; &quot;grid&quot;      &quot;Imports&quot; 
+## [4,] &quot;ggplot2&quot; &quot;gtable&quot;    &quot;Imports&quot; 
+## [5,] &quot;ggplot2&quot; &quot;lifecycle&quot; &quot;Imports&quot; 
+## [6,] &quot;ggplot2&quot; &quot;rlang&quot;     &quot;Imports&quot;
+</code></pre>
+<p>接下来我们使用<strong>DiagrammeR</strong>包来可视化依赖关系。我们首先生成DOT代码：</p>
+<pre><code class="language-r">all_nodes = unique(c(mat[, 1], mat[, 2], other_pkgs, loaded_pkgs))
+node_col = rep(&quot;black&quot;, length(all_nodes))
+node_col[all_nodes %in% other_pkgs] = &quot;red&quot;
+node_col[all_nodes %in% loaded_pkgs] = &quot;blue&quot;
+
+library(glue)
+nodes = glue(&quot;  \&quot;{all_nodes}\&quot; [color=\&quot;{node_col}\&quot;];&quot;, collapse = FALSE)
+
+dep_col = c(2, 4, 3, 5, 6)
+dep_col = rgb(t(col2rgb(dep_col)), max = 255)
+names(dep_col) = c(&quot;Depends&quot;, &quot;Imports&quot;, &quot;LinkingTo&quot;, &quot;Suggests&quot;, &quot;Enhances&quot;)
+
+edges = glue(&quot;  \&quot;{mat[, 1]}\&quot; -&gt; \&quot;{mat[, 2]}\&quot; [color=\&quot;{dep_col[mat[, 3]]}\&quot;];&quot;, collapse = FALSE)
+
+dot = paste(
+    c(&quot;digraph {&quot;,
+      &quot;  nodesep=0.05&quot;,
+      &quot;  rankdir=LR;&quot;, 
+      &quot;  graph [overlap = true];&quot;,
+      &quot;  node[shape = box];&quot;,
+      nodes,
+      edges,
+      &quot;}&quot;),
+    collapse = &quot;\n&quot;
+)
+cat(dot)
+</code></pre>
+<pre><code>## digraph {
+##   nodesep=0.05
+##   rankdir=LR;
+##   graph [overlap = true];
+##   node[shape = box];
+##   &quot;ggplot2&quot; [color=&quot;red&quot;];
+##   &quot;gtable&quot; [color=&quot;blue&quot;];
+##   &quot;lifecycle&quot; [color=&quot;blue&quot;];
+##   &quot;scales&quot; [color=&quot;blue&quot;];
+##   &quot;tibble&quot; [color=&quot;blue&quot;];
+##   &quot;vctrs&quot; [color=&quot;blue&quot;];
+##   &quot;munsell&quot; [color=&quot;blue&quot;];
+##   &quot;pillar&quot; [color=&quot;blue&quot;];
+##   &quot;cli&quot; [color=&quot;blue&quot;];
+##   &quot;glue&quot; [color=&quot;blue&quot;];
+##   &quot;grid&quot; [color=&quot;blue&quot;];
+##   &quot;rlang&quot; [color=&quot;blue&quot;];
+##   &quot;withr&quot; [color=&quot;blue&quot;];
+##   &quot;R6&quot; [color=&quot;blue&quot;];
+##   &quot;fansi&quot; [color=&quot;blue&quot;];
+##   &quot;magrittr&quot; [color=&quot;blue&quot;];
+##   &quot;pkgconfig&quot; [color=&quot;blue&quot;];
+##   &quot;colorspace&quot; [color=&quot;blue&quot;];
+##   &quot;utf8&quot; [color=&quot;blue&quot;];
+##   &quot;tidyselect&quot; [color=&quot;blue&quot;];
+##   &quot;generics&quot; [color=&quot;blue&quot;];
+##   &quot;dplyr&quot; [color=&quot;blue&quot;];
+##   &quot;compiler&quot; [color=&quot;blue&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;cli&quot; [color=&quot;#2297E6&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;glue&quot; [color=&quot;#2297E6&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;grid&quot; [color=&quot;#2297E6&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;gtable&quot; [color=&quot;#2297E6&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;lifecycle&quot; [color=&quot;#2297E6&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;rlang&quot; [color=&quot;#2297E6&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;scales&quot; [color=&quot;#2297E6&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;tibble&quot; [color=&quot;#2297E6&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;vctrs&quot; [color=&quot;#2297E6&quot;];
+##   &quot;ggplot2&quot; -&gt; &quot;withr&quot; [color=&quot;#2297E6&quot;];
+##   &quot;gtable&quot; -&gt; &quot;cli&quot; [color=&quot;#2297E6&quot;];
+##   &quot;gtable&quot; -&gt; &quot;glue&quot; [color=&quot;#2297E6&quot;];
+##   &quot;gtable&quot; -&gt; &quot;grid&quot; [color=&quot;#2297E6&quot;];
+##   &quot;gtable&quot; -&gt; &quot;lifecycle&quot; [color=&quot;#2297E6&quot;];
+##   &quot;gtable&quot; -&gt; &quot;rlang&quot; [color=&quot;#2297E6&quot;];
+##   &quot;lifecycle&quot; -&gt; &quot;cli&quot; [color=&quot;#2297E6&quot;];
+##   &quot;lifecycle&quot; -&gt; &quot;glue&quot; [color=&quot;#2297E6&quot;];
+##   &quot;lifecycle&quot; -&gt; &quot;rlang&quot; [color=&quot;#2297E6&quot;];
+##   &quot;scales&quot; -&gt; &quot;cli&quot; [color=&quot;#2297E6&quot;];
+##   &quot;scales&quot; -&gt; &quot;glue&quot; [color=&quot;#2297E6&quot;];
+##   &quot;scales&quot; -&gt; &quot;lifecycle&quot; [color=&quot;#2297E6&quot;];
+##   &quot;scales&quot; -&gt; &quot;munsell&quot; [color=&quot;#2297E6&quot;];
+##   &quot;scales&quot; -&gt; &quot;R6&quot; [color=&quot;#2297E6&quot;];
+##   &quot;scales&quot; -&gt; &quot;rlang&quot; [color=&quot;#2297E6&quot;];
+##   &quot;tibble&quot; -&gt; &quot;fansi&quot; [color=&quot;#2297E6&quot;];
+##   &quot;tibble&quot; -&gt; &quot;lifecycle&quot; [color=&quot;#2297E6&quot;];
+##   &quot;tibble&quot; -&gt; &quot;magrittr&quot; [color=&quot;#2297E6&quot;];
+##   &quot;tibble&quot; -&gt; &quot;pillar&quot; [color=&quot;#2297E6&quot;];
+##   &quot;tibble&quot; -&gt; &quot;pkgconfig&quot; [color=&quot;#2297E6&quot;];
+##   &quot;tibble&quot; -&gt; &quot;rlang&quot; [color=&quot;#2297E6&quot;];
+##   &quot;tibble&quot; -&gt; &quot;vctrs&quot; [color=&quot;#2297E6&quot;];
+##   &quot;vctrs&quot; -&gt; &quot;cli&quot; [color=&quot;#2297E6&quot;];
+##   &quot;vctrs&quot; -&gt; &quot;glue&quot; [color=&quot;#2297E6&quot;];
+##   &quot;vctrs&quot; -&gt; &quot;lifecycle&quot; [color=&quot;#2297E6&quot;];
+##   &quot;vctrs&quot; -&gt; &quot;rlang&quot; [color=&quot;#2297E6&quot;];
+##   &quot;munsell&quot; -&gt; &quot;colorspace&quot; [color=&quot;#2297E6&quot;];
+##   &quot;pillar&quot; -&gt; &quot;cli&quot; [color=&quot;#2297E6&quot;];
+##   &quot;pillar&quot; -&gt; &quot;fansi&quot; [color=&quot;#2297E6&quot;];
+##   &quot;pillar&quot; -&gt; &quot;glue&quot; [color=&quot;#2297E6&quot;];
+##   &quot;pillar&quot; -&gt; &quot;lifecycle&quot; [color=&quot;#2297E6&quot;];
+##   &quot;pillar&quot; -&gt; &quot;rlang&quot; [color=&quot;#2297E6&quot;];
+##   &quot;pillar&quot; -&gt; &quot;utf8&quot; [color=&quot;#2297E6&quot;];
+##   &quot;pillar&quot; -&gt; &quot;vctrs&quot; [color=&quot;#2297E6&quot;];
+## }
+</code></pre>
+<p>然后我们使用<code>grViz()</code>生成依赖关系网络图。</p>
+<pre><code class="language-r">DiagrammeR::grViz(dot)
+</code></pre>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-1" style="width:480px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"diagram":"digraph {\n  nodesep=0.05\n  rankdir=LR;\n  graph [overlap = true];\n  node[shape = box];\n  \"ggplot2\" [color=\"red\"];\n  \"gtable\" [color=\"blue\"];\n  \"lifecycle\" [color=\"blue\"];\n  \"scales\" [color=\"blue\"];\n  \"tibble\" [color=\"blue\"];\n  \"vctrs\" [color=\"blue\"];\n  \"munsell\" [color=\"blue\"];\n  \"pillar\" [color=\"blue\"];\n  \"cli\" [color=\"blue\"];\n  \"glue\" [color=\"blue\"];\n  \"grid\" [color=\"blue\"];\n  \"rlang\" [color=\"blue\"];\n  \"withr\" [color=\"blue\"];\n  \"R6\" [color=\"blue\"];\n  \"fansi\" [color=\"blue\"];\n  \"magrittr\" [color=\"blue\"];\n  \"pkgconfig\" [color=\"blue\"];\n  \"colorspace\" [color=\"blue\"];\n  \"utf8\" [color=\"blue\"];\n  \"tidyselect\" [color=\"blue\"];\n  \"generics\" [color=\"blue\"];\n  \"dplyr\" [color=\"blue\"];\n  \"compiler\" [color=\"blue\"];\n  \"ggplot2\" -> \"cli\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"glue\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"gtable\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"rlang\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"scales\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"tibble\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"withr\" [color=\"#2297E6\"];\n  \"gtable\" -> \"cli\" [color=\"#2297E6\"];\n  \"gtable\" -> \"glue\" [color=\"#2297E6\"];\n  \"gtable\" -> \"grid\" [color=\"#2297E6\"];\n  \"gtable\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"gtable\" -> \"rlang\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"cli\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"glue\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"rlang\" [color=\"#2297E6\"];\n  \"scales\" -> \"cli\" [color=\"#2297E6\"];\n  \"scales\" -> \"glue\" [color=\"#2297E6\"];\n  \"scales\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"scales\" -> \"munsell\" [color=\"#2297E6\"];\n  \"scales\" -> \"R6\" [color=\"#2297E6\"];\n  \"scales\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tibble\" -> \"fansi\" [color=\"#2297E6\"];\n  \"tibble\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tibble\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pillar\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pkgconfig\" [color=\"#2297E6\"];\n  \"tibble\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tibble\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"cli\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"glue\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"rlang\" [color=\"#2297E6\"];\n  \"munsell\" -> \"colorspace\" [color=\"#2297E6\"];\n  \"pillar\" -> \"cli\" [color=\"#2297E6\"];\n  \"pillar\" -> \"fansi\" [color=\"#2297E6\"];\n  \"pillar\" -> \"glue\" [color=\"#2297E6\"];\n  \"pillar\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"pillar\" -> \"rlang\" [color=\"#2297E6\"];\n  \"pillar\" -> \"utf8\" [color=\"#2297E6\"];\n  \"pillar\" -> \"vctrs\" [color=\"#2297E6\"];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>看起来依赖关系网络比简单列出包要略微复杂一些。图中还有一些未连接到<strong>ggplot2</strong>的包，例如<strong>dplyr</strong>。它们由<strong>ggplot2</strong>或其上游包作为“弱依赖”间接加载到R session中。</p>
+<p>我们将代码包装为可以重复使用的函数<code>loaded_pkgs()</code>。在函数内部，我们使用<strong>callr</strong>包在一个新的R session中调用<code>library(pkg)</code>和获取session信息。</p>
+<pre><code class="language-r">loaded_pkgs = function(pkg) {
+    for(i in seq_along(pkg)) {
+        library(pkg[i], character.only=TRUE)
+    }
+    session_info = sessionInfo()
+
+    base_pkgs = session_info$basePkgs
+    other_pkgs = sapply(session_info$otherPkgs, function(x)x$Package)
+    loaded_pkgs = sapply(session_info$loadedOnly, function(x)x$Package)
+
+    lt = list(base_pkgs = base_pkgs,
+              other_pkgs = other_pkgs,
+              loaded_pkgs = loaded_pkgs)
+
+    jsonlite::toJSON(lt)
+}
+
+dep_in_session = function(pkg, db, dep_group = &quot;strong&quot;, rankdir = &quot;LR&quot;) {
+
+    session_info = jsonlite::fromJSON(callr::r(loaded_pkgs, args = list(pkg = pkg)))
+
+    base_pkgs = session_info$base_pkgs
+    other_pkgs = session_info$other_pkgs
+    loaded_pkgs = session_info$loaded_pkgs
+
+    mat = matrix(nrow = 0, ncol = 3)
+
+    for(pkg in other_pkgs) {
+        mat = rbind(mat, db$package_dependencies(pkg, recursive = TRUE, which = dep_group))
+    }
+    mat = unique(mat)
+    mat = mat[!mat[, 1] %in% pkgndep:::BASE_PKGS | mat[, 2] %in% pkgndep:::BASE_PKGS, , drop = FALSE]
+
+    all_pkgs = c(other_pkgs, loaded_pkgs)
+    mat = mat[mat[, 1] %in% all_pkgs &amp; mat[, 2] %in% all_pkgs, , drop = FALSE]
+
+    all_nodes = unique(c(mat[, 1], mat[, 2], other_pkgs, loaded_pkgs))
+    node_col = rep(&quot;black&quot;, length(all_nodes))
+    node_col[all_nodes %in% other_pkgs] = &quot;red&quot;
+    node_col[all_nodes %in% loaded_pkgs] = &quot;blue&quot;
+
+    nodes = glue::glue(&quot;  \&quot;{all_nodes}\&quot; [color=\&quot;{node_col}\&quot;];&quot;, collapse = FALSE)
+
+    dep_col = c(2, 4, 3, 5, 6)
+    dep_col = rgb(t(col2rgb(dep_col)), max = 255)
+    names(dep_col) = c(&quot;Depends&quot;, &quot;Imports&quot;, &quot;LinkingTo&quot;, &quot;Suggests&quot;, &quot;Enhances&quot;)
+
+    edges = glue::glue(&quot;  \&quot;{mat[, 1]}\&quot; -&gt; \&quot;{mat[, 2]}\&quot; [color=\&quot;{dep_col[mat[, 3]]}\&quot;];&quot;, collapse = FALSE)
+
+    dot = paste(
+        c(&quot;digraph {&quot;,
+          &quot;  nodesep=0.05&quot;,
+          glue::glue(&quot;  rankdir={rankdir};&quot;), 
+          &quot;  graph [overlap = true];&quot;,
+          &quot;  node[shape = box];&quot;,
+          nodes,
+          edges,
+          &quot;}&quot;),
+        collapse = &quot;\n&quot;
+    )
+
+    DiagrammeR::grViz(dot)
+}
+</code></pre>
+<p>在前面的示例中，我们只考虑了<strong>ggplot2</strong>上游的“强依赖关系”。如果我们包含所有依赖关系会怎样？</p>
+<pre><code class="language-r">dep_in_session(&quot;ggplot2&quot;, db = db, dep_group = &quot;all&quot;)
+</code></pre>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-2" style="width:1152px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"diagram":"digraph {\n  nodesep=0.05\n  rankdir=LR;\n  graph [overlap = true];\n  node[shape = box];\n  \"ggplot2\" [color=\"red\"];\n  \"cli\" [color=\"blue\"];\n  \"glue\" [color=\"blue\"];\n  \"gtable\" [color=\"blue\"];\n  \"lifecycle\" [color=\"blue\"];\n  \"rlang\" [color=\"blue\"];\n  \"scales\" [color=\"blue\"];\n  \"tibble\" [color=\"blue\"];\n  \"vctrs\" [color=\"blue\"];\n  \"withr\" [color=\"blue\"];\n  \"dplyr\" [color=\"blue\"];\n  \"munsell\" [color=\"blue\"];\n  \"magrittr\" [color=\"blue\"];\n  \"pillar\" [color=\"blue\"];\n  \"generics\" [color=\"blue\"];\n  \"tidyselect\" [color=\"blue\"];\n  \"colorspace\" [color=\"blue\"];\n  \"utf8\" [color=\"blue\"];\n  \"grid\" [color=\"blue\"];\n  \"R6\" [color=\"blue\"];\n  \"fansi\" [color=\"blue\"];\n  \"pkgconfig\" [color=\"blue\"];\n  \"compiler\" [color=\"blue\"];\n  \"ggplot2\" -> \"cli\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"glue\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"gtable\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"rlang\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"scales\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"tibble\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"withr\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"ggplot2\" -> \"munsell\" [color=\"#28E2E5\"];\n  \"cli\" -> \"glue\" [color=\"#28E2E5\"];\n  \"cli\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"cli\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"cli\" -> \"withr\" [color=\"#28E2E5\"];\n  \"glue\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"glue\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"glue\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"glue\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"glue\" -> \"withr\" [color=\"#28E2E5\"];\n  \"gtable\" -> \"cli\" [color=\"#2297E6\"];\n  \"gtable\" -> \"glue\" [color=\"#2297E6\"];\n  \"gtable\" -> \"grid\" [color=\"#2297E6\"];\n  \"gtable\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"gtable\" -> \"rlang\" [color=\"#2297E6\"];\n  \"gtable\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"cli\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"glue\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"rlang\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"withr\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"cli\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"glue\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"pillar\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"withr\" [color=\"#28E2E5\"];\n  \"scales\" -> \"cli\" [color=\"#2297E6\"];\n  \"scales\" -> \"glue\" [color=\"#2297E6\"];\n  \"scales\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"scales\" -> \"munsell\" [color=\"#2297E6\"];\n  \"scales\" -> \"R6\" [color=\"#2297E6\"];\n  \"scales\" -> \"rlang\" [color=\"#2297E6\"];\n  \"scales\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"fansi\" [color=\"#2297E6\"];\n  \"tibble\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tibble\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pillar\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pkgconfig\" [color=\"#2297E6\"];\n  \"tibble\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tibble\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"tibble\" -> \"cli\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"withr\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"cli\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"glue\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"rlang\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"generics\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"pillar\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"withr\" [color=\"#28E2E5\"];\n  \"withr\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"dplyr\" -> \"cli\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"generics\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"glue\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"pillar\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"R6\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"tibble\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"tidyselect\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"dplyr\" -> \"withr\" [color=\"#28E2E5\"];\n  \"munsell\" -> \"colorspace\" [color=\"#2297E6\"];\n  \"munsell\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"magrittr\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"cli\" [color=\"#2297E6\"];\n  \"pillar\" -> \"fansi\" [color=\"#2297E6\"];\n  \"pillar\" -> \"glue\" [color=\"#2297E6\"];\n  \"pillar\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"pillar\" -> \"rlang\" [color=\"#2297E6\"];\n  \"pillar\" -> \"utf8\" [color=\"#2297E6\"];\n  \"pillar\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"pillar\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"scales\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"withr\" [color=\"#28E2E5\"];\n  \"generics\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"generics\" -> \"withr\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"cli\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"glue\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"withr\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"scales\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"grid\" [color=\"#28E2E5\"];\n  \"utf8\" -> \"cli\" [color=\"#28E2E5\"];\n  \"utf8\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"utf8\" -> \"withr\" [color=\"#28E2E5\"];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>它变得更加复杂！特别是我们可以看到存在许多双向依赖关系，例如， <code>A &lt;-&gt; B</code>，其中A是B的强依赖项，而B是A的弱依赖项。</p>
+<p>接下来让我们检查一个Bioconductor包<strong>DESeq2</strong>。</p>
+<p>我们首先只考虑<strong>DESeq2</strong>上游的强依赖性。</p>
+<pre><code class="language-r">dep_in_session(&quot;DESeq2&quot;, db = db, dep_group = &quot;strong&quot;)
+</code></pre>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-3" style="width:960px;height:768px;"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"diagram":"digraph {\n  nodesep=0.05\n  rankdir=LR;\n  graph [overlap = true];\n  node[shape = box];\n  \"DESeq2\" [color=\"red\"];\n  \"S4Vectors\" [color=\"red\"];\n  \"IRanges\" [color=\"red\"];\n  \"GenomicRanges\" [color=\"red\"];\n  \"SummarizedExperiment\" [color=\"red\"];\n  \"Biobase\" [color=\"red\"];\n  \"BiocParallel\" [color=\"blue\"];\n  \"locfit\" [color=\"blue\"];\n  \"ggplot2\" [color=\"blue\"];\n  \"GenomeInfoDb\" [color=\"red\"];\n  \"XVector\" [color=\"blue\"];\n  \"MatrixGenerics\" [color=\"red\"];\n  \"Matrix\" [color=\"blue\"];\n  \"S4Arrays\" [color=\"blue\"];\n  \"DelayedArray\" [color=\"blue\"];\n  \"parallel\" [color=\"blue\"];\n  \"lattice\" [color=\"blue\"];\n  \"gtable\" [color=\"blue\"];\n  \"lifecycle\" [color=\"blue\"];\n  \"scales\" [color=\"blue\"];\n  \"tibble\" [color=\"blue\"];\n  \"vctrs\" [color=\"blue\"];\n  \"RCurl\" [color=\"blue\"];\n  \"munsell\" [color=\"blue\"];\n  \"pillar\" [color=\"blue\"];\n  \"BiocGenerics\" [color=\"red\"];\n  \"matrixStats\" [color=\"red\"];\n  \"Rcpp\" [color=\"blue\"];\n  \"tools\" [color=\"blue\"];\n  \"codetools\" [color=\"blue\"];\n  \"cli\" [color=\"blue\"];\n  \"glue\" [color=\"blue\"];\n  \"grid\" [color=\"blue\"];\n  \"rlang\" [color=\"blue\"];\n  \"GenomeInfoDbData\" [color=\"blue\"];\n  \"zlibbioc\" [color=\"blue\"];\n  \"abind\" [color=\"blue\"];\n  \"crayon\" [color=\"blue\"];\n  \"compiler\" [color=\"blue\"];\n  \"R6\" [color=\"blue\"];\n  \"fansi\" [color=\"blue\"];\n  \"magrittr\" [color=\"blue\"];\n  \"pkgconfig\" [color=\"blue\"];\n  \"bitops\" [color=\"blue\"];\n  \"colorspace\" [color=\"blue\"];\n  \"utf8\" [color=\"blue\"];\n  \"dplyr\" [color=\"blue\"];\n  \"tidyselect\" [color=\"blue\"];\n  \"generics\" [color=\"blue\"];\n  \"DESeq2\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"DESeq2\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"DESeq2\" -> \"GenomicRanges\" [color=\"#DF536B\"];\n  \"DESeq2\" -> \"SummarizedExperiment\" [color=\"#DF536B\"];\n  \"DESeq2\" -> \"BiocGenerics\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"Biobase\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"BiocParallel\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"matrixStats\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"locfit\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"S4Vectors\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"IRanges\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"IRanges\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"IRanges\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"GenomicRanges\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"GenomicRanges\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"GenomicRanges\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"GenomicRanges\" -> \"GenomeInfoDb\" [color=\"#DF536B\"];\n  \"GenomicRanges\" -> \"XVector\" [color=\"#2297E6\"];\n  \"GenomicRanges\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"GenomicRanges\" -> \"IRanges\" [color=\"#61D04F\"];\n  \"SummarizedExperiment\" -> \"MatrixGenerics\" [color=\"#DF536B\"];\n  \"SummarizedExperiment\" -> \"GenomicRanges\" [color=\"#DF536B\"];\n  \"SummarizedExperiment\" -> \"Biobase\" [color=\"#DF536B\"];\n  \"SummarizedExperiment\" -> \"tools\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"BiocGenerics\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"S4Vectors\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"IRanges\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"GenomeInfoDb\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"S4Arrays\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"DelayedArray\" [color=\"#2297E6\"];\n  \"Biobase\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"BiocParallel\" -> \"parallel\" [color=\"#2297E6\"];\n  \"BiocParallel\" -> \"codetools\" [color=\"#2297E6\"];\n  \"locfit\" -> \"lattice\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"cli\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"glue\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"gtable\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"rlang\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"scales\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"tibble\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"GenomeInfoDb\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"GenomeInfoDb\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"GenomeInfoDb\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"GenomeInfoDb\" -> \"RCurl\" [color=\"#2297E6\"];\n  \"GenomeInfoDb\" -> \"GenomeInfoDbData\" [color=\"#2297E6\"];\n  \"XVector\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"XVector\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"XVector\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"XVector\" -> \"tools\" [color=\"#2297E6\"];\n  \"XVector\" -> \"zlibbioc\" [color=\"#2297E6\"];\n  \"XVector\" -> \"BiocGenerics\" [color=\"#2297E6\"];\n  \"XVector\" -> \"S4Vectors\" [color=\"#2297E6\"];\n  \"XVector\" -> \"IRanges\" [color=\"#2297E6\"];\n  \"XVector\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"XVector\" -> \"IRanges\" [color=\"#61D04F\"];\n  \"MatrixGenerics\" -> \"matrixStats\" [color=\"#DF536B\"];\n  \"Matrix\" -> \"grid\" [color=\"#2297E6\"];\n  \"Matrix\" -> \"lattice\" [color=\"#2297E6\"];\n  \"S4Arrays\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"abind\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"crayon\" [color=\"#2297E6\"];\n  \"S4Arrays\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"DelayedArray\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"MatrixGenerics\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"S4Arrays\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"parallel\" -> \"tools\" [color=\"#2297E6\"];\n  \"parallel\" -> \"compiler\" [color=\"#2297E6\"];\n  \"lattice\" -> \"grid\" [color=\"#2297E6\"];\n  \"gtable\" -> \"cli\" [color=\"#2297E6\"];\n  \"gtable\" -> \"glue\" [color=\"#2297E6\"];\n  \"gtable\" -> \"grid\" [color=\"#2297E6\"];\n  \"gtable\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"gtable\" -> \"rlang\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"cli\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"glue\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"rlang\" [color=\"#2297E6\"];\n  \"scales\" -> \"cli\" [color=\"#2297E6\"];\n  \"scales\" -> \"glue\" [color=\"#2297E6\"];\n  \"scales\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"scales\" -> \"munsell\" [color=\"#2297E6\"];\n  \"scales\" -> \"R6\" [color=\"#2297E6\"];\n  \"scales\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tibble\" -> \"fansi\" [color=\"#2297E6\"];\n  \"tibble\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tibble\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pillar\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pkgconfig\" [color=\"#2297E6\"];\n  \"tibble\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tibble\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"cli\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"glue\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"rlang\" [color=\"#2297E6\"];\n  \"RCurl\" -> \"bitops\" [color=\"#2297E6\"];\n  \"munsell\" -> \"colorspace\" [color=\"#2297E6\"];\n  \"pillar\" -> \"cli\" [color=\"#2297E6\"];\n  \"pillar\" -> \"fansi\" [color=\"#2297E6\"];\n  \"pillar\" -> \"glue\" [color=\"#2297E6\"];\n  \"pillar\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"pillar\" -> \"rlang\" [color=\"#2297E6\"];\n  \"pillar\" -> \"utf8\" [color=\"#2297E6\"];\n  \"pillar\" -> \"vctrs\" [color=\"#2297E6\"];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>它已经非常复杂，但有趣的是，<strong>DESeq2</strong>的依赖项可以很好地分为两组。第一组与Bioconductor包相关，其中很多直接被附加到搜索路径（红色框：在搜索路径中可见；红色链接：“Depends”关系）；第二组主要与<strong>ggplot2</strong>及其上游包相关，它们都间接加载到R会话中（蓝色链接：“Imports”关系）。</p>
+<p>如果我们包含所有依赖类型会怎样？现在我们需要将布局更改为“TB”样式（top-bottom）。正如我们所看到的，一个简单的命令<code>library(DESeq2)</code>给你的 R session带来了一个dependency monster。</p>
+<pre><code class="language-r">dep_in_session(&quot;DESeq2&quot;, db = db, dep_group = &quot;all&quot;, rankdir = &quot;TB&quot;)
+</code></pre>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-4" style="width:768px;height:1536px;"></div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"diagram":"digraph {\n  nodesep=0.05\n  rankdir=TB;\n  graph [overlap = true];\n  node[shape = box];\n  \"DESeq2\" [color=\"red\"];\n  \"S4Vectors\" [color=\"red\"];\n  \"IRanges\" [color=\"red\"];\n  \"GenomicRanges\" [color=\"red\"];\n  \"SummarizedExperiment\" [color=\"red\"];\n  \"BiocGenerics\" [color=\"red\"];\n  \"Biobase\" [color=\"red\"];\n  \"BiocParallel\" [color=\"blue\"];\n  \"matrixStats\" [color=\"red\"];\n  \"locfit\" [color=\"blue\"];\n  \"ggplot2\" [color=\"blue\"];\n  \"Matrix\" [color=\"blue\"];\n  \"DelayedArray\" [color=\"blue\"];\n  \"XVector\" [color=\"blue\"];\n  \"GenomeInfoDb\" [color=\"red\"];\n  \"MatrixGenerics\" [color=\"red\"];\n  \"S4Arrays\" [color=\"blue\"];\n  \"parallel\" [color=\"blue\"];\n  \"lattice\" [color=\"blue\"];\n  \"cli\" [color=\"blue\"];\n  \"glue\" [color=\"blue\"];\n  \"gtable\" [color=\"blue\"];\n  \"lifecycle\" [color=\"blue\"];\n  \"rlang\" [color=\"blue\"];\n  \"scales\" [color=\"blue\"];\n  \"tibble\" [color=\"blue\"];\n  \"vctrs\" [color=\"blue\"];\n  \"dplyr\" [color=\"blue\"];\n  \"munsell\" [color=\"blue\"];\n  \"magrittr\" [color=\"blue\"];\n  \"RCurl\" [color=\"blue\"];\n  \"colorspace\" [color=\"blue\"];\n  \"pillar\" [color=\"blue\"];\n  \"generics\" [color=\"blue\"];\n  \"tidyselect\" [color=\"blue\"];\n  \"utf8\" [color=\"blue\"];\n  \"Rcpp\" [color=\"blue\"];\n  \"tools\" [color=\"blue\"];\n  \"codetools\" [color=\"blue\"];\n  \"grid\" [color=\"blue\"];\n  \"zlibbioc\" [color=\"blue\"];\n  \"GenomeInfoDbData\" [color=\"blue\"];\n  \"abind\" [color=\"blue\"];\n  \"crayon\" [color=\"blue\"];\n  \"compiler\" [color=\"blue\"];\n  \"R6\" [color=\"blue\"];\n  \"fansi\" [color=\"blue\"];\n  \"pkgconfig\" [color=\"blue\"];\n  \"bitops\" [color=\"blue\"];\n  \"DESeq2\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"DESeq2\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"DESeq2\" -> \"GenomicRanges\" [color=\"#DF536B\"];\n  \"DESeq2\" -> \"SummarizedExperiment\" [color=\"#DF536B\"];\n  \"DESeq2\" -> \"BiocGenerics\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"Biobase\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"BiocParallel\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"matrixStats\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"locfit\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"DESeq2\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"S4Vectors\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"S4Vectors\" -> \"IRanges\" [color=\"#28E2E5\"];\n  \"S4Vectors\" -> \"GenomicRanges\" [color=\"#28E2E5\"];\n  \"S4Vectors\" -> \"SummarizedExperiment\" [color=\"#28E2E5\"];\n  \"S4Vectors\" -> \"Matrix\" [color=\"#28E2E5\"];\n  \"S4Vectors\" -> \"DelayedArray\" [color=\"#28E2E5\"];\n  \"IRanges\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"IRanges\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"IRanges\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"IRanges\" -> \"XVector\" [color=\"#28E2E5\"];\n  \"IRanges\" -> \"GenomicRanges\" [color=\"#28E2E5\"];\n  \"GenomicRanges\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"GenomicRanges\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"GenomicRanges\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"GenomicRanges\" -> \"GenomeInfoDb\" [color=\"#DF536B\"];\n  \"GenomicRanges\" -> \"XVector\" [color=\"#2297E6\"];\n  \"GenomicRanges\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"GenomicRanges\" -> \"IRanges\" [color=\"#61D04F\"];\n  \"GenomicRanges\" -> \"Matrix\" [color=\"#28E2E5\"];\n  \"GenomicRanges\" -> \"Biobase\" [color=\"#28E2E5\"];\n  \"GenomicRanges\" -> \"SummarizedExperiment\" [color=\"#28E2E5\"];\n  \"GenomicRanges\" -> \"DESeq2\" [color=\"#28E2E5\"];\n  \"SummarizedExperiment\" -> \"MatrixGenerics\" [color=\"#DF536B\"];\n  \"SummarizedExperiment\" -> \"GenomicRanges\" [color=\"#DF536B\"];\n  \"SummarizedExperiment\" -> \"Biobase\" [color=\"#DF536B\"];\n  \"SummarizedExperiment\" -> \"tools\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"BiocGenerics\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"S4Vectors\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"IRanges\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"GenomeInfoDb\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"S4Arrays\" [color=\"#2297E6\"];\n  \"SummarizedExperiment\" -> \"DelayedArray\" [color=\"#2297E6\"];\n  \"BiocGenerics\" -> \"Biobase\" [color=\"#28E2E5\"];\n  \"BiocGenerics\" -> \"S4Vectors\" [color=\"#28E2E5\"];\n  \"BiocGenerics\" -> \"IRanges\" [color=\"#28E2E5\"];\n  \"BiocGenerics\" -> \"GenomicRanges\" [color=\"#28E2E5\"];\n  \"BiocGenerics\" -> \"DelayedArray\" [color=\"#28E2E5\"];\n  \"BiocGenerics\" -> \"DESeq2\" [color=\"#28E2E5\"];\n  \"Biobase\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"Biobase\" -> \"tools\" [color=\"#28E2E5\"];\n  \"BiocParallel\" -> \"parallel\" [color=\"#2297E6\"];\n  \"BiocParallel\" -> \"codetools\" [color=\"#2297E6\"];\n  \"BiocParallel\" -> \"BiocGenerics\" [color=\"#28E2E5\"];\n  \"BiocParallel\" -> \"tools\" [color=\"#28E2E5\"];\n  \"BiocParallel\" -> \"GenomicRanges\" [color=\"#28E2E5\"];\n  \"matrixStats\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"locfit\" -> \"lattice\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"cli\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"glue\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"gtable\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"rlang\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"scales\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"tibble\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"ggplot2\" -> \"munsell\" [color=\"#28E2E5\"];\n  \"Matrix\" -> \"grid\" [color=\"#2297E6\"];\n  \"Matrix\" -> \"lattice\" [color=\"#2297E6\"];\n  \"Matrix\" -> \"tools\" [color=\"#28E2E5\"];\n  \"DelayedArray\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"MatrixGenerics\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"S4Arrays\" [color=\"#DF536B\"];\n  \"DelayedArray\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"DelayedArray\" -> \"BiocParallel\" [color=\"#28E2E5\"];\n  \"DelayedArray\" -> \"SummarizedExperiment\" [color=\"#28E2E5\"];\n  \"XVector\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"XVector\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"XVector\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"XVector\" -> \"tools\" [color=\"#2297E6\"];\n  \"XVector\" -> \"zlibbioc\" [color=\"#2297E6\"];\n  \"XVector\" -> \"BiocGenerics\" [color=\"#2297E6\"];\n  \"XVector\" -> \"S4Vectors\" [color=\"#2297E6\"];\n  \"XVector\" -> \"IRanges\" [color=\"#2297E6\"];\n  \"XVector\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"XVector\" -> \"IRanges\" [color=\"#61D04F\"];\n  \"GenomeInfoDb\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"GenomeInfoDb\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"GenomeInfoDb\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"GenomeInfoDb\" -> \"RCurl\" [color=\"#2297E6\"];\n  \"GenomeInfoDb\" -> \"GenomeInfoDbData\" [color=\"#2297E6\"];\n  \"GenomeInfoDb\" -> \"GenomicRanges\" [color=\"#28E2E5\"];\n  \"MatrixGenerics\" -> \"matrixStats\" [color=\"#DF536B\"];\n  \"MatrixGenerics\" -> \"Matrix\" [color=\"#28E2E5\"];\n  \"MatrixGenerics\" -> \"DelayedArray\" [color=\"#28E2E5\"];\n  \"MatrixGenerics\" -> \"SummarizedExperiment\" [color=\"#28E2E5\"];\n  \"S4Arrays\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"abind\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"BiocGenerics\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"S4Vectors\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"IRanges\" [color=\"#DF536B\"];\n  \"S4Arrays\" -> \"crayon\" [color=\"#2297E6\"];\n  \"S4Arrays\" -> \"S4Vectors\" [color=\"#61D04F\"];\n  \"S4Arrays\" -> \"BiocParallel\" [color=\"#28E2E5\"];\n  \"S4Arrays\" -> \"DelayedArray\" [color=\"#28E2E5\"];\n  \"parallel\" -> \"tools\" [color=\"#2297E6\"];\n  \"parallel\" -> \"compiler\" [color=\"#2297E6\"];\n  \"lattice\" -> \"grid\" [color=\"#2297E6\"];\n  \"lattice\" -> \"colorspace\" [color=\"#28E2E5\"];\n  \"cli\" -> \"crayon\" [color=\"#28E2E5\"];\n  \"cli\" -> \"glue\" [color=\"#28E2E5\"];\n  \"cli\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"cli\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"glue\" -> \"crayon\" [color=\"#28E2E5\"];\n  \"glue\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"glue\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"glue\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"glue\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"gtable\" -> \"cli\" [color=\"#2297E6\"];\n  \"gtable\" -> \"glue\" [color=\"#2297E6\"];\n  \"gtable\" -> \"grid\" [color=\"#2297E6\"];\n  \"gtable\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"gtable\" -> \"rlang\" [color=\"#2297E6\"];\n  \"gtable\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"cli\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"glue\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"rlang\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"crayon\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"tools\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"cli\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"crayon\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"glue\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"pillar\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"scales\" -> \"cli\" [color=\"#2297E6\"];\n  \"scales\" -> \"glue\" [color=\"#2297E6\"];\n  \"scales\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"scales\" -> \"munsell\" [color=\"#2297E6\"];\n  \"scales\" -> \"R6\" [color=\"#2297E6\"];\n  \"scales\" -> \"rlang\" [color=\"#2297E6\"];\n  \"scales\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"fansi\" [color=\"#2297E6\"];\n  \"tibble\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tibble\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pillar\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pkgconfig\" [color=\"#2297E6\"];\n  \"tibble\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tibble\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"tibble\" -> \"cli\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"crayon\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"cli\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"glue\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"rlang\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"crayon\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"generics\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"pillar\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"dplyr\" -> \"cli\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"generics\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"glue\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"pillar\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"R6\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"tibble\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"tidyselect\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"munsell\" -> \"colorspace\" [color=\"#2297E6\"];\n  \"munsell\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"magrittr\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"RCurl\" -> \"bitops\" [color=\"#2297E6\"];\n  \"colorspace\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"scales\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"grid\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"cli\" [color=\"#2297E6\"];\n  \"pillar\" -> \"fansi\" [color=\"#2297E6\"];\n  \"pillar\" -> \"glue\" [color=\"#2297E6\"];\n  \"pillar\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"pillar\" -> \"rlang\" [color=\"#2297E6\"];\n  \"pillar\" -> \"utf8\" [color=\"#2297E6\"];\n  \"pillar\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"pillar\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"scales\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"generics\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"cli\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"glue\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"crayon\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"utf8\" -> \"cli\" [color=\"#28E2E5\"];\n  \"utf8\" -> \"rlang\" [color=\"#28E2E5\"];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>最后，让我们检查一下如果仅载入<strong>Seurat</strong>包。</p>
+<pre><code class="language-r">dep_in_session(&quot;Seurat&quot;, db = db, dep_group = &quot;strong&quot;)
+</code></pre>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-5" style="width:768px;height:1536px;"></div>
+<script type="application/json" data-for="htmlwidget-5">{"x":{"diagram":"digraph {\n  nodesep=0.05\n  rankdir=LR;\n  graph [overlap = true];\n  node[shape = box];\n  \"Seurat\" [color=\"red\"];\n  \"SeuratObject\" [color=\"red\"];\n  \"cowplot\" [color=\"blue\"];\n  \"fastDummies\" [color=\"blue\"];\n  \"fitdistrplus\" [color=\"blue\"];\n  \"future\" [color=\"blue\"];\n  \"future.apply\" [color=\"blue\"];\n  \"ggplot2\" [color=\"blue\"];\n  \"ggrepel\" [color=\"blue\"];\n  \"ggridges\" [color=\"blue\"];\n  \"httr\" [color=\"blue\"];\n  \"igraph\" [color=\"blue\"];\n  \"irlba\" [color=\"blue\"];\n  \"leiden\" [color=\"blue\"];\n  \"lifecycle\" [color=\"blue\"];\n  \"lmtest\" [color=\"blue\"];\n  \"Matrix\" [color=\"blue\"];\n  \"miniUI\" [color=\"blue\"];\n  \"patchwork\" [color=\"blue\"];\n  \"pbapply\" [color=\"blue\"];\n  \"plotly\" [color=\"blue\"];\n  \"progressr\" [color=\"blue\"];\n  \"purrr\" [color=\"blue\"];\n  \"RcppAnnoy\" [color=\"blue\"];\n  \"RcppHNSW\" [color=\"blue\"];\n  \"reticulate\" [color=\"blue\"];\n  \"RSpectra\" [color=\"blue\"];\n  \"Rtsne\" [color=\"blue\"];\n  \"scales\" [color=\"blue\"];\n  \"scattermore\" [color=\"blue\"];\n  \"sctransform\" [color=\"blue\"];\n  \"shiny\" [color=\"blue\"];\n  \"spatstat.explore\" [color=\"blue\"];\n  \"spatstat.geom\" [color=\"blue\"];\n  \"tibble\" [color=\"blue\"];\n  \"uwot\" [color=\"blue\"];\n  \"sp\" [color=\"red\"];\n  \"spam\" [color=\"blue\"];\n  \"gtable\" [color=\"blue\"];\n  \"stringr\" [color=\"blue\"];\n  \"survival\" [color=\"blue\"];\n  \"globals\" [color=\"blue\"];\n  \"parallel\" [color=\"blue\"];\n  \"parallelly\" [color=\"blue\"];\n  \"vctrs\" [color=\"blue\"];\n  \"mime\" [color=\"blue\"];\n  \"zoo\" [color=\"blue\"];\n  \"lattice\" [color=\"blue\"];\n  \"htmltools\" [color=\"blue\"];\n  \"htmlwidgets\" [color=\"blue\"];\n  \"tidyr\" [color=\"blue\"];\n  \"dplyr\" [color=\"blue\"];\n  \"promises\" [color=\"blue\"];\n  \"munsell\" [color=\"blue\"];\n  \"reshape2\" [color=\"blue\"];\n  \"gridExtra\" [color=\"blue\"];\n  \"httpuv\" [color=\"blue\"];\n  \"later\" [color=\"blue\"];\n  \"spatstat.data\" [color=\"blue\"];\n  \"spatstat.random\" [color=\"blue\"];\n  \"nlme\" [color=\"blue\"];\n  \"spatstat.sparse\" [color=\"blue\"];\n  \"pillar\" [color=\"blue\"];\n  \"stringi\" [color=\"blue\"];\n  \"tidyselect\" [color=\"blue\"];\n  \"plyr\" [color=\"blue\"];\n  \"cluster\" [color=\"blue\"];\n  \"generics\" [color=\"blue\"];\n  \"grid\" [color=\"blue\"];\n  \"ica\" [color=\"blue\"];\n  \"jsonlite\" [color=\"blue\"];\n  \"KernSmooth\" [color=\"blue\"];\n  \"MASS\" [color=\"blue\"];\n  \"matrixStats\" [color=\"blue\"];\n  \"png\" [color=\"blue\"];\n  \"RANN\" [color=\"blue\"];\n  \"RColorBrewer\" [color=\"blue\"];\n  \"Rcpp\" [color=\"blue\"];\n  \"rlang\" [color=\"blue\"];\n  \"ROCR\" [color=\"blue\"];\n  \"tools\" [color=\"blue\"];\n  \"data.table\" [color=\"blue\"];\n  \"digest\" [color=\"blue\"];\n  \"listenv\" [color=\"blue\"];\n  \"cli\" [color=\"blue\"];\n  \"glue\" [color=\"blue\"];\n  \"R6\" [color=\"blue\"];\n  \"magrittr\" [color=\"blue\"];\n  \"pkgconfig\" [color=\"blue\"];\n  \"viridisLite\" [color=\"blue\"];\n  \"lazyeval\" [color=\"blue\"];\n  \"xtable\" [color=\"blue\"];\n  \"fastmap\" [color=\"blue\"];\n  \"spatstat.utils\" [color=\"blue\"];\n  \"goftest\" [color=\"blue\"];\n  \"abind\" [color=\"blue\"];\n  \"deldir\" [color=\"blue\"];\n  \"polyclip\" [color=\"blue\"];\n  \"fansi\" [color=\"blue\"];\n  \"dotCall64\" [color=\"blue\"];\n  \"splines\" [color=\"blue\"];\n  \"codetools\" [color=\"blue\"];\n  \"compiler\" [color=\"blue\"];\n  \"colorspace\" [color=\"blue\"];\n  \"tensor\" [color=\"blue\"];\n  \"utf8\" [color=\"blue\"];\n  \"Seurat\" -> \"SeuratObject\" [color=\"#DF536B\"];\n  \"Seurat\" -> \"cluster\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"cowplot\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"fastDummies\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"fitdistrplus\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"future\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"future.apply\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"generics\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ggrepel\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ggridges\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"grid\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"httr\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ica\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"igraph\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"irlba\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"KernSmooth\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"leiden\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"lmtest\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"MASS\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"matrixStats\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"miniUI\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"patchwork\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"pbapply\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"plotly\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"png\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"progressr\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"purrr\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RANN\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RColorBrewer\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RcppAnnoy\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RcppHNSW\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"reticulate\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"rlang\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ROCR\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RSpectra\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"Rtsne\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"scales\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"scattermore\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"sctransform\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"shiny\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"spatstat.explore\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"spatstat.geom\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"tibble\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"tools\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"uwot\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"SeuratObject\" -> \"sp\" [color=\"#DF536B\"];\n  \"SeuratObject\" -> \"future\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"future.apply\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"grid\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"progressr\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"rlang\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"tools\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"spam\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"generics\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"cowplot\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"cowplot\" -> \"grid\" [color=\"#2297E6\"];\n  \"cowplot\" -> \"gtable\" [color=\"#2297E6\"];\n  \"cowplot\" -> \"rlang\" [color=\"#2297E6\"];\n  \"cowplot\" -> \"scales\" [color=\"#2297E6\"];\n  \"fastDummies\" -> \"data.table\" [color=\"#2297E6\"];\n  \"fastDummies\" -> \"tibble\" [color=\"#2297E6\"];\n  \"fastDummies\" -> \"stringr\" [color=\"#2297E6\"];\n  \"fitdistrplus\" -> \"MASS\" [color=\"#DF536B\"];\n  \"fitdistrplus\" -> \"survival\" [color=\"#DF536B\"];\n  \"future\" -> \"digest\" [color=\"#2297E6\"];\n  \"future\" -> \"globals\" [color=\"#2297E6\"];\n  \"future\" -> \"listenv\" [color=\"#2297E6\"];\n  \"future\" -> \"parallel\" [color=\"#2297E6\"];\n  \"future\" -> \"parallelly\" [color=\"#2297E6\"];\n  \"future.apply\" -> \"future\" [color=\"#DF536B\"];\n  \"future.apply\" -> \"globals\" [color=\"#2297E6\"];\n  \"future.apply\" -> \"parallel\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"cli\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"glue\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"gtable\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"MASS\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"rlang\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"scales\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"tibble\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"ggrepel\" -> \"ggplot2\" [color=\"#DF536B\"];\n  \"ggrepel\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggrepel\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"ggrepel\" -> \"rlang\" [color=\"#2297E6\"];\n  \"ggrepel\" -> \"scales\" [color=\"#2297E6\"];\n  \"ggrepel\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"ggridges\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"ggridges\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggridges\" -> \"scales\" [color=\"#2297E6\"];\n  \"httr\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"httr\" -> \"mime\" [color=\"#2297E6\"];\n  \"httr\" -> \"R6\" [color=\"#2297E6\"];\n  \"igraph\" -> \"cli\" [color=\"#2297E6\"];\n  \"igraph\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"igraph\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"igraph\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"igraph\" -> \"pkgconfig\" [color=\"#2297E6\"];\n  \"igraph\" -> \"rlang\" [color=\"#2297E6\"];\n  \"igraph\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"irlba\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"irlba\" -> \"Matrix\" [color=\"#61D04F\"];\n  \"leiden\" -> \"reticulate\" [color=\"#2297E6\"];\n  \"leiden\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"leiden\" -> \"igraph\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"cli\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"glue\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"rlang\" [color=\"#2297E6\"];\n  \"lmtest\" -> \"zoo\" [color=\"#DF536B\"];\n  \"Matrix\" -> \"grid\" [color=\"#2297E6\"];\n  \"Matrix\" -> \"lattice\" [color=\"#2297E6\"];\n  \"miniUI\" -> \"shiny\" [color=\"#2297E6\"];\n  \"miniUI\" -> \"htmltools\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"gtable\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"grid\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"rlang\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"cli\" [color=\"#2297E6\"];\n  \"pbapply\" -> \"parallel\" [color=\"#2297E6\"];\n  \"plotly\" -> \"ggplot2\" [color=\"#DF536B\"];\n  \"plotly\" -> \"tools\" [color=\"#2297E6\"];\n  \"plotly\" -> \"scales\" [color=\"#2297E6\"];\n  \"plotly\" -> \"httr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"plotly\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"digest\" [color=\"#2297E6\"];\n  \"plotly\" -> \"viridisLite\" [color=\"#2297E6\"];\n  \"plotly\" -> \"htmltools\" [color=\"#2297E6\"];\n  \"plotly\" -> \"htmlwidgets\" [color=\"#2297E6\"];\n  \"plotly\" -> \"tidyr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"RColorBrewer\" [color=\"#2297E6\"];\n  \"plotly\" -> \"dplyr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"plotly\" -> \"tibble\" [color=\"#2297E6\"];\n  \"plotly\" -> \"lazyeval\" [color=\"#2297E6\"];\n  \"plotly\" -> \"rlang\" [color=\"#2297E6\"];\n  \"plotly\" -> \"purrr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"data.table\" [color=\"#2297E6\"];\n  \"plotly\" -> \"promises\" [color=\"#2297E6\"];\n  \"progressr\" -> \"digest\" [color=\"#2297E6\"];\n  \"purrr\" -> \"cli\" [color=\"#2297E6\"];\n  \"purrr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"purrr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"purrr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"purrr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"purrr\" -> \"cli\" [color=\"#61D04F\"];\n  \"RcppAnnoy\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"RcppAnnoy\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"RcppHNSW\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"RcppHNSW\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"reticulate\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"png\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"rlang\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"RSpectra\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"RSpectra\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"RSpectra\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"Rtsne\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"Rtsne\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"scales\" -> \"cli\" [color=\"#2297E6\"];\n  \"scales\" -> \"glue\" [color=\"#2297E6\"];\n  \"scales\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"scales\" -> \"munsell\" [color=\"#2297E6\"];\n  \"scales\" -> \"R6\" [color=\"#2297E6\"];\n  \"scales\" -> \"RColorBrewer\" [color=\"#2297E6\"];\n  \"scales\" -> \"rlang\" [color=\"#2297E6\"];\n  \"scales\" -> \"viridisLite\" [color=\"#2297E6\"];\n  \"scattermore\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"scattermore\" -> \"scales\" [color=\"#2297E6\"];\n  \"scattermore\" -> \"grid\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"dplyr\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"MASS\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"future.apply\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"future\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"reshape2\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"rlang\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"gridExtra\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"matrixStats\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"shiny\" -> \"httpuv\" [color=\"#2297E6\"];\n  \"shiny\" -> \"mime\" [color=\"#2297E6\"];\n  \"shiny\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"shiny\" -> \"xtable\" [color=\"#2297E6\"];\n  \"shiny\" -> \"htmltools\" [color=\"#2297E6\"];\n  \"shiny\" -> \"R6\" [color=\"#2297E6\"];\n  \"shiny\" -> \"later\" [color=\"#2297E6\"];\n  \"shiny\" -> \"promises\" [color=\"#2297E6\"];\n  \"shiny\" -> \"tools\" [color=\"#2297E6\"];\n  \"shiny\" -> \"rlang\" [color=\"#2297E6\"];\n  \"shiny\" -> \"fastmap\" [color=\"#2297E6\"];\n  \"shiny\" -> \"glue\" [color=\"#2297E6\"];\n  \"shiny\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"spatstat.explore\" -> \"spatstat.data\" [color=\"#DF536B\"];\n  \"spatstat.explore\" -> \"spatstat.geom\" [color=\"#DF536B\"];\n  \"spatstat.explore\" -> \"spatstat.random\" [color=\"#DF536B\"];\n  \"spatstat.explore\" -> \"nlme\" [color=\"#DF536B\"];\n  \"spatstat.explore\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"spatstat.explore\" -> \"spatstat.sparse\" [color=\"#2297E6\"];\n  \"spatstat.explore\" -> \"goftest\" [color=\"#2297E6\"];\n  \"spatstat.explore\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"spatstat.explore\" -> \"abind\" [color=\"#2297E6\"];\n  \"spatstat.geom\" -> \"spatstat.data\" [color=\"#DF536B\"];\n  \"spatstat.geom\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"spatstat.geom\" -> \"deldir\" [color=\"#2297E6\"];\n  \"spatstat.geom\" -> \"polyclip\" [color=\"#2297E6\"];\n  \"tibble\" -> \"fansi\" [color=\"#2297E6\"];\n  \"tibble\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tibble\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pillar\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pkgconfig\" [color=\"#2297E6\"];\n  \"tibble\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tibble\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"uwot\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"uwot\" -> \"irlba\" [color=\"#2297E6\"];\n  \"uwot\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"uwot\" -> \"RcppAnnoy\" [color=\"#2297E6\"];\n  \"uwot\" -> \"RSpectra\" [color=\"#2297E6\"];\n  \"uwot\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"uwot\" -> \"RcppAnnoy\" [color=\"#61D04F\"];\n  \"sp\" -> \"lattice\" [color=\"#2297E6\"];\n  \"sp\" -> \"grid\" [color=\"#2297E6\"];\n  \"spam\" -> \"dotCall64\" [color=\"#2297E6\"];\n  \"spam\" -> \"grid\" [color=\"#2297E6\"];\n  \"spam\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"spam\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"gtable\" -> \"cli\" [color=\"#2297E6\"];\n  \"gtable\" -> \"glue\" [color=\"#2297E6\"];\n  \"gtable\" -> \"grid\" [color=\"#2297E6\"];\n  \"gtable\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"gtable\" -> \"rlang\" [color=\"#2297E6\"];\n  \"stringr\" -> \"cli\" [color=\"#2297E6\"];\n  \"stringr\" -> \"glue\" [color=\"#2297E6\"];\n  \"stringr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"stringr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"stringr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"stringr\" -> \"stringi\" [color=\"#2297E6\"];\n  \"stringr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"survival\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"survival\" -> \"splines\" [color=\"#2297E6\"];\n  \"globals\" -> \"codetools\" [color=\"#2297E6\"];\n  \"parallel\" -> \"tools\" [color=\"#2297E6\"];\n  \"parallel\" -> \"compiler\" [color=\"#2297E6\"];\n  \"parallelly\" -> \"parallel\" [color=\"#2297E6\"];\n  \"parallelly\" -> \"tools\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"cli\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"glue\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"rlang\" [color=\"#2297E6\"];\n  \"mime\" -> \"tools\" [color=\"#2297E6\"];\n  \"zoo\" -> \"lattice\" [color=\"#2297E6\"];\n  \"lattice\" -> \"grid\" [color=\"#2297E6\"];\n  \"htmltools\" -> \"digest\" [color=\"#2297E6\"];\n  \"htmltools\" -> \"fastmap\" [color=\"#2297E6\"];\n  \"htmltools\" -> \"rlang\" [color=\"#2297E6\"];\n  \"htmlwidgets\" -> \"htmltools\" [color=\"#2297E6\"];\n  \"htmlwidgets\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"cli\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"dplyr\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"glue\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"purrr\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"stringr\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"tibble\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"tidyselect\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"cli\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"generics\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"glue\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"pillar\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"R6\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"tibble\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"tidyselect\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"promises\" -> \"fastmap\" [color=\"#2297E6\"];\n  \"promises\" -> \"later\" [color=\"#2297E6\"];\n  \"promises\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"promises\" -> \"R6\" [color=\"#2297E6\"];\n  \"promises\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"promises\" -> \"rlang\" [color=\"#2297E6\"];\n  \"promises\" -> \"later\" [color=\"#61D04F\"];\n  \"promises\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"munsell\" -> \"colorspace\" [color=\"#2297E6\"];\n  \"reshape2\" -> \"plyr\" [color=\"#2297E6\"];\n  \"reshape2\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"reshape2\" -> \"stringr\" [color=\"#2297E6\"];\n  \"reshape2\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"gridExtra\" -> \"gtable\" [color=\"#2297E6\"];\n  \"gridExtra\" -> \"grid\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"later\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"promises\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"R6\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"later\" [color=\"#61D04F\"];\n  \"httpuv\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"later\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"later\" -> \"rlang\" [color=\"#2297E6\"];\n  \"later\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"spatstat.data\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"spatstat.data\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"spatstat.random\" -> \"spatstat.data\" [color=\"#DF536B\"];\n  \"spatstat.random\" -> \"spatstat.geom\" [color=\"#DF536B\"];\n  \"spatstat.random\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"nlme\" -> \"lattice\" [color=\"#2297E6\"];\n  \"spatstat.sparse\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"spatstat.sparse\" -> \"abind\" [color=\"#DF536B\"];\n  \"spatstat.sparse\" -> \"tensor\" [color=\"#DF536B\"];\n  \"spatstat.sparse\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"pillar\" -> \"cli\" [color=\"#2297E6\"];\n  \"pillar\" -> \"fansi\" [color=\"#2297E6\"];\n  \"pillar\" -> \"glue\" [color=\"#2297E6\"];\n  \"pillar\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"pillar\" -> \"rlang\" [color=\"#2297E6\"];\n  \"pillar\" -> \"utf8\" [color=\"#2297E6\"];\n  \"pillar\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"stringi\" -> \"tools\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"cli\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"glue\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"plyr\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"plyr\" -> \"Rcpp\" [color=\"#61D04F\"];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p>眼花缭乱！</p>
+<p>如果包含<strong>Seurat</strong>所有的依赖关系，会变得异常庞大和复杂。</p>
+<pre><code class="language-r">dep_in_session(&quot;Seurat&quot;, db = db, dep_group = &quot;all&quot;)
+</code></pre>
+<div class="grViz html-widget html-fill-item" id="htmlwidget-6" style="width:1152px;height:768px;"></div>
+<script type="application/json" data-for="htmlwidget-6">{"x":{"diagram":"digraph {\n  nodesep=0.05\n  rankdir=LR;\n  graph [overlap = true];\n  node[shape = box];\n  \"Seurat\" [color=\"red\"];\n  \"SeuratObject\" [color=\"red\"];\n  \"cluster\" [color=\"blue\"];\n  \"cowplot\" [color=\"blue\"];\n  \"fastDummies\" [color=\"blue\"];\n  \"fitdistrplus\" [color=\"blue\"];\n  \"future\" [color=\"blue\"];\n  \"future.apply\" [color=\"blue\"];\n  \"generics\" [color=\"blue\"];\n  \"ggplot2\" [color=\"blue\"];\n  \"ggrepel\" [color=\"blue\"];\n  \"ggridges\" [color=\"blue\"];\n  \"httr\" [color=\"blue\"];\n  \"igraph\" [color=\"blue\"];\n  \"irlba\" [color=\"blue\"];\n  \"jsonlite\" [color=\"blue\"];\n  \"KernSmooth\" [color=\"blue\"];\n  \"leiden\" [color=\"blue\"];\n  \"lifecycle\" [color=\"blue\"];\n  \"lmtest\" [color=\"blue\"];\n  \"MASS\" [color=\"blue\"];\n  \"Matrix\" [color=\"blue\"];\n  \"matrixStats\" [color=\"blue\"];\n  \"miniUI\" [color=\"blue\"];\n  \"patchwork\" [color=\"blue\"];\n  \"pbapply\" [color=\"blue\"];\n  \"plotly\" [color=\"blue\"];\n  \"progressr\" [color=\"blue\"];\n  \"purrr\" [color=\"blue\"];\n  \"RcppAnnoy\" [color=\"blue\"];\n  \"RcppHNSW\" [color=\"blue\"];\n  \"reticulate\" [color=\"blue\"];\n  \"rlang\" [color=\"blue\"];\n  \"RSpectra\" [color=\"blue\"];\n  \"Rtsne\" [color=\"blue\"];\n  \"scales\" [color=\"blue\"];\n  \"scattermore\" [color=\"blue\"];\n  \"sctransform\" [color=\"blue\"];\n  \"shiny\" [color=\"blue\"];\n  \"spatstat.explore\" [color=\"blue\"];\n  \"spatstat.geom\" [color=\"blue\"];\n  \"tibble\" [color=\"blue\"];\n  \"uwot\" [color=\"blue\"];\n  \"data.table\" [color=\"blue\"];\n  \"sp\" [color=\"red\"];\n  \"spam\" [color=\"blue\"];\n  \"gtable\" [color=\"blue\"];\n  \"dplyr\" [color=\"blue\"];\n  \"lattice\" [color=\"blue\"];\n  \"tidyr\" [color=\"blue\"];\n  \"stringr\" [color=\"blue\"];\n  \"survival\" [color=\"blue\"];\n  \"globals\" [color=\"blue\"];\n  \"parallel\" [color=\"blue\"];\n  \"parallelly\" [color=\"blue\"];\n  \"cli\" [color=\"blue\"];\n  \"glue\" [color=\"blue\"];\n  \"vctrs\" [color=\"blue\"];\n  \"munsell\" [color=\"blue\"];\n  \"nlme\" [color=\"blue\"];\n  \"gridExtra\" [color=\"blue\"];\n  \"magrittr\" [color=\"blue\"];\n  \"mime\" [color=\"blue\"];\n  \"httpuv\" [color=\"blue\"];\n  \"zoo\" [color=\"blue\"];\n  \"htmltools\" [color=\"blue\"];\n  \"viridisLite\" [color=\"blue\"];\n  \"htmlwidgets\" [color=\"blue\"];\n  \"promises\" [color=\"blue\"];\n  \"plyr\" [color=\"blue\"];\n  \"tidyselect\" [color=\"blue\"];\n  \"pillar\" [color=\"blue\"];\n  \"stringi\" [color=\"blue\"];\n  \"reshape2\" [color=\"blue\"];\n  \"xtable\" [color=\"blue\"];\n  \"later\" [color=\"blue\"];\n  \"spatstat.data\" [color=\"blue\"];\n  \"spatstat.random\" [color=\"blue\"];\n  \"spatstat.sparse\" [color=\"blue\"];\n  \"deldir\" [color=\"blue\"];\n  \"dotCall64\" [color=\"blue\"];\n  \"colorspace\" [color=\"blue\"];\n  \"utf8\" [color=\"blue\"];\n  \"grid\" [color=\"blue\"];\n  \"ica\" [color=\"blue\"];\n  \"png\" [color=\"blue\"];\n  \"RANN\" [color=\"blue\"];\n  \"RColorBrewer\" [color=\"blue\"];\n  \"Rcpp\" [color=\"blue\"];\n  \"ROCR\" [color=\"blue\"];\n  \"tools\" [color=\"blue\"];\n  \"digest\" [color=\"blue\"];\n  \"listenv\" [color=\"blue\"];\n  \"R6\" [color=\"blue\"];\n  \"pkgconfig\" [color=\"blue\"];\n  \"lazyeval\" [color=\"blue\"];\n  \"fastmap\" [color=\"blue\"];\n  \"spatstat.utils\" [color=\"blue\"];\n  \"goftest\" [color=\"blue\"];\n  \"abind\" [color=\"blue\"];\n  \"polyclip\" [color=\"blue\"];\n  \"fansi\" [color=\"blue\"];\n  \"splines\" [color=\"blue\"];\n  \"codetools\" [color=\"blue\"];\n  \"compiler\" [color=\"blue\"];\n  \"tensor\" [color=\"blue\"];\n  \"Seurat\" -> \"SeuratObject\" [color=\"#DF536B\"];\n  \"Seurat\" -> \"cluster\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"cowplot\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"fastDummies\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"fitdistrplus\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"future\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"future.apply\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"generics\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ggrepel\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ggridges\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"grid\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"httr\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ica\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"igraph\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"irlba\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"KernSmooth\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"leiden\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"lmtest\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"MASS\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"matrixStats\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"miniUI\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"patchwork\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"pbapply\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"plotly\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"png\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"progressr\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"purrr\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RANN\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RColorBrewer\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RcppAnnoy\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RcppHNSW\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"reticulate\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"rlang\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"ROCR\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"RSpectra\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"Rtsne\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"scales\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"scattermore\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"sctransform\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"shiny\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"spatstat.explore\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"spatstat.geom\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"tibble\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"tools\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"uwot\" [color=\"#2297E6\"];\n  \"Seurat\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"Seurat\" -> \"data.table\" [color=\"#28E2E5\"];\n  \"SeuratObject\" -> \"sp\" [color=\"#DF536B\"];\n  \"SeuratObject\" -> \"future\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"future.apply\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"grid\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"progressr\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"rlang\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"tools\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"spam\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"generics\" [color=\"#2297E6\"];\n  \"SeuratObject\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"SeuratObject\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"SeuratObject\" -> \"Seurat\" [color=\"#CD0BBC\"];\n  \"cluster\" -> \"MASS\" [color=\"#28E2E5\"];\n  \"cluster\" -> \"Matrix\" [color=\"#28E2E5\"];\n  \"cowplot\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"cowplot\" -> \"grid\" [color=\"#2297E6\"];\n  \"cowplot\" -> \"gtable\" [color=\"#2297E6\"];\n  \"cowplot\" -> \"rlang\" [color=\"#2297E6\"];\n  \"cowplot\" -> \"scales\" [color=\"#2297E6\"];\n  \"cowplot\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"cowplot\" -> \"lattice\" [color=\"#28E2E5\"];\n  \"cowplot\" -> \"patchwork\" [color=\"#28E2E5\"];\n  \"cowplot\" -> \"tidyr\" [color=\"#28E2E5\"];\n  \"fastDummies\" -> \"data.table\" [color=\"#2297E6\"];\n  \"fastDummies\" -> \"tibble\" [color=\"#2297E6\"];\n  \"fastDummies\" -> \"stringr\" [color=\"#2297E6\"];\n  \"fitdistrplus\" -> \"MASS\" [color=\"#DF536B\"];\n  \"fitdistrplus\" -> \"survival\" [color=\"#DF536B\"];\n  \"fitdistrplus\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"future\" -> \"digest\" [color=\"#2297E6\"];\n  \"future\" -> \"globals\" [color=\"#2297E6\"];\n  \"future\" -> \"listenv\" [color=\"#2297E6\"];\n  \"future\" -> \"parallel\" [color=\"#2297E6\"];\n  \"future\" -> \"parallelly\" [color=\"#2297E6\"];\n  \"future.apply\" -> \"future\" [color=\"#DF536B\"];\n  \"future.apply\" -> \"globals\" [color=\"#2297E6\"];\n  \"future.apply\" -> \"parallel\" [color=\"#2297E6\"];\n  \"future.apply\" -> \"tools\" [color=\"#28E2E5\"];\n  \"future.apply\" -> \"listenv\" [color=\"#28E2E5\"];\n  \"generics\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"ggplot2\" -> \"cli\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"glue\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"gtable\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"MASS\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"rlang\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"scales\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"tibble\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"ggplot2\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"ggplot2\" -> \"munsell\" [color=\"#28E2E5\"];\n  \"ggplot2\" -> \"nlme\" [color=\"#28E2E5\"];\n  \"ggplot2\" -> \"RColorBrewer\" [color=\"#28E2E5\"];\n  \"ggplot2\" -> \"sp\" [color=\"#CD0BBC\"];\n  \"ggrepel\" -> \"ggplot2\" [color=\"#DF536B\"];\n  \"ggrepel\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggrepel\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"ggrepel\" -> \"rlang\" [color=\"#2297E6\"];\n  \"ggrepel\" -> \"scales\" [color=\"#2297E6\"];\n  \"ggrepel\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"ggrepel\" -> \"gridExtra\" [color=\"#28E2E5\"];\n  \"ggrepel\" -> \"patchwork\" [color=\"#28E2E5\"];\n  \"ggrepel\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"ggrepel\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"ggrepel\" -> \"stringr\" [color=\"#28E2E5\"];\n  \"ggridges\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"ggridges\" -> \"grid\" [color=\"#2297E6\"];\n  \"ggridges\" -> \"scales\" [color=\"#2297E6\"];\n  \"ggridges\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"ggridges\" -> \"patchwork\" [color=\"#28E2E5\"];\n  \"httr\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"httr\" -> \"mime\" [color=\"#2297E6\"];\n  \"httr\" -> \"R6\" [color=\"#2297E6\"];\n  \"httr\" -> \"httpuv\" [color=\"#28E2E5\"];\n  \"httr\" -> \"png\" [color=\"#28E2E5\"];\n  \"igraph\" -> \"cli\" [color=\"#2297E6\"];\n  \"igraph\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"igraph\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"igraph\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"igraph\" -> \"pkgconfig\" [color=\"#2297E6\"];\n  \"igraph\" -> \"rlang\" [color=\"#2297E6\"];\n  \"igraph\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"igraph\" -> \"digest\" [color=\"#28E2E5\"];\n  \"igraph\" -> \"scales\" [color=\"#28E2E5\"];\n  \"irlba\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"irlba\" -> \"Matrix\" [color=\"#61D04F\"];\n  \"jsonlite\" -> \"httr\" [color=\"#28E2E5\"];\n  \"jsonlite\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"KernSmooth\" -> \"MASS\" [color=\"#28E2E5\"];\n  \"leiden\" -> \"reticulate\" [color=\"#2297E6\"];\n  \"leiden\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"leiden\" -> \"igraph\" [color=\"#2297E6\"];\n  \"leiden\" -> \"data.table\" [color=\"#28E2E5\"];\n  \"leiden\" -> \"RColorBrewer\" [color=\"#28E2E5\"];\n  \"leiden\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"cli\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"glue\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"rlang\" [color=\"#2297E6\"];\n  \"lifecycle\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"tools\" [color=\"#28E2E5\"];\n  \"lifecycle\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"lmtest\" -> \"zoo\" [color=\"#DF536B\"];\n  \"lmtest\" -> \"survival\" [color=\"#28E2E5\"];\n  \"MASS\" -> \"lattice\" [color=\"#28E2E5\"];\n  \"MASS\" -> \"nlme\" [color=\"#28E2E5\"];\n  \"MASS\" -> \"survival\" [color=\"#28E2E5\"];\n  \"Matrix\" -> \"grid\" [color=\"#2297E6\"];\n  \"Matrix\" -> \"lattice\" [color=\"#2297E6\"];\n  \"Matrix\" -> \"MASS\" [color=\"#28E2E5\"];\n  \"Matrix\" -> \"tools\" [color=\"#28E2E5\"];\n  \"matrixStats\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"miniUI\" -> \"shiny\" [color=\"#2297E6\"];\n  \"miniUI\" -> \"htmltools\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"gtable\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"grid\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"rlang\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"cli\" [color=\"#2297E6\"];\n  \"patchwork\" -> \"gridExtra\" [color=\"#28E2E5\"];\n  \"patchwork\" -> \"png\" [color=\"#28E2E5\"];\n  \"pbapply\" -> \"parallel\" [color=\"#2297E6\"];\n  \"pbapply\" -> \"shiny\" [color=\"#28E2E5\"];\n  \"pbapply\" -> \"future\" [color=\"#28E2E5\"];\n  \"pbapply\" -> \"future.apply\" [color=\"#28E2E5\"];\n  \"plotly\" -> \"ggplot2\" [color=\"#DF536B\"];\n  \"plotly\" -> \"tools\" [color=\"#2297E6\"];\n  \"plotly\" -> \"scales\" [color=\"#2297E6\"];\n  \"plotly\" -> \"httr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"plotly\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"digest\" [color=\"#2297E6\"];\n  \"plotly\" -> \"viridisLite\" [color=\"#2297E6\"];\n  \"plotly\" -> \"htmltools\" [color=\"#2297E6\"];\n  \"plotly\" -> \"htmlwidgets\" [color=\"#2297E6\"];\n  \"plotly\" -> \"tidyr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"RColorBrewer\" [color=\"#2297E6\"];\n  \"plotly\" -> \"dplyr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"plotly\" -> \"tibble\" [color=\"#2297E6\"];\n  \"plotly\" -> \"lazyeval\" [color=\"#2297E6\"];\n  \"plotly\" -> \"rlang\" [color=\"#2297E6\"];\n  \"plotly\" -> \"purrr\" [color=\"#2297E6\"];\n  \"plotly\" -> \"data.table\" [color=\"#2297E6\"];\n  \"plotly\" -> \"promises\" [color=\"#2297E6\"];\n  \"plotly\" -> \"MASS\" [color=\"#28E2E5\"];\n  \"plotly\" -> \"shiny\" [color=\"#28E2E5\"];\n  \"plotly\" -> \"png\" [color=\"#28E2E5\"];\n  \"plotly\" -> \"reticulate\" [color=\"#28E2E5\"];\n  \"progressr\" -> \"digest\" [color=\"#2297E6\"];\n  \"progressr\" -> \"cli\" [color=\"#28E2E5\"];\n  \"progressr\" -> \"purrr\" [color=\"#28E2E5\"];\n  \"progressr\" -> \"plyr\" [color=\"#28E2E5\"];\n  \"progressr\" -> \"future\" [color=\"#28E2E5\"];\n  \"progressr\" -> \"future.apply\" [color=\"#28E2E5\"];\n  \"progressr\" -> \"shiny\" [color=\"#28E2E5\"];\n  \"progressr\" -> \"tools\" [color=\"#28E2E5\"];\n  \"purrr\" -> \"cli\" [color=\"#2297E6\"];\n  \"purrr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"purrr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"purrr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"purrr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"purrr\" -> \"cli\" [color=\"#61D04F\"];\n  \"purrr\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"purrr\" -> \"httr\" [color=\"#28E2E5\"];\n  \"purrr\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"purrr\" -> \"tidyselect\" [color=\"#28E2E5\"];\n  \"RcppAnnoy\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"RcppAnnoy\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"RcppHNSW\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"RcppHNSW\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"reticulate\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"png\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"rlang\" [color=\"#2297E6\"];\n  \"reticulate\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"reticulate\" -> \"glue\" [color=\"#28E2E5\"];\n  \"reticulate\" -> \"cli\" [color=\"#28E2E5\"];\n  \"reticulate\" -> \"pillar\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"cli\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"glue\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"pillar\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"rlang\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"RSpectra\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"RSpectra\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"RSpectra\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"Rtsne\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"Rtsne\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"Rtsne\" -> \"irlba\" [color=\"#28E2E5\"];\n  \"scales\" -> \"cli\" [color=\"#2297E6\"];\n  \"scales\" -> \"glue\" [color=\"#2297E6\"];\n  \"scales\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"scales\" -> \"munsell\" [color=\"#2297E6\"];\n  \"scales\" -> \"R6\" [color=\"#2297E6\"];\n  \"scales\" -> \"RColorBrewer\" [color=\"#2297E6\"];\n  \"scales\" -> \"rlang\" [color=\"#2297E6\"];\n  \"scales\" -> \"viridisLite\" [color=\"#2297E6\"];\n  \"scales\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"scales\" -> \"stringi\" [color=\"#28E2E5\"];\n  \"scattermore\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"scattermore\" -> \"scales\" [color=\"#2297E6\"];\n  \"scattermore\" -> \"grid\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"dplyr\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"MASS\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"future.apply\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"future\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"ggplot2\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"reshape2\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"rlang\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"gridExtra\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"matrixStats\" [color=\"#2297E6\"];\n  \"sctransform\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"sctransform\" -> \"irlba\" [color=\"#28E2E5\"];\n  \"shiny\" -> \"httpuv\" [color=\"#2297E6\"];\n  \"shiny\" -> \"mime\" [color=\"#2297E6\"];\n  \"shiny\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"shiny\" -> \"xtable\" [color=\"#2297E6\"];\n  \"shiny\" -> \"htmltools\" [color=\"#2297E6\"];\n  \"shiny\" -> \"R6\" [color=\"#2297E6\"];\n  \"shiny\" -> \"later\" [color=\"#2297E6\"];\n  \"shiny\" -> \"promises\" [color=\"#2297E6\"];\n  \"shiny\" -> \"tools\" [color=\"#2297E6\"];\n  \"shiny\" -> \"rlang\" [color=\"#2297E6\"];\n  \"shiny\" -> \"fastmap\" [color=\"#2297E6\"];\n  \"shiny\" -> \"glue\" [color=\"#2297E6\"];\n  \"shiny\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"shiny\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"shiny\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"shiny\" -> \"future\" [color=\"#28E2E5\"];\n  \"spatstat.explore\" -> \"spatstat.data\" [color=\"#DF536B\"];\n  \"spatstat.explore\" -> \"spatstat.geom\" [color=\"#DF536B\"];\n  \"spatstat.explore\" -> \"spatstat.random\" [color=\"#DF536B\"];\n  \"spatstat.explore\" -> \"nlme\" [color=\"#DF536B\"];\n  \"spatstat.explore\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"spatstat.explore\" -> \"spatstat.sparse\" [color=\"#2297E6\"];\n  \"spatstat.explore\" -> \"goftest\" [color=\"#2297E6\"];\n  \"spatstat.explore\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"spatstat.explore\" -> \"abind\" [color=\"#2297E6\"];\n  \"spatstat.geom\" -> \"spatstat.data\" [color=\"#DF536B\"];\n  \"spatstat.geom\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"spatstat.geom\" -> \"deldir\" [color=\"#2297E6\"];\n  \"spatstat.geom\" -> \"polyclip\" [color=\"#2297E6\"];\n  \"spatstat.geom\" -> \"spatstat.random\" [color=\"#28E2E5\"];\n  \"spatstat.geom\" -> \"spatstat.explore\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"fansi\" [color=\"#2297E6\"];\n  \"tibble\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tibble\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pillar\" [color=\"#2297E6\"];\n  \"tibble\" -> \"pkgconfig\" [color=\"#2297E6\"];\n  \"tibble\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tibble\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"tibble\" -> \"cli\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"htmltools\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"purrr\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"stringi\" [color=\"#28E2E5\"];\n  \"tibble\" -> \"tidyr\" [color=\"#28E2E5\"];\n  \"uwot\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"uwot\" -> \"irlba\" [color=\"#2297E6\"];\n  \"uwot\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"uwot\" -> \"RcppAnnoy\" [color=\"#2297E6\"];\n  \"uwot\" -> \"RSpectra\" [color=\"#2297E6\"];\n  \"uwot\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"uwot\" -> \"RcppAnnoy\" [color=\"#61D04F\"];\n  \"uwot\" -> \"RcppHNSW\" [color=\"#28E2E5\"];\n  \"data.table\" -> \"zoo\" [color=\"#28E2E5\"];\n  \"sp\" -> \"lattice\" [color=\"#2297E6\"];\n  \"sp\" -> \"grid\" [color=\"#2297E6\"];\n  \"sp\" -> \"RColorBrewer\" [color=\"#28E2E5\"];\n  \"sp\" -> \"deldir\" [color=\"#28E2E5\"];\n  \"spam\" -> \"dotCall64\" [color=\"#2297E6\"];\n  \"spam\" -> \"grid\" [color=\"#2297E6\"];\n  \"spam\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"spam\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"spam\" -> \"Matrix\" [color=\"#28E2E5\"];\n  \"gtable\" -> \"cli\" [color=\"#2297E6\"];\n  \"gtable\" -> \"glue\" [color=\"#2297E6\"];\n  \"gtable\" -> \"grid\" [color=\"#2297E6\"];\n  \"gtable\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"gtable\" -> \"rlang\" [color=\"#2297E6\"];\n  \"gtable\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"dplyr\" -> \"cli\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"generics\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"glue\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"pillar\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"R6\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"tibble\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"tidyselect\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"dplyr\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"dplyr\" -> \"purrr\" [color=\"#28E2E5\"];\n  \"dplyr\" -> \"stringi\" [color=\"#28E2E5\"];\n  \"dplyr\" -> \"tidyr\" [color=\"#28E2E5\"];\n  \"lattice\" -> \"grid\" [color=\"#2297E6\"];\n  \"lattice\" -> \"KernSmooth\" [color=\"#28E2E5\"];\n  \"lattice\" -> \"MASS\" [color=\"#28E2E5\"];\n  \"lattice\" -> \"colorspace\" [color=\"#28E2E5\"];\n  \"lattice\" -> \"zoo\" [color=\"#CD0BBC\"];\n  \"tidyr\" -> \"cli\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"dplyr\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"glue\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"purrr\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"stringr\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"tibble\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"tidyselect\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"tidyr\" -> \"data.table\" [color=\"#28E2E5\"];\n  \"stringr\" -> \"cli\" [color=\"#2297E6\"];\n  \"stringr\" -> \"glue\" [color=\"#2297E6\"];\n  \"stringr\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"stringr\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"stringr\" -> \"rlang\" [color=\"#2297E6\"];\n  \"stringr\" -> \"stringi\" [color=\"#2297E6\"];\n  \"stringr\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"stringr\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"stringr\" -> \"htmltools\" [color=\"#28E2E5\"];\n  \"stringr\" -> \"htmlwidgets\" [color=\"#28E2E5\"];\n  \"stringr\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"survival\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"survival\" -> \"splines\" [color=\"#2297E6\"];\n  \"globals\" -> \"codetools\" [color=\"#2297E6\"];\n  \"parallel\" -> \"tools\" [color=\"#2297E6\"];\n  \"parallel\" -> \"compiler\" [color=\"#2297E6\"];\n  \"parallelly\" -> \"parallel\" [color=\"#2297E6\"];\n  \"parallelly\" -> \"tools\" [color=\"#2297E6\"];\n  \"cli\" -> \"digest\" [color=\"#28E2E5\"];\n  \"cli\" -> \"glue\" [color=\"#28E2E5\"];\n  \"cli\" -> \"htmltools\" [color=\"#28E2E5\"];\n  \"cli\" -> \"htmlwidgets\" [color=\"#28E2E5\"];\n  \"cli\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"cli\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"glue\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"glue\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"glue\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"glue\" -> \"vctrs\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"cli\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"glue\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"rlang\" [color=\"#2297E6\"];\n  \"vctrs\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"generics\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"pillar\" [color=\"#28E2E5\"];\n  \"vctrs\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"munsell\" -> \"colorspace\" [color=\"#2297E6\"];\n  \"munsell\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"nlme\" -> \"lattice\" [color=\"#2297E6\"];\n  \"nlme\" -> \"MASS\" [color=\"#28E2E5\"];\n  \"gridExtra\" -> \"gtable\" [color=\"#2297E6\"];\n  \"gridExtra\" -> \"grid\" [color=\"#2297E6\"];\n  \"gridExtra\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"gridExtra\" -> \"lattice\" [color=\"#28E2E5\"];\n  \"magrittr\" -> \"rlang\" [color=\"#28E2E5\"];\n  \"mime\" -> \"tools\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"later\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"promises\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"R6\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"httpuv\" -> \"later\" [color=\"#61D04F\"];\n  \"httpuv\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"zoo\" -> \"lattice\" [color=\"#2297E6\"];\n  \"zoo\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"zoo\" -> \"scales\" [color=\"#28E2E5\"];\n  \"htmltools\" -> \"digest\" [color=\"#2297E6\"];\n  \"htmltools\" -> \"fastmap\" [color=\"#2297E6\"];\n  \"htmltools\" -> \"rlang\" [color=\"#2297E6\"];\n  \"htmltools\" -> \"shiny\" [color=\"#28E2E5\"];\n  \"viridisLite\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"htmlwidgets\" -> \"htmltools\" [color=\"#2297E6\"];\n  \"htmlwidgets\" -> \"jsonlite\" [color=\"#2297E6\"];\n  \"htmlwidgets\" -> \"shiny\" [color=\"#CD0BBC\"];\n  \"promises\" -> \"fastmap\" [color=\"#2297E6\"];\n  \"promises\" -> \"later\" [color=\"#2297E6\"];\n  \"promises\" -> \"magrittr\" [color=\"#2297E6\"];\n  \"promises\" -> \"R6\" [color=\"#2297E6\"];\n  \"promises\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"promises\" -> \"rlang\" [color=\"#2297E6\"];\n  \"promises\" -> \"later\" [color=\"#61D04F\"];\n  \"promises\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"promises\" -> \"future\" [color=\"#28E2E5\"];\n  \"promises\" -> \"purrr\" [color=\"#28E2E5\"];\n  \"plyr\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"plyr\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"plyr\" -> \"abind\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"cli\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"glue\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"rlang\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"tidyselect\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"magrittr\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"stringr\" [color=\"#28E2E5\"];\n  \"tidyselect\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"cli\" [color=\"#2297E6\"];\n  \"pillar\" -> \"fansi\" [color=\"#2297E6\"];\n  \"pillar\" -> \"glue\" [color=\"#2297E6\"];\n  \"pillar\" -> \"lifecycle\" [color=\"#2297E6\"];\n  \"pillar\" -> \"rlang\" [color=\"#2297E6\"];\n  \"pillar\" -> \"utf8\" [color=\"#2297E6\"];\n  \"pillar\" -> \"vctrs\" [color=\"#2297E6\"];\n  \"pillar\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"scales\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"stringi\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"survival\" [color=\"#28E2E5\"];\n  \"pillar\" -> \"tibble\" [color=\"#28E2E5\"];\n  \"stringi\" -> \"tools\" [color=\"#2297E6\"];\n  \"reshape2\" -> \"plyr\" [color=\"#2297E6\"];\n  \"reshape2\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"reshape2\" -> \"stringr\" [color=\"#2297E6\"];\n  \"reshape2\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"reshape2\" -> \"lattice\" [color=\"#28E2E5\"];\n  \"xtable\" -> \"zoo\" [color=\"#28E2E5\"];\n  \"xtable\" -> \"survival\" [color=\"#28E2E5\"];\n  \"later\" -> \"Rcpp\" [color=\"#2297E6\"];\n  \"later\" -> \"rlang\" [color=\"#2297E6\"];\n  \"later\" -> \"Rcpp\" [color=\"#61D04F\"];\n  \"spatstat.data\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"spatstat.data\" -> \"Matrix\" [color=\"#2297E6\"];\n  \"spatstat.data\" -> \"spatstat.geom\" [color=\"#28E2E5\"];\n  \"spatstat.data\" -> \"spatstat.random\" [color=\"#28E2E5\"];\n  \"spatstat.data\" -> \"spatstat.explore\" [color=\"#28E2E5\"];\n  \"spatstat.random\" -> \"spatstat.data\" [color=\"#DF536B\"];\n  \"spatstat.random\" -> \"spatstat.geom\" [color=\"#DF536B\"];\n  \"spatstat.random\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"spatstat.random\" -> \"spatstat.explore\" [color=\"#28E2E5\"];\n  \"spatstat.sparse\" -> \"Matrix\" [color=\"#DF536B\"];\n  \"spatstat.sparse\" -> \"abind\" [color=\"#DF536B\"];\n  \"spatstat.sparse\" -> \"tensor\" [color=\"#DF536B\"];\n  \"spatstat.sparse\" -> \"spatstat.utils\" [color=\"#2297E6\"];\n  \"deldir\" -> \"polyclip\" [color=\"#28E2E5\"];\n  \"dotCall64\" -> \"RColorBrewer\" [color=\"#28E2E5\"];\n  \"dotCall64\" -> \"spam\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"KernSmooth\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"MASS\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"shiny\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"ggplot2\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"dplyr\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"scales\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"grid\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"png\" [color=\"#28E2E5\"];\n  \"colorspace\" -> \"RColorBrewer\" [color=\"#28E2E5\"];\n  \"utf8\" -> \"cli\" [color=\"#28E2E5\"];\n  \"utf8\" -> \"rlang\" [color=\"#28E2E5\"];\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<pre><code class="language-r">sessionInfo()
+</code></pre>
+<pre><code>## R version 4.3.3 (2024-02-29)
+## Platform: x86_64-apple-darwin20 (64-bit)
+## Running under: macOS 26.3.1
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRblas.0.dylib 
+## LAPACK: /Library/Frameworks/R.framework/Versions/4.3-x86_64/Resources/lib/libRlapack.dylib;  LAPACK version 3.11.0
+## 
+## locale:
+## [1] zh_CN.UTF-8/zh_CN.UTF-8/zh_CN.UTF-8/C/zh_CN.UTF-8/zh_CN.UTF-8
+## 
+## time zone: Asia/Shanghai
+## tzcode source: internal
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] glue_1.7.0     pkgndep_1.99.3 knitr_1.45    
+## 
+## loaded via a namespace (and not attached):
+##  [1] DiagrammeR_1.0.11     sass_0.4.9            BiocVersion_3.17.1    shape_1.4.6.1        
+##  [5] blogdown_1.19         digest_0.6.35         magrittr_2.0.3        evaluate_0.23        
+##  [9] grid_4.3.3            RColorBrewer_1.1-3    bookdown_0.39         iterators_1.0.14     
+## [13] circlize_0.4.16       fastmap_1.1.1         foreach_1.5.2         doParallel_1.0.17    
+## [17] jsonlite_1.8.8        processx_3.8.4        GlobalOptions_0.1.2   ps_1.7.6             
+## [21] ComplexHeatmap_2.23.1 codetools_0.2-19      jquerylib_0.1.4       cli_3.6.2            
+## [25] rlang_1.1.3           crayon_1.5.2          visNetwork_2.1.2      cachem_1.0.8         
+## [29] yaml_2.3.8            tools_4.3.3           parallel_4.3.3        colorspace_2.1-0     
+## [33] GetoptLong_1.0.5      BiocGenerics_0.48.1   hash_2.2.6.3          R6_2.5.1             
+## [37] png_0.1-8             matrixStats_1.3.0     stats4_4.3.3          lifecycle_1.0.4      
+## [41] S4Vectors_0.40.2      htmlwidgets_1.6.4     IRanges_2.36.0        clue_0.3-65          
+## [45] cluster_2.1.6         callr_3.7.6           bslib_0.7.0           xfun_0.43            
+## [49] rstudioapi_0.16.0     rjson_0.2.21          htmltools_0.5.8.1     rmarkdown_2.26       
+## [53] compiler_4.3.3
+</code></pre>
+
+  </div>
+
+
+  <p id="license">本文使用 <a href='https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh-hans'>CC BY-NC-SA 4.0</a> 协议发布。</p>
+
+
+</section>
+
+
+<style>
+.footer p{
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+	max-width:400px;
+	border-top: 1px solid #AAA;
+	padding-top:10px;
+	font-size: 0.8em;
+}
+.footer p a {
+	color: #AAA;
+	text-align: left;
+	text-decoration: none;
+}
+</style>
+
+<footer class="footer">
+<p>网站使用 <a href="https://gohugo.io/">Hugo</a>，<a href="https://bookdown.org/yihui/blogdown/">blogdown</a>，<a href="https://github.com/davidhampgonsalves/hugo-black-and-light-theme">Black & Light 主题</a>创建</p>
+</footer>
+
+
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+
+
+
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+
+<script src="/js/math-code.js"></script>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+
+
+</body>
+</html>
+
+
+

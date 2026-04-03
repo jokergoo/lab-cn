@@ -1,0 +1,128 @@
+---
+title: "Support HCL colormaps in ComplexHeatmap"
+date: 2022-03-08
+author: Zuguang Gu
+---
+
+```{r, echo = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.align = "center"
+)
+```
+
+To demonstrate this new feature, I first generate a small random matrix.
+
+```{r}
+set.seed(123)
+nr1 = 4; nr2 = 8; nr3 = 6; nr = nr1 + nr2 + nr3
+nc1 = 6; nc2 = 8; nc3 = 10; nc = nc1 + nc2 + nc3
+mat = cbind(rbind(matrix(rnorm(nr1*nc1, mean = 1,   sd = 0.5), nr = nr1),
+                  matrix(rnorm(nr2*nc1, mean = 0,   sd = 0.5), nr = nr2),
+                  matrix(rnorm(nr3*nc1, mean = 0,   sd = 0.5), nr = nr3)),
+            rbind(matrix(rnorm(nr1*nc2, mean = 0,   sd = 0.5), nr = nr1),
+                  matrix(rnorm(nr2*nc2, mean = 1,   sd = 0.5), nr = nr2),
+                  matrix(rnorm(nr3*nc2, mean = 0,   sd = 0.5), nr = nr3)),
+            rbind(matrix(rnorm(nr1*nc3, mean = 0.5, sd = 0.5), nr = nr1),
+                  matrix(rnorm(nr2*nc3, mean = 0.5, sd = 0.5), nr = nr2),
+                  matrix(rnorm(nr3*nc3, mean = 1,   sd = 0.5), nr = nr3))
+           )
+```
+
+Since this matrix contains both positive and negative values, we may want the color mapping to be symmetric to zero,
+thus we define a zero-centric color mapping function with `circlize::colorRamp2()`.
+The "blue-white-red" heatmap looks like as follows:
+
+```{r, fig.width = 4, fig.height = 4}
+library(circlize)
+library(ComplexHeatmap)
+col_fun = colorRamp2(c(-2, 0, 2), c("blue", "white", "red"))
+Heatmap(mat, name = "mat", col = col_fun,
+    show_row_dend = FALSE, show_column_dend = FALSE)
+```
+
+In the example, the color mapping function `col_fun` defines three colors (blue/white/red) for the three breaks values (-2/0/2), and
+other values are linearly interpolated in [the LAB color space (by default)](https://en.wikipedia.org/wiki/CIELAB_color_space).
+
+```{r, echo = FALSE}
+fig_width = 4
+fig_per_row = 5
+```
+
+In the paper ["colorspace: A Toolbox for Manipulating and Assessing Colors and Palettes"](https://www.jstatsoft.org/article/view/v096i01), it
+described color maps in [the HCL color space](https://en.wikipedia.org/wiki/HCL_color_space), which are more natural for human perception of colors. It also provides rich color palettes extracted in the HCL color space. The list of color palettes are listed in `grDevides::hcl.pals()`.
+
+```{r}
+hcl.pals("diverging")
+hcl.pals("divergingx")
+hcl.pals("sequential")
+```
+
+
+From **circlize** version 0.4.14, the function `colorRamp2()` now accepts a
+new argument `hcl_palette` which allows to set a specific HCL color palette.
+The valid values are those supported in `grDevides::hcl.pals()`.
+
+
+To set a color mapping function which extends colors in the HCL color space, simply set the `hcl_palette` argument. For example:
+
+```{r, eval = FALSE}
+colorRamp2(c(-2, 0, 2), hcl_palette = "Blue-Red 2")
+```
+
+Please note: DO NOT set as in the following code. In there, three colors are extracted from the "Blue-Red 2" palette, but all other colors
+are still interpolated in the LAB color space.
+
+
+```{r, eval = FALSE}
+colorRamp2(c(-2, 0, 2), hcl.colors(3, "Blue-Red 2"))  # this is wrong
+```
+
+
+In the following, each heatmap uses a specific HCL color palette. You can see how the heatmap looks like under different HCL color palettes.
+
+```{r, fig.width = fig_width*fig_per_row, fig.height = ceiling(length(hcl.pals("diverging"))/fig_per_row)*fig_width, out.width = "100%"}
+pl = list()
+for(palette in sort(hcl.pals("diverging"))) {
+    col_fun = colorRamp2(c(-2, 0, 2), hcl_palette = palette)
+    ht = Heatmap(mat, name = "mat", col = col_fun, 
+        show_row_dend = FALSE, show_column_dend = FALSE,
+        column_title = paste0("palette = '", palette, "'"),
+        heatmap_legend_param = list(legend_height = unit(6, "cm")))
+    pl[[palette]] = grid.grabExpr(draw(ht))
+}
+library(cowplot)
+plot_grid(plotlist = pl, ncol = 5)
+```
+
+```{r, fig.width = fig_width*fig_per_row, fig.height = ceiling(length(hcl.pals("divergingx"))/fig_per_row)*fig_width, out.width = "100%"}
+pl = list()
+for(palette in sort(hcl.pals("divergingx"))) {
+    col_fun = colorRamp2(c(-2, 0, 2), hcl_palette = palette)
+    ht = Heatmap(mat, name = "mat", col = col_fun, 
+        show_row_dend = FALSE, show_column_dend = FALSE,
+        column_title = paste0("palette = '", palette, "'"),
+        heatmap_legend_param = list(legend_height = unit(6, "cm")))
+    pl[[palette]] = grid.grabExpr(draw(ht))
+}
+plot_grid(plotlist = pl, ncol = 5)
+```
+
+
+```{r, fig.width = fig_width*fig_per_row, fig.height = ceiling(length(hcl.pals("sequential"))/fig_per_row)*fig_width, out.width = "100%"}
+pl = list()
+for(palette in sort(hcl.pals("sequential"))) {
+    col_fun = colorRamp2(range(mat), hcl_palette = palette, reverse = TRUE)
+    ht = Heatmap(mat, name = "mat", col = col_fun, 
+        show_row_dend = FALSE, show_column_dend = FALSE,
+        column_title = paste0("palette = '", palette, "'"),
+        heatmap_legend_param = list(legend_height = unit(6, "cm")))
+    pl[[palette]] = grid.grabExpr(draw(ht))
+}
+plot_grid(plotlist = pl, ncol = 5)
+```
+
