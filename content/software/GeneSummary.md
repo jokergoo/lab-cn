@@ -22,7 +22,7 @@ GitHub | https://github.com/jokergoo/GeneSummary
 ### 例子
 
 
-``` r
+```r
 library(GeneSummary)
 tb = loadGeneSummary(organism = 9606)
 head(tb)

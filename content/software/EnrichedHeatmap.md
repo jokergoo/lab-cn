@@ -28,7 +28,7 @@ GitHub | https://github.com/jokergoo/EnrichedHeatmap
 可视化H3K4me3和DNA甲基化在TSS附近的富集模式。
 
 
-``` r
+```r
 library(EnrichedHeatmap)
 load(system.file("extdata", "chr21_test_data.RData", package = "EnrichedHeatmap"))
 tss = promoters(genes, upstream = 0, downstream = 1)
@@ -62,7 +62,7 @@ draw(ht_list, split = partition, annotation_legend_list = list(lgd),
     ht_gap = unit(c(2, 8, 8), "mm"))
 ```
 
-<img src="/software/EnrichedHeatmap_files/figure-html/unnamed-chunk-2-1.png" width="768" />
+<img src="/lab-cn/software/EnrichedHeatmap_files/figure-html/unnamed-chunk-2-1.png" width="768" />
 
 <script>
 $( function() {

@@ -72,7 +72,7 @@ Options:
 GetoptLong包中也实现了简单的变量插值（variable interpolation）：
 
 
-``` r
+```r
 library(GetoptLong)
 r = c(1, 2)
 value = 4

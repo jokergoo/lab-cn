@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          ComplexHeatmap 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/software/complexheatmap/">
+    <link rel="canonical" href="lab-cn/software/complexheatmap/">
 
     <style>
   * {
@@ -430,47 +430,39 @@
   padding:0px 2px;
 }
 </style>
-<script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
-const regex = /^https?:\/\/[^/]+?\//;
-root_dir = root_dir.replace(regex, "/");
+<script type="text/javascript">
 $( function() {
-  $("#content img").each(function(i) {
-        var old_src = $(this).attr("src");
-        var pattern = new RegExp("^" + root_dir);
-        if(!pattern.test(old_src)) {
-            pattern = /^http(s?):\/\//;
-            if(!pattern.test(old_src)) {
-                $(this).attr("src", root_dir + "/" + old_src);
-            }
+  $("#nav a").each(function(i) {
+        var old_href = $(this).attr("href");
+        var pattern1 = new RegExp("^http");
+        if(!pattern1.test(old_href)) {
+          var pattern = new RegExp("^/");
+          if(!pattern.test(old_href)) {
+              
+            $(this).attr("href", "/" + old_href);
+              
+          }
         }
     });
-  $("#nav-logo-text").attr("href", root_dir);
-  $("#no-found-a").attr("href", root_dir);
-
-  var url = window.location.href;
-  var pattern = /lab-cn/;
-  var url2 = url.replace(pattern, "lab-en");
-  $("#nav ul li:last-child a").attr("href", url2);
 })
 </script>
   <body>
     <section id=nav>
       <h1><a class="h-card" href="/"></a></h1>
-      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <a href="lab-cn/" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -540,12 +532,12 @@ colnames(mat) = paste0(&quot;column&quot;, seq_len(nc))
 <pre><code class="language-r">library(ComplexHeatmap)
 Heatmap(mat)
 </code></pre>
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-3-1.png" width="768" />
+<img src="/lab-cn/software/ComplexHeatmap_files/figure-html/unnamed-chunk-3-1.png" width="768" />
 <p>对行和列进行切分：</p>
 <pre><code class="language-r">Heatmap(mat, name = &quot;mat&quot;, 
     row_split = rep(c(&quot;A&quot;, &quot;B&quot;), 9), column_split = rep(c(&quot;C&quot;, &quot;D&quot;), 12))
 </code></pre>
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-4-1.png" width="768" />
+<img src="/lab-cn/software/ComplexHeatmap_files/figure-html/unnamed-chunk-4-1.png" width="768" />
 <p>加入热图注释：</p>
 <pre><code class="language-r">set.seed(123)
 mat = matrix(rnorm(100), 10)
@@ -555,7 +547,7 @@ column_ha = HeatmapAnnotation(foo1 = runif(10), bar1 = anno_barplot(runif(10)))
 row_ha = rowAnnotation(foo2 = runif(10), bar2 = anno_barplot(runif(10)))
 Heatmap(mat, name = &quot;mat&quot;, top_annotation = column_ha, right_annotation = row_ha)
 </code></pre>
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-5-1.png" width="768" />
+<img src="/lab-cn/software/ComplexHeatmap_files/figure-html/unnamed-chunk-5-1.png" width="768" />
 <p>拼接多个热图：</p>
 <pre><code class="language-r">set.seed(123)
 mat1 = matrix(rnorm(80, 2), 8, 10)
@@ -582,7 +574,7 @@ ht3 = Heatmap(le, name = &quot;letters&quot;)
 
 ht1 + ht2 + ht3
 </code></pre>
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-6-1.png" width="768" />
+<img src="/lab-cn/software/ComplexHeatmap_files/figure-html/unnamed-chunk-6-1.png" width="768" />
 <script>
 $( function() {
 	$("table thead").css("display", "none");

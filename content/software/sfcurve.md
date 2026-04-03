@@ -27,7 +27,7 @@ GitHub | https://github.com/jokergoo/sfcurve
 2x2曲线
 
 
-``` r
+```r
 library(sfcurve)
 p = sfc_2x2("I", "2222", rot = 270)
 p
@@ -35,9 +35,14 @@ p
 
 ```
 ## An sfc_2x2 object.
-##   Increase mode: 2 x 2
+##   Increase mode: 2x2
 ##   Level: 4
 ##   Expansion rule: 2x2 
+## 
+## Seed: A sequence of 1 base pattern.
+##   I(270)  
+## 
+## Encoding: seed|2222
 ## 
 ## A sequence of 256 base patterns.
 ##   I(270)L(270)L(0)R(90)   I(0)R(0)R(270)L(180)
@@ -45,37 +50,34 @@ p
 ##   .... other 28 lines ....
 ##   I(270)L(270)L(0)R(90)   I(0)R(0)R(270)L(180)
 ##   L(270)R(0)R(270)I(180)  R(180)L(90)L(180)I(270)
-## 
-## Seed: A sequence of 1 base pattern.
-##   I(270)
 ```
 
-``` r
+```r
 plot(p)
 ```
 
-<img src="/software/sfcurve_files/figure-html/unnamed-chunk-2-1.png" width="768" />
+<img src="/lab-cn/software/sfcurve_files/figure-html/unnamed-chunk-2-1.png" width="768" />
 
 3x3 Peano曲线
 
 
-``` r
+```r
 p = sfc_3x3_peano("I", "1111")
 plot(p)
 ```
 
-<img src="/software/sfcurve_files/figure-html/unnamed-chunk-3-1.png" width="768" />
+<img src="/lab-cn/software/sfcurve_files/figure-html/unnamed-chunk-3-1.png" width="768" />
 
 以一条初级曲线作为起始的曲线
 
 
-``` r
+```r
 p = sfc_seed("LLLILILIILIILIIILIIILIIII")
 p2 = sfc_2x2(p, "1111")
 plot(p2)
 ```
 
-<img src="/software/sfcurve_files/figure-html/unnamed-chunk-4-1.png" width="768" />
+<img src="/lab-cn/software/sfcurve_files/figure-html/unnamed-chunk-4-1.png" width="768" />
 
 <script>
 $( function() {

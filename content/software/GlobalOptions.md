@@ -23,7 +23,7 @@ GitHub | https://github.com/jokergoo/GlobalOptions
 ### 例子
 
 
-``` r
+```r
 library(GlobalOptions)
 opt = set_opt(
     "a" = 1,

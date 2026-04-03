@@ -26,20 +26,20 @@ GitHub | https://github.com/jokergoo/pkgndep
 ### 例子
 
 
-``` r
+```r
 library(pkgndep)
 x = pkgndep("circlize")
 ```
 
 ```
-## retrieve package database from CRAN/Bioconductor (3.19)...
-##   - 26125 remote packages on CRAN/Bioconductor.
-##   - 485 packages installed locally.
+## retrieve package database from CRAN/Bioconductor (3.17)...
+##   - 25997 remote packages on CRAN/Bioconductor.
+##   - 826 packages installed locally.
 ## prepare dependency table...
 ## prepare reverse dependency table...
 ```
 
-``` r
+```r
 x
 ```
 
@@ -49,7 +49,7 @@ x
 ## - 94 packages are required if installing packages listed in all fields in DESCRIPTION.
 ```
 
-``` r
+```r
 heaviness(x)
 ```
 
@@ -64,11 +64,11 @@ heaviness(x)
 ##             22             27             32
 ```
 
-``` r
+```r
 plot(x, fix = FALSE)
 ```
 
-<img src="/software/pkgndep_files/figure-html/unnamed-chunk-2-1.png" width="95%" />
+<img src="/lab-cn/software/pkgndep_files/figure-html/unnamed-chunk-2-1.png" width="95%" />
 
 
 <script>

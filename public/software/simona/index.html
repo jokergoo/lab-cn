@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en-US">
-  <head><script src="/lab-cn/livereload.js?mindelay=10&amp;v=2&amp;port=4321&amp;path=lab-cn/livereload" data-no-instant defer></script>
+  <head>
     <meta charset="utf-8">
     <meta name="HandheldFriendly" content="True">
     <meta name="MobileOptimized" content="320">
@@ -31,7 +31,7 @@
          simona 
       
     </title>
-    <link rel="canonical" href="http://localhost:4321/lab-cn/software/simona/">
+    <link rel="canonical" href="lab-cn/software/simona/">
 
     <style>
   * {
@@ -430,47 +430,39 @@
   padding:0px 2px;
 }
 </style>
-<script>
-window.root_dir = "http:\/\/localhost:4321\/lab-cn\/";
-const regex = /^https?:\/\/[^/]+?\//;
-root_dir = root_dir.replace(regex, "/");
+<script type="text/javascript">
 $( function() {
-  $("#content img").each(function(i) {
-        var old_src = $(this).attr("src");
-        var pattern = new RegExp("^" + root_dir);
-        if(!pattern.test(old_src)) {
-            pattern = /^http(s?):\/\//;
-            if(!pattern.test(old_src)) {
-                $(this).attr("src", root_dir + "/" + old_src);
-            }
+  $("#nav a").each(function(i) {
+        var old_href = $(this).attr("href");
+        var pattern1 = new RegExp("^http");
+        if(!pattern1.test(old_href)) {
+          var pattern = new RegExp("^/");
+          if(!pattern.test(old_href)) {
+              
+            $(this).attr("href", "/" + old_href);
+              
+          }
         }
     });
-  $("#nav-logo-text").attr("href", root_dir);
-  $("#no-found-a").attr("href", root_dir);
-
-  var url = window.location.href;
-  var pattern = /lab-cn/;
-  var url2 = url.replace(pattern, "lab-en");
-  $("#nav ul li:last-child a").attr("href", url2);
 })
 </script>
   <body>
     <section id=nav>
       <h1><a class="h-card" href="/"></a></h1>
-      <a href="#" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
+      <a href="lab-cn/" id="nav-logo-text">Gu<span style="padding:0px 2px">.</span>Z<span id="at">@</span>SUAT-SZ</a>
       <ul style="float:right">
         
-          <li><a href="/lab-cn/research/">研究</a></li>
+          <li><a href="lab-cn/research/">研究</a></li>
         
-          <li><a href="/lab-cn/publication/">论文</a></li>
+          <li><a href="lab-cn/publication/">论文</a></li>
         
-          <li><a href="/lab-cn/software/">软件</a></li>
+          <li><a href="lab-cn/software/">软件</a></li>
         
-          <li><a href="/lab-cn/post">博客</a></li>
+          <li><a href="lab-cn/post">博客</a></li>
         
-          <li><a href="/lab-cn/members/">成员</a></li>
+          <li><a href="lab-cn/members/">成员</a></li>
         
-          <li><a href="/lab-cn/opening/">职位</a></li>
+          <li><a href="lab-cn/opening/">职位</a></li>
         
       </ul>
       <div style="clear:both"></div>
@@ -523,17 +515,17 @@ dag = create_ontology_DAG_from_GO_db(&quot;BP&quot;, org_db = &quot;org.Hs.eg.db
 dag
 </code></pre>
 <pre><code>## An ontology_DAG object:
-##   Source: GO BP / GO.db package 3.20.0 
-##   26552 terms / 51745 relations
+##   Source: GO BP / GO.db package 3.17.0 
+##   27942 terms / 55956 relations
 ##   Root: GO:0008150 
-##   Terms: GO:0000001, GO:0000002, GO:0000011, GO:0000012, ...
+##   Terms: GO:0000001, GO:0000002, GO:0000003, GO:0000011, ...
 ##   Max depth: 18 
-##   Avg number of parents: 1.95
-##   Avg number of children: 1.83
-##   Aspect ratio: 343.15:1 (based on the longest distance from root)
-##                 756.89:1 (based on the shortest distance from root)
+##   Avg number of parents: 2.00
+##   Avg number of children: 1.88
+##   Aspect ratio: 363.92:1 (based on the longest distance from root)
+##                 782.78:1 (based on the shortest distance from root)
 ##   Relations: is_a, part_of
-##   Annotations: 18986 items
+##   Annotations: 18614 items
 ##                291, 1890, 4205, 4358, ...
 ## 
 ## With the following columns in the metadata data frame:

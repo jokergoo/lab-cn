@@ -24,7 +24,7 @@ GitHub | https://github.com/jokergoo/gtrellis
 ### 例子
 
 
-``` r
+```r
 library(gtrellis)
 
 load(system.file("extdata", "DMR.RData", package = "circlize"))
@@ -56,7 +56,7 @@ gtrellis_layout(n_track = 2, nrow = 4, compact = TRUE,
 add_graphics()
 ```
 
-<img src="/software/gtrellis_files/figure-html/unnamed-chunk-2-1.png" width="1152" />
+<img src="/lab-cn/software/gtrellis_files/figure-html/unnamed-chunk-2-1.png" width="1152" />
 
 <script>
 $( function() {

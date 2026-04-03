@@ -27,7 +27,7 @@ GitHub | https://github.com/jokergoo/HilbertCurve
 人类染色体1上的基因分布。
 
 
-``` r
+```r
 library(GenomicRanges)
 library(HilbertCurve)
 library(circlize)
@@ -37,7 +37,7 @@ hc = GenomicHilbertCurve(chr = "chr1", level = 5, reference = TRUE,
 hc_segments(hc, g, gp = gpar(lwd = 6, col = rand_color(length(g))))
 ```
 
-<img src="/software/HilbertCurve_files/figure-html/unnamed-chunk-2-1.png" width="768" />
+<img src="/lab-cn/software/HilbertCurve_files/figure-html/unnamed-chunk-2-1.png" width="768" />
 
 
 <script>

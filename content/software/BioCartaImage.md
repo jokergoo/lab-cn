@@ -23,14 +23,14 @@ GitHub | https://github.com/jokergoo/BioCartaImage
 ### 例子
 
 
-``` r
+```r
 library(BioCartaImage)
 library(grid)
 grid.newpage()
 grid.biocarta("h_RELAPathway")
 ```
 
-<img src="/software/BioCartaImage_files/figure-html/unnamed-chunk-2-1.png" width="768" />
+<img src="/lab-cn/software/BioCartaImage_files/figure-html/unnamed-chunk-2-1.png" width="768" />
 
 
 

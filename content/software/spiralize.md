@@ -27,7 +27,7 @@ GitHub | https://github.com/jokergoo/spiralize
 全球气温在近20年间的变化
 
 
-``` r
+```r
 library(spiralize)
 df = readRDS(system.file("extdata", "global_temperature.rds", package = "spiralize"))
 df = df[df$Source == "GCAG", ]
@@ -46,7 +46,7 @@ spiral_text("1980-01-01", 0.5, "1980", gp = gpar(fontsize = 8))
 spiral_text("2000-01-01", 0.5, "2000", gp = gpar(fontsize = 8))
 ```
 
-<img src="/software/spiralize_files/figure-html/unnamed-chunk-2-1.png" width="768" />
+<img src="/lab-cn/software/spiralize_files/figure-html/unnamed-chunk-2-1.png" width="768" />
 
 
 <script>

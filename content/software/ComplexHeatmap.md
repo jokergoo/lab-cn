@@ -29,7 +29,7 @@ GitHub | https://github.com/jokergoo/ComplexHeatmap
 首先简单生成一个随机矩阵。
 
 
-``` r
+```r
 set.seed(123)
 nr1 = 4; nr2 = 8; nr3 = 6; nr = nr1 + nr2 + nr3
 nc1 = 6; nc2 = 8; nc3 = 10; nc = nc1 + nc2 + nc3
@@ -51,28 +51,28 @@ colnames(mat) = paste0("column", seq_len(nc))
 直接绘制相应的热图：
 
 
-``` r
+```r
 library(ComplexHeatmap)
 Heatmap(mat)
 ```
 
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-3-1.png" width="768" />
+<img src="/lab-cn/software/ComplexHeatmap_files/figure-html/unnamed-chunk-3-1.png" width="768" />
 
 
 对行和列进行切分：
 
 
-``` r
+```r
 Heatmap(mat, name = "mat", 
     row_split = rep(c("A", "B"), 9), column_split = rep(c("C", "D"), 12))
 ```
 
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-4-1.png" width="768" />
+<img src="/lab-cn/software/ComplexHeatmap_files/figure-html/unnamed-chunk-4-1.png" width="768" />
 
 加入热图注释：
 
 
-``` r
+```r
 set.seed(123)
 mat = matrix(rnorm(100), 10)
 rownames(mat) = paste0("R", 1:10)
@@ -82,13 +82,13 @@ row_ha = rowAnnotation(foo2 = runif(10), bar2 = anno_barplot(runif(10)))
 Heatmap(mat, name = "mat", top_annotation = column_ha, right_annotation = row_ha)
 ```
 
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-5-1.png" width="768" />
+<img src="/lab-cn/software/ComplexHeatmap_files/figure-html/unnamed-chunk-5-1.png" width="768" />
 
 
 拼接多个热图：
 
 
-``` r
+```r
 set.seed(123)
 mat1 = matrix(rnorm(80, 2), 8, 10)
 mat1 = rbind(mat1, matrix(rnorm(40, -2), 4, 10))
@@ -115,7 +115,7 @@ ht3 = Heatmap(le, name = "letters")
 ht1 + ht2 + ht3
 ```
 
-<img src="/software/ComplexHeatmap_files/figure-html/unnamed-chunk-6-1.png" width="768" />
+<img src="/lab-cn/software/ComplexHeatmap_files/figure-html/unnamed-chunk-6-1.png" width="768" />
 
 <script>
 $( function() {

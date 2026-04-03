@@ -23,7 +23,7 @@ GitHub | https://github.com/jokergoo/UniProtKeywords
 ### 例子
 
 
-``` r
+```r
 library(UniProtKeywords)
 data(kw_terms)
 kw_terms[["Cell cycle"]]

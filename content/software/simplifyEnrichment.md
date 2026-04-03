@@ -25,14 +25,14 @@ GitHub | https://github.com/jokergoo/simplifyEnrichment
 ### 例子
 
 
-``` r
+```r
 library(simplifyEnrichment)
 set.seed(888)
 go_id = random_GO(500)
 simplifyGO(go_id)
 ```
 
-<img src="/software/simplifyEnrichment_files/figure-html/unnamed-chunk-2-1.png" width="816" />
+<img src="/lab-cn/software/simplifyEnrichment_files/figure-html/unnamed-chunk-2-1.png" width="816" />
 
 
 <script>

@@ -22,7 +22,6 @@ options(
 # fix Hugo version
 options(blogdown.hugo.version = "0.149.0")
 
-
 options(blogdown.files_filter = function(files) {
   files[!grepl("^docs/", files)]
 })
