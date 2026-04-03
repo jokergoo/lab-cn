@@ -27,6 +27,7 @@ li {
 
 ### 生物软件
 
+
 - **Zuguang Gu#**, [simona: a comprehensive R package for semantic similarity analysis on bio-ontologies](https://doi.org/10.1186/s12864-024-10759-4). _BMC genomics_ 2024.
 - Noriaki Sato, Yao-Zhong Zhang, **Zuguang Gu**, Seiya Imoto, [biotextgraph: graphical summarization of functional similarities from textual information](https://doi.org/10.1093/bioinformatics/btae357). _Bioinformatics_ 2024.
 - **Zuguang Gu#**, Daniel Hübschmann, [rGREAT: an R/bioconductor package for functional enrichment on genomic regions](https://doi.org/10.1093/bioinformatics/btac745). _Bioinformatics_ 2023.
@@ -133,6 +134,7 @@ plot_grid(p1, p2, nrow = 1)
 ```
 
 全球引用地图。
+
 
 ```{r, echo = FALSE, fig.width = 10, fig.height = 6, warning = FALSE, message = FALSE}
 citation = readRDS("wos_citations.rds")
