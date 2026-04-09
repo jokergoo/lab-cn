@@ -109,6 +109,7 @@ pkgndep    cran
 bsub    cran
 GetoptLong    cran
 GlobalOptions    cran
+colorRamp2     cran
 "))
 
 total_downloads = 0
@@ -223,6 +224,7 @@ Package | downloads   |  github | publication
 [bsub](bsub/)：发送R代码至LSF计算集群 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran("bsub")`-blue)](https://cran.r-project.org/web/packages/bsub/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/bsub.svg?style=social&label=Star)](https://github.com/jokergoo/bsub) | 
 [GetoptLong](getoptlong/)：命令行参数解析 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran("GetoptLong")`-blue)](https://cran.r-project.org/web/packages/GetoptLong/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/GetoptLong.svg?style=social&label=Star)](https://github.com/jokergoo/GetoptLong) | 
 [GlobalOptions](globaloptions/)：设定全局参数 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran("GlobalOptions")`-blue)](https://cran.r-project.org/web/packages/GlobalOptions/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/GlobalOptions.svg?style=social&label=Star)](https://github.com/jokergoo/GlobalOptions) | 
+[colorRamp2](colorRamp2/)：颜色映射 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran("colorRamp2")`-blue)](https://cran.r-project.org/web/packages/colorRamp2/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/colorRamp2.svg?style=social&label=Star)](https://github.com/jokergoo/colorRamp2) | 
 </div>
 
 ### 教学
@@ -280,6 +282,7 @@ circlize | [![](`r cran_check_shield(cran_status('circlize'))`)](https://cran.r-
 spiralize | [![](`r cran_check_shield(cran_status('spiralize'))`)](https://cran.r-project.org/web/checks/check_results_spiralize.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/spiralize.svg)](https://GitHub.com/jokergoo/spiralize/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/spiralize.svg)
 GetoptLong | [![](`r cran_check_shield(cran_status('GetoptLong'))`)](https://cran.r-project.org/web/checks/check_results_GetoptLong.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/GetoptLong.svg)](https://GitHub.com/jokergoo/GetoptLong/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/GetoptLong.svg)
 GlobalOptions | [![](`r cran_check_shield(cran_status('GlobalOptions'))`)](https://cran.r-project.org/web/checks/check_results_GlobalOptions.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/GlobalOptions.svg)](https://GitHub.com/jokergoo/GlobalOptions/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/GlobalOptions.svg)
+colorRamp2 | [![](`r cran_check_shield(cran_status('colorRamp2'))`)](https://cran.r-project.org/web/checks/check_results_colorRamp2.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/colorRamp2.svg)](https://GitHub.com/jokergoo/colorRamp2/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/colorRamp2.svg)
 bsub | [![](`r cran_check_shield(cran_status('bsub'))`)](https://cran.r-project.org/web/checks/check_results_bsub.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/bsub.svg)](https://GitHub.com/jokergoo/bsub/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/bsub.svg)
 pkgndep | [![](`r cran_check_shield(cran_status('pkgndep'))`)](https://cran.r-project.org/web/checks/check_results_pkgndep.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/pkgndep.svg)](https://GitHub.com/jokergoo/pkgndep/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/pkgndep.svg)
 simona |-| [![](http://bioconductor.org/shields/build/devel/bioc/simona.svg)](http://bioconductor.org/checkResults/devel/bioc-LATEST/simona/) | [![](http://bioconductor.org/shields/build/release/bioc/simona.svg)](http://bioconductor.org/checkResults/release/bioc-LATEST/simona/) | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/simona.svg)](https://GitHub.com/jokergoo/simona/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/simona.svg)

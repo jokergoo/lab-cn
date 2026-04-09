@@ -1,0 +1,63 @@
+---
+title: CePa
+---
+
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+颜色映射。
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R
+CRAN | https://cran.r-project.org/package=colorRamp2
+GitHub | https://github.com/jokergoo/colorRamp2
+文档 | https://cran.r-project.org/package=colorRamp2
+
+</div>
+
+
+### 例子
+
+```{r}
+library(colorRamp2)
+
+col_fun = colorRamp2(c(0, 0.5, 1), c("blue", "white", "red"))
+col_fun(seq(0, 1, length = 20))
+
+plot(NULL, xlim = c(0, 1), ylim = c(0, 1))
+x = seq(0, 1, length = 20)
+y = rep(0.5, 20)
+points(x, y, pch = 16, col = col_fun(x), cex = 2)
+```
+
+从颜色还原到数值：
+
+```{r}
+x1 = runif(10)
+col = col_fun(x1)
+x2 = col2value(col, col_fun = col_fun)
+cbind(origin = x1, recovered = x2)
+```
+
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>
+
