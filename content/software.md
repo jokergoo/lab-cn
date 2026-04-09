@@ -97,7 +97,7 @@ Package | downloads   |  github | publication
 [bsub](bsub/)：发送R代码至LSF计算集群 | [![CRAN](https://img.shields.io/badge/downloads-22.4K-blue)](https://cran.r-project.org/web/packages/bsub/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/bsub.svg?style=social&label=Star)](https://github.com/jokergoo/bsub) | 
 [GetoptLong](getoptlong/)：命令行参数解析 | [![CRAN](https://img.shields.io/badge/downloads-2.6M-blue)](https://cran.r-project.org/web/packages/GetoptLong/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/GetoptLong.svg?style=social&label=Star)](https://github.com/jokergoo/GetoptLong) | 
 [GlobalOptions](globaloptions/)：设定全局参数 | [![CRAN](https://img.shields.io/badge/downloads-2.3M-blue)](https://cran.r-project.org/web/packages/GlobalOptions/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/GlobalOptions.svg?style=social&label=Star)](https://github.com/jokergoo/GlobalOptions) | 
-[colorRamp2](colorRamp2/)：颜色映射 | [![CRAN](https://img.shields.io/badge/downloads-32.4K-blue)](https://cran.r-project.org/web/packages/colorRamp2/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/colorRamp2.svg?style=social&label=Star)](https://github.com/jokergoo/colorRamp2) | 
+[colorRamp2](colorramp2/)：颜色映射 | [![CRAN](https://img.shields.io/badge/downloads-32.4K-blue)](https://cran.r-project.org/web/packages/colorRamp2/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/colorRamp2.svg?style=social&label=Star)](https://github.com/jokergoo/colorRamp2) | 
 </div>
 
 ### 教学
