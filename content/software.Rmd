@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 options("timeout" = 9999)
 ```
 
+
 ```{r, echo = FALSE}
 library(rvest)
 library(jsonlite)
