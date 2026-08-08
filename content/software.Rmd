@@ -108,6 +108,7 @@ IlluminaHumanMethylationEPICv2anno.20a1.hg38    bioc_anno
 IlluminaHumanMethylationEPICv2manifest    bioc_anno
 pkgndep    cran
 bsub    cran
+hashtable    cran
 GetoptLong    cran
 GlobalOptions    cran
 colorRamp2     cran
@@ -176,7 +177,7 @@ format_dn_bioc_anno = function(pkg) {
 
 <div class="tb123" id="tb1">
 
-Package | downloads   |  github | publication 
+软件 | 下载量   |  GitHub | 论文 
 :------ | :-------- | :----------- | :--------- 
 [circlize](circlize/)：圈形可视化 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran('circlize')`-blue)](https://cran.r-project.org/web/packages/circlize/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/circlize.svg?style=social&label=Star)](https://github.com/jokergoo/circlize) | [![](https://img.shields.io/badge/published%20on-Bioinformatics-9cf)](https://doi.org/10.1093/bioinformatics/btu393)
 [ComplexHeatmap](complexheatmap/)：复杂热图可视化 | [![Bioc](https://img.shields.io/badge/downloads-`r format_dn_bioc('ComplexHeatmap')`-blue)](http://bioconductor.org/packages/stats/bioc/ComplexHeatmap/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/ComplexHeatmap.svg?style=social&label=Star)](https://github.com/jokergoo/ComplexHeatmap) | [![](https://img.shields.io/badge/published%20on-Bioinformatics-9cf)](https://doi.org/10.1093/bioinformatics/btw313)<br>[![](https://img.shields.io/badge/published%20on-iMeta-9cf)](https://doi.org/10.1002/imt2.43)
@@ -192,7 +193,7 @@ Package | downloads   |  github | publication
 
 <div class="tb123" id="tb2">
 
-Package | downloads   |  github | publication 
+软件 | 下载量   |  GitHub | 论文 
 :------ | :-------- | :----------- | :--------- 
 [sfcurve](sfcurve/)：nxn 空间填充曲线 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran("sfcurve")`-blue)](https://cran.r-project.org/web/packages/sfcurve/index.html)| [![GitHub stars](https://img.shields.io/github/stars/jokergoo/sfcurve.svg?style=social&label=Star)](https://github.com/jokergoo/sfcurve) | [![](https://img.shields.io/badge/published%20on-arXiv-9cf)](https://arxiv.org/abs/2412.16962)
 [simona](simona/)：生物本体论（Bio-ontology）语义相似性工具箱 | [![Bioc](https://img.shields.io/badge/downloads-`r format_dn_bioc("simona")`-blue)](http://bioconductor.org/packages/stats/bioc/simona/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/simona.svg?style=social&label=Star)](https://github.com/jokergoo/simona) | [![](https://img.shields.io/badge/published%20on-BMC%20Genomics-9cf)](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-024-10759-4)
@@ -206,7 +207,7 @@ Package | downloads   |  github | publication
 
 <div class="tb123" id="tb3">
 
-Package | downloads   |  github 
+软件 | 下载量   |  GitHub 
 :------ | :-------- | :----------- 
 [GeneSummary](genesummary/)：RefSeq数据库的基因概要数据 | [![Bioc](https://img.shields.io/badge/downloads-`r format_dn_bioc_anno("GeneSummary")`-blue)](http://bioconductor.org/packages/stats/bioc/GeneSummary/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/GeneSummary.svg?style=social&label=Star)](https://github.com/jokergoo/GeneSummary) 
 [UniProtKeywords](uniprotkeywords/)：UniProt数据库的关键字数据 | [![Bioc](https://img.shields.io/badge/downloads-`r format_dn_bioc_anno("UniProtKeywords")`-blue)](http://bioconductor.org/packages/stats/bioc/UniProtKeywords/) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/UniProtKeywords.svg?style=social&label=Star)](https://github.com/jokergoo/UniProtKeywords) 
@@ -219,9 +220,10 @@ Package | downloads   |  github
 
 <div class="tb123" id="tb4">
 
-Package | downloads   |  github | publication 
+软件 | 下载量   |  GitHub | 论文 
 :------ | :-------- | :----------- | :--------- 
 [pkgndep](pkgndep/)：依赖重量分析 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran('pkgndep')`-blue)](https://cran.r-project.org/web/packages/pkgndep/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/pkgndep.svg?style=social&label=Star)](https://github.com/jokergoo/pkgndep) | [![](https://img.shields.io/badge/published%20on-Bioinformatics-9cf)](https://doi.org/10.1093/bioinformatics/btac449) [![](https://img.shields.io/badge/published%20on-JSS-9cf)](https://doi.org/10.1016/j.jss.2023.111610)
+[hashtable](hashtable/)：哈希表和哈希集 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran("hashtable")`-blue)](https://cran.r-project.org/web/packages/hashtable/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/hashtable.svg?style=social&label=Star)](https://github.com/jokergoo/hashtable) | 
 [bsub](bsub/)：发送R代码至LSF计算集群 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran("bsub")`-blue)](https://cran.r-project.org/web/packages/bsub/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/bsub.svg?style=social&label=Star)](https://github.com/jokergoo/bsub) | 
 [GetoptLong](getoptlong/)：命令行参数解析 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran("GetoptLong")`-blue)](https://cran.r-project.org/web/packages/GetoptLong/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/GetoptLong.svg?style=social&label=Star)](https://github.com/jokergoo/GetoptLong) | 
 [GlobalOptions](globaloptions/)：设定全局参数 | [![CRAN](https://img.shields.io/badge/downloads-`r format_dn_cran("GlobalOptions")`-blue)](https://cran.r-project.org/web/packages/GlobalOptions/index.html) | [![GitHub stars](https://img.shields.io/github/stars/jokergoo/GlobalOptions.svg?style=social&label=Star)](https://github.com/jokergoo/GlobalOptions) | 
@@ -232,15 +234,11 @@ Package | downloads   |  github | publication
 
 <div class="tb123" id="tb5">
 
-Package |  github 
+软件 |  GitHub 
 :------ | :----------- 
-[GSEAtopics](gseatopics/)：基因集合富集分析若干主题 |  [![GitHub stars](https://img.shields.io/github/stars/jokergoo/GSEAtraining.svg?style=social&label=Star)](https://github.com/jokergoo/GSEAtraining) 
+[GSEAtopics](gseatopics/)：基因集合富集分析若干主题 |  [![GitHub stars](https://img.shields.io/github/stars/jokergoo/GSEAtraining.svg?style=social&label=Star)](https://github.com/jokergoo/GSEAtraining)
+
 </div>
-
-
-### 在线书籍
-
-<a href="https://jokergoo.github.io/circlize_book/book/"><img src="https://jokergoo.github.io/circlize_book/book/images/circlize_cover.jpg" style="border:1px solid black; width:300px; display:inline;"/></a> <a href="https://jokergoo.github.io/ComplexHeatmap-reference/book/"><img src="https://jokergoo.github.io/ComplexHeatmap-reference/book/complexheatmap-cover.jpg" style="border:1px solid black; width:300px; display:inline;"/></a>
 
 <style>
 #package-status table tr.header {
@@ -284,6 +282,7 @@ spiralize | [![](`r cran_check_shield(cran_status('spiralize'))`)](https://cran.
 GetoptLong | [![](`r cran_check_shield(cran_status('GetoptLong'))`)](https://cran.r-project.org/web/checks/check_results_GetoptLong.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/GetoptLong.svg)](https://GitHub.com/jokergoo/GetoptLong/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/GetoptLong.svg)
 GlobalOptions | [![](`r cran_check_shield(cran_status('GlobalOptions'))`)](https://cran.r-project.org/web/checks/check_results_GlobalOptions.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/GlobalOptions.svg)](https://GitHub.com/jokergoo/GlobalOptions/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/GlobalOptions.svg)
 colorRamp2 | [![](`r cran_check_shield(cran_status('colorRamp2'))`)](https://cran.r-project.org/web/checks/check_results_colorRamp2.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/colorRamp2.svg)](https://GitHub.com/jokergoo/colorRamp2/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/colorRamp2.svg)
+hashtable | [![](`r cran_check_shield(cran_status('hashtable'))`)](https://cran.r-project.org/web/checks/check_results_hashtable.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/hashtable.svg)](https://GitHub.com/jokergoo/hashtable/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/hashtable.svg)
 bsub | [![](`r cran_check_shield(cran_status('bsub'))`)](https://cran.r-project.org/web/checks/check_results_bsub.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/bsub.svg)](https://GitHub.com/jokergoo/bsub/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/bsub.svg)
 pkgndep | [![](`r cran_check_shield(cran_status('pkgndep'))`)](https://cran.r-project.org/web/checks/check_results_pkgndep.html) | - | - | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/pkgndep.svg)](https://GitHub.com/jokergoo/pkgndep/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/pkgndep.svg)
 simona |-| [![](http://bioconductor.org/shields/build/devel/bioc/simona.svg)](http://bioconductor.org/checkResults/devel/bioc-LATEST/simona/) | [![](http://bioconductor.org/shields/build/release/bioc/simona.svg)](http://bioconductor.org/checkResults/release/bioc-LATEST/simona/) | [![GitHub issues](https://img.shields.io/github/issues/jokergoo/simona.svg)](https://GitHub.com/jokergoo/simona/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/simona.svg)

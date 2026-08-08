@@ -31,17 +31,16 @@ output:
 }
 </style>
 
-### 实验室负责人：
+### 课题组负责人
 
 <div class="people">
 
-<img src="../image/zuguang_gu.jpeg" />
+<a href="zuguang_gu/"><img src="../image/zuguang_gu.jpeg" /></a>
 
 <div class="intro">
 
 - [顾祖光](zuguang_gu)
 - 教授
-- 深圳理工大学 / 细胞与基因技术研究院
 - 邮箱：guzuguang@suat-sz.edu.cn
 
 </div>

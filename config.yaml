@@ -10,24 +10,27 @@ permalinks:
   post: /:year/:month/:day/:slug/
 menu:
   main:
-    - name: 成员
-      url: /members/
-      weight: 6
     - name: 研究
       url: /research/
       weight: 2
     - name: 论文
       url: /publication/
       weight: 3
+    - name: 书籍
+      url: /book/
+      weight: 4
     - name: 软件
       url: /software/
-      weight: 4
+      weight: 5
     - name: 博客
       url: /post
-      weight: 5
+      weight: 6
+    - name: 成员
+      url: /members/
+      weight: 7
     - name: 职位
       url: /opening/
-      weight: 7
+      weight: 8
 params:
   MathJaxCDN: //cdnjs.cloudflare.com/ajax/libs
   MathJaxVersion: 2.7.5

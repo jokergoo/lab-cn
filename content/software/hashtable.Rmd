@@ -1,0 +1,105 @@
+---
+title: hashtable
+---
+
+```{r, echo = FALSE, message = FALSE}
+library(knitr)
+knitr::opts_chunk$set(
+    error = FALSE,
+    tidy  = FALSE,
+    message = FALSE,
+    warning = FALSE,
+    fig.width = 8,
+    fig.height = 8
+)
+```
+
+哈希表和哈希集
+
+### 基本信息
+
+<div id="soft-info">
+
+软件包 | 链接 
+:------ | :----------
+编程语言 | R
+CRAN | https://cran.r-project.org/package=hashtable
+GitHub | https://github.com/jokergoo/hashtable
+文档 | https://jokergoo.github.io/hashtable/
+
+</div>
+
+
+### 例子
+
+生成哈希表：
+
+```{r}
+library(hashtable)
+h = hash_table(letters, 1:26)
+h
+```
+
+获得全部的键：
+
+```{r}
+hash_keys(h)
+```
+
+获得全部的值：
+
+```{r}
+hash_values(h)
+```
+
+获得一部分键值：
+
+```{r}
+hash_values(h, c("a", "b", "c"))
+```
+
+使用下标 `$`、`[[` 或者 `[` 获取单个键值：
+
+```{r}
+h$a
+h[["a"]]
+h[c("a", "b")]
+```
+
+检查键是否存在于哈希表中：
+
+```{r}
+hash_exists(h, c("a", "b", "foo"))
+```
+
+删除键值对：
+
+```{r}
+hash_delete(h, c("a", "b"))
+hash_exists(h, c("a", "b"))
+```
+
+插入新的键值对，或者修改已存在的键值对：
+
+```{r}
+hash_insert(h, "c", 100L); h$c
+hash_insert(h, "c", -1L); h$c
+hash_insert(h, "foo", 0L); h$foo
+```
+
+使用 `$<-`，`[[<-` 或 `[<-`进行插入或者删除键值对：
+
+```{r}
+h$a = 20L; h$a
+h[["bar"]] = -100L; h$bar
+h[c("c", "d", "e")] = c(-1L, -2L, -3L); h[c("c", "d", "e")]
+```
+
+
+
+<script>
+$( function() {
+    $("table thead").css("display", "none");
+} );
+</script>
+

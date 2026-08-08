@@ -31,17 +31,16 @@ output:
 }
 </style>
 
-### 实验室负责人：
+### 课题组负责人
 
 <div class="people">
 
-<img src="../image/zuguang_gu.jpeg" />
+<a href="zuguang_gu/"><img src="../image/zuguang_gu.jpeg" /></a>
 
 <div class="intro">
 
 - [顾祖光](zuguang_gu)
 - 教授
-- 深圳理工大学 / 细胞与基因技术研究院
 - 邮箱：guzuguang@suat-sz.edu.cn
 
 </div>
@@ -56,7 +55,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Jocelyn)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Liam)<!-- -->
 
 <div class="intro">
 
@@ -76,7 +75,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Vivian)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Alexander)<!-- -->
 
 <div class="intro">
 
@@ -96,7 +95,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Maria)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Jade)<!-- -->
 
 <div class="intro">
 
@@ -116,7 +115,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Emery)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Ryan)<!-- -->
 
 <div class="intro">
 
@@ -129,7 +128,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Destiny)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Liam)<!-- -->
 
 <div class="intro">
 
@@ -146,7 +145,7 @@ output:
 
 <div class="people">
 
-![](https://api.dicebear.com/9.x/adventurer/svg?seed=Sawyer)<!-- -->
+![](https://api.dicebear.com/9.x/adventurer/svg?seed=Jocelyn)<!-- -->
 
 <div class="intro">
 

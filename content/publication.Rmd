@@ -65,6 +65,8 @@ https://doi.org/10.1186/1471-2164-12-335). _BMC Genomics_ 2011.
 
 ### 组学与精准医学
 
+- Stefanie Mellein, Nagarajan Paramasivam, **Zuguang Gu**, Ralph Roeth, Tanja Mederer, Heike Kuzan, Stephanie Roessler, Jutta Scheuerer, Felix Lasitschka, Constantin Schwab, Felix Sahm, Stefan Hamelmann, Rasul Khasanov, Maria Angeles Tapia-Laliena, Lucas Wessel, Michael Boettcher, Leonie Carstensen, Beate Niesler, Britt-Sabina Loescher, Andre Franke, Kuebra Narci, Daniel Huebschmann, Gudrun Rappold, Christian Schaaf, Patrick Guenther, Philipp Romero, [An integrative multi-omics framework identifies epigenetic dysregulation of HAND2 as a potential primary driver of impaired enteric neural crest cell differentiation in Hirschsprung Disease](https://doi.org/10.64898/2026.06.11.26354426). _medRxiv_ 2026.
+- Chenhao Tong, Tao Lin, Han Wang, Luyao Jiang, Xiaodong Yuan, Wenwu Luo, Minghan Zhou, Carolina De La Torre, Hui Liu, Chen Shao, Seddik Hammad, Hui Gao, Jiarong Xie, Lei Xu, Roman Liebe, **Zuguang Gu**, Matthias P Ebert, Huiguo Ding, Steven Dooley, Hong-Lei Weng, [TGF-β serves as a critical signaling determinant of liver progenitor cell activation and function](https://doi.org/10.1172/JCI199913). _The Journal of Clinical Investigation_ 2026.
 - Xiaoping Zou, Shuang Nie, Jing Cao, Mengyue Shi, Kathleen Schuck, Zhao Shi, Lingling Zhang, Hongzhen Li, Yifeng Sun, Chao Fang, Jingxiong Hu, Yiqi Niu, Yuanyuan Yu, Zhiheng Zhang, Chao Li, Mingyue Hu, Lei Wang, Kuirong Jiang, Zipeng Lu, Jan Akkan, Susanne Raulefs, Christoph Kahlert, Susanne Roth, Ingrid Herr, Yuan Wan, Andre Mihaljevic, Xuetian Qian, Qi Zhang, Maggie Haitian Wang, Jörg Kleeff, Helmut Friess, **Zuguang Gu**, Christoph W Michalski, Shanshan Shen, Bo Kong, [ALDH1A3 promotes aggressive basal-like pancreatic cancer through an AP-1/RUNX2 enhancer network](https://doi.org/10.1038/s41388-025-03530-w). _Oncogene_ 2025.
 - Dominik Vonficht, Lea Jopp-Saile, Schayan Yousefian, Viktoria Flore, Inés Simó Vesperinas, Ruth Teuber, Bogdan Avanesyan, Yanjiang Luo, Caroline Röthemeier, Florian Grünschläger, Mirian Fernandez-Vaquero, Vincent Fregona, Diana Ordoñez-Rueda, Laura K Schmalbrock, Luca Deininger, Angelo Jovin Yamachui Sitcheu, **Zuguang Gu**, Maja C Funk, Ralf Mikut, Mathias Heikenwälder, Angelika Eggert, Arend von Stackelberg, Sebastian Kobold, Jan Krönke, Ulrich Keller, Andreas Trumpp, Ahmed N Hegazy, Cornelia Eckert, Daniel Hübschmann, Simon Haas, [Ultra-high-scale cytometry-based cellular interaction mapping](https://doi.org/10.1038/s41592-025-02744-w). _Nature Methods_ 2025.
 - Stephanie Gehrs\*, **Zuguang Gu\***, Joschka Hey, Dieter Weichenhan, Niklas Buckwalter, Moritz Jakab, Agnes Hotz-Wagenblatt, Kersten Breuer, Maria Llamazares Prada, Daniel Hübschmann, Katharina Schlereth, Christoph Plass, Hellmut Augustin, [DNMT3A-dependent DNA methylation shapes the endothelial enhancer landscape](https://doi.org/10.1093/nar/gkaf435). _Nucleic Acids Research_ 2025.
@@ -102,6 +104,8 @@ https://doi.org/10.1186/1471-2164-12-335). _BMC Genomics_ 2011.
 - Lingyun Zhu, Qiang Wang, Lin Zhang, Zhixiang Fang, Fang Zhao, Zhiyuan Lv, **Zuguang Gu**, Junfeng Zhang, Jin Wang, Ke Zen, Yang Xiang, Dongjin Wang, Chen-Yu Zhang, [Hypoxia induces PGC-1α expression and mitochondrial biogenesis in the myocardium of TOF patients](https://doi.org/10.1038/cr.2010.46). _Cell Research_ 2010.
 
 ### 引用统计
+
+
 
 累计引用量与日增引用量，更新于`r Sys.Date()`。
 

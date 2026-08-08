@@ -28,7 +28,6 @@ table td {
 ORCiD | https://orcid.org/0000-0002-7395-8709
 Google Scholar | https://scholar.google.de/citations?user=zheH1qkAAAAJ
 GitHub | https://github.com/jokergoo/
-微信公众号 | [方圆之处](../../image/qrcode1762702818779.jpg)
 
 ### 学术组织成员
 
@@ -61,6 +60,8 @@ GitHub | https://github.com/jokergoo/
 
 ### 邀请报告
 
+- Space-filling curve and its applications in omics data analysis, University Hospital Würzburg, 德国, 2026.
+- [空间填充曲线理论及在生物大数据中的应用](https://mp.weixin.qq.com/s/61RXOb_1s8vz72zjmzkmmg), 深圳, 2026.
 - [Several examples of making complex heatmaps](https://bio-it.embl.de/emblr/), EMBL Heidelberg, 德国, 2025.
 - Analyze the R package ecosystem, Queen Mary University of London Charterhouse Square Bioinformatics network, 英国, 2025.
 - [Biological data visualization in R and Bioconductor](https://www.ghga.de/events/detail/ghga-webinar-biological-data-visualisation-in-r-and-bioconductor), GHGA Webinar, Heidelberg, 德国, 2024.
