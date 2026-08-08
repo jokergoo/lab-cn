@@ -13,6 +13,7 @@ output:
 
 
 
+
 主要使用R语言编写。软件包总下载量约为<strong>12.1M</strong>，数据来自于[CRAN](https://cranlogs.r-pkg.org) / [Bioconductor](https://bioconductor.org/packages/stats/index.html) / [Anaconda](https://anaconda.org/)，更新于2026-08-08。
 
 <style>
@@ -62,6 +63,7 @@ table tr td img {
 </div>
 
 ### 数据建模与分析
+
 
 <div class="tb123" id="tb2">
 
@@ -147,7 +149,6 @@ BioMartGOGeneSets  |-| -| -| [![GitHub issues](https://img.shields.io/github/iss
 BioCartaImage |-| -| -| [![GitHub issues](https://img.shields.io/github/issues/jokergoo/BioCartaImage.svg)](https://GitHub.com/jokergoo/BioCartaImage/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/BioCartaImage.svg)
 IlluminaHumanMethylationEPICv2anno.20a1.hg38 |-| -| -| [![GitHub issues](https://img.shields.io/github/issues/jokergoo/IlluminaHumanMethylationEPICv2anno.20a1.hg38.svg)](https://GitHub.com/jokergoo/IlluminaHumanMethylationEPICv2anno.20a1.hg38/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/IlluminaHumanMethylationEPICv2anno.20a1.hg38.svg)
 IlluminaHumanMethylationEPICv2manifest |-| -| -| [![GitHub issues](https://img.shields.io/github/issues/jokergoo/IlluminaHumanMethylationEPICv2manifest.svg)](https://GitHub.com/jokergoo/IlluminaHumanMethylationEPICv2manifest/issues/) | ![GitHub issues](https://img.shields.io/github/issues-closed/jokergoo/IlluminaHumanMethylationEPICv2manifest.svg)
-
 
 <script>
 $( function() {
