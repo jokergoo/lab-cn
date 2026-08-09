@@ -4,7 +4,7 @@ title: "论文"
 
 
 
-更新于2026-08-08，论文列表按研究方向和时间排序。#通讯作者，*共同第一作者。
+更新于2026-08-09，论文列表按研究方向和时间排序。#通讯作者，*共同第一作者。
 
 <style>
 ul {
@@ -14,6 +14,26 @@ li {
     display: list-item;
     text-align: -webkit-match-parent;
     unicode-bidi: isolate;
+}
+.entry-content {
+    /* 在父容器上重置计数器，只重置这一次 */
+    counter-reset: shared-item 0;
+}
+
+.entry-content ul {
+    counter-reset: none;
+    list-style: none;
+}
+
+.entry-content ul li {
+    counter-increment: shared-item;
+    padding:4px 0px;
+    margin:0px;
+}
+
+.entry-content ul li::before {
+    content: counter(shared-item) ". ";
+    padding-right:4px;
 }
 </style>
 
@@ -98,13 +118,15 @@ https://doi.org/10.1186/1471-2164-12-335). _BMC Genomics_ 2011.
 ### 引用统计
 
 
-累计引用量与日增引用量，更新于2026-08-08。
 
-<img src="/lab-cn/publication_files/figure-html/unnamed-chunk-2-1.png" alt="" width="960" />
 
-全球引用地图。
-
+累计引用量（23530次）与日增引用量，更新于2026-08-09。
 
 <img src="/lab-cn/publication_files/figure-html/unnamed-chunk-3-1.png" alt="" width="960" />
+
+全球引用地图，添加文字标签的是引用前30的城市。
+
+
+<img src="/lab-cn/publication_files/figure-html/unnamed-chunk-4-1.png" alt="" width="960" />
 
 

@@ -1,7 +1,7 @@
 
 options(timeout = 99999)
 
-ln = readLines(url("https://webofscience.clarivate.cn/wos-researcher/dashboard/citation-map/?task_id=2202d505-fa6b-44bc-a84b-7a80b09ee346"))
+ln = readLines(url("https://webofscience.clarivate.cn/wos-researcher/dashboard/citation-map/?task_id=cd7fc297-1147-4c7f-bf0b-65c9f6710b98"))
 ln[1] = paste0("citation=", ln[1])
 
 tmp = tempfile()

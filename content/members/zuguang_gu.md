@@ -31,17 +31,28 @@ GitHub | https://github.com/jokergoo/
 
 ### 学术组织成员
 
-[Bioconductor Community Advisory Board 成员](https://bioconductor.org/about/community-advisory-board/)
+
+<table>
+<tr><td><a href="https://bioconductor.org/about/community-advisory-board/" target="_blank">Bioconductor Community Advisory Board 成员</a></td></tr>
+<tr><td>旅德华人医师学者协会青年学术顾问</td></tr>
+</table>
 
 ### 工作经历
 
 
  | |
 :------ | :--------- | :---------
+[深圳理工大学](https://www.suat-sz.edu.cn/)，[细胞与基因技术研究院](https://icgt.suat-sz.edu.cn/) | 教授 | 2026-至今
 [德国癌症研究中心](https://www.dkfz.de/)，[德国国家肿瘤中心](https://www.nct-heidelberg.de/index.html) | 永久科学家 | 2022-2025
 [德国癌症研究中心](https://www.dkfz.de/)，[德国国家肿瘤中心](https://www.nct-heidelberg.de/index.html) | 高级科学家 | 2018-2021
 [德国癌症研究中心](https://www.dkfz.de/) | 博士后 | 2013-2018
 
+### 企业界兼职
+
+ | |
+:------ | :--------- | :---------
+[ProtaGene CGT GmbH](https://www.protagene.com/)，海德堡，德国 | 永久职位生物信息学专家 | 2021-2025
+[GeneWerk GmbH](https://genewerk.de/)，海德堡，德国 | 生物信息学专家 | 2017-2020
 
 ### 学习经历
 
@@ -61,7 +72,7 @@ GitHub | https://github.com/jokergoo/
 ### 邀请报告
 
 - Space-filling curve and its applications in omics data analysis, University Hospital Würzburg, 德国, 2026.
-- [空间填充曲线理论及在生物大数据中的应用](https://mp.weixin.qq.com/s/61RXOb_1s8vz72zjmzkmmg), 深圳, 2026.
+- [空间填充曲线理论及在生物大数据中的应用](https://mp.weixin.qq.com/s/61RXOb_1s8vz72zjmzkmmg), 第七届粤港澳大湾区生物信息学大会暨广东省生物信息学会年会，深圳, 2026.
 - [Several examples of making complex heatmaps](https://bio-it.embl.de/emblr/), EMBL Heidelberg, 德国, 2025.
 - Analyze the R package ecosystem, Queen Mary University of London Charterhouse Square Bioinformatics network, 英国, 2025.
 - [Biological data visualization in R and Bioconductor](https://www.ghga.de/events/detail/ghga-webinar-biological-data-visualisation-in-r-and-bioconductor), GHGA Webinar, Heidelberg, 德国, 2024.

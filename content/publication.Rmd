@@ -23,6 +23,26 @@ li {
     text-align: -webkit-match-parent;
     unicode-bidi: isolate;
 }
+.entry-content {
+    /* 在父容器上重置计数器，只重置这一次 */
+    counter-reset: shared-item 0;
+}
+
+.entry-content ul {
+    counter-reset: none;
+    list-style: none;
+}
+
+.entry-content ul li {
+    counter-increment: shared-item;
+    padding:4px 0px;
+    margin:0px;
+}
+
+.entry-content ul li::before {
+    content: counter(shared-item) ". ";
+    padding-right:4px;
+}
 </style>
 
 ### 生物软件
@@ -106,7 +126,14 @@ https://doi.org/10.1186/1471-2164-12-335). _BMC Genomics_ 2011.
 ### 引用统计
 
 
-累计引用量与日增引用量，更新于`r Sys.Date()`。
+```{r, echo = FALSE}
+library(scholar)
+pub_info = get_publications("zheH1qkAAAAJ")
+cites = pub_info[, "cites"]
+cites = as.integer(cites)
+```
+
+累计引用量（`r sum(cites)`次）与日增引用量，更新于`r Sys.Date()`。
 
 ```{r, echo = FALSE, fig.width = 10}
 library(scholar)
@@ -136,7 +163,7 @@ p2 = ggplot(df2, aes(x = Date, y = Increase)) +
 plot_grid(p1, p2, nrow = 1)
 ```
 
-全球引用地图。
+全球引用地图，添加文字标签的是引用前30的城市。
 
 
 ```{r, echo = FALSE, fig.width = 10, fig.height = 6, warning = FALSE, message = FALSE}
