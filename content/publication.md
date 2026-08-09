@@ -122,11 +122,11 @@ https://doi.org/10.1186/1471-2164-12-335). _BMC Genomics_ 2011.
 
 累计引用量（23530次）与日增引用量，更新于2026-08-09。
 
-<img src="/lab-cn/publication_files/figure-html/unnamed-chunk-3-1.png" alt="" width="960" />
+<img src="/lab-cn/publication_files/figure-html/increase-1.png" alt="" width="960" />
 
 全球引用地图，添加文字标签的是引用前30的城市。
 
 
-<img src="/lab-cn/publication_files/figure-html/unnamed-chunk-4-1.png" alt="" width="960" />
+<img src="/lab-cn/publication_files/figure-html/map-1.png" alt="" width="960" />
 
 

@@ -135,7 +135,7 @@ cites = as.integer(cites)
 
 累计引用量（`r sum(cites)`次）与日增引用量，更新于`r Sys.Date()`。
 
-```{r, echo = FALSE, fig.width = 10}
+```{r increase, echo = FALSE, fig.width = 10}
 ln = readLines("citations.txt")
 ln = c(ln, paste0(as.character(Sys.Date()), "\t", sum(cites)))
 ln = unique(ln)
@@ -162,7 +162,7 @@ plot_grid(p1, p2, nrow = 1)
 全球引用地图，添加文字标签的是引用前30的城市。
 
 
-```{r, echo = FALSE, fig.width = 10, fig.height = 6, warning = FALSE, message = FALSE}
+```{r map, echo = FALSE, fig.width = 10, fig.height = 6, warning = FALSE, message = FALSE}
 citation = readRDS("wos_citations.rds")
 citation_date = as.character(attr(citation, "date"))
 
