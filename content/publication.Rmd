@@ -136,10 +136,6 @@ cites = as.integer(cites)
 累计引用量（`r sum(cites)`次）与日增引用量，更新于`r Sys.Date()`。
 
 ```{r, echo = FALSE, fig.width = 10}
-library(scholar)
-pub_info = get_publications("zheH1qkAAAAJ")
-cites = pub_info[, "cites"]
-
 ln = readLines("citations.txt")
 ln = c(ln, paste0(as.character(Sys.Date()), "\t", sum(cites)))
 ln = unique(ln)
